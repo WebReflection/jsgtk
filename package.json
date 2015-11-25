@@ -1,0 +1,24 @@
+{
+  "name": "jsgtk",
+  "version": "0.0.0",
+  "description": "coming soon",
+  "main": "jsgtk.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WebReflection/jsgtk.git"
+  },
+  "keywords": [
+    "js",
+    "gtk",
+    "gjs"
+  ],
+  "author": "Andrea Giammarchi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/WebReflection/jsgtk/issues"
+  },
+  "homepage": "https://github.com/WebReflection/jsgtk#readme"
+}
