@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+imports=imports// "exec" "gjs" "-I" "$(dirname $0)" "$0" "$@"
+
+let jsgtk = imports.jsgtk;
+
+const {
+  console,
+  path,
+  process,
+  require,
+  timers
+} = jsgtk;
+
+process.run(function () {
+  timers.setTimeout(() => {
+    console.log(Object.keys(jsgtk));
+    process.exit();
+  });
+});

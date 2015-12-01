@@ -2,4 +2,5 @@
 imports=imports// "exec" "gjs" "-I" "$(dirname $0)" "$0" "$@"
 
 const {console} = imports.jsgtk;
+
 console.info('Hello jsgtk!');
