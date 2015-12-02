@@ -2,7 +2,17 @@
 coming soon
 
 # Warning
-Please note this is an incomplete experiment, I'm just wrapping what I'm learning in this repo.
+Please note this is an incomplete experiment, I'm just writing down what I am learning, trying to bring a friendly environment nodejs like in GJS.
+
+
+### Basic way to include `jsgtk` copying the folder in the root project
+
+```sh
+#!/usr/bin/env sh
+imports=imports// "exec" "gjs" "-I" "$(dirname $0)" "$0" "$@"
+imports.jsgtk.env;
+```
+
 
 
 ### How to create a Linux executable with `jsgtk`

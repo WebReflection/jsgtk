@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 imports=imports// "exec" "gjs" "-I" "$(dirname $0)" "$0" "$@"
-
-const {console} = imports.jsgtk;
+imports.jsgtk.env;
 
 console.info('Hello jsgtk!');

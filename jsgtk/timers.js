@@ -1,11 +1,14 @@
 (function (exports) {'use strict';
 
-  const Mainloop = imports.mainloop;
+  const
+    Mainloop = imports.mainloop,
+    global = imports.jsgtk.System.global
+  ;
 
-  exports.clearInterval = clear();
-  exports.clearTimeout = clear();
-  exports.setInterval = set(true);
-  exports.setTimeout = set(false);
+  global.clearInterval  = (exports.clearInterval = clear());
+  global.clearTimeout   = (exports.clearTimeout = clear());
+  global.setInterval    = (exports.setInterval = set(true));
+  global.setTimeout     = (exports.setTimeout = set(false));
 
   function clear() {
     return (id) => Mainloop.source_remove(id);

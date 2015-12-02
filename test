@@ -1,19 +1,77 @@
 #!/usr/bin/env sh
 imports=imports// "exec" "gjs" "-I" "$(dirname $0)" "$0" "$@"
+imports.jsgtk.env;
 
-let jsgtk = imports.jsgtk;
+const GLib = imports.gi.GLib;
 
-const {
-  console,
-  path,
-  process,
-  require,
-  timers
-} = jsgtk;
+let
+  fs = require('fs'),
+  path = require('path'),
+  counter = 0,
+  t = 0,
+  async = function (cb) {
+    if (t) clearTimeout(t);
+    t = 0;
+    counter++;
+    return function () {
+      let result = cb.apply(this, arguments);
+      counter--;
+      if (counter === 0) t = setTimeout(process.exit, 500);
+    };
+  }
+;
 
 process.run(function () {
-  timers.setTimeout(() => {
-    console.log(Object.keys(jsgtk));
-    process.exit();
-  });
+
+  console.assert(System.global === Function('return this')(),
+    'System.global is correctly defined');
+
+  console.assert(path.extname('.git') === '',
+    'a file name starting with dot does not count as extension');
+  console.assert(path.extname('a.git') === '.git',
+    'path.extname works as expected');
+  console.assert(path.isAbsolute('/home'),
+    'path.isAbsolute works as expected');
+  console.assert(!path.isAbsolute('home'),
+    'path.isAbsolute still works as expected');
+  console.assert(path.normalize('/foo/bar//baz/./asdf/quux/..') === '/foo/bar/baz/asdf',
+    'path.normalize works as expected');
+  console.assert(path.normalize('/foo/bar//baz/./asdf/') === '/foo/bar/baz/asdf/',
+    'path.normalize works again as expected');
+  console.assert(path.join('/foo', 'bar', 'baz/asdf', 'quux', '..') === '/foo/bar/baz/asdf',
+    'path.join works as expected');
+  console.assert(path.resolve('foo/bar', '/tmp/file/', '..', 'a/../subfile') === '/tmp/subfile',
+    'path.resolve works as expected');
+
+  console.assert(require('./module').method() === 'module works',
+    'require in same folder works as expected');
+  console.assert(require('./node_modules/another/main').method() === 'node_modules works',
+    'require in sub folders works as expected too');
+
+  console.assert(fs.readFileSync('./test') == GLib.file_get_contents('./test')[1],
+    'fs.readFileSync works as expected too');
+
+  fs.readFile('./test', async(function (err, data) {
+    console.assert(data == GLib.file_get_contents('./test')[1], 'fs.readFile works as expected');
+    if (err) {
+      console.error(err.message);
+    }
+  }));
+
+
+  let tmp = Math.random();
+  fs.writeFileSync('./test.txt', tmp);
+  console.assert(fs.readFileSync('./test.txt') == tmp,
+    'fs.writeFileSync works as expected');
+
+  (function (tmp) {
+    fs.writeFile('./test.txt', tmp, async(function (err) {
+      console.assert(fs.readFileSync('./test.txt') == tmp, 'fs.writeFile works as expected');
+      if (err) {
+        console.error(err.message);
+      }
+    }));
+
+  }(Math.random()));
+
 });

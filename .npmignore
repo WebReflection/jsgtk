@@ -3,3 +3,6 @@
 .travis.yml
 hello-world
 test
+test.txt
+module.js
+node_modules

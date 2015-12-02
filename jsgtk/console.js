@@ -6,7 +6,8 @@
     GREEN = '\x1b[0;32m',
     YELLOW = '\x1b[0;33m',
     BOLD = '\x1b[1m',
-    slice = imports.jsgtk._.slice
+    jsgtk = imports.jsgtk,
+    slice = jsgtk.env._.slice
   ;
 
   exports.assert = function assert(what, why) {
@@ -33,5 +34,7 @@
   };
 
   // TODO: time and timeEnd ?
+
+  jsgtk.System.global.console = exports;
 
 }(this));
