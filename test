@@ -23,6 +23,9 @@ let
 
 process.run(function () {
 
+  require('holdon');
+
+
   console.assert(System.global === Function('return this')(),
     'System.global is correctly defined');
 
@@ -47,6 +50,11 @@ process.run(function () {
     'require in same folder works as expected');
   console.assert(require('./node_modules/another/main').method() === 'node_modules works',
     'require in sub folders works as expected too');
+
+  console.assert(require('/home/webreflection/code/jsgtk/module').method() === 'module works',
+    'require in absoulte folder works as expected');
+  console.assert(require('/home/webreflection/code/jsgtk/node_modules/another/main').method() === 'node_modules works',
+    'require in sub absoulte folders works as expected too');
 
   console.assert(fs.readFileSync('./test') == GLib.file_get_contents('./test')[1],
     'fs.readFileSync works as expected too');

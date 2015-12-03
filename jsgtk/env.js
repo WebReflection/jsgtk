@@ -66,18 +66,40 @@
     return (cache[id] = module.exports);
   }
 
+  function existsSync(file) {
+    try {
+      return fs.statSync(file);
+    } catch(nope) {
+      return false;
+    }
+  }
+
   function requireWithPath(id, dir) {
     switch (true) {
       case -1 < BUILTIN.indexOf(id):
         return jsgtk[id];
       case id.charAt(0) === '.':
         id = path.resolve(dir, id);
+      case path.isAbsolute(id):
+        if (id.slice(-3) !== '.js') id += '.js';
         break;
-      case path.isAbsolute(id): break;
       default:
+        let
+          currentDir = dir,
+          subFolder = [currentDir, 'node_modules', id].join(path.sep),
+          pkg, info
+        ;
+        while(!existsSync(subFolder)) {
+          let i = currentDir.lastIndexOf(path.sep);
+          if (i < 0) throw new Error('unable to load module ' + id);
+          currentDir = currentDir.slice(0, i);
+          subFolder = [currentDir, 'node_modules', id].join(path.sep);
+        }
+        pkg = [subFolder, 'package.json'].join(path.sep);
+        info = JSON.parse(fs.readFileSync(pkg));
+        id = path.normalize([subFolder, info.main].join(path.sep));
         break;
     }
-    if (id.slice(-3) !== '.js') id += '.js';
     return cache[id] || evaluateAndCache(id, path.dirname(id));
   }
 

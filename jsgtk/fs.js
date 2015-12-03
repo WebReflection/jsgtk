@@ -25,6 +25,37 @@
     return Gio.File.new_for_path(file).load_contents(null)[1].toString();
   };
 
+  exports.statSync = function statSync(path) {
+    let fd = Gio.File.new_for_path(path);
+    if (fd.query_exists(null)) {
+      // https://people.gnome.org/~gcampagna/docs/Gio-2.0/Gio.FileInfo.html
+      let
+        info = fd.query_info('*', Gio.FileQueryInfoFlags.NOFOLLOW_SYMLINKS, null),
+        out = {
+          // TODO: all wrong!!!
+          dev: info.get_attribute_int32('dev'),
+          ino: info.get_attribute_int32('ino'),
+          mode: info.get_attribute_int32('mode'),
+          nlink: info.get_attribute_int32('nlink'),
+          uid: info.get_attribute_int32('uid'),
+          gid: info.get_attribute_int32('gid'),
+          rdev: info.get_attribute_int32('rdev'),
+          size: info.get_size(),
+          blksize: info.get_attribute_int32('blksize'),
+          blocks: info.get_attribute_int32('blocks'),
+          atime: info.get_attribute_int32('atime'),
+          mtime: info.get_attribute_int32('mtime'),
+          ctime: info.get_attribute_int32('ctime'),
+          birthtime: info.get_attribute_int32('birthtime')
+        }
+      ;
+      // Object.keys(out).forEach((key) => log(key + ': ' + out[key]));
+      return out;
+    } else {
+      return null;
+    }
+  };
+
   exports.writeFileSync = function writeFileSync(file, data, options) {
     // TODO: supports options
     let fd, stream, result;
