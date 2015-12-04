@@ -6,6 +6,7 @@
       'fs',
       'path',
       'process',
+      'screen',
       'timers'
     ],
     GLib = imports.gi.GLib,

@@ -25,6 +25,9 @@ process.run(function () {
 
   require('holdon');
 
+  console.assert(screen.width > 0 && screen.height > 0,
+    'global.screen is correctly defined');
+
 
   console.assert(System.global === Function('return this')(),
     'System.global is correctly defined');
