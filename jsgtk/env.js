@@ -2,8 +2,11 @@
 
   const
     BUILTIN = [
+      'child_process',
       'console',
+      'events',
       'fs',
+      'os',
       'path',
       'process',
       'screen',
@@ -24,6 +27,65 @@
 
   // basic utilities
   exports._ = {
+    Class: function Class(proto) {
+
+      let
+        CONSTRUCTOR = 'constructor',
+        EXTENDS = 'extends',
+        hOP = Object.prototype.hasOwnProperty,
+        hasSuper = hOP.call(proto, EXTENDS),
+        parent = hasSuper ? proto[EXTENDS] : null,
+        constructor
+      ;
+
+      if (!hOP.call(proto, CONSTRUCTOR)) {
+        proto[CONSTRUCTOR] = hasSuper ?
+          function Class() {
+            parent.apply(this, arguments);
+          } :
+          function Class() {};
+      } else if (hasSuper) {
+        constructor = proto[CONSTRUCTOR];
+        proto[CONSTRUCTOR] = function Class() {
+          parent.apply(this, arguments);
+          constructor.apply(this, arguments);
+        };
+      }
+
+      if (hasSuper) {
+        proto[CONSTRUCTOR].prototype = Object.create(
+          parent.prototype,
+          {constructor: {
+            configurable: true,
+            writable: true,
+            value: proto[CONSTRUCTOR]
+          }}
+        );
+      }
+
+      Object.getOwnPropertyNames(proto).forEach((key) => {
+        switch (key) {
+          case CONSTRUCTOR:
+          case EXTENDS: break;
+          case 'static':
+            Object.getOwnPropertyNames(proto[key]).forEach((k) => {
+              Object.defineProperty(proto[CONSTRUCTOR], k, {
+                enumerable: k.charAt(0) !== '_',
+                value: proto[key][k]
+              });
+            });
+            break;
+          default:
+            let descriptor = Object.getOwnPropertyDescriptor(proto, key);
+            descriptor.enumerable = false;
+            Object.defineProperty(proto[CONSTRUCTOR].prototype, key, descriptor);
+            break;
+        }
+      });
+
+      return proto[CONSTRUCTOR];
+
+    },
     slice: function slice() {
       for (var
         o = +this,

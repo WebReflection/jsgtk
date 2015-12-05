@@ -5,7 +5,11 @@ imports.jsgtk.env;
 const GLib = imports.gi.GLib;
 
 let
+  utils = imports.jsgtk.env._,
+  Class = utils.Class,
+  child_process = require('child_process'),
   fs = require('fs'),
+  os = require('os'),
   path = require('path'),
   counter = 0,
   t = 0,
@@ -81,8 +85,59 @@ process.run(function () {
       if (err) {
         console.error(err.message);
       }
+
+      child_process.execSync('rm test.txt');
+
+      let syncData = child_process.spawnSync('ls', ['-lah']).stdout.toString();
+      console.assert(syncData.length > 0,
+        'child_process.spawnSync works as expected');
+
+      console.assert(!/test\.txt/.test(syncData), 'execSync worked as expected');
+
+      let cp = child_process.spawn('ls', ['-lah']);
+      let content = '';
+      cp.stdout.on('data', (data) => content += data);
+      cp.on('close', async((code) => {
+        console.assert(code === 0, 'spawn exited with the right code');
+        console.assert(content === syncData, 'spawn collected the right data');
+      }));
+
     }));
 
   }(Math.random()));
+
+
+  let A = Class({
+    name: 'a',
+    method: function () {
+      return this.name;
+    }
+  });
+  let B = Class({
+    extends: A,
+    static: {
+      B: true
+    },
+    name: 'b'
+  });
+
+  console.assert((new B).name === 'b', 'Class#extends work as expected');
+  console.assert((new B) instanceof B && (new A) instanceof A && (new B) instanceof A,
+    'Class inheritance work as expected');
+  console.assert(B.B === true, 'Class#static work as expected');
+
+  A = Class({
+    constructor: function () {
+      this.a = true;
+    }
+  });
+  B = Class({
+    extends: A,
+    constructor: function () {
+      this.b = true;
+    }
+  });
+  console.assert((new B).a === true && (new B).b === true,
+    'Class parent invoke works as expected');
 
 });
