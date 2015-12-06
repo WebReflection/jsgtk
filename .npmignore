@@ -1,8 +1,10 @@
 .DS_Store
 .gitignore
+.gitmodules
 .travis.yml
 hello-world
 test
 test.txt
 module.js
 node_modules
+gjs-documentation
