@@ -1,0 +1,3 @@
+[submodule "gjs-documentation"]
+	path = gjs-documentation
+	url = https://git.gnome.org/browse/gjs-documentation
