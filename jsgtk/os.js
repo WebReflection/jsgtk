@@ -6,8 +6,11 @@
     child_process = jsgtk.child_process,
     execSync = child_process.execSync,
     spawnSync = child_process.spawnSync,
-    node =  execSync('which node').toString() ||
-            execSync('which nodejs').toString()
+    node =  execSync('which node').toString() ?
+              'node' : (
+                execSync('which nodejs').toString() ?
+                  'nodejs' : ''
+              )
   ;
 
   if (!node) throw new Error('unable to find a valid Node.js executable');
