@@ -64,6 +64,8 @@
     return exports.join.apply(exports, path.split(exports.sep));
   };
 
+  exports.posix = exports;
+
   exports.resolve = function () {
     let resolved = [], out;
     for (let i = 0, tmp; i < arguments.length; i++) {
@@ -98,7 +100,6 @@
   /*
   path.format(pathObject)
   path.parse(pathString)
-  path.posix
   path.relative(from, to)
   path.win32
   */

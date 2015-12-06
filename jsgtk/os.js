@@ -3,8 +3,14 @@
   const
     jsgtk = imports.jsgtk,
     slice = jsgtk.env._.slice,
-    spawnSync = jsgtk.child_process.spawnSync
+    child_process = jsgtk.child_process,
+    execSync = child_process.execSync,
+    spawnSync = child_process.spawnSync,
+    node =  execSync('which node').toString() ||
+            execSync('which nodejs').toString()
   ;
+
+  if (!node) throw new Error('unable to find a valid Node.js executable');
 
   exports.EOL = '\n';
 
@@ -25,7 +31,7 @@
     'uptime'
   ].forEach((method) => {
     exports[method] = function () {
-      return JSON.parse(spawnSync('node', ['-e', ''.concat(
+      return JSON.parse(spawnSync(node, ['-e', ''.concat(
         'var os = require(\'os\');',
         'process.stdout.write(JSON.stringify(',
           'os.', method, '.apply(os,',
