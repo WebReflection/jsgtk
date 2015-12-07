@@ -4,12 +4,13 @@
     BUILTIN = [
       'child_process',
       'console',
+      'crypto',
       'events',
       'fs',
       'os',
       'path',
       'process',
-      'screen',
+      'stream',
       'timers'
     ],
     GLib = imports.gi.GLib,
@@ -99,6 +100,14 @@
   System.global.jsgtk = jsgtk;
   System.global.require = exports.require;
   BUILTIN.forEach((id) => jsgtk[id]);
+
+  if (!Object.setPrototypeOf)
+    Object.defineProperty(Object, 'setPrototypeOf', {
+      configurable: true,
+      writable: true,
+      value: ((set) => (object, proto) => (set.call(object, proto), object))
+        (Object.getOwnPropertyDescriptor(Object.prototype, '__proto__').set)
+    });
 
   const
     fs = jsgtk.fs,

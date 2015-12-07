@@ -1,12 +1,8 @@
 (function (exports) {'use strict';
 
-  const
-    utils = imports.jsgtk.env._,
-    slice = utils.slice,
-    empty = Array.prototype
-  ;
+  const empty = Array.prototype;
 
-  exports.EventEmitter = utils.Class({
+  exports.EventEmitter = imports.jsgtk.env._.Class({
     constructor: function EventEmitter() {
       Object.defineProperty(this, '_eventEmitter', {
         configurable: true,
@@ -16,15 +12,15 @@
     addListener: function addListener(event, listener) {
       return this.on(event, listener);
     },
-    emit: function (event) {
-      let args = slice.apply(1, arguments);
-      (this._eventEmitter[event] || empty)
-        .forEach((listener) => listener.apply(this, args));
+    emit: function emit(event, ...args) {
+      (this._eventEmitter[event] || empty).forEach(
+        (listener) => listener.apply(this, args)
+      );
     },
     listenerCount: function  listenerCount(event) {
       return (this._eventEmitter[event] || empty).length;
     },
-    listeners: function (event) {
+    listeners: function listeners(event) {
       return (this._eventEmitter[event] || empty).slice(0);
     },
     on: function on(event, listener) {
@@ -32,7 +28,7 @@
         (this._eventEmitter[event] = [])).push(listener);
       return this;
     },
-    once: function (event, listener) {
+    once: function once(event, listener) {
       return this.on(event, function dropIt() {
         this.removeListener(event, dropIt);
         listener.apply(this, arguments);

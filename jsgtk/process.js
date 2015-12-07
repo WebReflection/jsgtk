@@ -8,6 +8,12 @@
 
   Gtk.init(null, 0);
 
+  exports.argv = ARGV.slice(0);
+
+  exports.cwd = function cwd() {
+    return jsgtk.path.resolve('.');
+  };
+
   exports.env = ((arr) => {
     const env = {};
     for (let i = 0; i < arr.length; i++) {

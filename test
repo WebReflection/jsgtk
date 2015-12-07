@@ -28,6 +28,42 @@ let
 
 process.run(function () {
 
+
+  /* testing dblite like a boss
+  var dblite = require('dblite'),
+    db = dblite(':memomry:');
+
+  // Asynchronous, fast, and ...
+  db.query('SELECT 123', function(err, rows) {
+    log(rows);
+  });
+  return;
+  //*/
+
+  /* testing sqlite3
+  let dafuq = child_process.spawn('sqlite3');
+  dafuq.stdout.on('data', (data) => {
+    log(data);
+    dafuq.disconnect();
+  });
+  setTimeout(() => {
+    dafuq.stdin.write('SELECT 123;\n');
+  });
+  return;
+  //*/
+
+  /*
+  let dafuq = child_process.spawn('sqlite3');
+  dafuq.stdout.on('data', (data) => {
+    log(data);
+    dafuq.disconnect();
+  });
+  setTimeout(() => {
+    dafuq.stdin.write('SELECT 123;\n');
+  });
+  return;
+  //*/
+
   require('holdon');
 
   console.assert(screen.width > 0 && screen.height > 0,

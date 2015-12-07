@@ -7,30 +7,48 @@
     path = jsgtk.path,
     dir = path.resolve('.'),
     EventEmitter = jsgtk.events.EventEmitter,
+    Stream = jsgtk.stream.Stream,
     ChildProcess = jsgtk.env._.Class({
       extends: EventEmitter,
-      constructor: function ChildProcess(pid) {
-        this.pid = pid;
-        this.connected = pid != null;
-        this.stdout = new EventEmitter;
-        this.stderr = new EventEmitter;
+      constructor: function ChildProcess(ok, pid, stdin, stdout, stderr) {
+        if (ok) {
+          this.pid = pid;
+          this.connected = ok;
+          this.stdin = new Stream(stdin)
+            .on('error', (reason) => this.emit('error', reason));
+          this.stdout = new Stream(stdout)
+            .on('close', (code, reason) => this.emit('close', code, reason))
+            .on('error', (reason) => this.emit('error', reason));
+          this.stderr = new Stream(stderr)
+            .on('error', (reason) => this.emit('error', reason));
+          this.stdio = [
+            this.stdin,
+            this.stdout,
+            this.stderr
+          ];
+        }
       },
+      connected: false,
       disconnect: function disconnect() {
         this.connected = false;
+        this.stdin.emit('disconnect');
+        this.stdout.emit('disconnect');
+        this.stderr.emit('disconnect');
         this.emit('disconnect');
       },
       kill: function kill(signal) {
         this.connected = false;
+        this.stdin.emit('disconnect');
+        this.stdout.emit('disconnect');
+        this.stderr.emit('disconnect');
         this.emit('exit', null, signal || 'SIGTERM');
       }
     })
   ;
 
-  exports.spawn = function (command, args, options) {
-    // TODO: support other options ?
+  exports.spawn = function aspawn(command, args, options) {
     if (!options) options = {};
-    let cp;
-    let [ok, pid, stdin, stdout, stderr] = GLib.spawn_async_with_pipes(
+    let cp, [ok, pid, stdin, stdout, stderr] = GLib.spawn_async_with_pipes(
       options.cwd || dir,
       [command].concat(args || Array.prototype),
       options.env ? Object.keys(options.env)
@@ -42,29 +60,10 @@
       null
     );
     if (ok) {
-      cp = new ChildProcess(pid);
-      let
-        stream = new Gio.DataInputStream({base_stream : new Gio.UnixInputStream({fd: stdout})}),
-        onLineReady = (source, res) => {
-          try {
-            let [out, length] = source.read_line_finish(res);
-            if (cp.connected) {
-              if (out == null) cp.emit('close', 0, null);
-              else {
-                cp.stdout.emit('data', out + '\n');
-                readLine();
-              }
-            }
-          } catch (o_O) {
-            cp.stderr.emit('data', o_O);
-          }
-        },
-        readLine = () => stream.read_line_async(GLib.PRIORITY_LOW, null, onLineReady)
-      ;
-      readLine();
+      cp = new ChildProcess(ok, pid, stdin, stdout, stderr);
     } else {
       cp = new ChildProcess(null);
-      setTimeout(() => cp.emit('error', stderr), 30);
+      setTimeout(() => cp.emit('error', stderr), 0);
     }
     return cp;
   };
