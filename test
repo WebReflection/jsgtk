@@ -5,9 +5,9 @@ imports.jsgtk.env;
 const GLib = imports.gi.GLib;
 
 let
-  utils = imports.jsgtk.env._,
+  utils = jsgtk.env._,
   Class = utils.Class,
-  gi = imports.jsgtk.gi,
+  gi = jsgtk.gi,
   child_process = require('child_process'),
   fs = require('fs'),
   os = require('os'),

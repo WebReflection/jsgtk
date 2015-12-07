@@ -99,6 +99,7 @@
     }
   };
 
+  System.global.jsgtk = jsgtk;
   System.global.require = exports.require;
 
   BUILTIN.forEach((id) => jsgtk[id]);
