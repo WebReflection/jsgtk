@@ -15,9 +15,6 @@
     GLib = imports.gi.GLib,
     jsgtk = imports.jsgtk,
     System = jsgtk.System,
-    fs = jsgtk.fs,
-    path = jsgtk.path,
-    dir = path.resolve('.'),
     cache = Object.create(null)
   ;
 
@@ -101,8 +98,13 @@
 
   System.global.jsgtk = jsgtk;
   System.global.require = exports.require;
-
   BUILTIN.forEach((id) => jsgtk[id]);
+
+  const
+    fs = jsgtk.fs,
+    path = jsgtk.path,
+    dir = path.resolve('.')
+  ;
 
   function evaluateAndCache(id, dir) {
     let

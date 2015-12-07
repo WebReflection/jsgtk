@@ -141,4 +141,12 @@ process.run(function () {
   console.assert((new B).a === true && (new B).b === true,
     'Class parent invoke works as expected');
 
+
+  fs.readdir('gjs-documentation/static/Gio-2.0', async(function(err, files) {
+    console.assert(files.length > 0, 'multiple async readdir work as expected');
+  }));
+  fs.readdir('gjs-documentation/static/GLib-2.0', async(function(err, files) {
+    console.assert(files.length > 0, 'multiple async readdir work as expected');
+  }));
+
 });

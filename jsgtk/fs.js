@@ -2,13 +2,9 @@
 
   const
     Gio = imports.gi.Gio,
-    ByteArray = imports.byteArray
+    ByteArray = imports.byteArray,
+    child_process = imports.jsgtk.child_process
   ;
-
-  // TODO: find out if there's a better way
-  exports.readdirSync = function readdirSync(path) {
-    return require('child_process').spawnSync('ls', [path]).stdout.toString().trim().split('\n');
-  };
 
   exports.readFile = function readFile(file, options, callback) {
     // TODO: supports options
@@ -28,6 +24,24 @@
   exports.readFileSync = function readFileSync(file, options) {
     // TODO: supports options
     return Gio.File.new_for_path(file).load_contents(null)[1].toString();
+  };
+
+  // TODO: find out if there's a better way
+  exports.readdir = function readdirSync(path, callback) {
+    let
+      ls = child_process.spawn('ls', [path]),
+      out = [],
+      errors = false
+    ;
+    ls.stderr.on('data', (data) => (errors = true, out.push(data.trim())));
+    ls.stdout.on('data', (data) => out.push(data.trim()));
+    ls.on('close', () => {
+      if (errors) callback(out.join(''));
+      else callback(null, out);
+    });
+  };
+  exports.readdirSync = function readdirSync(path) {
+    return child_process.spawnSync('ls', [path]).stdout.toString().trim().split('\n');
   };
 
   exports.statSync = function statSync(path) {
