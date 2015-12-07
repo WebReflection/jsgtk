@@ -1,0 +1,93 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'publish' ]
+2 info using npm@3.5.1
+3 info using node@v5.1.1
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: '/home/webreflection/code/jsgtk',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory /home/webreflection/.npm/jsgtk/0.0.11/package.tgz not in flight; packing
+9 info lifecycle jsgtk@0.0.11~prepublish: jsgtk@0.0.11
+10 silly lifecycle jsgtk@0.0.11~prepublish: no script for prepublish, continuing
+11 verbose tar pack [ '/home/webreflection/.npm/jsgtk/0.0.11/package.tgz',
+11 verbose tar pack   '/home/webreflection/code/jsgtk' ]
+12 verbose tarball /home/webreflection/.npm/jsgtk/0.0.11/package.tgz
+13 verbose folder /home/webreflection/code/jsgtk
+14 verbose addLocalTarball adding from inside cache /home/webreflection/.npm/jsgtk/0.0.11/package.tgz
+15 silly cache afterAdd jsgtk@0.0.11
+16 verbose afterAdd /home/webreflection/.npm/jsgtk/0.0.11/package/package.json not in flight; writing
+17 verbose afterAdd /home/webreflection/.npm/jsgtk/0.0.11/package/package.json written
+18 silly publish { name: 'jsgtk',
+18 silly publish   version: '0.0.11',
+18 silly publish   description: 'An attempt to make GJS more JavaScript and Node.JS friendly',
+18 silly publish   scripts: { test: 'echo "Error: no test specified" && exit 1' },
+18 silly publish   repository:
+18 silly publish    { type: 'git',
+18 silly publish      url: 'git+https://github.com/WebReflection/jsgtk.git' },
+18 silly publish   keywords: [ 'js', 'gtk', 'gjs' ],
+18 silly publish   author: { name: 'Andrea Giammarchi' },
+18 silly publish   license: 'MIT',
+18 silly publish   bugs: { url: 'https://github.com/WebReflection/jsgtk/issues' },
+18 silly publish   homepage: 'https://github.com/WebReflection/jsgtk#readme',
+18 silly publish   readme: '# JSGTK\nAn attempt to make [GJS](https://wiki.gnome.org/action/show/Projects/Gjs?action=show&redirect=Gjs) more JavaScript and Node.JS friendly, bringing in CommonJS modules loader and indeed able to work with [npm](https://www.npmjs.com/) modules too.\n\n\n\n### Quick How To\nIn order to install `jsgtk` simply use `npm`\n```sh\nnpm install jsgtk\n```\nIn order to include the `jsgtk` runtime, write the following code at the very top of your file:\n```sh\n#!/usr/bin/env sh\nimports=imports// "exec" "gjs" "-I" "$(dirname $0)/node_modules/jsgtk/" "$0" "$@"\nimports.jsgtk.env;\n\n// the rest of your code here, e.g.\nconsole.info(\'Hello JSGTK\');\n```\nIt is now possible to `chmod +x jsgtk-file-name` and launch it directly.\n\n\n\n### How to install GJS\nIt is quite pointless to have `jsgtk` if you don\'t have a usable version of GJS.\nFollowing how I\'ve installed it in few platforms I could test.\n\n\n#### Linux\n\n  * in [ArchLinux](https://www.archlinux.org/), a command such `pacman -S --needed npm gjs` would do\n  * in [Ubuntu](http://www.ubuntu.com/), a command such `sudo apt-get install npm gjs` should do as well\n\n\n#### OSX\nThe easiest way to install GJS in OSX and use JSGTK too is the following sequence of instruction in the terminal.\nFeel free to copy and paste below code into `gjs.sh` and then execute it via `sh gjs.sh`.\n```sh\n# verify and eventually install Homebrew\nif [ "$(which brew)" = "" ]; then\n  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"\nfi\n\n# install npm\nbrew install npm\n\n# install gjs via https://github.com/TingPing/homebrew-gnome\nbrew tap TingPing/gnome\nbrew install gtk+3\nbrew install gjs\n```\n\n\n### How to verify everything is OK\nIf everything went OK, you can now `gjs` in the terminal and play around with `js24` SpiderMonkey CLI.\nPlease note `gjs` doesn\'t work as interactively as `node`, in order to run a program you need to launch it via `gjs program.js` or using file headers previously described.\nIf you\'d like to test the look and feel of a basic widget, feel free to save the following code in a `ui.js` file.\n```js\n#!/usr/bin/env gjs\n\n(function (Gtk){\'use strict\';\n\n  Gtk.init(null, 0);\n\n  const\n    win = new Gtk.Window({\n      type : Gtk.WindowType.TOPLEVEL,\n      window_position: Gtk.WindowPosition.CENTER\n    })\n  ;\n\n  win.set_default_size(200, 80);\n  win.add(new Gtk.Label({label: \'Hello GJS!\'}));\n  win.connect(\'show\', () => Gtk.main());\n  win.connect(\'destroy\', () => Gtk.main_quit());\n  win.show_all();\n\n}(imports.gi.Gtk));\n```\nFeel free to `chmod +x ui.js` and then launch it directly.\n\n\n\n### About the Dark Theme\nIf there\'s something I love about [GNOME Desktop](https://www.gnome.org/) is its Adwaita Dark Theme.\nThe good news is that you can  have it in GJS too trying at least two things:\n\n  * use this line after the init: `Gtk.Settings.get_default().set_property(\'gtk-application-prefer-dark-theme\', true);`\n  * use a special header that will set an environment variable before launching the app\n\nThe latter case is summarized in the following header:\n```js\n#!/usr/bin/env sh\nimports=imports// "export" "GTK_THEME=Adwaita:dark" && "exec" "gjs" "-I" "$(dirname $0)/node_modules/jsgtk/" "$0" "$@"\nimports.jsgtk.env;\n\n// the rest of your code here\n```\n\n\n### About the Python/C code style\nI am working to bring a JS like style through the `jsgtk.gi` import, which is nothing but enriched native API with all aliases that will make methods like `win.set_default_size(200, 80);` become `win.setDefaultSize(200, 80);`, as well as every other method, property, or public static method. This is a work in progress but so far the entire `Gio`, `GLib`, and `GObject` has been covered.\n\nFeel free to check on  top of the [jsgtk.gi](jsgtk/gi.js) file which native module has been patched through `jsgtk.gi` module.\n\n\n\n### Stability\nPlease note while GTK3 is rock solid stable and production ready (GNOME Desktop uses it, to name just one) this project is highly experimental so its JS functionality might not be as perfect as expected. For instance, few File System operations are incomplete and options are partially ignored and not a 1:1 nodejs like solution. I am working on my free time to make this project as stable and reliable as possible, and every kind of contribution will be more than welcome, specially if you are more familiar than I am with GTK3 or even GJS.\n\nThanks!\n\n\n### License\nThis project is under MIT Style license.\n```\nCopyright (c) 2015 - Andrea Giammarchi & JSGTK Contributors\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the "Software"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in\nall copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\nTHE SOFTWARE.\n```',
+18 silly publish   readmeFilename: 'README.md',
+18 silly publish   gitHead: '107207a8ae53b6c7de4f0a7645d94583cc775742',
+18 silly publish   _id: 'jsgtk@0.0.11',
+18 silly publish   _shasum: '6bd72c01c41747423acfe379ab340fb0b3295ab1',
+18 silly publish   _from: '.' }
+19 verbose getPublishConfig undefined
+20 silly mapToRegistry name jsgtk
+21 silly mapToRegistry using default registry
+22 silly mapToRegistry registry https://registry.npmjs.org/
+23 silly mapToRegistry uri https://registry.npmjs.org/jsgtk
+24 verbose publish registryBase https://registry.npmjs.org/
+25 silly publish uploading /home/webreflection/.npm/jsgtk/0.0.11/package.tgz
+26 verbose request uri https://registry.npmjs.org/jsgtk
+27 verbose request sending authorization for write operation
+28 info attempt registry request try #1 at 1:24:14 PM
+29 verbose request using bearer token for auth
+30 verbose request id 2d53703cef272087
+31 http request PUT https://registry.npmjs.org/jsgtk
+32 http 403 https://registry.npmjs.org/jsgtk
+33 verbose headers { 'content-type': 'application/json',
+33 verbose headers   'cache-control': 'max-age=60',
+33 verbose headers   'content-length': '96',
+33 verbose headers   'accept-ranges': 'bytes',
+33 verbose headers   date: 'Mon, 07 Dec 2015 13:24:16 GMT',
+33 verbose headers   via: '1.1 varnish',
+33 verbose headers   connection: 'keep-alive',
+33 verbose headers   'x-served-by': 'cache-lhr6333-LHR',
+33 verbose headers   'x-cache': 'MISS',
+33 verbose headers   'x-cache-hits': '0',
+33 verbose headers   'x-timer': 'S1449494654.825787,VS0,VE1460' }
+34 verbose request invalidating /home/webreflection/.npm/registry.npmjs.org/jsgtk on PUT
+35 error publish Failed PUT 403
+36 verbose stack Error: "You cannot publish over the previously published version 0.0.11." : jsgtk
+36 verbose stack     at makeError (/usr/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:264:12)
+36 verbose stack     at CachingRegistryClient.<anonymous> (/usr/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:252:14)
+36 verbose stack     at Request._callback (/usr/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:172:14)
+36 verbose stack     at Request.self.callback (/usr/lib/node_modules/npm/node_modules/request/request.js:198:22)
+36 verbose stack     at emitTwo (events.js:87:13)
+36 verbose stack     at Request.emit (events.js:172:7)
+36 verbose stack     at Request.<anonymous> (/usr/lib/node_modules/npm/node_modules/request/request.js:1082:10)
+36 verbose stack     at emitOne (events.js:82:20)
+36 verbose stack     at Request.emit (events.js:169:7)
+36 verbose stack     at IncomingMessage.<anonymous> (/usr/lib/node_modules/npm/node_modules/request/request.js:1009:12)
+37 verbose statusCode 403
+38 verbose pkgid jsgtk
+39 verbose cwd /home/webreflection/code/jsgtk
+40 error Linux 4.2.5-1-ARCH
+41 error argv "/usr/bin/node" "/usr/bin/npm" "publish"
+42 error node v5.1.1
+43 error npm  v3.5.1
+44 error code E403
+45 error "You cannot publish over the previously published version 0.0.11." : jsgtk
+46 error If you need help, you may report this error at:
+46 error     <https://github.com/npm/npm/issues>
+47 verbose exit [ 1, true ]
