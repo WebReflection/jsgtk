@@ -3,9 +3,9 @@
   //         Do Not change it directly or it will be replaced
   //         and it could cause conflicts. Use python-to.js instead.
   const
-    Gio = imports.gi.Gio,
-    GLib = imports.gi.GLib,
-    GObject = imports.gi.GObject
+    Gio = (exports.Gio = imports.gi.Gio),
+    GLib = (exports.GLib = imports.gi.GLib),
+    GObject = (exports.GObject = imports.gi.GObject)
   ;
   Object.defineProperties(
     Gio,

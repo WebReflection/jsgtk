@@ -87,7 +87,7 @@ process.run(function () {
     '  //         and it could cause conflicts. Use python-to.js instead.',
     '  const',
     Object.keys(fix).map((namespace) => (
-    '    ' + namespace + ' = imports.gi.' + namespace
+    '    ' + namespace + ' = (exports.' + namespace + ' = imports.gi.' + namespace + ')'
     )).join(',\n'),
     '  ;',
     Object.keys(fix).map((namespace) => {
