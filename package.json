@@ -1,6 +1,6 @@
 {
   "name": "jsgtk",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "An attempt to make GJS more JavaScript and Node.JS friendly",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
