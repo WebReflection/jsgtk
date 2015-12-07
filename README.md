@@ -1,53 +1,136 @@
-# jsgtk
-coming soon
-
-# Warning
-Please note this is an incomplete experiment, I'm just writing down what I am learning, trying to bring a friendly environment nodejs like in GJS.
+# JSGTK
+An attempt to make [GJS](https://wiki.gnome.org/action/show/Projects/Gjs?action=show&redirect=Gjs) more JavaScript and Node.JS friendly, bringing in CommonJS modules loader and indeed able to work with [npm](https://www.npmjs.com/) modules too.
 
 
-### Basic way to include `jsgtk` copying the folder in the root project
 
+### Quick How To
+In order to install `jsgtk` simply use `npm`
 ```sh
-#!/usr/bin/env sh
-imports=imports// "exec" "gjs" "-I" "$(dirname $0)" "$0" "$@"
-imports.jsgtk.env;
+npm install jsgtk
 ```
-
-
-
-### How to create a Linux executable with `jsgtk`
-```sh
-#!/usr/bin/env sh
-imports=imports// "exec" "gjs" "-I" "$(dirname $0)/../lib/node_modules/jsgtk/" "$0" "$@"
-
-// everything else ...
-let {console} = imports.jstk;
-console.log('Hello jsgtk!');
-```
-
-### How to create an executable via `node_modules`
-
-If `jsgtk` is installed as dependency, all it needs to know is where it is.
-Assuming the following code is in the same directory `node_modules` folder is.
-
+In order to include the `jsgtk` runtime, write the following code at the very top of your file:
 ```sh
 #!/usr/bin/env sh
 imports=imports// "exec" "gjs" "-I" "$(dirname $0)/node_modules/jsgtk/" "$0" "$@"
+imports.jsgtk.env;
 
-// everything else ...
-let {console} = imports.jstk;
-console.log('Hello jsgtk!');
+// the rest of your code here, e.g.
+console.info('Hello JSGTK');
 ```
+It is now possible to `chmod +x jsgtk-file-name` and launch it directly.
 
 
-### How to create an executable with `jsgtk`
-If `jsgtk.js` file and  `jsgtk` folder are in the same executable directory, all it needs is the following.
 
+### How to install GJS
+It is quite pointless to have `jsgtk` if you don't have a usable version of GJS.
+Following how I've installed it in few platforms I could test.
+
+
+#### Linux
+
+  * in [ArchLinux](https://www.archlinux.org/), a command such `pacman -S --needed npm gjs` would do
+  * in [Ubuntu](http://www.ubuntu.com/), a command such `sudo apt-get install npm gjs` should do as well
+
+
+#### OSX
+The easiest way to install GJS in OSX and use JSGTK too is the following sequence of instruction in the terminal.
+Feel free to copy and paste below code into `gjs.sh` and then execute it via `sh gjs.sh`.
 ```sh
-#!/usr/bin/env sh
-imports=imports// "exec" "gjs" "-I" "$(dirname $0)" "$0" "$@"
+# verify and eventually install Homebrew
+if [ "$(which brew)" = "" ]; then
+  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
 
-const {console} = imports.jsgtk;
-console.info('Hello jsgtk!');
+# install npm
+brew install npm
+
+# install gjs via https://github.com/TingPing/homebrew-gnome
+brew tap TingPing/gnome
+brew install gtk+3
+brew install gjs
 ```
-You can `chmod +x hello-world` and test it directly.
+
+
+### How to verify everything is OK
+If everything went OK, you can now `gjs` in the terminal and play around with `js24` SpiderMonkey CLI.
+Please note `gjs` doesn't work as interactively as `node`, in order to run a program you need to launch it via `gjs program.js` or using file headers previously described.
+If you'd like to test the look and feel of a basic widget, feel free to save the following code in a `ui.js` file.
+```js
+#!/usr/bin/env gjs
+
+(function (Gtk){'use strict';
+
+  Gtk.init(null, 0);
+
+  const
+    win = new Gtk.Window({
+      type : Gtk.WindowType.TOPLEVEL,
+      window_position: Gtk.WindowPosition.CENTER
+    })
+  ;
+
+  win.set_default_size(200, 80);
+  win.add(new Gtk.Label({label: 'Hello GJS!'}));
+  win.connect('show', () => Gtk.main());
+  win.connect('destroy', () => Gtk.main_quit());
+  win.show_all();
+
+}(imports.gi.Gtk));
+```
+Feel free to `chmod +x ui.js` and then launch it directly.
+
+
+
+### About the Dark Theme
+If there's something I love about [GNOME Desktop](https://www.gnome.org/) is its Adwaita Dark Theme.
+The good news is that you can  have it in GJS too trying at least two things:
+
+  * use this line after the init: `Gtk.Settings.get_default().set_property('gtk-application-prefer-dark-theme', true);`
+  * use a special header that will set an environment variable before launching the app
+
+The latter case is summarized in the following header:
+```js
+#!/usr/bin/env sh
+imports=imports// "export" "GTK_THEME=Adwaita:dark" && "exec" "gjs" "-I" "$(dirname $0)/node_modules/jsgtk/" "$0" "$@"
+imports.jsgtk.env;
+
+// the rest of your code here
+```
+
+
+### About the Python/C code style
+I am working to bring a JS like style through the `jsgtk.gi` import, which is nothing but enriched native API with all aliases that will make methods like `win.set_default_size(200, 80);` become `win.setDefaultSize(200, 80);`, as well as every other method, property, or public static method. This is a work in progress but so far the entire `Gio`, `GLib`, and `GObject` has been covered.
+
+Feel free to check on  top of the [jsgtk.gi](jsgtk/gi.js) file which native module has been patched through `jsgtk.gi` module.
+
+
+
+### Stability
+Please note while GTK3 is rock solid stable and production ready (GNOME Desktop uses it, to name just one) this project is highly experimental so its JS functionality might not be as perfect as expected. For instance, few File System operations are incomplete and options are partially ignored and not a 1:1 nodejs like solution. I am working on my free time to make this project as stable and reliable as possible, and every kind of contribution will be more than welcome, specially if you are more familiar than I am with GTK3 or even GJS.
+
+Thanks!
+
+
+### License
+This project is under MIT Style license.
+```
+Copyright (c) 2015 - Andrea Giammarchi & JSGTK Contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+```
