@@ -25,14 +25,14 @@
           return this.bus_get_sync.apply(this, arguments);
         }
       },
-      busOwnNameOnConnection: {
-        value: function busOwnNameOnConnection() {
-          return this.bus_own_name_on_connection.apply(this, arguments);
-        }
-      },
       busOwnName: {
         value: function busOwnName() {
           return this.bus_own_name.apply(this, arguments);
+        }
+      },
+      busOwnNameOnConnection: {
+        value: function busOwnNameOnConnection() {
+          return this.bus_own_name_on_connection.apply(this, arguments);
         }
       },
       busUnownName: {
@@ -45,14 +45,14 @@
           return this.bus_unwatch_name.apply(this, arguments);
         }
       },
-      busWatchNameOnConnection: {
-        value: function busWatchNameOnConnection() {
-          return this.bus_watch_name_on_connection.apply(this, arguments);
-        }
-      },
       busWatchName: {
         value: function busWatchName() {
           return this.bus_watch_name.apply(this, arguments);
+        }
+      },
+      busWatchNameOnConnection: {
+        value: function busWatchNameOnConnection() {
+          return this.bus_watch_name_on_connection.apply(this, arguments);
         }
       },
       contentTypeCanBeExecutable: {
@@ -2099,14 +2099,14 @@
           return this.get_flags.apply(this, arguments);
         }
       },
-      getNameOwner: {
-        value: function getNameOwner() {
-          return this.get_name_owner.apply(this, arguments);
-        }
-      },
       getName: {
         value: function getName() {
           return this.get_name.apply(this, arguments);
+        }
+      },
+      getNameOwner: {
+        value: function getNameOwner() {
+          return this.get_name_owner.apply(this, arguments);
         }
       }
     }
@@ -2254,14 +2254,14 @@
           return this.call_with_unix_fd_list_sync.apply(this, arguments);
         }
       },
-      getCachedPropertyNames: {
-        value: function getCachedPropertyNames() {
-          return this.get_cached_property_names.apply(this, arguments);
-        }
-      },
       getCachedProperty: {
         value: function getCachedProperty() {
           return this.get_cached_property.apply(this, arguments);
+        }
+      },
+      getCachedPropertyNames: {
+        value: function getCachedPropertyNames() {
+          return this.get_cached_property_names.apply(this, arguments);
         }
       },
       getConnection: {
@@ -2289,14 +2289,14 @@
           return this.get_interface_name.apply(this, arguments);
         }
       },
-      getNameOwner: {
-        value: function getNameOwner() {
-          return this.get_name_owner.apply(this, arguments);
-        }
-      },
       getName: {
         value: function getName() {
           return this.get_name.apply(this, arguments);
+        }
+      },
+      getNameOwner: {
+        value: function getNameOwner() {
+          return this.get_name_owner.apply(this, arguments);
         }
       },
       getObjectPath: {
@@ -3079,6 +3079,11 @@
           return this.set_attribute_byte_string.apply(this, arguments);
         }
       },
+      setAttribute: {
+        value: function setAttribute() {
+          return this.set_attribute.apply(this, arguments);
+        }
+      },
       setAttributeInt32: {
         value: function setAttributeInt32() {
           return this.set_attribute_int32.apply(this, arguments);
@@ -3087,11 +3092,6 @@
       setAttributeInt64: {
         value: function setAttributeInt64() {
           return this.set_attribute_int64.apply(this, arguments);
-        }
-      },
-      setAttribute: {
-        value: function setAttribute() {
-          return this.set_attribute.apply(this, arguments);
         }
       },
       setAttributesAsync: {
@@ -3484,6 +3484,11 @@
           return this.set_attribute_byte_string.apply(this, arguments);
         }
       },
+      setAttribute: {
+        value: function setAttribute() {
+          return this.set_attribute.apply(this, arguments);
+        }
+      },
       setAttributeInt32: {
         value: function setAttributeInt32() {
           return this.set_attribute_int32.apply(this, arguments);
@@ -3502,11 +3507,6 @@
       setAttributeObject: {
         value: function setAttributeObject() {
           return this.set_attribute_object.apply(this, arguments);
-        }
-      },
-      setAttribute: {
-        value: function setAttribute() {
-          return this.set_attribute.apply(this, arguments);
         }
       },
       setAttributeStatus: {
@@ -6447,14 +6447,14 @@
           return this.return_boolean.apply(this, arguments);
         }
       },
-      returnErrorIfCancelled: {
-        value: function returnErrorIfCancelled() {
-          return this.return_error_if_cancelled.apply(this, arguments);
-        }
-      },
       returnError: {
         value: function returnError() {
           return this.return_error.apply(this, arguments);
+        }
+      },
+      returnErrorIfCancelled: {
+        value: function returnErrorIfCancelled() {
+          return this.return_error_if_cancelled.apply(this, arguments);
         }
       },
       returnInt: {
@@ -7227,14 +7227,14 @@
           return this.get_is_abstract.apply(this, arguments);
         }
       },
-      getPathLen: {
-        value: function getPathLen() {
-          return this.get_path_len.apply(this, arguments);
-        }
-      },
       getPath: {
         value: function getPath() {
           return this.get_path.apply(this, arguments);
+        }
+      },
+      getPathLen: {
+        value: function getPathLen() {
+          return this.get_path_len.apply(this, arguments);
         }
       }
     }
@@ -7532,14 +7532,14 @@
           return this.assert_warning.apply(this, arguments);
         }
       },
-      base64DecodeInplace: {
-        value: function base64DecodeInplace() {
-          return this.base64_decode_inplace.apply(this, arguments);
-        }
-      },
       base64Decode: {
         value: function base64Decode() {
           return this.base64_decode.apply(this, arguments);
+        }
+      },
+      base64DecodeInplace: {
+        value: function base64DecodeInplace() {
+          return this.base64_decode_inplace.apply(this, arguments);
         }
       },
       base64DecodeStep: {
@@ -8617,6 +8617,11 @@
           return this.utf8_casefold.apply(this, arguments);
         }
       },
+      utf8Collate: {
+        value: function utf8Collate() {
+          return this.utf8_collate.apply(this, arguments);
+        }
+      },
       utf8CollateKeyForFilename: {
         value: function utf8CollateKeyForFilename() {
           return this.utf8_collate_key_for_filename.apply(this, arguments);
@@ -8625,11 +8630,6 @@
       utf8CollateKey: {
         value: function utf8CollateKey() {
           return this.utf8_collate_key.apply(this, arguments);
-        }
-      },
-      utf8Collate: {
-        value: function utf8Collate() {
-          return this.utf8_collate.apply(this, arguments);
         }
       },
       utf8FindNextChar: {
@@ -9037,14 +9037,14 @@
           return this.days_between.apply(this, arguments);
         }
       },
-      getDayOfYear: {
-        value: function getDayOfYear() {
-          return this.get_day_of_year.apply(this, arguments);
-        }
-      },
       getDay: {
         value: function getDay() {
           return this.get_day.apply(this, arguments);
+        }
+      },
+      getDayOfYear: {
+        value: function getDayOfYear() {
+          return this.get_day_of_year.apply(this, arguments);
         }
       },
       getIso8601WeekOfYear: {
@@ -9187,14 +9187,14 @@
           return this.new_local.apply(this, arguments);
         }
       },
-      newNowLocal: {
-        value: function newNowLocal() {
-          return this.new_now_local.apply(this, arguments);
-        }
-      },
       newNow: {
         value: function newNow() {
           return this.new_now.apply(this, arguments);
+        }
+      },
+      newNowLocal: {
+        value: function newNowLocal() {
+          return this.new_now_local.apply(this, arguments);
         }
       },
       newNowUtc: {
@@ -9536,14 +9536,14 @@
   Object.defineProperties(
     GLib.KeyFile.prototype,
     {
-      getBooleanList: {
-        value: function getBooleanList() {
-          return this.get_boolean_list.apply(this, arguments);
-        }
-      },
       getBoolean: {
         value: function getBoolean() {
           return this.get_boolean.apply(this, arguments);
+        }
+      },
+      getBooleanList: {
+        value: function getBooleanList() {
+          return this.get_boolean_list.apply(this, arguments);
         }
       },
       getComment: {
@@ -9551,14 +9551,14 @@
           return this.get_comment.apply(this, arguments);
         }
       },
-      getDoubleList: {
-        value: function getDoubleList() {
-          return this.get_double_list.apply(this, arguments);
-        }
-      },
       getDouble: {
         value: function getDouble() {
           return this.get_double.apply(this, arguments);
+        }
+      },
+      getDoubleList: {
+        value: function getDoubleList() {
+          return this.get_double_list.apply(this, arguments);
         }
       },
       getGroups: {
@@ -9571,14 +9571,14 @@
           return this.get_int64.apply(this, arguments);
         }
       },
-      getIntegerList: {
-        value: function getIntegerList() {
-          return this.get_integer_list.apply(this, arguments);
-        }
-      },
       getInteger: {
         value: function getInteger() {
           return this.get_integer.apply(this, arguments);
+        }
+      },
+      getIntegerList: {
+        value: function getIntegerList() {
+          return this.get_integer_list.apply(this, arguments);
         }
       },
       getKeys: {
@@ -9586,14 +9586,14 @@
           return this.get_keys.apply(this, arguments);
         }
       },
-      getLocaleStringList: {
-        value: function getLocaleStringList() {
-          return this.get_locale_string_list.apply(this, arguments);
-        }
-      },
       getLocaleString: {
         value: function getLocaleString() {
           return this.get_locale_string.apply(this, arguments);
+        }
+      },
+      getLocaleStringList: {
+        value: function getLocaleStringList() {
+          return this.get_locale_string_list.apply(this, arguments);
         }
       },
       getStartGroup: {
@@ -9601,14 +9601,14 @@
           return this.get_start_group.apply(this, arguments);
         }
       },
-      getStringList: {
-        value: function getStringList() {
-          return this.get_string_list.apply(this, arguments);
-        }
-      },
       getString: {
         value: function getString() {
           return this.get_string.apply(this, arguments);
+        }
+      },
+      getStringList: {
+        value: function getStringList() {
+          return this.get_string_list.apply(this, arguments);
         }
       },
       getUint64: {
@@ -9666,14 +9666,14 @@
           return this.save_to_file.apply(this, arguments);
         }
       },
-      setBooleanList: {
-        value: function setBooleanList() {
-          return this.set_boolean_list.apply(this, arguments);
-        }
-      },
       setBoolean: {
         value: function setBoolean() {
           return this.set_boolean.apply(this, arguments);
+        }
+      },
+      setBooleanList: {
+        value: function setBooleanList() {
+          return this.set_boolean_list.apply(this, arguments);
         }
       },
       setComment: {
@@ -9681,14 +9681,14 @@
           return this.set_comment.apply(this, arguments);
         }
       },
-      setDoubleList: {
-        value: function setDoubleList() {
-          return this.set_double_list.apply(this, arguments);
-        }
-      },
       setDouble: {
         value: function setDouble() {
           return this.set_double.apply(this, arguments);
+        }
+      },
+      setDoubleList: {
+        value: function setDoubleList() {
+          return this.set_double_list.apply(this, arguments);
         }
       },
       setInt64: {
@@ -9696,14 +9696,14 @@
           return this.set_int64.apply(this, arguments);
         }
       },
-      setIntegerList: {
-        value: function setIntegerList() {
-          return this.set_integer_list.apply(this, arguments);
-        }
-      },
       setInteger: {
         value: function setInteger() {
           return this.set_integer.apply(this, arguments);
+        }
+      },
+      setIntegerList: {
+        value: function setIntegerList() {
+          return this.set_integer_list.apply(this, arguments);
         }
       },
       setListSeparator: {
@@ -9711,24 +9711,24 @@
           return this.set_list_separator.apply(this, arguments);
         }
       },
-      setLocaleStringList: {
-        value: function setLocaleStringList() {
-          return this.set_locale_string_list.apply(this, arguments);
-        }
-      },
       setLocaleString: {
         value: function setLocaleString() {
           return this.set_locale_string.apply(this, arguments);
         }
       },
-      setStringList: {
-        value: function setStringList() {
-          return this.set_string_list.apply(this, arguments);
+      setLocaleStringList: {
+        value: function setLocaleStringList() {
+          return this.set_locale_string_list.apply(this, arguments);
         }
       },
       setString: {
         value: function setString() {
           return this.set_string.apply(this, arguments);
+        }
+      },
+      setStringList: {
+        value: function setStringList() {
+          return this.set_string_list.apply(this, arguments);
         }
       },
       setUint64: {
@@ -10304,14 +10304,14 @@
           return this.remove_unix_fd.apply(this, arguments);
         }
       },
-      setCallbackIndirect: {
-        value: function setCallbackIndirect() {
-          return this.set_callback_indirect.apply(this, arguments);
-        }
-      },
       setCallback: {
         value: function setCallback() {
           return this.set_callback.apply(this, arguments);
+        }
+      },
+      setCallbackIndirect: {
+        value: function setCallbackIndirect() {
+          return this.set_callback_indirect.apply(this, arguments);
         }
       },
       setCanRecurse: {
@@ -11204,14 +11204,14 @@
           return this.type_from_name.apply(this, arguments);
         }
       },
-      typeFundamentalNext: {
-        value: function typeFundamentalNext() {
-          return this.type_fundamental_next.apply(this, arguments);
-        }
-      },
       typeFundamental: {
         value: function typeFundamental() {
           return this.type_fundamental.apply(this, arguments);
+        }
+      },
+      typeFundamentalNext: {
+        value: function typeFundamentalNext() {
+          return this.type_fundamental_next.apply(this, arguments);
         }
       },
       typeGetTypeRegistrationSerial: {

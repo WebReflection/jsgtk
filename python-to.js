@@ -7,7 +7,7 @@ process.run(function () {
   let
     fs = require('fs'),
     path = require('path'),
-    root = path.join('gjs-documentation', 'static'),
+    root = path.join('gjs-documentation', 'html'),
     fix = Object.create(null),
     isConstant = (property) => /^[_A-Z0-9]+$/.test(property),
     isClass = (property) => !isConstant(property) && /^[A-Z]/.test(property),
