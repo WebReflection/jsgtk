@@ -50,8 +50,7 @@
     })(imports.gi.GLib.get_environ()),
     exit: () => setTimeout(() => Gtk.main_quit(), 0),
     run: (callback) => {
-      global.screen;
-      callback();
+      global.screen && callback();
       Gtk.main();
     }
   };
