@@ -140,4 +140,7 @@ process.run(function () {
   console.assert((new B).a === true && (new B).b === true,
     'Class parent invoke works as expected');
 
+
+  console.log(imports.jsgtk.gi);
+
 });
