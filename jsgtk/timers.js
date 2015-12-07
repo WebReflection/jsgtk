@@ -6,10 +6,10 @@
     clear = () => (id) => Mainloop.source_remove(id),
     set = (repeat) =>
       (fn, ms, ...args) =>
-        Mainloop.timeout_add((ms * 1) || 0, () => {
-          fn.apply(null, args);
-          return repeat;
-        })
+        Mainloop.timeout_add(
+          (ms * 1) || 0,
+          () => (fn.apply(null, args), repeat)
+        )
   ;
 
   global.clearInterval  = (exports.clearInterval = clear());
