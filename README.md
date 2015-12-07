@@ -41,14 +41,17 @@ if [ "$(which brew)" = "" ]; then
   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
-# install npm
-brew install npm
+# verify and eventually install npm
+if [ "$(which npm)" = "" ]; then
+  brew install npm
+fi
 
 # install gjs via https://github.com/TingPing/homebrew-gnome
 brew tap TingPing/gnome
 brew install gtk+3
 brew install gjs
 ```
+Please note something else might need to be installed, it could take up to 15 minutes to download and install from scratch everything.
 
 
 ### How to verify everything is OK
