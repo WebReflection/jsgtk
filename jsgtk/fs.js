@@ -6,9 +6,8 @@
   ;
 
   // TODO: find out if there's a better way
-  // TODO: this is not even asynchronous (if it is apparently it doesn't work ... BUG ?)
-  exports.readdir = function readdir(path, callback) {
-    callback(null, require('child_process').spawnSync('ls', [path]).stdout.toString().trim().split('\n'));
+  exports.readdirSync = function readdirSync(path) {
+    return require('child_process').spawnSync('ls', [path]).stdout.toString().trim().split('\n');
   };
 
   exports.readFile = function readFile(file, options, callback) {

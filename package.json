@@ -1,6 +1,6 @@
 {
   "name": "jsgtk",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "coming soon",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
