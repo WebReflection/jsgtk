@@ -89,6 +89,7 @@ If there's something I love about [GNOME Desktop](https://www.gnome.org/) is its
 The good news is that you can  have it in GJS too trying at least two things:
 
   * use this line after the init: `Gtk.Settings.get_default().set_property('gtk-application-prefer-dark-theme', true);`
+  * set an environment variable either before launching the app `GTK_THEME=Adwaita:dark ./app.js` or in the `~/.bashrc` or `profile` file in order to have it always set
   * use a special header that will set an environment variable before launching the app
 
 The latter case is summarized in the following header:
