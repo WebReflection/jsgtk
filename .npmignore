@@ -1,5 +1,5 @@
 .DS_Store
-.travis.yml
+examples
 gjs-documentation
 node_modules
 .gitignore
