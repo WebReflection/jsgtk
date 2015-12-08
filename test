@@ -28,6 +28,14 @@ let
 
 process.run(function () {
 
+  /*
+  const Promise = require('es6-promise').Promise;
+  new Promise(function (res, rej) {
+    setTimeout(res, 500, 'it worked!');
+  }).then(log);
+
+  return;
+  //*/
 
   /* testing dblite like a boss
   var dblite = require('dblite'),
@@ -41,13 +49,11 @@ process.run(function () {
   //*/
 
   /* testing sqlite3
-  let dafuq = child_process.spawn('sqlite3');
-  dafuq.stdout.on('data', (data) => {
+  let sqlite3 = child_process.spawn('sqlite3');
+  sqlite3.stdin.write('SELECT 123;\n');
+  sqlite3.stdout.on('data', (data) => {
     log(data);
-    dafuq.disconnect();
-  });
-  setTimeout(() => {
-    dafuq.stdin.write('SELECT 123;\n');
+    sqlite3.disconnect();
   });
   return;
   //*/

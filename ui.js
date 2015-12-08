@@ -2,8 +2,9 @@
 
 (function (Gtk){'use strict';
 
-  Gtk.init(null, 0);
+  Gtk.init(null);
   Gtk.Settings.get_default().set_property('gtk-application-prefer-dark-theme', true);
+  Gtk.Settings.get_default().gtk_theme_name = "Adwaita";
 
   const
     win = new Gtk.Window({
