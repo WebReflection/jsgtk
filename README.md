@@ -91,10 +91,12 @@ Feel free to `chmod +x ui.js` and then launch it directly.
 If there's something I love about [GNOME Desktop](https://www.gnome.org/) is its Adwaita Dark Theme.
 The good news is that you can  have it in GJS too trying at least two things:
 
-  * if you know the theme name has a dark variant, use these lines after the init: ```js
+  * if you know the theme name has a dark variant, use these lines after the init:
+```js
 Gtk.Settings.get_default().set_property('gtk-application-prefer-dark-theme', true);
 Gtk.Settings.get_default().gtk_theme_name = "Adwaita"; // theme name
 ```
+
   * set an environment variable either before launching the app `GTK_THEME=Adwaita:dark ./app.js` or in the `~/.bashrc` or `profile` file in order to have it always set
   * use a special header that will also set an environment variable before launching the app
 
