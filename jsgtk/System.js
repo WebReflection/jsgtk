@@ -55,21 +55,4 @@
     }
   };
 
-  // timers
-  const
-    Mainloop = imports.mainloop,
-    createClearTimer = () => (id) => Mainloop.source_remove(id),
-    createSetTimer = (repeat) =>
-      (fn, ms, ...args) =>
-        Mainloop.timeout_add(
-          (ms * 1) || 0,
-          () => (fn.apply(null, args), repeat)
-        )
-  ;
-
-  global.clearInterval  = createClearTimer();
-  global.clearTimeout   = createClearTimer();
-  global.setInterval    = createSetTimer(true);
-  global.setTimeout     = createSetTimer(false);
-
 }(this));

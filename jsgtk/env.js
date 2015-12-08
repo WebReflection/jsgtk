@@ -9,7 +9,8 @@
       'fs',
       'os',
       'path',
-      'stream'
+      'stream',
+      'timers'
     ],
     GLib = imports.gi.GLib,
     jsgtk = imports.jsgtk,
