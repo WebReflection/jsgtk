@@ -30,20 +30,21 @@
       },
       connected: false,
       disconnect: function disconnect() {
-        this.connected = false;
-        this.stdin.emit('disconnect');
-        this.stdout.emit('disconnect');
-        this.stderr.emit('disconnect');
+        disconnectChild.call(this);
         this.emit('disconnect');
       },
       kill: function kill(signal) {
-        this.connected = false;
-        this.stdin.emit('disconnect');
-        this.stdout.emit('disconnect');
-        this.stderr.emit('disconnect');
+        disconnectChild.call(this);
         this.emit('exit', null, signal || 'SIGTERM');
       }
-    })
+    }),
+    disconnectChild = function () {
+      this.connected = false;
+      this.stdin.emit('disconnect');
+      this.stdout.emit('disconnect');
+      this.stderr.emit('disconnect');
+      GLib.spawn_close_pid(this.pid);
+    }
   ;
 
   exports.spawn = function aspawn(command, args, options) {
