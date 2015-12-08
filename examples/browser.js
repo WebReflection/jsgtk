@@ -85,7 +85,11 @@
   // configure main window
   window.set_default_size(1024, 720);
   window.set_resizable(true);
-  window.connect('show', () => Gtk.main());
+  window.connect('show', () => {
+    // bring it on top in OSX
+    window.set_keep_above(true);
+    Gtk.main()
+  });
   window.connect('destroy', () => Gtk.main_quit());
   window.connect('delete_event', () => false);
 
