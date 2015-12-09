@@ -1,6 +1,8 @@
 # JSGTK
 An attempt to make [GJS](https://wiki.gnome.org/action/show/Projects/Gjs?action=show&redirect=Gjs) more JavaScript and Node.JS friendly, bringing in CommonJS modules loader and indeed able to work with [npm](https://www.npmjs.com/) modules too.
 
+[Related blog post](https://www.webreflection.co.uk/blog/2015/12/08/writing-native-apps-with-javascript)
+
 
 
 ### Quick How To
@@ -20,6 +22,19 @@ console.info('Hello JSGTK');
 It is now possible to `chmod +x jsgtk-file-name` and launch it directly.
 
 
+#### Using global npm packages
+If `jsgtk` is installed as global `npm` package, we can use it as executable to load programs via it.
+
+```sh
+npm install jsgtk -g
+
+echo "console.info('Hello JSGTK!');" > test-gjs.js
+
+jsgtk test-gjs.js
+```
+Above sequence should log `'Hello JSGTK!'` in console.
+
+
 
 ### How to install GJS
 It is quite pointless to have `jsgtk` if you don't have a usable version of GJS.
@@ -36,22 +51,24 @@ Following how I've installed it in few platforms I could test.
 The easiest way to install GJS in OSX and use JSGTK too is the following sequence of instruction in the terminal.
 Feel free to copy and paste below code into `gjs.sh` and then execute it via `sh gjs.sh`.
 ```sh
-# verify and eventually install Homebrew
-if [ "$(which brew)" = "" ]; then
-  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+# WARNING,  if you have MacPorts already installed you should use it!
+#           if you are planning to use WebKitGTK please install MacPorts
+if [ "$(which port)" != "" ]; then
+  sudo port install gjs
+else
+  # fallback
+  # verify and eventually install Homebrew
+  if [ "$(which brew)" = "" ]; then
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    # eventually confirm or add password the first time it's installed
+  fi
+  # install gjs via https://github.com/TingPing/homebrew-gnome
+  brew tap TingPing/gnome
+  brew install gtk+3
+  brew install gjs
 fi
-
-# verify and eventually install npm
-if [ "$(which npm)" = "" ]; then
-  brew install npm
-fi
-
-# install gjs via https://github.com/TingPing/homebrew-gnome
-brew tap TingPing/gnome
-brew install gtk+3
-brew install gjs
 ```
-Please note something else might need to be installed, it could take up to 15 minutes to download and install from scratch everything.
+Please note something else might need to be installed, it could take long time to download and install modules, please be patience.
 
 
 ### How to verify everything is OK
@@ -64,7 +81,7 @@ If you'd like to test the look and feel of a basic widget, feel free to save the
 ```js
 #!/usr/bin/env gjs
 
-;(function (Gtk){'use strict';
+(function (Gtk){'use strict';
 
   Gtk.init(null, 0);
 
@@ -121,20 +138,6 @@ Feel free to check on  top of the [jsgtk.gi](jsgtk/gi.js) file which native modu
 Please note while GTK3 is rock solid stable and production ready (GNOME Desktop uses it, to name just one) this project is highly experimental so its JS functionality might not be as perfect as expected. For instance, few File System operations are incomplete and options are partially ignored and not a 1:1 nodejs like solution. I am working on my free time to make this project as stable and reliable as possible, and every kind of contribution will be more than welcome, specially if you are more familiar than I am with GTK3 or even GJS.
 
 Thanks!
-
-
-
-
-#### Using global npm packages
-If `jsgtk` is installed as global `npm` package, we can use that to bootstrap an app.
-
-```sh
-#!/usr/bin/env bash
-imports=imports// "exec" "gjs" "-I" "$(npm config get prefix)/lib/node_modules/jsgtk/" "$0" "$@"
-imports.jsgtk.env;
-
-console.info('Hello global JSGTK!');
-```
 
 
 

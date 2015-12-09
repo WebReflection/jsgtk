@@ -35,7 +35,7 @@ child_process.spawn('npm', ['config', 'get', 'prefix']).on('close', function () 
         ';process.cwd = () => ', JSON.stringify(cwd),
         ';require(', JSON.stringify(path.resolve(cwd, gjsARGV[0])), ')'
       )
-    ].concat(gjsARGV),
+    ].concat('jsgtk', gjsARGV),
     {
       stdio: [0, 0, 0]
     }
