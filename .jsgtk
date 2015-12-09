@@ -8,7 +8,8 @@ var
   nodeModules = '',
   logError = function (err) {
     console.error(err.toString());
-  }
+  },
+  cwd = process.cwd()
 ;
 
 if (!gjsARGV.length) process.exit(0);
@@ -25,15 +26,14 @@ child_process.spawn('npm', ['config', 'get', 'prefix']).on('close', function () 
       'jsgtk'
     )
   ;
-  console.log(process.cwd());
   child_process.spawn(
     'gjs', [
       '-I', jsgtkModule,
-      '-I', nodeModules,
+      '-I', path.join(nodeModules, 'lib'),
       '-c', ''.concat(
         ';imports.jsgtk.env;',
-        ';process.cwd = () => ', JSON.stringify(process.cwd()),
-        ';require(', JSON.stringify(gjsARGV[0]), ')'
+        ';process.cwd = () => ', JSON.stringify(cwd),
+        ';require(', JSON.stringify(path.resolve(cwd, gjsARGV[0])), ')'
       )
     ].concat(gjsARGV),
     {

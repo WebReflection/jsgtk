@@ -3,13 +3,12 @@
   const GLib = imports.gi.GLib;
 
   let
-    stack = (new Error).stack,
-    dir = '.',
+    dir = GLib.get_current_dir(),
     manysepsFind,
     manysepsReplace
   ;
 
-  exports.sep = /jsgtk(\W+)path.js/.test(stack) && RegExp.$1;
+  exports.sep = /jsgtk(\W+)path.js/.test((new Error).stack) && RegExp.$1;
   exports.delimiter = exports.sep === '/' ? ':' : ';';
 
   if (exports.sep === '/') {
@@ -84,6 +83,7 @@
   };
 
   // find out which path is currently running jsgtk
+  /*
   stack.split('\n').some(function (line) {
     let important = -1 < line.indexOf('path.js');
     if (important) dir = exports.resolve(
@@ -92,12 +92,13 @@
     );
     return important;
   });
+  */
 
   function clean(path) {
     return path.replace(manysepsFind, manysepsReplace);
   }
 
-  /*
+  /* TODO: add these too?
   path.format(pathObject)
   path.parse(pathString)
   path.relative(from, to)
