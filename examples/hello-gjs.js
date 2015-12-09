@@ -1,6 +1,6 @@
 #!/usr/bin/env gjs
 
-(function (Gtk){'use strict';
+;(function (Gtk){'use strict';
 
   Gtk.init(null);
   Gtk.Settings.get_default().set_property('gtk-application-prefer-dark-theme', true);

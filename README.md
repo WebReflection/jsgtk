@@ -64,7 +64,7 @@ If you'd like to test the look and feel of a basic widget, feel free to save the
 ```js
 #!/usr/bin/env gjs
 
-(function (Gtk){'use strict';
+;(function (Gtk){'use strict';
 
   Gtk.init(null, 0);
 

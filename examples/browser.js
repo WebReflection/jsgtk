@@ -4,7 +4,7 @@
 // Similar logic and basic interface found in this PyGTK example:
 // http://www.eurion.net/python-snippets/snippet/Webkit%20Browser.html
 
-(function (Gtk, WebKit) {'use strict';
+;(function (Gtk, WebKit) {'use strict';
 
   // necessary to initialize the graphic environment
   // if this fails it means the host cannot show GTK3
