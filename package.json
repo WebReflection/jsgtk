@@ -1,6 +1,7 @@
 {
+  "bin": "main.js",
   "name": "jsgtk",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "An attempt to make GJS more JavaScript and Node.JS friendly",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
