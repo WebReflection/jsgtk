@@ -1,0 +1,53 @@
+#!/usr/bin/env node
+
+var
+  child_process = require('child_process'),
+  path = require('path'),
+  executable = process.argv[1],
+  gjsARGV = process.argv.slice(2),
+  nodeModules = '',
+  logError = function (err) {
+    console.error(err.toString());
+  }
+;
+
+if (!gjsARGV.length) process.exit(0);
+
+process.on('uncaughtException', logError);
+
+child_process.spawn('npm', ['config', 'get', 'prefix']).on('close', function () {
+  var
+    bin = path.join('', 'bin', ''),
+    jsgtkModule = path.join(
+      executable.slice(0, executable.lastIndexOf(bin)),
+      'lib',
+      'node_modules',
+      'jsgtk'
+    )
+  ;
+  console.log(process.cwd());
+  child_process.spawn(
+    'gjs', [
+      '-I', jsgtkModule,
+      '-I', nodeModules,
+      '-c', ''.concat(
+        ';imports.jsgtk.env;',
+        ';process.cwd = () => ', JSON.stringify(process.cwd()),
+        ';require(', JSON.stringify(gjsARGV[0]), ')'
+      )
+    ].concat(gjsARGV),
+    {
+      stdio: [0, 0, 0]
+    }
+  )
+    .on('error', logError)
+    .on('close', function () {
+      process.exit(0);
+    })
+    .on('exit', function (code) {
+      process.exit(code);
+    })
+  }
+).stdout.on('data', function (data) {
+  nodeModules += data.toString();
+});
