@@ -12,6 +12,7 @@
       'stream',
       'timers'
     ],
+    Gio = imports.gi.Gio,
     GLib = imports.gi.GLib,
     jsgtk = imports.jsgtk,
     System = jsgtk.System,
@@ -155,7 +156,10 @@
       case id.charAt(0) === '.':
         id = path.resolve(dir, id);
       case path.isAbsolute(id):
-        if (id.slice(-3) !== '.js') id += '.js';
+        if (
+          id.slice(-3) !== '.js' &&
+          !Gio.File.new_for_path(id).query_exists(null)
+        ) id += '.js';
         break;
       default:
         let

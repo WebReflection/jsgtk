@@ -34,6 +34,13 @@ jsgtk test-gjs.js
 ```
 Above sequence should log `'Hello JSGTK!'` in console.
 
+The same will work flagging a file header via
+
+```sh
+#!/usr/bin/env jsgtk
+console.log('Hello JSGTK!');
+```
+
 
 
 ### How to install GJS
