@@ -33,7 +33,7 @@
         this._channel = channel;
         this._watcher = GLib.io_add_watch(
           this._channel,
-          GLib.PRIORITY_LOW,
+          GLib.PRIORITY_DEFAULT,
           GLib.IOCondition.IN,
           (source, condition, data) => {
             this._source = source;
@@ -93,7 +93,7 @@
         this._channel = channel;
         this._watcher = GLib.io_add_watch(
           this._channel,
-          GLib.PRIORITY_LOW,
+          GLib.PRIORITY_DEFAULT,
           GLib.IOCondition.OUT,
           (source, condition, data) => {
             this._source = source;
@@ -137,6 +137,7 @@
       flags = channel.get_flags(),
       constructor
     ;
+    channel.set_flags(GLib.IOFlags.NONBLOCK);
     switch (true) {
       case flags == GLib.IOFlags.IS_WRITABLE:
         constructor = Writable;
