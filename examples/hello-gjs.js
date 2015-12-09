@@ -16,7 +16,7 @@
   win.set_default_size(200, 80);
   win.add(new Gtk.Label({label: 'Hello GJS!'}));
   win.connect('show', () => {
-    win.set_keep_above(true);
+    imports.mainloop.timeout_add(1, () => win.present());
     Gtk.main();
   });
   win.connect('destroy', () => Gtk.main_quit());
