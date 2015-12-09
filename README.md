@@ -123,6 +123,23 @@ Please note while GTK3 is rock solid stable and production ready (GNOME Desktop 
 Thanks!
 
 
+
+
+#### Using global npm packages
+If `jsgtk` is installed as global `npm` package, we can use that to bootstrap an app.
+
+```sh
+#!/usr/bin/env bash
+imports=imports// "exec" "gjs" "-I" "$(npm config get prefix)/lib/node_modules/jsgtk/" "$0" "$@"
+imports.jsgtk.env;
+
+console.info('Hello global JSGTK!');
+```
+
+
+
+
+
 ### License
 This project is under MIT Style license.
 ```
