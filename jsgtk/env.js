@@ -149,6 +149,8 @@
     }
   }
 
+  // log(imports.seachPath);
+
   function requireWithPath(id, dir) {
     switch (true) {
       case -1 < BUILTIN.indexOf(id):
