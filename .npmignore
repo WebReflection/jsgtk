@@ -4,6 +4,7 @@ gjs-documentation
 node_modules
 .gitignore
 .gitmodules
+gir-to-jsgtk-gi.html
 hello-gjs.png
 hello-world
 module.js
