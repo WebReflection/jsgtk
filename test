@@ -20,7 +20,7 @@ let
     return function () {
       let result = cb.apply(this, arguments);
       counter--;
-      if (counter === 0) t = setTimeout(process.exit, 500);
+      // if (counter === 0) t = setTimeout(process.exit, 500);
     };
   }
 ;

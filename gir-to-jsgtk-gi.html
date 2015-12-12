@@ -25,6 +25,12 @@ function forEach(list, fn, context) {
 }
 
 forEach([
+  /* currently not working
+  'Clutter-1.0',
+  'Cogl-2.0',
+  'Gst-1.0',
+  'GtkClutter-1.0',
+  // */
   'GLib-2.0',
   'Gio-2.0',
   'GObject-2.0',
@@ -35,13 +41,9 @@ forEach([
   'Gdk-3.0',
   'GdkX11-3.0',
   'GdkPixbuf-2.0',
-  'Cogl-2.0',
   'CoglPango-1.0',
-  'Clutter-1.0',
-  'GtkClutter-1.0',
   'GtkSource-3.0',
   'Atk-1.0',
-  'Gst-1.0',
   'Soup-2.4',
   'TelepathyGLib-0.12',
   'Gcr-3',
@@ -49,7 +51,7 @@ forEach([
   'Secret-1',
   'Notify-0.7',
   'GWeather-3.0',
-  //'WebKit2-3.0'
+  'WebKit2-4.0'
 ], function (file, i, arr) {'use strict';
   var
     out = this,
@@ -89,7 +91,9 @@ function createModule(gi) {'use strict';
       let info = gir[namespace];
       Object.defineProperties(NameSpace, info.static);
       Object.keys(info.class).forEach((Class) => {
-        augmentClass(NameSpace[Class], info.class[Class]);
+        if (NameSpace[Class]) {
+          augmentClass(NameSpace[Class], info.class[Class]);
+        }
       });
     }
     return NameSpace;

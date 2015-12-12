@@ -2,8 +2,6 @@
   // WARNING file generated automatically. DO NOT MODIFY
   Object.defineProperties(exports, {
     Atk: {configurable: true, get: () => augment("Atk")},
-    Clutter: {configurable: true, get: () => augment("Clutter")},
-    Cogl: {configurable: true, get: () => augment("Cogl")},
     CoglPango: {configurable: true, get: () => augment("CoglPango")},
     GLib: {configurable: true, get: () => augment("GLib")},
     GObject: {configurable: true, get: () => augment("GObject")},
@@ -14,9 +12,7 @@
     GdkPixbuf: {configurable: true, get: () => augment("GdkPixbuf")},
     GdkX11: {configurable: true, get: () => augment("GdkX11")},
     Gio: {configurable: true, get: () => augment("Gio")},
-    Gst: {configurable: true, get: () => augment("Gst")},
     Gtk: {configurable: true, get: () => augment("Gtk")},
-    GtkClutter: {configurable: true, get: () => augment("GtkClutter")},
     GtkSource: {configurable: true, get: () => augment("GtkSource")},
     Notify: {configurable: true, get: () => augment("Notify")},
     Pango: {configurable: true, get: () => augment("Pango")},
@@ -24,6 +20,7 @@
     Secret: {configurable: true, get: () => augment("Secret")},
     Soup: {configurable: true, get: () => augment("Soup")},
     TelepathyGLib: {configurable: true, get: () => augment("TelepathyGLib")},
+    WebKit2: {configurable: true, get: () => augment("WebKit2")},
     cairo: {configurable: true, get: () => augment("cairo")}
   });
   function augment(namespace) {
@@ -33,7 +30,9 @@
       let info = gir[namespace];
       Object.defineProperties(NameSpace, info.static);
       Object.keys(info.class).forEach((Class) => {
-        augmentClass(NameSpace[Class], info.class[Class]);
+        if (NameSpace[Class]) {
+          augmentClass(NameSpace[Class], info.class[Class]);
+        }
       });
     }
     return NameSpace;
@@ -494,5272 +493,6 @@
         },
         "valueTypeGetName": {
           "value": function () { return this.value_type_get_name.apply(this, arguments); }
-        }
-      }
-    },
-    "Clutter": {
-      "class": {
-        "Action": {
-          "prototype": {},
-          "static": {}
-        },
-        "Actor": {
-          "prototype": {
-            "addAction": {
-              "value": function () { return this.add_action.apply(this, arguments); }
-            },
-            "addActionWithName": {
-              "value": function () { return this.add_action_with_name.apply(this, arguments); }
-            },
-            "addChild": {
-              "value": function () { return this.add_child.apply(this, arguments); }
-            },
-            "addConstraint": {
-              "value": function () { return this.add_constraint.apply(this, arguments); }
-            },
-            "addConstraintWithName": {
-              "value": function () { return this.add_constraint_with_name.apply(this, arguments); }
-            },
-            "addEffect": {
-              "value": function () { return this.add_effect.apply(this, arguments); }
-            },
-            "addEffectWithName": {
-              "value": function () { return this.add_effect_with_name.apply(this, arguments); }
-            },
-            "addTransition": {
-              "value": function () { return this.add_transition.apply(this, arguments); }
-            },
-            "allocateAlignFill": {
-              "value": function () { return this.allocate_align_fill.apply(this, arguments); }
-            },
-            "allocateAvailableSize": {
-              "value": function () { return this.allocate_available_size.apply(this, arguments); }
-            },
-            "allocatePreferredSize": {
-              "value": function () { return this.allocate_preferred_size.apply(this, arguments); }
-            },
-            "animateWithAlpha": {
-              "value": function () { return this.animate_with_alpha.apply(this, arguments); }
-            },
-            "animateWithAlphav": {
-              "value": function () { return this.animate_with_alphav.apply(this, arguments); }
-            },
-            "animateWithTimeline": {
-              "value": function () { return this.animate_with_timeline.apply(this, arguments); }
-            },
-            "animateWithTimelinev": {
-              "value": function () { return this.animate_with_timelinev.apply(this, arguments); }
-            },
-            "applyRelativeTransformToPoint": {
-              "value": function () { return this.apply_relative_transform_to_point.apply(this, arguments); }
-            },
-            "applyTransformToPoint": {
-              "value": function () { return this.apply_transform_to_point.apply(this, arguments); }
-            },
-            "bindModel": {
-              "value": function () { return this.bind_model.apply(this, arguments); }
-            },
-            "bindModelWithProperties": {
-              "value": function () { return this.bind_model_with_properties.apply(this, arguments); }
-            },
-            "clearActions": {
-              "value": function () { return this.clear_actions.apply(this, arguments); }
-            },
-            "clearConstraints": {
-              "value": function () { return this.clear_constraints.apply(this, arguments); }
-            },
-            "clearEffects": {
-              "value": function () { return this.clear_effects.apply(this, arguments); }
-            },
-            "continuePaint": {
-              "value": function () { return this.continue_paint.apply(this, arguments); }
-            },
-            "createPangoContext": {
-              "value": function () { return this.create_pango_context.apply(this, arguments); }
-            },
-            "createPangoLayout": {
-              "value": function () { return this.create_pango_layout.apply(this, arguments); }
-            },
-            "destroyAllChildren": {
-              "value": function () { return this.destroy_all_children.apply(this, arguments); }
-            },
-            "detachAnimation": {
-              "value": function () { return this.detach_animation.apply(this, arguments); }
-            },
-            "getAbsAllocationVertices": {
-              "value": function () { return this.get_abs_allocation_vertices.apply(this, arguments); }
-            },
-            "getAccessible": {
-              "value": function () { return this.get_accessible.apply(this, arguments); }
-            },
-            "getAction": {
-              "value": function () { return this.get_action.apply(this, arguments); }
-            },
-            "getActions": {
-              "value": function () { return this.get_actions.apply(this, arguments); }
-            },
-            "getAllocationBox": {
-              "value": function () { return this.get_allocation_box.apply(this, arguments); }
-            },
-            "getAllocationGeometry": {
-              "value": function () { return this.get_allocation_geometry.apply(this, arguments); }
-            },
-            "getAllocationVertices": {
-              "value": function () { return this.get_allocation_vertices.apply(this, arguments); }
-            },
-            "getAnchorPoint": {
-              "value": function () { return this.get_anchor_point.apply(this, arguments); }
-            },
-            "getAnchorPointGravity": {
-              "value": function () { return this.get_anchor_point_gravity.apply(this, arguments); }
-            },
-            "getAnimation": {
-              "value": function () { return this.get_animation.apply(this, arguments); }
-            },
-            "getBackgroundColor": {
-              "value": function () { return this.get_background_color.apply(this, arguments); }
-            },
-            "getChildAtIndex": {
-              "value": function () { return this.get_child_at_index.apply(this, arguments); }
-            },
-            "getChildTransform": {
-              "value": function () { return this.get_child_transform.apply(this, arguments); }
-            },
-            "getChildren": {
-              "value": function () { return this.get_children.apply(this, arguments); }
-            },
-            "getClip": {
-              "value": function () { return this.get_clip.apply(this, arguments); }
-            },
-            "getClipToAllocation": {
-              "value": function () { return this.get_clip_to_allocation.apply(this, arguments); }
-            },
-            "getConstraint": {
-              "value": function () { return this.get_constraint.apply(this, arguments); }
-            },
-            "getConstraints": {
-              "value": function () { return this.get_constraints.apply(this, arguments); }
-            },
-            "getContent": {
-              "value": function () { return this.get_content.apply(this, arguments); }
-            },
-            "getContentBox": {
-              "value": function () { return this.get_content_box.apply(this, arguments); }
-            },
-            "getContentGravity": {
-              "value": function () { return this.get_content_gravity.apply(this, arguments); }
-            },
-            "getContentRepeat": {
-              "value": function () { return this.get_content_repeat.apply(this, arguments); }
-            },
-            "getContentScalingFilters": {
-              "value": function () { return this.get_content_scaling_filters.apply(this, arguments); }
-            },
-            "getDefaultPaintVolume": {
-              "value": function () { return this.get_default_paint_volume.apply(this, arguments); }
-            },
-            "getDepth": {
-              "value": function () { return this.get_depth.apply(this, arguments); }
-            },
-            "getEasingDelay": {
-              "value": function () { return this.get_easing_delay.apply(this, arguments); }
-            },
-            "getEasingDuration": {
-              "value": function () { return this.get_easing_duration.apply(this, arguments); }
-            },
-            "getEasingMode": {
-              "value": function () { return this.get_easing_mode.apply(this, arguments); }
-            },
-            "getEffect": {
-              "value": function () { return this.get_effect.apply(this, arguments); }
-            },
-            "getEffects": {
-              "value": function () { return this.get_effects.apply(this, arguments); }
-            },
-            "getFirstChild": {
-              "value": function () { return this.get_first_child.apply(this, arguments); }
-            },
-            "getFixedPositionSet": {
-              "value": function () { return this.get_fixed_position_set.apply(this, arguments); }
-            },
-            "getFlags": {
-              "value": function () { return this.get_flags.apply(this, arguments); }
-            },
-            "getGeometry": {
-              "value": function () { return this.get_geometry.apply(this, arguments); }
-            },
-            "getGid": {
-              "value": function () { return this.get_gid.apply(this, arguments); }
-            },
-            "getHeight": {
-              "value": function () { return this.get_height.apply(this, arguments); }
-            },
-            "getLastChild": {
-              "value": function () { return this.get_last_child.apply(this, arguments); }
-            },
-            "getLayoutManager": {
-              "value": function () { return this.get_layout_manager.apply(this, arguments); }
-            },
-            "getMargin": {
-              "value": function () { return this.get_margin.apply(this, arguments); }
-            },
-            "getMarginBottom": {
-              "value": function () { return this.get_margin_bottom.apply(this, arguments); }
-            },
-            "getMarginLeft": {
-              "value": function () { return this.get_margin_left.apply(this, arguments); }
-            },
-            "getMarginRight": {
-              "value": function () { return this.get_margin_right.apply(this, arguments); }
-            },
-            "getMarginTop": {
-              "value": function () { return this.get_margin_top.apply(this, arguments); }
-            },
-            "getNChildren": {
-              "value": function () { return this.get_n_children.apply(this, arguments); }
-            },
-            "getName": {
-              "value": function () { return this.get_name.apply(this, arguments); }
-            },
-            "getNextSibling": {
-              "value": function () { return this.get_next_sibling.apply(this, arguments); }
-            },
-            "getOffscreenRedirect": {
-              "value": function () { return this.get_offscreen_redirect.apply(this, arguments); }
-            },
-            "getOpacity": {
-              "value": function () { return this.get_opacity.apply(this, arguments); }
-            },
-            "getPaintBox": {
-              "value": function () { return this.get_paint_box.apply(this, arguments); }
-            },
-            "getPaintOpacity": {
-              "value": function () { return this.get_paint_opacity.apply(this, arguments); }
-            },
-            "getPaintVisibility": {
-              "value": function () { return this.get_paint_visibility.apply(this, arguments); }
-            },
-            "getPaintVolume": {
-              "value": function () { return this.get_paint_volume.apply(this, arguments); }
-            },
-            "getPangoContext": {
-              "value": function () { return this.get_pango_context.apply(this, arguments); }
-            },
-            "getParent": {
-              "value": function () { return this.get_parent.apply(this, arguments); }
-            },
-            "getPivotPoint": {
-              "value": function () { return this.get_pivot_point.apply(this, arguments); }
-            },
-            "getPivotPointZ": {
-              "value": function () { return this.get_pivot_point_z.apply(this, arguments); }
-            },
-            "getPosition": {
-              "value": function () { return this.get_position.apply(this, arguments); }
-            },
-            "getPreferredHeight": {
-              "value": function () { return this.get_preferred_height.apply(this, arguments); }
-            },
-            "getPreferredSize": {
-              "value": function () { return this.get_preferred_size.apply(this, arguments); }
-            },
-            "getPreferredWidth": {
-              "value": function () { return this.get_preferred_width.apply(this, arguments); }
-            },
-            "getPreviousSibling": {
-              "value": function () { return this.get_previous_sibling.apply(this, arguments); }
-            },
-            "getReactive": {
-              "value": function () { return this.get_reactive.apply(this, arguments); }
-            },
-            "getRequestMode": {
-              "value": function () { return this.get_request_mode.apply(this, arguments); }
-            },
-            "getRotation": {
-              "value": function () { return this.get_rotation.apply(this, arguments); }
-            },
-            "getRotationAngle": {
-              "value": function () { return this.get_rotation_angle.apply(this, arguments); }
-            },
-            "getScale": {
-              "value": function () { return this.get_scale.apply(this, arguments); }
-            },
-            "getScaleCenter": {
-              "value": function () { return this.get_scale_center.apply(this, arguments); }
-            },
-            "getScaleGravity": {
-              "value": function () { return this.get_scale_gravity.apply(this, arguments); }
-            },
-            "getScaleZ": {
-              "value": function () { return this.get_scale_z.apply(this, arguments); }
-            },
-            "getShader": {
-              "value": function () { return this.get_shader.apply(this, arguments); }
-            },
-            "getSize": {
-              "value": function () { return this.get_size.apply(this, arguments); }
-            },
-            "getStage": {
-              "value": function () { return this.get_stage.apply(this, arguments); }
-            },
-            "getTextDirection": {
-              "value": function () { return this.get_text_direction.apply(this, arguments); }
-            },
-            "getTransform": {
-              "value": function () { return this.get_transform.apply(this, arguments); }
-            },
-            "getTransformationMatrix": {
-              "value": function () { return this.get_transformation_matrix.apply(this, arguments); }
-            },
-            "getTransformedPaintVolume": {
-              "value": function () { return this.get_transformed_paint_volume.apply(this, arguments); }
-            },
-            "getTransformedPosition": {
-              "value": function () { return this.get_transformed_position.apply(this, arguments); }
-            },
-            "getTransformedSize": {
-              "value": function () { return this.get_transformed_size.apply(this, arguments); }
-            },
-            "getTransition": {
-              "value": function () { return this.get_transition.apply(this, arguments); }
-            },
-            "getTranslation": {
-              "value": function () { return this.get_translation.apply(this, arguments); }
-            },
-            "getWidth": {
-              "value": function () { return this.get_width.apply(this, arguments); }
-            },
-            "getX": {
-              "value": function () { return this.get_x.apply(this, arguments); }
-            },
-            "getXAlign": {
-              "value": function () { return this.get_x_align.apply(this, arguments); }
-            },
-            "getXExpand": {
-              "value": function () { return this.get_x_expand.apply(this, arguments); }
-            },
-            "getY": {
-              "value": function () { return this.get_y.apply(this, arguments); }
-            },
-            "getYAlign": {
-              "value": function () { return this.get_y_align.apply(this, arguments); }
-            },
-            "getYExpand": {
-              "value": function () { return this.get_y_expand.apply(this, arguments); }
-            },
-            "getZPosition": {
-              "value": function () { return this.get_z_position.apply(this, arguments); }
-            },
-            "getZRotationGravity": {
-              "value": function () { return this.get_z_rotation_gravity.apply(this, arguments); }
-            },
-            "grabKeyFocus": {
-              "value": function () { return this.grab_key_focus.apply(this, arguments); }
-            },
-            "hasActions": {
-              "value": function () { return this.has_actions.apply(this, arguments); }
-            },
-            "hasAllocation": {
-              "value": function () { return this.has_allocation.apply(this, arguments); }
-            },
-            "hasClip": {
-              "get": function () { return this.has_clip; },
-              "set": function (value) { this.has_clip = value; }
-            },
-            "hasConstraints": {
-              "value": function () { return this.has_constraints.apply(this, arguments); }
-            },
-            "hasEffects": {
-              "value": function () { return this.has_effects.apply(this, arguments); }
-            },
-            "hasKeyFocus": {
-              "value": function () { return this.has_key_focus.apply(this, arguments); }
-            },
-            "hasOverlaps": {
-              "value": function () { return this.has_overlaps.apply(this, arguments); }
-            },
-            "hasPointer": {
-              "get": function () { return this.has_pointer; },
-              "set": function (value) { this.has_pointer = value; }
-            },
-            "hideAll": {
-              "value": function () { return this.hide_all.apply(this, arguments); }
-            },
-            "insertChildAbove": {
-              "value": function () { return this.insert_child_above.apply(this, arguments); }
-            },
-            "insertChildAtIndex": {
-              "value": function () { return this.insert_child_at_index.apply(this, arguments); }
-            },
-            "insertChildBelow": {
-              "value": function () { return this.insert_child_below.apply(this, arguments); }
-            },
-            "isInClonePaint": {
-              "value": function () { return this.is_in_clone_paint.apply(this, arguments); }
-            },
-            "isMapped": {
-              "value": function () { return this.is_mapped.apply(this, arguments); }
-            },
-            "isRealized": {
-              "value": function () { return this.is_realized.apply(this, arguments); }
-            },
-            "isRotated": {
-              "value": function () { return this.is_rotated.apply(this, arguments); }
-            },
-            "isScaled": {
-              "value": function () { return this.is_scaled.apply(this, arguments); }
-            },
-            "isVisible": {
-              "value": function () { return this.is_visible.apply(this, arguments); }
-            },
-            "lowerBottom": {
-              "value": function () { return this.lower_bottom.apply(this, arguments); }
-            },
-            "moveAnchorPoint": {
-              "value": function () { return this.move_anchor_point.apply(this, arguments); }
-            },
-            "moveAnchorPointFromGravity": {
-              "value": function () { return this.move_anchor_point_from_gravity.apply(this, arguments); }
-            },
-            "moveBy": {
-              "value": function () { return this.move_by.apply(this, arguments); }
-            },
-            "needsExpand": {
-              "value": function () { return this.needs_expand.apply(this, arguments); }
-            },
-            "popInternal": {
-              "value": function () { return this.pop_internal.apply(this, arguments); }
-            },
-            "pushInternal": {
-              "value": function () { return this.push_internal.apply(this, arguments); }
-            },
-            "queueRedraw": {
-              "value": function () { return this.queue_redraw.apply(this, arguments); }
-            },
-            "queueRedrawWithClip": {
-              "value": function () { return this.queue_redraw_with_clip.apply(this, arguments); }
-            },
-            "queueRelayout": {
-              "value": function () { return this.queue_relayout.apply(this, arguments); }
-            },
-            "raiseTop": {
-              "value": function () { return this.raise_top.apply(this, arguments); }
-            },
-            "removeAction": {
-              "value": function () { return this.remove_action.apply(this, arguments); }
-            },
-            "removeActionByName": {
-              "value": function () { return this.remove_action_by_name.apply(this, arguments); }
-            },
-            "removeAllChildren": {
-              "value": function () { return this.remove_all_children.apply(this, arguments); }
-            },
-            "removeAllTransitions": {
-              "value": function () { return this.remove_all_transitions.apply(this, arguments); }
-            },
-            "removeChild": {
-              "value": function () { return this.remove_child.apply(this, arguments); }
-            },
-            "removeClip": {
-              "value": function () { return this.remove_clip.apply(this, arguments); }
-            },
-            "removeConstraint": {
-              "value": function () { return this.remove_constraint.apply(this, arguments); }
-            },
-            "removeConstraintByName": {
-              "value": function () { return this.remove_constraint_by_name.apply(this, arguments); }
-            },
-            "removeEffect": {
-              "value": function () { return this.remove_effect.apply(this, arguments); }
-            },
-            "removeEffectByName": {
-              "value": function () { return this.remove_effect_by_name.apply(this, arguments); }
-            },
-            "removeTransition": {
-              "value": function () { return this.remove_transition.apply(this, arguments); }
-            },
-            "replaceChild": {
-              "value": function () { return this.replace_child.apply(this, arguments); }
-            },
-            "restoreEasingState": {
-              "value": function () { return this.restore_easing_state.apply(this, arguments); }
-            },
-            "saveEasingState": {
-              "value": function () { return this.save_easing_state.apply(this, arguments); }
-            },
-            "setAllocation": {
-              "value": function () { return this.set_allocation.apply(this, arguments); }
-            },
-            "setAnchorPoint": {
-              "value": function () { return this.set_anchor_point.apply(this, arguments); }
-            },
-            "setAnchorPointFromGravity": {
-              "value": function () { return this.set_anchor_point_from_gravity.apply(this, arguments); }
-            },
-            "setBackgroundColor": {
-              "value": function () { return this.set_background_color.apply(this, arguments); }
-            },
-            "setChildAboveSibling": {
-              "value": function () { return this.set_child_above_sibling.apply(this, arguments); }
-            },
-            "setChildAtIndex": {
-              "value": function () { return this.set_child_at_index.apply(this, arguments); }
-            },
-            "setChildBelowSibling": {
-              "value": function () { return this.set_child_below_sibling.apply(this, arguments); }
-            },
-            "setChildTransform": {
-              "value": function () { return this.set_child_transform.apply(this, arguments); }
-            },
-            "setClip": {
-              "value": function () { return this.set_clip.apply(this, arguments); }
-            },
-            "setClipToAllocation": {
-              "value": function () { return this.set_clip_to_allocation.apply(this, arguments); }
-            },
-            "setContent": {
-              "value": function () { return this.set_content.apply(this, arguments); }
-            },
-            "setContentGravity": {
-              "value": function () { return this.set_content_gravity.apply(this, arguments); }
-            },
-            "setContentRepeat": {
-              "value": function () { return this.set_content_repeat.apply(this, arguments); }
-            },
-            "setContentScalingFilters": {
-              "value": function () { return this.set_content_scaling_filters.apply(this, arguments); }
-            },
-            "setDepth": {
-              "value": function () { return this.set_depth.apply(this, arguments); }
-            },
-            "setEasingDelay": {
-              "value": function () { return this.set_easing_delay.apply(this, arguments); }
-            },
-            "setEasingDuration": {
-              "value": function () { return this.set_easing_duration.apply(this, arguments); }
-            },
-            "setEasingMode": {
-              "value": function () { return this.set_easing_mode.apply(this, arguments); }
-            },
-            "setFixedPositionSet": {
-              "value": function () { return this.set_fixed_position_set.apply(this, arguments); }
-            },
-            "setFlags": {
-              "value": function () { return this.set_flags.apply(this, arguments); }
-            },
-            "setGeometry": {
-              "value": function () { return this.set_geometry.apply(this, arguments); }
-            },
-            "setHeight": {
-              "value": function () { return this.set_height.apply(this, arguments); }
-            },
-            "setLayoutManager": {
-              "value": function () { return this.set_layout_manager.apply(this, arguments); }
-            },
-            "setMargin": {
-              "value": function () { return this.set_margin.apply(this, arguments); }
-            },
-            "setMarginBottom": {
-              "value": function () { return this.set_margin_bottom.apply(this, arguments); }
-            },
-            "setMarginLeft": {
-              "value": function () { return this.set_margin_left.apply(this, arguments); }
-            },
-            "setMarginRight": {
-              "value": function () { return this.set_margin_right.apply(this, arguments); }
-            },
-            "setMarginTop": {
-              "value": function () { return this.set_margin_top.apply(this, arguments); }
-            },
-            "setName": {
-              "value": function () { return this.set_name.apply(this, arguments); }
-            },
-            "setOffscreenRedirect": {
-              "value": function () { return this.set_offscreen_redirect.apply(this, arguments); }
-            },
-            "setOpacity": {
-              "value": function () { return this.set_opacity.apply(this, arguments); }
-            },
-            "setParent": {
-              "value": function () { return this.set_parent.apply(this, arguments); }
-            },
-            "setPivotPoint": {
-              "value": function () { return this.set_pivot_point.apply(this, arguments); }
-            },
-            "setPivotPointZ": {
-              "value": function () { return this.set_pivot_point_z.apply(this, arguments); }
-            },
-            "setPosition": {
-              "value": function () { return this.set_position.apply(this, arguments); }
-            },
-            "setReactive": {
-              "value": function () { return this.set_reactive.apply(this, arguments); }
-            },
-            "setRequestMode": {
-              "value": function () { return this.set_request_mode.apply(this, arguments); }
-            },
-            "setRotation": {
-              "value": function () { return this.set_rotation.apply(this, arguments); }
-            },
-            "setRotationAngle": {
-              "value": function () { return this.set_rotation_angle.apply(this, arguments); }
-            },
-            "setScale": {
-              "value": function () { return this.set_scale.apply(this, arguments); }
-            },
-            "setScaleFull": {
-              "value": function () { return this.set_scale_full.apply(this, arguments); }
-            },
-            "setScaleWithGravity": {
-              "value": function () { return this.set_scale_with_gravity.apply(this, arguments); }
-            },
-            "setScaleZ": {
-              "value": function () { return this.set_scale_z.apply(this, arguments); }
-            },
-            "setShader": {
-              "value": function () { return this.set_shader.apply(this, arguments); }
-            },
-            "setShaderParam": {
-              "value": function () { return this.set_shader_param.apply(this, arguments); }
-            },
-            "setShaderParamFloat": {
-              "value": function () { return this.set_shader_param_float.apply(this, arguments); }
-            },
-            "setShaderParamInt": {
-              "value": function () { return this.set_shader_param_int.apply(this, arguments); }
-            },
-            "setSize": {
-              "value": function () { return this.set_size.apply(this, arguments); }
-            },
-            "setTextDirection": {
-              "value": function () { return this.set_text_direction.apply(this, arguments); }
-            },
-            "setTransform": {
-              "value": function () { return this.set_transform.apply(this, arguments); }
-            },
-            "setTranslation": {
-              "value": function () { return this.set_translation.apply(this, arguments); }
-            },
-            "setWidth": {
-              "value": function () { return this.set_width.apply(this, arguments); }
-            },
-            "setX": {
-              "value": function () { return this.set_x.apply(this, arguments); }
-            },
-            "setXAlign": {
-              "value": function () { return this.set_x_align.apply(this, arguments); }
-            },
-            "setXExpand": {
-              "value": function () { return this.set_x_expand.apply(this, arguments); }
-            },
-            "setY": {
-              "value": function () { return this.set_y.apply(this, arguments); }
-            },
-            "setYAlign": {
-              "value": function () { return this.set_y_align.apply(this, arguments); }
-            },
-            "setYExpand": {
-              "value": function () { return this.set_y_expand.apply(this, arguments); }
-            },
-            "setZPosition": {
-              "value": function () { return this.set_z_position.apply(this, arguments); }
-            },
-            "setZRotationFromGravity": {
-              "value": function () { return this.set_z_rotation_from_gravity.apply(this, arguments); }
-            },
-            "shouldPickPaint": {
-              "value": function () { return this.should_pick_paint.apply(this, arguments); }
-            },
-            "showAll": {
-              "value": function () { return this.show_all.apply(this, arguments); }
-            },
-            "transformStagePoint": {
-              "value": function () { return this.transform_stage_point.apply(this, arguments); }
-            },
-            "unsetFlags": {
-              "value": function () { return this.unset_flags.apply(this, arguments); }
-            },
-            "anchorGravity": {
-              "get": function () { return this.anchor_gravity; },
-              "set": function (value) { this.anchor_gravity = value; }
-            },
-            "anchorX": {
-              "get": function () { return this.anchor_x; },
-              "set": function (value) { this.anchor_x = value; }
-            },
-            "anchorY": {
-              "get": function () { return this.anchor_y; },
-              "set": function (value) { this.anchor_y = value; }
-            },
-            "backgroundColor": {
-              "get": function () { return this.background_color; },
-              "set": function (value) { this.background_color = value; }
-            },
-            "backgroundColorSet": {
-              "get": function () { return this.background_color_set; },
-              "set": function (value) { this.background_color_set = value; }
-            },
-            "childTransform": {
-              "get": function () { return this.child_transform; },
-              "set": function (value) { this.child_transform = value; }
-            },
-            "childTransformSet": {
-              "get": function () { return this.child_transform_set; },
-              "set": function (value) { this.child_transform_set = value; }
-            },
-            "clipRect": {
-              "get": function () { return this.clip_rect; },
-              "set": function (value) { this.clip_rect = value; }
-            },
-            "clipToAllocation": {
-              "get": function () { return this.clip_to_allocation; },
-              "set": function (value) { this.clip_to_allocation = value; }
-            },
-            "contentBox": {
-              "get": function () { return this.content_box; },
-              "set": function (value) { this.content_box = value; }
-            },
-            "contentGravity": {
-              "get": function () { return this.content_gravity; },
-              "set": function (value) { this.content_gravity = value; }
-            },
-            "contentRepeat": {
-              "get": function () { return this.content_repeat; },
-              "set": function (value) { this.content_repeat = value; }
-            },
-            "firstChild": {
-              "get": function () { return this.first_child; },
-              "set": function (value) { this.first_child = value; }
-            },
-            "fixedPositionSet": {
-              "get": function () { return this.fixed_position_set; },
-              "set": function (value) { this.fixed_position_set = value; }
-            },
-            "fixedX": {
-              "get": function () { return this.fixed_x; },
-              "set": function (value) { this.fixed_x = value; }
-            },
-            "fixedY": {
-              "get": function () { return this.fixed_y; },
-              "set": function (value) { this.fixed_y = value; }
-            },
-            "lastChild": {
-              "get": function () { return this.last_child; },
-              "set": function (value) { this.last_child = value; }
-            },
-            "layoutManager": {
-              "get": function () { return this.layout_manager; },
-              "set": function (value) { this.layout_manager = value; }
-            },
-            "magnificationFilter": {
-              "get": function () { return this.magnification_filter; },
-              "set": function (value) { this.magnification_filter = value; }
-            },
-            "marginBottom": {
-              "get": function () { return this.margin_bottom; },
-              "set": function (value) { this.margin_bottom = value; }
-            },
-            "marginLeft": {
-              "get": function () { return this.margin_left; },
-              "set": function (value) { this.margin_left = value; }
-            },
-            "marginRight": {
-              "get": function () { return this.margin_right; },
-              "set": function (value) { this.margin_right = value; }
-            },
-            "marginTop": {
-              "get": function () { return this.margin_top; },
-              "set": function (value) { this.margin_top = value; }
-            },
-            "minHeight": {
-              "get": function () { return this.min_height; },
-              "set": function (value) { this.min_height = value; }
-            },
-            "minHeightSet": {
-              "get": function () { return this.min_height_set; },
-              "set": function (value) { this.min_height_set = value; }
-            },
-            "minWidth": {
-              "get": function () { return this.min_width; },
-              "set": function (value) { this.min_width = value; }
-            },
-            "minWidthSet": {
-              "get": function () { return this.min_width_set; },
-              "set": function (value) { this.min_width_set = value; }
-            },
-            "minificationFilter": {
-              "get": function () { return this.minification_filter; },
-              "set": function (value) { this.minification_filter = value; }
-            },
-            "naturalHeight": {
-              "get": function () { return this.natural_height; },
-              "set": function (value) { this.natural_height = value; }
-            },
-            "naturalHeightSet": {
-              "get": function () { return this.natural_height_set; },
-              "set": function (value) { this.natural_height_set = value; }
-            },
-            "naturalWidth": {
-              "get": function () { return this.natural_width; },
-              "set": function (value) { this.natural_width = value; }
-            },
-            "naturalWidthSet": {
-              "get": function () { return this.natural_width_set; },
-              "set": function (value) { this.natural_width_set = value; }
-            },
-            "offscreenRedirect": {
-              "get": function () { return this.offscreen_redirect; },
-              "set": function (value) { this.offscreen_redirect = value; }
-            },
-            "pivotPoint": {
-              "get": function () { return this.pivot_point; },
-              "set": function (value) { this.pivot_point = value; }
-            },
-            "pivotPointZ": {
-              "get": function () { return this.pivot_point_z; },
-              "set": function (value) { this.pivot_point_z = value; }
-            },
-            "requestMode": {
-              "get": function () { return this.request_mode; },
-              "set": function (value) { this.request_mode = value; }
-            },
-            "rotationAngleX": {
-              "get": function () { return this.rotation_angle_x; },
-              "set": function (value) { this.rotation_angle_x = value; }
-            },
-            "rotationAngleY": {
-              "get": function () { return this.rotation_angle_y; },
-              "set": function (value) { this.rotation_angle_y = value; }
-            },
-            "rotationAngleZ": {
-              "get": function () { return this.rotation_angle_z; },
-              "set": function (value) { this.rotation_angle_z = value; }
-            },
-            "rotationCenterX": {
-              "get": function () { return this.rotation_center_x; },
-              "set": function (value) { this.rotation_center_x = value; }
-            },
-            "rotationCenterY": {
-              "get": function () { return this.rotation_center_y; },
-              "set": function (value) { this.rotation_center_y = value; }
-            },
-            "rotationCenterZ": {
-              "get": function () { return this.rotation_center_z; },
-              "set": function (value) { this.rotation_center_z = value; }
-            },
-            "rotationCenterZGravity": {
-              "get": function () { return this.rotation_center_z_gravity; },
-              "set": function (value) { this.rotation_center_z_gravity = value; }
-            },
-            "scaleCenterX": {
-              "get": function () { return this.scale_center_x; },
-              "set": function (value) { this.scale_center_x = value; }
-            },
-            "scaleCenterY": {
-              "get": function () { return this.scale_center_y; },
-              "set": function (value) { this.scale_center_y = value; }
-            },
-            "scaleGravity": {
-              "get": function () { return this.scale_gravity; },
-              "set": function (value) { this.scale_gravity = value; }
-            },
-            "scaleX": {
-              "get": function () { return this.scale_x; },
-              "set": function (value) { this.scale_x = value; }
-            },
-            "scaleY": {
-              "get": function () { return this.scale_y; },
-              "set": function (value) { this.scale_y = value; }
-            },
-            "scaleZ": {
-              "get": function () { return this.scale_z; },
-              "set": function (value) { this.scale_z = value; }
-            },
-            "showOnSetParent": {
-              "get": function () { return this.show_on_set_parent; },
-              "set": function (value) { this.show_on_set_parent = value; }
-            },
-            "textDirection": {
-              "get": function () { return this.text_direction; },
-              "set": function (value) { this.text_direction = value; }
-            },
-            "transformSet": {
-              "get": function () { return this.transform_set; },
-              "set": function (value) { this.transform_set = value; }
-            },
-            "translationX": {
-              "get": function () { return this.translation_x; },
-              "set": function (value) { this.translation_x = value; }
-            },
-            "translationY": {
-              "get": function () { return this.translation_y; },
-              "set": function (value) { this.translation_y = value; }
-            },
-            "translationZ": {
-              "get": function () { return this.translation_z; },
-              "set": function (value) { this.translation_z = value; }
-            },
-            "xAlign": {
-              "get": function () { return this.x_align; },
-              "set": function (value) { this.x_align = value; }
-            },
-            "xExpand": {
-              "get": function () { return this.x_expand; },
-              "set": function (value) { this.x_expand = value; }
-            },
-            "yAlign": {
-              "get": function () { return this.y_align; },
-              "set": function (value) { this.y_align = value; }
-            },
-            "yExpand": {
-              "get": function () { return this.y_expand; },
-              "set": function (value) { this.y_expand = value; }
-            },
-            "zPosition": {
-              "get": function () { return this.z_position; },
-              "set": function (value) { this.z_position = value; }
-            }
-          },
-          "static": {}
-        },
-        "ActorMeta": {
-          "prototype": {
-            "getActor": {
-              "value": function () { return this.get_actor.apply(this, arguments); }
-            },
-            "getEnabled": {
-              "value": function () { return this.get_enabled.apply(this, arguments); }
-            },
-            "getName": {
-              "value": function () { return this.get_name.apply(this, arguments); }
-            },
-            "setEnabled": {
-              "value": function () { return this.set_enabled.apply(this, arguments); }
-            },
-            "setName": {
-              "value": function () { return this.set_name.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "AlignConstraint": {
-          "prototype": {
-            "getAlignAxis": {
-              "value": function () { return this.get_align_axis.apply(this, arguments); }
-            },
-            "getFactor": {
-              "value": function () { return this.get_factor.apply(this, arguments); }
-            },
-            "getSource": {
-              "value": function () { return this.get_source.apply(this, arguments); }
-            },
-            "setAlignAxis": {
-              "value": function () { return this.set_align_axis.apply(this, arguments); }
-            },
-            "setFactor": {
-              "value": function () { return this.set_factor.apply(this, arguments); }
-            },
-            "setSource": {
-              "value": function () { return this.set_source.apply(this, arguments); }
-            },
-            "alignAxis": {
-              "get": function () { return this.align_axis; },
-              "set": function (value) { this.align_axis = value; }
-            }
-          },
-          "static": {}
-        },
-        "Alpha": {
-          "prototype": {
-            "getAlpha": {
-              "value": function () { return this.get_alpha.apply(this, arguments); }
-            },
-            "getMode": {
-              "value": function () { return this.get_mode.apply(this, arguments); }
-            },
-            "getTimeline": {
-              "value": function () { return this.get_timeline.apply(this, arguments); }
-            },
-            "setClosure": {
-              "value": function () { return this.set_closure.apply(this, arguments); }
-            },
-            "setFunc": {
-              "value": function () { return this.set_func.apply(this, arguments); }
-            },
-            "setMode": {
-              "value": function () { return this.set_mode.apply(this, arguments); }
-            },
-            "setTimeline": {
-              "value": function () { return this.set_timeline.apply(this, arguments); }
-            }
-          },
-          "static": {
-            "registerClosure": {
-              "value": function () { return this.register_closure.apply(this, arguments); }
-            },
-            "registerFunc": {
-              "value": function () { return this.register_func.apply(this, arguments); }
-            }
-          }
-        },
-        "Animation": {
-          "prototype": {
-            "bindInterval": {
-              "value": function () { return this.bind_interval.apply(this, arguments); }
-            },
-            "getAlpha": {
-              "value": function () { return this.get_alpha.apply(this, arguments); }
-            },
-            "getDuration": {
-              "value": function () { return this.get_duration.apply(this, arguments); }
-            },
-            "getInterval": {
-              "value": function () { return this.get_interval.apply(this, arguments); }
-            },
-            "getLoop": {
-              "value": function () { return this.get_loop.apply(this, arguments); }
-            },
-            "getMode": {
-              "value": function () { return this.get_mode.apply(this, arguments); }
-            },
-            "getObject": {
-              "value": function () { return this.get_object.apply(this, arguments); }
-            },
-            "getTimeline": {
-              "value": function () { return this.get_timeline.apply(this, arguments); }
-            },
-            "hasProperty": {
-              "value": function () { return this.has_property.apply(this, arguments); }
-            },
-            "setAlpha": {
-              "value": function () { return this.set_alpha.apply(this, arguments); }
-            },
-            "setDuration": {
-              "value": function () { return this.set_duration.apply(this, arguments); }
-            },
-            "setLoop": {
-              "value": function () { return this.set_loop.apply(this, arguments); }
-            },
-            "setMode": {
-              "value": function () { return this.set_mode.apply(this, arguments); }
-            },
-            "setObject": {
-              "value": function () { return this.set_object.apply(this, arguments); }
-            },
-            "setTimeline": {
-              "value": function () { return this.set_timeline.apply(this, arguments); }
-            },
-            "unbindProperty": {
-              "value": function () { return this.unbind_property.apply(this, arguments); }
-            },
-            "updateInterval": {
-              "value": function () { return this.update_interval.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "Animator": {
-          "prototype": {
-            "computeValue": {
-              "value": function () { return this.compute_value.apply(this, arguments); }
-            },
-            "getDuration": {
-              "value": function () { return this.get_duration.apply(this, arguments); }
-            },
-            "getKeys": {
-              "value": function () { return this.get_keys.apply(this, arguments); }
-            },
-            "getTimeline": {
-              "value": function () { return this.get_timeline.apply(this, arguments); }
-            },
-            "propertyGetEaseIn": {
-              "value": function () { return this.property_get_ease_in.apply(this, arguments); }
-            },
-            "propertyGetInterpolation": {
-              "value": function () { return this.property_get_interpolation.apply(this, arguments); }
-            },
-            "propertySetEaseIn": {
-              "value": function () { return this.property_set_ease_in.apply(this, arguments); }
-            },
-            "propertySetInterpolation": {
-              "value": function () { return this.property_set_interpolation.apply(this, arguments); }
-            },
-            "removeKey": {
-              "value": function () { return this.remove_key.apply(this, arguments); }
-            },
-            "setDuration": {
-              "value": function () { return this.set_duration.apply(this, arguments); }
-            },
-            "setKey": {
-              "value": function () { return this.set_key.apply(this, arguments); }
-            },
-            "setTimeline": {
-              "value": function () { return this.set_timeline.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "Backend": {
-          "prototype": {
-            "getDoubleClickDistance": {
-              "value": function () { return this.get_double_click_distance.apply(this, arguments); }
-            },
-            "getDoubleClickTime": {
-              "value": function () { return this.get_double_click_time.apply(this, arguments); }
-            },
-            "getFontName": {
-              "value": function () { return this.get_font_name.apply(this, arguments); }
-            },
-            "getFontOptions": {
-              "value": function () { return this.get_font_options.apply(this, arguments); }
-            },
-            "getResolution": {
-              "value": function () { return this.get_resolution.apply(this, arguments); }
-            },
-            "setDoubleClickDistance": {
-              "value": function () { return this.set_double_click_distance.apply(this, arguments); }
-            },
-            "setDoubleClickTime": {
-              "value": function () { return this.set_double_click_time.apply(this, arguments); }
-            },
-            "setFontName": {
-              "value": function () { return this.set_font_name.apply(this, arguments); }
-            },
-            "setFontOptions": {
-              "value": function () { return this.set_font_options.apply(this, arguments); }
-            },
-            "setResolution": {
-              "value": function () { return this.set_resolution.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "Behaviour": {
-          "prototype": {
-            "actorsForeach": {
-              "value": function () { return this.actors_foreach.apply(this, arguments); }
-            },
-            "getActors": {
-              "value": function () { return this.get_actors.apply(this, arguments); }
-            },
-            "getAlpha": {
-              "value": function () { return this.get_alpha.apply(this, arguments); }
-            },
-            "getNActors": {
-              "value": function () { return this.get_n_actors.apply(this, arguments); }
-            },
-            "getNthActor": {
-              "value": function () { return this.get_nth_actor.apply(this, arguments); }
-            },
-            "isApplied": {
-              "value": function () { return this.is_applied.apply(this, arguments); }
-            },
-            "removeAll": {
-              "value": function () { return this.remove_all.apply(this, arguments); }
-            },
-            "setAlpha": {
-              "value": function () { return this.set_alpha.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "BehaviourDepth": {
-          "prototype": {
-            "getBounds": {
-              "value": function () { return this.get_bounds.apply(this, arguments); }
-            },
-            "setBounds": {
-              "value": function () { return this.set_bounds.apply(this, arguments); }
-            },
-            "depthEnd": {
-              "get": function () { return this.depth_end; },
-              "set": function (value) { this.depth_end = value; }
-            },
-            "depthStart": {
-              "get": function () { return this.depth_start; },
-              "set": function (value) { this.depth_start = value; }
-            }
-          },
-          "static": {}
-        },
-        "BehaviourEllipse": {
-          "prototype": {
-            "getAngleEnd": {
-              "value": function () { return this.get_angle_end.apply(this, arguments); }
-            },
-            "getAngleStart": {
-              "value": function () { return this.get_angle_start.apply(this, arguments); }
-            },
-            "getAngleTilt": {
-              "value": function () { return this.get_angle_tilt.apply(this, arguments); }
-            },
-            "getCenter": {
-              "value": function () { return this.get_center.apply(this, arguments); }
-            },
-            "getDirection": {
-              "value": function () { return this.get_direction.apply(this, arguments); }
-            },
-            "getHeight": {
-              "value": function () { return this.get_height.apply(this, arguments); }
-            },
-            "getTilt": {
-              "value": function () { return this.get_tilt.apply(this, arguments); }
-            },
-            "getWidth": {
-              "value": function () { return this.get_width.apply(this, arguments); }
-            },
-            "setAngleEnd": {
-              "value": function () { return this.set_angle_end.apply(this, arguments); }
-            },
-            "setAngleStart": {
-              "value": function () { return this.set_angle_start.apply(this, arguments); }
-            },
-            "setAngleTilt": {
-              "value": function () { return this.set_angle_tilt.apply(this, arguments); }
-            },
-            "setCenter": {
-              "value": function () { return this.set_center.apply(this, arguments); }
-            },
-            "setDirection": {
-              "value": function () { return this.set_direction.apply(this, arguments); }
-            },
-            "setHeight": {
-              "value": function () { return this.set_height.apply(this, arguments); }
-            },
-            "setTilt": {
-              "value": function () { return this.set_tilt.apply(this, arguments); }
-            },
-            "setWidth": {
-              "value": function () { return this.set_width.apply(this, arguments); }
-            },
-            "angleEnd": {
-              "get": function () { return this.angle_end; },
-              "set": function (value) { this.angle_end = value; }
-            },
-            "angleStart": {
-              "get": function () { return this.angle_start; },
-              "set": function (value) { this.angle_start = value; }
-            },
-            "angleTiltX": {
-              "get": function () { return this.angle_tilt_x; },
-              "set": function (value) { this.angle_tilt_x = value; }
-            },
-            "angleTiltY": {
-              "get": function () { return this.angle_tilt_y; },
-              "set": function (value) { this.angle_tilt_y = value; }
-            },
-            "angleTiltZ": {
-              "get": function () { return this.angle_tilt_z; },
-              "set": function (value) { this.angle_tilt_z = value; }
-            }
-          },
-          "static": {}
-        },
-        "BehaviourOpacity": {
-          "prototype": {
-            "getBounds": {
-              "value": function () { return this.get_bounds.apply(this, arguments); }
-            },
-            "setBounds": {
-              "value": function () { return this.set_bounds.apply(this, arguments); }
-            },
-            "opacityEnd": {
-              "get": function () { return this.opacity_end; },
-              "set": function (value) { this.opacity_end = value; }
-            },
-            "opacityStart": {
-              "get": function () { return this.opacity_start; },
-              "set": function (value) { this.opacity_start = value; }
-            }
-          },
-          "static": {}
-        },
-        "BehaviourPath": {
-          "prototype": {
-            "getPath": {
-              "value": function () { return this.get_path.apply(this, arguments); }
-            },
-            "setPath": {
-              "value": function () { return this.set_path.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "BehaviourRotate": {
-          "prototype": {
-            "getAxis": {
-              "value": function () { return this.get_axis.apply(this, arguments); }
-            },
-            "getBounds": {
-              "value": function () { return this.get_bounds.apply(this, arguments); }
-            },
-            "getCenter": {
-              "value": function () { return this.get_center.apply(this, arguments); }
-            },
-            "getDirection": {
-              "value": function () { return this.get_direction.apply(this, arguments); }
-            },
-            "setAxis": {
-              "value": function () { return this.set_axis.apply(this, arguments); }
-            },
-            "setBounds": {
-              "value": function () { return this.set_bounds.apply(this, arguments); }
-            },
-            "setCenter": {
-              "value": function () { return this.set_center.apply(this, arguments); }
-            },
-            "setDirection": {
-              "value": function () { return this.set_direction.apply(this, arguments); }
-            },
-            "angleEnd": {
-              "get": function () { return this.angle_end; },
-              "set": function (value) { this.angle_end = value; }
-            },
-            "angleStart": {
-              "get": function () { return this.angle_start; },
-              "set": function (value) { this.angle_start = value; }
-            },
-            "centerX": {
-              "get": function () { return this.center_x; },
-              "set": function (value) { this.center_x = value; }
-            },
-            "centerY": {
-              "get": function () { return this.center_y; },
-              "set": function (value) { this.center_y = value; }
-            },
-            "centerZ": {
-              "get": function () { return this.center_z; },
-              "set": function (value) { this.center_z = value; }
-            }
-          },
-          "static": {}
-        },
-        "BehaviourScale": {
-          "prototype": {
-            "getBounds": {
-              "value": function () { return this.get_bounds.apply(this, arguments); }
-            },
-            "setBounds": {
-              "value": function () { return this.set_bounds.apply(this, arguments); }
-            },
-            "xScaleEnd": {
-              "get": function () { return this.x_scale_end; },
-              "set": function (value) { this.x_scale_end = value; }
-            },
-            "xScaleStart": {
-              "get": function () { return this.x_scale_start; },
-              "set": function (value) { this.x_scale_start = value; }
-            },
-            "yScaleEnd": {
-              "get": function () { return this.y_scale_end; },
-              "set": function (value) { this.y_scale_end = value; }
-            },
-            "yScaleStart": {
-              "get": function () { return this.y_scale_start; },
-              "set": function (value) { this.y_scale_start = value; }
-            }
-          },
-          "static": {}
-        },
-        "BinLayout": {
-          "prototype": {
-            "getAlignment": {
-              "value": function () { return this.get_alignment.apply(this, arguments); }
-            },
-            "setAlignment": {
-              "value": function () { return this.set_alignment.apply(this, arguments); }
-            },
-            "xAlign": {
-              "get": function () { return this.x_align; },
-              "set": function (value) { this.x_align = value; }
-            },
-            "yAlign": {
-              "get": function () { return this.y_align; },
-              "set": function (value) { this.y_align = value; }
-            }
-          },
-          "static": {}
-        },
-        "BindConstraint": {
-          "prototype": {
-            "getCoordinate": {
-              "value": function () { return this.get_coordinate.apply(this, arguments); }
-            },
-            "getOffset": {
-              "value": function () { return this.get_offset.apply(this, arguments); }
-            },
-            "getSource": {
-              "value": function () { return this.get_source.apply(this, arguments); }
-            },
-            "setCoordinate": {
-              "value": function () { return this.set_coordinate.apply(this, arguments); }
-            },
-            "setOffset": {
-              "value": function () { return this.set_offset.apply(this, arguments); }
-            },
-            "setSource": {
-              "value": function () { return this.set_source.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "BindingPool": {
-          "prototype": {
-            "blockAction": {
-              "value": function () { return this.block_action.apply(this, arguments); }
-            },
-            "findAction": {
-              "value": function () { return this.find_action.apply(this, arguments); }
-            },
-            "installAction": {
-              "value": function () { return this.install_action.apply(this, arguments); }
-            },
-            "installClosure": {
-              "value": function () { return this.install_closure.apply(this, arguments); }
-            },
-            "overrideAction": {
-              "value": function () { return this.override_action.apply(this, arguments); }
-            },
-            "overrideClosure": {
-              "value": function () { return this.override_closure.apply(this, arguments); }
-            },
-            "removeAction": {
-              "value": function () { return this.remove_action.apply(this, arguments); }
-            },
-            "unblockAction": {
-              "value": function () { return this.unblock_action.apply(this, arguments); }
-            }
-          },
-          "static": {
-            "getForClass": {
-              "value": function () { return this.get_for_class.apply(this, arguments); }
-            }
-          }
-        },
-        "BlurEffect": {
-          "prototype": {},
-          "static": {}
-        },
-        "Box": {
-          "prototype": {
-            "getColor": {
-              "value": function () { return this.get_color.apply(this, arguments); }
-            },
-            "getLayoutManager": {
-              "value": function () { return this.get_layout_manager.apply(this, arguments); }
-            },
-            "packAfter": {
-              "value": function () { return this.pack_after.apply(this, arguments); }
-            },
-            "packAt": {
-              "value": function () { return this.pack_at.apply(this, arguments); }
-            },
-            "packBefore": {
-              "value": function () { return this.pack_before.apply(this, arguments); }
-            },
-            "setColor": {
-              "value": function () { return this.set_color.apply(this, arguments); }
-            },
-            "setLayoutManager": {
-              "value": function () { return this.set_layout_manager.apply(this, arguments); }
-            },
-            "colorSet": {
-              "get": function () { return this.color_set; },
-              "set": function (value) { this.color_set = value; }
-            }
-          },
-          "static": {}
-        },
-        "BoxLayout": {
-          "prototype": {
-            "getAlignment": {
-              "value": function () { return this.get_alignment.apply(this, arguments); }
-            },
-            "getEasingDuration": {
-              "value": function () { return this.get_easing_duration.apply(this, arguments); }
-            },
-            "getEasingMode": {
-              "value": function () { return this.get_easing_mode.apply(this, arguments); }
-            },
-            "getExpand": {
-              "value": function () { return this.get_expand.apply(this, arguments); }
-            },
-            "getFill": {
-              "value": function () { return this.get_fill.apply(this, arguments); }
-            },
-            "getHomogeneous": {
-              "value": function () { return this.get_homogeneous.apply(this, arguments); }
-            },
-            "getOrientation": {
-              "value": function () { return this.get_orientation.apply(this, arguments); }
-            },
-            "getPackStart": {
-              "value": function () { return this.get_pack_start.apply(this, arguments); }
-            },
-            "getSpacing": {
-              "value": function () { return this.get_spacing.apply(this, arguments); }
-            },
-            "getUseAnimations": {
-              "value": function () { return this.get_use_animations.apply(this, arguments); }
-            },
-            "getVertical": {
-              "value": function () { return this.get_vertical.apply(this, arguments); }
-            },
-            "setAlignment": {
-              "value": function () { return this.set_alignment.apply(this, arguments); }
-            },
-            "setEasingDuration": {
-              "value": function () { return this.set_easing_duration.apply(this, arguments); }
-            },
-            "setEasingMode": {
-              "value": function () { return this.set_easing_mode.apply(this, arguments); }
-            },
-            "setExpand": {
-              "value": function () { return this.set_expand.apply(this, arguments); }
-            },
-            "setFill": {
-              "value": function () { return this.set_fill.apply(this, arguments); }
-            },
-            "setHomogeneous": {
-              "value": function () { return this.set_homogeneous.apply(this, arguments); }
-            },
-            "setOrientation": {
-              "value": function () { return this.set_orientation.apply(this, arguments); }
-            },
-            "setPackStart": {
-              "value": function () { return this.set_pack_start.apply(this, arguments); }
-            },
-            "setSpacing": {
-              "value": function () { return this.set_spacing.apply(this, arguments); }
-            },
-            "setUseAnimations": {
-              "value": function () { return this.set_use_animations.apply(this, arguments); }
-            },
-            "setVertical": {
-              "value": function () { return this.set_vertical.apply(this, arguments); }
-            },
-            "easingDuration": {
-              "get": function () { return this.easing_duration; },
-              "set": function (value) { this.easing_duration = value; }
-            },
-            "easingMode": {
-              "get": function () { return this.easing_mode; },
-              "set": function (value) { this.easing_mode = value; }
-            },
-            "packStart": {
-              "get": function () { return this.pack_start; },
-              "set": function (value) { this.pack_start = value; }
-            },
-            "useAnimations": {
-              "get": function () { return this.use_animations; },
-              "set": function (value) { this.use_animations = value; }
-            }
-          },
-          "static": {}
-        },
-        "BrightnessContrastEffect": {
-          "prototype": {
-            "getBrightness": {
-              "value": function () { return this.get_brightness.apply(this, arguments); }
-            },
-            "getContrast": {
-              "value": function () { return this.get_contrast.apply(this, arguments); }
-            },
-            "setBrightness": {
-              "value": function () { return this.set_brightness.apply(this, arguments); }
-            },
-            "setBrightnessFull": {
-              "value": function () { return this.set_brightness_full.apply(this, arguments); }
-            },
-            "setContrast": {
-              "value": function () { return this.set_contrast.apply(this, arguments); }
-            },
-            "setContrastFull": {
-              "value": function () { return this.set_contrast_full.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "CairoTexture": {
-          "prototype": {
-            "createRegion": {
-              "value": function () { return this.create_region.apply(this, arguments); }
-            },
-            "getAutoResize": {
-              "value": function () { return this.get_auto_resize.apply(this, arguments); }
-            },
-            "getSurfaceSize": {
-              "value": function () { return this.get_surface_size.apply(this, arguments); }
-            },
-            "invalidateRectangle": {
-              "value": function () { return this.invalidate_rectangle.apply(this, arguments); }
-            },
-            "setAutoResize": {
-              "value": function () { return this.set_auto_resize.apply(this, arguments); }
-            },
-            "setSurfaceSize": {
-              "value": function () { return this.set_surface_size.apply(this, arguments); }
-            },
-            "autoResize": {
-              "get": function () { return this.auto_resize; },
-              "set": function (value) { this.auto_resize = value; }
-            },
-            "surfaceHeight": {
-              "get": function () { return this.surface_height; },
-              "set": function (value) { this.surface_height = value; }
-            },
-            "surfaceWidth": {
-              "get": function () { return this.surface_width; },
-              "set": function (value) { this.surface_width = value; }
-            }
-          },
-          "static": {}
-        },
-        "Canvas": {
-          "prototype": {
-            "getScaleFactor": {
-              "value": function () { return this.get_scale_factor.apply(this, arguments); }
-            },
-            "setScaleFactor": {
-              "value": function () { return this.set_scale_factor.apply(this, arguments); }
-            },
-            "setSize": {
-              "value": function () { return this.set_size.apply(this, arguments); }
-            },
-            "scaleFactor": {
-              "get": function () { return this.scale_factor; },
-              "set": function (value) { this.scale_factor = value; }
-            },
-            "scaleFactorSet": {
-              "get": function () { return this.scale_factor_set; },
-              "set": function (value) { this.scale_factor_set = value; }
-            }
-          },
-          "static": {}
-        },
-        "ChildMeta": {
-          "prototype": {
-            "getActor": {
-              "value": function () { return this.get_actor.apply(this, arguments); }
-            },
-            "getContainer": {
-              "value": function () { return this.get_container.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "ClickAction": {
-          "prototype": {
-            "getButton": {
-              "value": function () { return this.get_button.apply(this, arguments); }
-            },
-            "getCoords": {
-              "value": function () { return this.get_coords.apply(this, arguments); }
-            },
-            "getState": {
-              "value": function () { return this.get_state.apply(this, arguments); }
-            },
-            "longPressDuration": {
-              "get": function () { return this.long_press_duration; },
-              "set": function (value) { this.long_press_duration = value; }
-            },
-            "longPressThreshold": {
-              "get": function () { return this.long_press_threshold; },
-              "set": function (value) { this.long_press_threshold = value; }
-            }
-          },
-          "static": {}
-        },
-        "ClipNode": {
-          "prototype": {},
-          "static": {}
-        },
-        "Clone": {
-          "prototype": {
-            "getSource": {
-              "value": function () { return this.get_source.apply(this, arguments); }
-            },
-            "setSource": {
-              "value": function () { return this.set_source.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "ColorNode": {
-          "prototype": {},
-          "static": {}
-        },
-        "ColorizeEffect": {
-          "prototype": {
-            "getTint": {
-              "value": function () { return this.get_tint.apply(this, arguments); }
-            },
-            "setTint": {
-              "value": function () { return this.set_tint.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "Constraint": {
-          "prototype": {},
-          "static": {}
-        },
-        "DeformEffect": {
-          "prototype": {
-            "getBackMaterial": {
-              "value": function () { return this.get_back_material.apply(this, arguments); }
-            },
-            "getNTiles": {
-              "value": function () { return this.get_n_tiles.apply(this, arguments); }
-            },
-            "setBackMaterial": {
-              "value": function () { return this.set_back_material.apply(this, arguments); }
-            },
-            "setNTiles": {
-              "value": function () { return this.set_n_tiles.apply(this, arguments); }
-            },
-            "backMaterial": {
-              "get": function () { return this.back_material; },
-              "set": function (value) { this.back_material = value; }
-            },
-            "xTiles": {
-              "get": function () { return this.x_tiles; },
-              "set": function (value) { this.x_tiles = value; }
-            },
-            "yTiles": {
-              "get": function () { return this.y_tiles; },
-              "set": function (value) { this.y_tiles = value; }
-            }
-          },
-          "static": {}
-        },
-        "DesaturateEffect": {
-          "prototype": {
-            "getFactor": {
-              "value": function () { return this.get_factor.apply(this, arguments); }
-            },
-            "setFactor": {
-              "value": function () { return this.set_factor.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "DeviceManager": {
-          "prototype": {
-            "getCoreDevice": {
-              "value": function () { return this.get_core_device.apply(this, arguments); }
-            },
-            "getDevice": {
-              "value": function () { return this.get_device.apply(this, arguments); }
-            },
-            "listDevices": {
-              "value": function () { return this.list_devices.apply(this, arguments); }
-            },
-            "peekDevices": {
-              "value": function () { return this.peek_devices.apply(this, arguments); }
-            }
-          },
-          "static": {
-            "getDefault": {
-              "value": function () { return this.get_default.apply(this, arguments); }
-            }
-          }
-        },
-        "DragAction": {
-          "prototype": {
-            "getDragArea": {
-              "value": function () { return this.get_drag_area.apply(this, arguments); }
-            },
-            "getDragAxis": {
-              "value": function () { return this.get_drag_axis.apply(this, arguments); }
-            },
-            "getDragHandle": {
-              "value": function () { return this.get_drag_handle.apply(this, arguments); }
-            },
-            "getDragThreshold": {
-              "value": function () { return this.get_drag_threshold.apply(this, arguments); }
-            },
-            "getMotionCoords": {
-              "value": function () { return this.get_motion_coords.apply(this, arguments); }
-            },
-            "getPressCoords": {
-              "value": function () { return this.get_press_coords.apply(this, arguments); }
-            },
-            "setDragArea": {
-              "value": function () { return this.set_drag_area.apply(this, arguments); }
-            },
-            "setDragAxis": {
-              "value": function () { return this.set_drag_axis.apply(this, arguments); }
-            },
-            "setDragHandle": {
-              "value": function () { return this.set_drag_handle.apply(this, arguments); }
-            },
-            "setDragThreshold": {
-              "value": function () { return this.set_drag_threshold.apply(this, arguments); }
-            },
-            "dragArea": {
-              "get": function () { return this.drag_area; },
-              "set": function (value) { this.drag_area = value; }
-            },
-            "dragAreaSet": {
-              "get": function () { return this.drag_area_set; },
-              "set": function (value) { this.drag_area_set = value; }
-            },
-            "dragAxis": {
-              "get": function () { return this.drag_axis; },
-              "set": function (value) { this.drag_axis = value; }
-            },
-            "dragHandle": {
-              "get": function () { return this.drag_handle; },
-              "set": function (value) { this.drag_handle = value; }
-            },
-            "xDragThreshold": {
-              "get": function () { return this.x_drag_threshold; },
-              "set": function (value) { this.x_drag_threshold = value; }
-            },
-            "yDragThreshold": {
-              "get": function () { return this.y_drag_threshold; },
-              "set": function (value) { this.y_drag_threshold = value; }
-            }
-          },
-          "static": {}
-        },
-        "DropAction": {
-          "prototype": {},
-          "static": {}
-        },
-        "Effect": {
-          "prototype": {
-            "queueRepaint": {
-              "value": function () { return this.queue_repaint.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "FixedLayout": {
-          "prototype": {},
-          "static": {}
-        },
-        "FlowLayout": {
-          "prototype": {
-            "getColumnSpacing": {
-              "value": function () { return this.get_column_spacing.apply(this, arguments); }
-            },
-            "getColumnWidth": {
-              "value": function () { return this.get_column_width.apply(this, arguments); }
-            },
-            "getHomogeneous": {
-              "value": function () { return this.get_homogeneous.apply(this, arguments); }
-            },
-            "getOrientation": {
-              "value": function () { return this.get_orientation.apply(this, arguments); }
-            },
-            "getRowHeight": {
-              "value": function () { return this.get_row_height.apply(this, arguments); }
-            },
-            "getRowSpacing": {
-              "value": function () { return this.get_row_spacing.apply(this, arguments); }
-            },
-            "getSnapToGrid": {
-              "value": function () { return this.get_snap_to_grid.apply(this, arguments); }
-            },
-            "setColumnSpacing": {
-              "value": function () { return this.set_column_spacing.apply(this, arguments); }
-            },
-            "setColumnWidth": {
-              "value": function () { return this.set_column_width.apply(this, arguments); }
-            },
-            "setHomogeneous": {
-              "value": function () { return this.set_homogeneous.apply(this, arguments); }
-            },
-            "setOrientation": {
-              "value": function () { return this.set_orientation.apply(this, arguments); }
-            },
-            "setRowHeight": {
-              "value": function () { return this.set_row_height.apply(this, arguments); }
-            },
-            "setRowSpacing": {
-              "value": function () { return this.set_row_spacing.apply(this, arguments); }
-            },
-            "setSnapToGrid": {
-              "value": function () { return this.set_snap_to_grid.apply(this, arguments); }
-            },
-            "columnSpacing": {
-              "get": function () { return this.column_spacing; },
-              "set": function (value) { this.column_spacing = value; }
-            },
-            "maxColumnWidth": {
-              "get": function () { return this.max_column_width; },
-              "set": function (value) { this.max_column_width = value; }
-            },
-            "maxRowHeight": {
-              "get": function () { return this.max_row_height; },
-              "set": function (value) { this.max_row_height = value; }
-            },
-            "minColumnWidth": {
-              "get": function () { return this.min_column_width; },
-              "set": function (value) { this.min_column_width = value; }
-            },
-            "minRowHeight": {
-              "get": function () { return this.min_row_height; },
-              "set": function (value) { this.min_row_height = value; }
-            },
-            "rowSpacing": {
-              "get": function () { return this.row_spacing; },
-              "set": function (value) { this.row_spacing = value; }
-            },
-            "snapToGrid": {
-              "get": function () { return this.snap_to_grid; },
-              "set": function (value) { this.snap_to_grid = value; }
-            }
-          },
-          "static": {}
-        },
-        "GestureAction": {
-          "prototype": {
-            "getDevice": {
-              "value": function () { return this.get_device.apply(this, arguments); }
-            },
-            "getLastEvent": {
-              "value": function () { return this.get_last_event.apply(this, arguments); }
-            },
-            "getMotionCoords": {
-              "value": function () { return this.get_motion_coords.apply(this, arguments); }
-            },
-            "getMotionDelta": {
-              "value": function () { return this.get_motion_delta.apply(this, arguments); }
-            },
-            "getNCurrentPoints": {
-              "value": function () { return this.get_n_current_points.apply(this, arguments); }
-            },
-            "getNTouchPoints": {
-              "value": function () { return this.get_n_touch_points.apply(this, arguments); }
-            },
-            "getPressCoords": {
-              "value": function () { return this.get_press_coords.apply(this, arguments); }
-            },
-            "getReleaseCoords": {
-              "value": function () { return this.get_release_coords.apply(this, arguments); }
-            },
-            "getSequence": {
-              "value": function () { return this.get_sequence.apply(this, arguments); }
-            },
-            "getThresholdTriggerDistance": {
-              "value": function () { return this.get_threshold_trigger_distance.apply(this, arguments); }
-            },
-            "getThresholdTriggerEdge": {
-              "value": function () { return this.get_threshold_trigger_edge.apply(this, arguments); }
-            },
-            "getThresholdTriggerEgde": {
-              "value": function () { return this.get_threshold_trigger_egde.apply(this, arguments); }
-            },
-            "getVelocity": {
-              "value": function () { return this.get_velocity.apply(this, arguments); }
-            },
-            "setNTouchPoints": {
-              "value": function () { return this.set_n_touch_points.apply(this, arguments); }
-            },
-            "setThresholdTriggerDistance": {
-              "value": function () { return this.set_threshold_trigger_distance.apply(this, arguments); }
-            },
-            "setThresholdTriggerEdge": {
-              "value": function () { return this.set_threshold_trigger_edge.apply(this, arguments); }
-            },
-            "nTouchPoints": {
-              "get": function () { return this.n_touch_points; },
-              "set": function (value) { this.n_touch_points = value; }
-            },
-            "thresholdTriggerDistanceX": {
-              "get": function () { return this.threshold_trigger_distance_x; },
-              "set": function (value) { this.threshold_trigger_distance_x = value; }
-            },
-            "thresholdTriggerDistanceY": {
-              "get": function () { return this.threshold_trigger_distance_y; },
-              "set": function (value) { this.threshold_trigger_distance_y = value; }
-            },
-            "thresholdTriggerEdge": {
-              "get": function () { return this.threshold_trigger_edge; },
-              "set": function (value) { this.threshold_trigger_edge = value; }
-            }
-          },
-          "static": {}
-        },
-        "GridLayout": {
-          "prototype": {
-            "attachNextTo": {
-              "value": function () { return this.attach_next_to.apply(this, arguments); }
-            },
-            "getChildAt": {
-              "value": function () { return this.get_child_at.apply(this, arguments); }
-            },
-            "getColumnHomogeneous": {
-              "value": function () { return this.get_column_homogeneous.apply(this, arguments); }
-            },
-            "getColumnSpacing": {
-              "value": function () { return this.get_column_spacing.apply(this, arguments); }
-            },
-            "getOrientation": {
-              "value": function () { return this.get_orientation.apply(this, arguments); }
-            },
-            "getRowHomogeneous": {
-              "value": function () { return this.get_row_homogeneous.apply(this, arguments); }
-            },
-            "getRowSpacing": {
-              "value": function () { return this.get_row_spacing.apply(this, arguments); }
-            },
-            "insertColumn": {
-              "value": function () { return this.insert_column.apply(this, arguments); }
-            },
-            "insertNextTo": {
-              "value": function () { return this.insert_next_to.apply(this, arguments); }
-            },
-            "insertRow": {
-              "value": function () { return this.insert_row.apply(this, arguments); }
-            },
-            "setColumnHomogeneous": {
-              "value": function () { return this.set_column_homogeneous.apply(this, arguments); }
-            },
-            "setColumnSpacing": {
-              "value": function () { return this.set_column_spacing.apply(this, arguments); }
-            },
-            "setOrientation": {
-              "value": function () { return this.set_orientation.apply(this, arguments); }
-            },
-            "setRowHomogeneous": {
-              "value": function () { return this.set_row_homogeneous.apply(this, arguments); }
-            },
-            "setRowSpacing": {
-              "value": function () { return this.set_row_spacing.apply(this, arguments); }
-            },
-            "columnHomogeneous": {
-              "get": function () { return this.column_homogeneous; },
-              "set": function (value) { this.column_homogeneous = value; }
-            },
-            "columnSpacing": {
-              "get": function () { return this.column_spacing; },
-              "set": function (value) { this.column_spacing = value; }
-            },
-            "rowHomogeneous": {
-              "get": function () { return this.row_homogeneous; },
-              "set": function (value) { this.row_homogeneous = value; }
-            },
-            "rowSpacing": {
-              "get": function () { return this.row_spacing; },
-              "set": function (value) { this.row_spacing = value; }
-            }
-          },
-          "static": {}
-        },
-        "Group": {
-          "prototype": {
-            "getNChildren": {
-              "value": function () { return this.get_n_children.apply(this, arguments); }
-            },
-            "getNthChild": {
-              "value": function () { return this.get_nth_child.apply(this, arguments); }
-            },
-            "removeAll": {
-              "value": function () { return this.remove_all.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "Image": {
-          "prototype": {
-            "setArea": {
-              "value": function () { return this.set_area.apply(this, arguments); }
-            },
-            "setBytes": {
-              "value": function () { return this.set_bytes.apply(this, arguments); }
-            },
-            "setData": {
-              "value": function () { return this.set_data.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "InputDevice": {
-          "prototype": {
-            "getAssociatedDevice": {
-              "value": function () { return this.get_associated_device.apply(this, arguments); }
-            },
-            "getAxis": {
-              "value": function () { return this.get_axis.apply(this, arguments); }
-            },
-            "getAxisValue": {
-              "value": function () { return this.get_axis_value.apply(this, arguments); }
-            },
-            "getCoords": {
-              "value": function () { return this.get_coords.apply(this, arguments); }
-            },
-            "getDeviceCoords": {
-              "value": function () { return this.get_device_coords.apply(this, arguments); }
-            },
-            "getDeviceId": {
-              "value": function () { return this.get_device_id.apply(this, arguments); }
-            },
-            "getDeviceMode": {
-              "value": function () { return this.get_device_mode.apply(this, arguments); }
-            },
-            "getDeviceName": {
-              "value": function () { return this.get_device_name.apply(this, arguments); }
-            },
-            "getDeviceType": {
-              "value": function () { return this.get_device_type.apply(this, arguments); }
-            },
-            "getEnabled": {
-              "value": function () { return this.get_enabled.apply(this, arguments); }
-            },
-            "getGrabbedActor": {
-              "value": function () { return this.get_grabbed_actor.apply(this, arguments); }
-            },
-            "getHasCursor": {
-              "value": function () { return this.get_has_cursor.apply(this, arguments); }
-            },
-            "getKey": {
-              "value": function () { return this.get_key.apply(this, arguments); }
-            },
-            "getModifierState": {
-              "value": function () { return this.get_modifier_state.apply(this, arguments); }
-            },
-            "getNAxes": {
-              "value": function () { return this.get_n_axes.apply(this, arguments); }
-            },
-            "getNKeys": {
-              "value": function () { return this.get_n_keys.apply(this, arguments); }
-            },
-            "getPointerActor": {
-              "value": function () { return this.get_pointer_actor.apply(this, arguments); }
-            },
-            "getPointerStage": {
-              "value": function () { return this.get_pointer_stage.apply(this, arguments); }
-            },
-            "getProductId": {
-              "value": function () { return this.get_product_id.apply(this, arguments); }
-            },
-            "getSlaveDevices": {
-              "value": function () { return this.get_slave_devices.apply(this, arguments); }
-            },
-            "getVendorId": {
-              "value": function () { return this.get_vendor_id.apply(this, arguments); }
-            },
-            "keycodeToEvdev": {
-              "value": function () { return this.keycode_to_evdev.apply(this, arguments); }
-            },
-            "sequenceGetGrabbedActor": {
-              "value": function () { return this.sequence_get_grabbed_actor.apply(this, arguments); }
-            },
-            "sequenceGrab": {
-              "value": function () { return this.sequence_grab.apply(this, arguments); }
-            },
-            "sequenceUngrab": {
-              "value": function () { return this.sequence_ungrab.apply(this, arguments); }
-            },
-            "setEnabled": {
-              "value": function () { return this.set_enabled.apply(this, arguments); }
-            },
-            "setKey": {
-              "value": function () { return this.set_key.apply(this, arguments); }
-            },
-            "updateFromEvent": {
-              "value": function () { return this.update_from_event.apply(this, arguments); }
-            },
-            "deviceManager": {
-              "get": function () { return this.device_manager; },
-              "set": function (value) { this.device_manager = value; }
-            },
-            "deviceMode": {
-              "get": function () { return this.device_mode; },
-              "set": function (value) { this.device_mode = value; }
-            },
-            "deviceType": {
-              "get": function () { return this.device_type; },
-              "set": function (value) { this.device_type = value; }
-            },
-            "hasCursor": {
-              "get": function () { return this.has_cursor; },
-              "set": function (value) { this.has_cursor = value; }
-            },
-            "nAxes": {
-              "get": function () { return this.n_axes; },
-              "set": function (value) { this.n_axes = value; }
-            },
-            "productId": {
-              "get": function () { return this.product_id; },
-              "set": function (value) { this.product_id = value; }
-            },
-            "vendorId": {
-              "get": function () { return this.vendor_id; },
-              "set": function (value) { this.vendor_id = value; }
-            }
-          },
-          "static": {}
-        },
-        "Interval": {
-          "prototype": {
-            "computeValue": {
-              "value": function () { return this.compute_value.apply(this, arguments); }
-            },
-            "getFinalValue": {
-              "value": function () { return this.get_final_value.apply(this, arguments); }
-            },
-            "getInitialValue": {
-              "value": function () { return this.get_initial_value.apply(this, arguments); }
-            },
-            "getInterval": {
-              "value": function () { return this.get_interval.apply(this, arguments); }
-            },
-            "getValueType": {
-              "value": function () { return this.get_value_type.apply(this, arguments); }
-            },
-            "isValid": {
-              "value": function () { return this.is_valid.apply(this, arguments); }
-            },
-            "peekFinalValue": {
-              "value": function () { return this.peek_final_value.apply(this, arguments); }
-            },
-            "peekInitialValue": {
-              "value": function () { return this.peek_initial_value.apply(this, arguments); }
-            },
-            "setFinal": {
-              "value": function () { return this.set_final.apply(this, arguments); }
-            },
-            "setFinalValue": {
-              "value": function () { return this.set_final_value.apply(this, arguments); }
-            },
-            "setInitial": {
-              "value": function () { return this.set_initial.apply(this, arguments); }
-            },
-            "setInitialValue": {
-              "value": function () { return this.set_initial_value.apply(this, arguments); }
-            },
-            "setInterval": {
-              "value": function () { return this.set_interval.apply(this, arguments); }
-            },
-            "valueType": {
-              "get": function () { return this.value_type; },
-              "set": function (value) { this.value_type = value; }
-            }
-          },
-          "static": {
-            "registerProgressFunc": {
-              "value": function () { return this.register_progress_func.apply(this, arguments); }
-            }
-          }
-        },
-        "KeyframeTransition": {
-          "prototype": {
-            "getKeyFrame": {
-              "value": function () { return this.get_key_frame.apply(this, arguments); }
-            },
-            "getNKeyFrames": {
-              "value": function () { return this.get_n_key_frames.apply(this, arguments); }
-            },
-            "setKeyFrame": {
-              "value": function () { return this.set_key_frame.apply(this, arguments); }
-            },
-            "setKeyFrames": {
-              "value": function () { return this.set_key_frames.apply(this, arguments); }
-            },
-            "setModes": {
-              "value": function () { return this.set_modes.apply(this, arguments); }
-            },
-            "setValues": {
-              "value": function () { return this.set_values.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "LayoutManager": {
-          "prototype": {
-            "beginAnimation": {
-              "value": function () { return this.begin_animation.apply(this, arguments); }
-            },
-            "childGet": {
-              "value": function () { return this.child_get.apply(this, arguments); }
-            },
-            "childGetProperty": {
-              "value": function () { return this.child_get_property.apply(this, arguments); }
-            },
-            "childSet": {
-              "value": function () { return this.child_set.apply(this, arguments); }
-            },
-            "childSetProperty": {
-              "value": function () { return this.child_set_property.apply(this, arguments); }
-            },
-            "endAnimation": {
-              "value": function () { return this.end_animation.apply(this, arguments); }
-            },
-            "findChildProperty": {
-              "value": function () { return this.find_child_property.apply(this, arguments); }
-            },
-            "getAnimationProgress": {
-              "value": function () { return this.get_animation_progress.apply(this, arguments); }
-            },
-            "getChildMeta": {
-              "value": function () { return this.get_child_meta.apply(this, arguments); }
-            },
-            "getPreferredHeight": {
-              "value": function () { return this.get_preferred_height.apply(this, arguments); }
-            },
-            "getPreferredWidth": {
-              "value": function () { return this.get_preferred_width.apply(this, arguments); }
-            },
-            "layoutChanged": {
-              "value": function () { return this.layout_changed.apply(this, arguments); }
-            },
-            "listChildProperties": {
-              "value": function () { return this.list_child_properties.apply(this, arguments); }
-            },
-            "setContainer": {
-              "value": function () { return this.set_container.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "LayoutMeta": {
-          "prototype": {
-            "getManager": {
-              "value": function () { return this.get_manager.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "ListModel": {
-          "prototype": {},
-          "static": {}
-        },
-        "Model": {
-          "prototype": {
-            "filterIter": {
-              "value": function () { return this.filter_iter.apply(this, arguments); }
-            },
-            "filterRow": {
-              "value": function () { return this.filter_row.apply(this, arguments); }
-            },
-            "getColumnName": {
-              "value": function () { return this.get_column_name.apply(this, arguments); }
-            },
-            "getColumnType": {
-              "value": function () { return this.get_column_type.apply(this, arguments); }
-            },
-            "getFilterSet": {
-              "value": function () { return this.get_filter_set.apply(this, arguments); }
-            },
-            "getFirstIter": {
-              "value": function () { return this.get_first_iter.apply(this, arguments); }
-            },
-            "getIterAtRow": {
-              "value": function () { return this.get_iter_at_row.apply(this, arguments); }
-            },
-            "getLastIter": {
-              "value": function () { return this.get_last_iter.apply(this, arguments); }
-            },
-            "getNColumns": {
-              "value": function () { return this.get_n_columns.apply(this, arguments); }
-            },
-            "getNRows": {
-              "value": function () { return this.get_n_rows.apply(this, arguments); }
-            },
-            "getSortingColumn": {
-              "value": function () { return this.get_sorting_column.apply(this, arguments); }
-            },
-            "insertValue": {
-              "value": function () { return this.insert_value.apply(this, arguments); }
-            },
-            "setFilter": {
-              "value": function () { return this.set_filter.apply(this, arguments); }
-            },
-            "setNames": {
-              "value": function () { return this.set_names.apply(this, arguments); }
-            },
-            "setSort": {
-              "value": function () { return this.set_sort.apply(this, arguments); }
-            },
-            "setSortingColumn": {
-              "value": function () { return this.set_sorting_column.apply(this, arguments); }
-            },
-            "setTypes": {
-              "value": function () { return this.set_types.apply(this, arguments); }
-            },
-            "filterSet": {
-              "get": function () { return this.filter_set; },
-              "set": function (value) { this.filter_set = value; }
-            }
-          },
-          "static": {}
-        },
-        "ModelIter": {
-          "prototype": {
-            "getModel": {
-              "value": function () { return this.get_model.apply(this, arguments); }
-            },
-            "getRow": {
-              "value": function () { return this.get_row.apply(this, arguments); }
-            },
-            "getValist": {
-              "value": function () { return this.get_valist.apply(this, arguments); }
-            },
-            "getValue": {
-              "value": function () { return this.get_value.apply(this, arguments); }
-            },
-            "isFirst": {
-              "value": function () { return this.is_first.apply(this, arguments); }
-            },
-            "isLast": {
-              "value": function () { return this.is_last.apply(this, arguments); }
-            },
-            "setValist": {
-              "value": function () { return this.set_valist.apply(this, arguments); }
-            },
-            "setValue": {
-              "value": function () { return this.set_value.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "OffscreenEffect": {
-          "prototype": {
-            "createTexture": {
-              "value": function () { return this.create_texture.apply(this, arguments); }
-            },
-            "getTarget": {
-              "value": function () { return this.get_target.apply(this, arguments); }
-            },
-            "getTargetRect": {
-              "value": function () { return this.get_target_rect.apply(this, arguments); }
-            },
-            "getTargetSize": {
-              "value": function () { return this.get_target_size.apply(this, arguments); }
-            },
-            "getTexture": {
-              "value": function () { return this.get_texture.apply(this, arguments); }
-            },
-            "paintTarget": {
-              "value": function () { return this.paint_target.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "PageTurnEffect": {
-          "prototype": {
-            "getAngle": {
-              "value": function () { return this.get_angle.apply(this, arguments); }
-            },
-            "getPeriod": {
-              "value": function () { return this.get_period.apply(this, arguments); }
-            },
-            "getRadius": {
-              "value": function () { return this.get_radius.apply(this, arguments); }
-            },
-            "setAngle": {
-              "value": function () { return this.set_angle.apply(this, arguments); }
-            },
-            "setPeriod": {
-              "value": function () { return this.set_period.apply(this, arguments); }
-            },
-            "setRadius": {
-              "value": function () { return this.set_radius.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "PaintNode": {
-          "prototype": {
-            "addChild": {
-              "value": function () { return this.add_child.apply(this, arguments); }
-            },
-            "addRectangle": {
-              "value": function () { return this.add_rectangle.apply(this, arguments); }
-            },
-            "addTextureRectangle": {
-              "value": function () { return this.add_texture_rectangle.apply(this, arguments); }
-            },
-            "setName": {
-              "value": function () { return this.set_name.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "PanAction": {
-          "prototype": {
-            "getAccelerationFactor": {
-              "value": function () { return this.get_acceleration_factor.apply(this, arguments); }
-            },
-            "getConstrainedMotionDelta": {
-              "value": function () { return this.get_constrained_motion_delta.apply(this, arguments); }
-            },
-            "getDeceleration": {
-              "value": function () { return this.get_deceleration.apply(this, arguments); }
-            },
-            "getInterpolate": {
-              "value": function () { return this.get_interpolate.apply(this, arguments); }
-            },
-            "getInterpolatedCoords": {
-              "value": function () { return this.get_interpolated_coords.apply(this, arguments); }
-            },
-            "getInterpolatedDelta": {
-              "value": function () { return this.get_interpolated_delta.apply(this, arguments); }
-            },
-            "getMotionCoords": {
-              "value": function () { return this.get_motion_coords.apply(this, arguments); }
-            },
-            "getMotionDelta": {
-              "value": function () { return this.get_motion_delta.apply(this, arguments); }
-            },
-            "getPanAxis": {
-              "value": function () { return this.get_pan_axis.apply(this, arguments); }
-            },
-            "setAccelerationFactor": {
-              "value": function () { return this.set_acceleration_factor.apply(this, arguments); }
-            },
-            "setDeceleration": {
-              "value": function () { return this.set_deceleration.apply(this, arguments); }
-            },
-            "setInterpolate": {
-              "value": function () { return this.set_interpolate.apply(this, arguments); }
-            },
-            "setPanAxis": {
-              "value": function () { return this.set_pan_axis.apply(this, arguments); }
-            },
-            "accelerationFactor": {
-              "get": function () { return this.acceleration_factor; },
-              "set": function (value) { this.acceleration_factor = value; }
-            },
-            "panAxis": {
-              "get": function () { return this.pan_axis; },
-              "set": function (value) { this.pan_axis = value; }
-            }
-          },
-          "static": {}
-        },
-        "ParamSpecColor": {
-          "prototype": {},
-          "static": {}
-        },
-        "ParamSpecFixed": {
-          "prototype": {},
-          "static": {}
-        },
-        "ParamSpecUnit": {
-          "prototype": {},
-          "static": {}
-        },
-        "Path": {
-          "prototype": {
-            "addCairoPath": {
-              "value": function () { return this.add_cairo_path.apply(this, arguments); }
-            },
-            "addClose": {
-              "value": function () { return this.add_close.apply(this, arguments); }
-            },
-            "addCurveTo": {
-              "value": function () { return this.add_curve_to.apply(this, arguments); }
-            },
-            "addLineTo": {
-              "value": function () { return this.add_line_to.apply(this, arguments); }
-            },
-            "addMoveTo": {
-              "value": function () { return this.add_move_to.apply(this, arguments); }
-            },
-            "addNode": {
-              "value": function () { return this.add_node.apply(this, arguments); }
-            },
-            "addRelCurveTo": {
-              "value": function () { return this.add_rel_curve_to.apply(this, arguments); }
-            },
-            "addRelLineTo": {
-              "value": function () { return this.add_rel_line_to.apply(this, arguments); }
-            },
-            "addRelMoveTo": {
-              "value": function () { return this.add_rel_move_to.apply(this, arguments); }
-            },
-            "addString": {
-              "value": function () { return this.add_string.apply(this, arguments); }
-            },
-            "getDescription": {
-              "value": function () { return this.get_description.apply(this, arguments); }
-            },
-            "getLength": {
-              "value": function () { return this.get_length.apply(this, arguments); }
-            },
-            "getNNodes": {
-              "value": function () { return this.get_n_nodes.apply(this, arguments); }
-            },
-            "getNode": {
-              "value": function () { return this.get_node.apply(this, arguments); }
-            },
-            "getNodes": {
-              "value": function () { return this.get_nodes.apply(this, arguments); }
-            },
-            "getPosition": {
-              "value": function () { return this.get_position.apply(this, arguments); }
-            },
-            "insertNode": {
-              "value": function () { return this.insert_node.apply(this, arguments); }
-            },
-            "removeNode": {
-              "value": function () { return this.remove_node.apply(this, arguments); }
-            },
-            "replaceNode": {
-              "value": function () { return this.replace_node.apply(this, arguments); }
-            },
-            "setDescription": {
-              "value": function () { return this.set_description.apply(this, arguments); }
-            },
-            "toCairoPath": {
-              "value": function () { return this.to_cairo_path.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "PathConstraint": {
-          "prototype": {
-            "getOffset": {
-              "value": function () { return this.get_offset.apply(this, arguments); }
-            },
-            "getPath": {
-              "value": function () { return this.get_path.apply(this, arguments); }
-            },
-            "setOffset": {
-              "value": function () { return this.set_offset.apply(this, arguments); }
-            },
-            "setPath": {
-              "value": function () { return this.set_path.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "PipelineNode": {
-          "prototype": {},
-          "static": {}
-        },
-        "PropertyTransition": {
-          "prototype": {
-            "getPropertyName": {
-              "value": function () { return this.get_property_name.apply(this, arguments); }
-            },
-            "setPropertyName": {
-              "value": function () { return this.set_property_name.apply(this, arguments); }
-            },
-            "propertyName": {
-              "get": function () { return this.property_name; },
-              "set": function (value) { this.property_name = value; }
-            }
-          },
-          "static": {}
-        },
-        "Rectangle": {
-          "prototype": {
-            "getBorderColor": {
-              "value": function () { return this.get_border_color.apply(this, arguments); }
-            },
-            "getBorderWidth": {
-              "value": function () { return this.get_border_width.apply(this, arguments); }
-            },
-            "getColor": {
-              "value": function () { return this.get_color.apply(this, arguments); }
-            },
-            "setBorderColor": {
-              "value": function () { return this.set_border_color.apply(this, arguments); }
-            },
-            "setBorderWidth": {
-              "value": function () { return this.set_border_width.apply(this, arguments); }
-            },
-            "setColor": {
-              "value": function () { return this.set_color.apply(this, arguments); }
-            },
-            "borderColor": {
-              "get": function () { return this.border_color; },
-              "set": function (value) { this.border_color = value; }
-            },
-            "borderWidth": {
-              "get": function () { return this.border_width; },
-              "set": function (value) { this.border_width = value; }
-            },
-            "hasBorder": {
-              "get": function () { return this.has_border; },
-              "set": function (value) { this.has_border = value; }
-            }
-          },
-          "static": {}
-        },
-        "RotateAction": {
-          "prototype": {},
-          "static": {}
-        },
-        "Score": {
-          "prototype": {
-            "appendAtMarker": {
-              "value": function () { return this.append_at_marker.apply(this, arguments); }
-            },
-            "getLoop": {
-              "value": function () { return this.get_loop.apply(this, arguments); }
-            },
-            "getTimeline": {
-              "value": function () { return this.get_timeline.apply(this, arguments); }
-            },
-            "isPlaying": {
-              "value": function () { return this.is_playing.apply(this, arguments); }
-            },
-            "listTimelines": {
-              "value": function () { return this.list_timelines.apply(this, arguments); }
-            },
-            "removeAll": {
-              "value": function () { return this.remove_all.apply(this, arguments); }
-            },
-            "setLoop": {
-              "value": function () { return this.set_loop.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "Script": {
-          "prototype": {
-            "addSearchPaths": {
-              "value": function () { return this.add_search_paths.apply(this, arguments); }
-            },
-            "addStates": {
-              "value": function () { return this.add_states.apply(this, arguments); }
-            },
-            "connectSignals": {
-              "value": function () { return this.connect_signals.apply(this, arguments); }
-            },
-            "connectSignalsFull": {
-              "value": function () { return this.connect_signals_full.apply(this, arguments); }
-            },
-            "ensureObjects": {
-              "value": function () { return this.ensure_objects.apply(this, arguments); }
-            },
-            "getObject": {
-              "value": function () { return this.get_object.apply(this, arguments); }
-            },
-            "getObjects": {
-              "value": function () { return this.get_objects.apply(this, arguments); }
-            },
-            "getStates": {
-              "value": function () { return this.get_states.apply(this, arguments); }
-            },
-            "getTranslationDomain": {
-              "value": function () { return this.get_translation_domain.apply(this, arguments); }
-            },
-            "getTypeFromName": {
-              "value": function () { return this.get_type_from_name.apply(this, arguments); }
-            },
-            "listObjects": {
-              "value": function () { return this.list_objects.apply(this, arguments); }
-            },
-            "loadFromData": {
-              "value": function () { return this.load_from_data.apply(this, arguments); }
-            },
-            "loadFromFile": {
-              "value": function () { return this.load_from_file.apply(this, arguments); }
-            },
-            "loadFromResource": {
-              "value": function () { return this.load_from_resource.apply(this, arguments); }
-            },
-            "lookupFilename": {
-              "value": function () { return this.lookup_filename.apply(this, arguments); }
-            },
-            "setTranslationDomain": {
-              "value": function () { return this.set_translation_domain.apply(this, arguments); }
-            },
-            "unmergeObjects": {
-              "value": function () { return this.unmerge_objects.apply(this, arguments); }
-            },
-            "filenameSet": {
-              "get": function () { return this.filename_set; },
-              "set": function (value) { this.filename_set = value; }
-            },
-            "translationDomain": {
-              "get": function () { return this.translation_domain; },
-              "set": function (value) { this.translation_domain = value; }
-            }
-          },
-          "static": {}
-        },
-        "ScrollActor": {
-          "prototype": {
-            "getScrollMode": {
-              "value": function () { return this.get_scroll_mode.apply(this, arguments); }
-            },
-            "scrollToPoint": {
-              "value": function () { return this.scroll_to_point.apply(this, arguments); }
-            },
-            "scrollToRect": {
-              "value": function () { return this.scroll_to_rect.apply(this, arguments); }
-            },
-            "setScrollMode": {
-              "value": function () { return this.set_scroll_mode.apply(this, arguments); }
-            },
-            "scrollMode": {
-              "get": function () { return this.scroll_mode; },
-              "set": function (value) { this.scroll_mode = value; }
-            }
-          },
-          "static": {}
-        },
-        "Settings": {
-          "prototype": {
-            "dndDragThreshold": {
-              "get": function () { return this.dnd_drag_threshold; },
-              "set": function (value) { this.dnd_drag_threshold = value; }
-            },
-            "doubleClickDistance": {
-              "get": function () { return this.double_click_distance; },
-              "set": function (value) { this.double_click_distance = value; }
-            },
-            "doubleClickTime": {
-              "get": function () { return this.double_click_time; },
-              "set": function (value) { this.double_click_time = value; }
-            },
-            "fontAntialias": {
-              "get": function () { return this.font_antialias; },
-              "set": function (value) { this.font_antialias = value; }
-            },
-            "fontDpi": {
-              "get": function () { return this.font_dpi; },
-              "set": function (value) { this.font_dpi = value; }
-            },
-            "fontHintStyle": {
-              "get": function () { return this.font_hint_style; },
-              "set": function (value) { this.font_hint_style = value; }
-            },
-            "fontHinting": {
-              "get": function () { return this.font_hinting; },
-              "set": function (value) { this.font_hinting = value; }
-            },
-            "fontName": {
-              "get": function () { return this.font_name; },
-              "set": function (value) { this.font_name = value; }
-            },
-            "fontSubpixelOrder": {
-              "get": function () { return this.font_subpixel_order; },
-              "set": function (value) { this.font_subpixel_order = value; }
-            },
-            "fontconfigTimestamp": {
-              "get": function () { return this.fontconfig_timestamp; },
-              "set": function (value) { this.fontconfig_timestamp = value; }
-            },
-            "longPressDuration": {
-              "get": function () { return this.long_press_duration; },
-              "set": function (value) { this.long_press_duration = value; }
-            },
-            "passwordHintTime": {
-              "get": function () { return this.password_hint_time; },
-              "set": function (value) { this.password_hint_time = value; }
-            },
-            "unscaledFontDpi": {
-              "get": function () { return this.unscaled_font_dpi; },
-              "set": function (value) { this.unscaled_font_dpi = value; }
-            },
-            "windowScalingFactor": {
-              "get": function () { return this.window_scaling_factor; },
-              "set": function (value) { this.window_scaling_factor = value; }
-            }
-          },
-          "static": {
-            "getDefault": {
-              "value": function () { return this.get_default.apply(this, arguments); }
-            }
-          }
-        },
-        "Shader": {
-          "prototype": {
-            "getCoglFragmentShader": {
-              "value": function () { return this.get_cogl_fragment_shader.apply(this, arguments); }
-            },
-            "getCoglProgram": {
-              "value": function () { return this.get_cogl_program.apply(this, arguments); }
-            },
-            "getCoglVertexShader": {
-              "value": function () { return this.get_cogl_vertex_shader.apply(this, arguments); }
-            },
-            "getFragmentSource": {
-              "value": function () { return this.get_fragment_source.apply(this, arguments); }
-            },
-            "getIsEnabled": {
-              "value": function () { return this.get_is_enabled.apply(this, arguments); }
-            },
-            "getVertexSource": {
-              "value": function () { return this.get_vertex_source.apply(this, arguments); }
-            },
-            "isCompiled": {
-              "value": function () { return this.is_compiled.apply(this, arguments); }
-            },
-            "setFragmentSource": {
-              "value": function () { return this.set_fragment_source.apply(this, arguments); }
-            },
-            "setIsEnabled": {
-              "value": function () { return this.set_is_enabled.apply(this, arguments); }
-            },
-            "setUniform": {
-              "value": function () { return this.set_uniform.apply(this, arguments); }
-            },
-            "setVertexSource": {
-              "value": function () { return this.set_vertex_source.apply(this, arguments); }
-            },
-            "fragmentSource": {
-              "get": function () { return this.fragment_source; },
-              "set": function (value) { this.fragment_source = value; }
-            },
-            "vertexSource": {
-              "get": function () { return this.vertex_source; },
-              "set": function (value) { this.vertex_source = value; }
-            }
-          },
-          "static": {}
-        },
-        "ShaderEffect": {
-          "prototype": {
-            "getProgram": {
-              "value": function () { return this.get_program.apply(this, arguments); }
-            },
-            "getShader": {
-              "value": function () { return this.get_shader.apply(this, arguments); }
-            },
-            "setShaderSource": {
-              "value": function () { return this.set_shader_source.apply(this, arguments); }
-            },
-            "setUniform": {
-              "value": function () { return this.set_uniform.apply(this, arguments); }
-            },
-            "setUniformValue": {
-              "value": function () { return this.set_uniform_value.apply(this, arguments); }
-            },
-            "shaderType": {
-              "get": function () { return this.shader_type; },
-              "set": function (value) { this.shader_type = value; }
-            }
-          },
-          "static": {}
-        },
-        "ShaderFloat": {
-          "prototype": {},
-          "static": {}
-        },
-        "ShaderInt": {
-          "prototype": {},
-          "static": {}
-        },
-        "ShaderMatrix": {
-          "prototype": {},
-          "static": {}
-        },
-        "SnapConstraint": {
-          "prototype": {
-            "getEdges": {
-              "value": function () { return this.get_edges.apply(this, arguments); }
-            },
-            "getOffset": {
-              "value": function () { return this.get_offset.apply(this, arguments); }
-            },
-            "getSource": {
-              "value": function () { return this.get_source.apply(this, arguments); }
-            },
-            "setEdges": {
-              "value": function () { return this.set_edges.apply(this, arguments); }
-            },
-            "setOffset": {
-              "value": function () { return this.set_offset.apply(this, arguments); }
-            },
-            "setSource": {
-              "value": function () { return this.set_source.apply(this, arguments); }
-            },
-            "fromEdge": {
-              "get": function () { return this.from_edge; },
-              "set": function (value) { this.from_edge = value; }
-            },
-            "toEdge": {
-              "get": function () { return this.to_edge; },
-              "set": function (value) { this.to_edge = value; }
-            }
-          },
-          "static": {}
-        },
-        "Stage": {
-          "prototype": {
-            "ensureCurrent": {
-              "value": function () { return this.ensure_current.apply(this, arguments); }
-            },
-            "ensureRedraw": {
-              "value": function () { return this.ensure_redraw.apply(this, arguments); }
-            },
-            "ensureViewport": {
-              "value": function () { return this.ensure_viewport.apply(this, arguments); }
-            },
-            "getAcceptFocus": {
-              "value": function () { return this.get_accept_focus.apply(this, arguments); }
-            },
-            "getActorAtPos": {
-              "value": function () { return this.get_actor_at_pos.apply(this, arguments); }
-            },
-            "getColor": {
-              "value": function () { return this.get_color.apply(this, arguments); }
-            },
-            "getFog": {
-              "value": function () { return this.get_fog.apply(this, arguments); }
-            },
-            "getFullscreen": {
-              "value": function () { return this.get_fullscreen.apply(this, arguments); }
-            },
-            "getKeyFocus": {
-              "value": function () { return this.get_key_focus.apply(this, arguments); }
-            },
-            "getMinimumSize": {
-              "value": function () { return this.get_minimum_size.apply(this, arguments); }
-            },
-            "getMotionEventsEnabled": {
-              "value": function () { return this.get_motion_events_enabled.apply(this, arguments); }
-            },
-            "getNoClearHint": {
-              "value": function () { return this.get_no_clear_hint.apply(this, arguments); }
-            },
-            "getPerspective": {
-              "value": function () { return this.get_perspective.apply(this, arguments); }
-            },
-            "getRedrawClipBounds": {
-              "value": function () { return this.get_redraw_clip_bounds.apply(this, arguments); }
-            },
-            "getThrottleMotionEvents": {
-              "value": function () { return this.get_throttle_motion_events.apply(this, arguments); }
-            },
-            "getTitle": {
-              "value": function () { return this.get_title.apply(this, arguments); }
-            },
-            "getUseAlpha": {
-              "value": function () { return this.get_use_alpha.apply(this, arguments); }
-            },
-            "getUseFog": {
-              "value": function () { return this.get_use_fog.apply(this, arguments); }
-            },
-            "getUserResizable": {
-              "value": function () { return this.get_user_resizable.apply(this, arguments); }
-            },
-            "hideCursor": {
-              "value": function () { return this.hide_cursor.apply(this, arguments); }
-            },
-            "isDefault": {
-              "value": function () { return this.is_default.apply(this, arguments); }
-            },
-            "queueRedraw": {
-              "value": function () { return this.queue_redraw.apply(this, arguments); }
-            },
-            "readPixels": {
-              "value": function () { return this.read_pixels.apply(this, arguments); }
-            },
-            "setAcceptFocus": {
-              "value": function () { return this.set_accept_focus.apply(this, arguments); }
-            },
-            "setColor": {
-              "value": function () { return this.set_color.apply(this, arguments); }
-            },
-            "setFog": {
-              "value": function () { return this.set_fog.apply(this, arguments); }
-            },
-            "setFullscreen": {
-              "value": function () { return this.set_fullscreen.apply(this, arguments); }
-            },
-            "setKeyFocus": {
-              "value": function () { return this.set_key_focus.apply(this, arguments); }
-            },
-            "setMinimumSize": {
-              "value": function () { return this.set_minimum_size.apply(this, arguments); }
-            },
-            "setMotionEventsEnabled": {
-              "value": function () { return this.set_motion_events_enabled.apply(this, arguments); }
-            },
-            "setNoClearHint": {
-              "value": function () { return this.set_no_clear_hint.apply(this, arguments); }
-            },
-            "setPerspective": {
-              "value": function () { return this.set_perspective.apply(this, arguments); }
-            },
-            "setThrottleMotionEvents": {
-              "value": function () { return this.set_throttle_motion_events.apply(this, arguments); }
-            },
-            "setTitle": {
-              "value": function () { return this.set_title.apply(this, arguments); }
-            },
-            "setUseAlpha": {
-              "value": function () { return this.set_use_alpha.apply(this, arguments); }
-            },
-            "setUseFog": {
-              "value": function () { return this.set_use_fog.apply(this, arguments); }
-            },
-            "setUserResizable": {
-              "value": function () { return this.set_user_resizable.apply(this, arguments); }
-            },
-            "showCursor": {
-              "value": function () { return this.show_cursor.apply(this, arguments); }
-            },
-            "acceptFocus": {
-              "get": function () { return this.accept_focus; },
-              "set": function (value) { this.accept_focus = value; }
-            },
-            "cursorVisible": {
-              "get": function () { return this.cursor_visible; },
-              "set": function (value) { this.cursor_visible = value; }
-            },
-            "fullscreenSet": {
-              "get": function () { return this.fullscreen_set; },
-              "set": function (value) { this.fullscreen_set = value; }
-            },
-            "keyFocus": {
-              "get": function () { return this.key_focus; },
-              "set": function (value) { this.key_focus = value; }
-            },
-            "noClearHint": {
-              "get": function () { return this.no_clear_hint; },
-              "set": function (value) { this.no_clear_hint = value; }
-            },
-            "useAlpha": {
-              "get": function () { return this.use_alpha; },
-              "set": function (value) { this.use_alpha = value; }
-            },
-            "useFog": {
-              "get": function () { return this.use_fog; },
-              "set": function (value) { this.use_fog = value; }
-            },
-            "userResizable": {
-              "get": function () { return this.user_resizable; },
-              "set": function (value) { this.user_resizable = value; }
-            }
-          },
-          "static": {
-            "getDefault": {
-              "value": function () { return this.get_default.apply(this, arguments); }
-            }
-          }
-        },
-        "StageManager": {
-          "prototype": {
-            "getDefaultStage": {
-              "value": function () { return this.get_default_stage.apply(this, arguments); }
-            },
-            "listStages": {
-              "value": function () { return this.list_stages.apply(this, arguments); }
-            },
-            "peekStages": {
-              "value": function () { return this.peek_stages.apply(this, arguments); }
-            },
-            "setDefaultStage": {
-              "value": function () { return this.set_default_stage.apply(this, arguments); }
-            },
-            "defaultStage": {
-              "get": function () { return this.default_stage; },
-              "set": function (value) { this.default_stage = value; }
-            }
-          },
-          "static": {
-            "getDefault": {
-              "value": function () { return this.get_default.apply(this, arguments); }
-            }
-          }
-        },
-        "State": {
-          "prototype": {
-            "getAnimator": {
-              "value": function () { return this.get_animator.apply(this, arguments); }
-            },
-            "getDuration": {
-              "value": function () { return this.get_duration.apply(this, arguments); }
-            },
-            "getKeys": {
-              "value": function () { return this.get_keys.apply(this, arguments); }
-            },
-            "getState": {
-              "value": function () { return this.get_state.apply(this, arguments); }
-            },
-            "getStates": {
-              "value": function () { return this.get_states.apply(this, arguments); }
-            },
-            "getTimeline": {
-              "value": function () { return this.get_timeline.apply(this, arguments); }
-            },
-            "removeKey": {
-              "value": function () { return this.remove_key.apply(this, arguments); }
-            },
-            "setAnimator": {
-              "value": function () { return this.set_animator.apply(this, arguments); }
-            },
-            "setDuration": {
-              "value": function () { return this.set_duration.apply(this, arguments); }
-            },
-            "setKey": {
-              "value": function () { return this.set_key.apply(this, arguments); }
-            },
-            "setState": {
-              "value": function () { return this.set_state.apply(this, arguments); }
-            },
-            "warpToState": {
-              "value": function () { return this.warp_to_state.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "SwipeAction": {
-          "prototype": {},
-          "static": {}
-        },
-        "TableLayout": {
-          "prototype": {
-            "getAlignment": {
-              "value": function () { return this.get_alignment.apply(this, arguments); }
-            },
-            "getColumnCount": {
-              "value": function () { return this.get_column_count.apply(this, arguments); }
-            },
-            "getColumnSpacing": {
-              "value": function () { return this.get_column_spacing.apply(this, arguments); }
-            },
-            "getEasingDuration": {
-              "value": function () { return this.get_easing_duration.apply(this, arguments); }
-            },
-            "getEasingMode": {
-              "value": function () { return this.get_easing_mode.apply(this, arguments); }
-            },
-            "getExpand": {
-              "value": function () { return this.get_expand.apply(this, arguments); }
-            },
-            "getFill": {
-              "value": function () { return this.get_fill.apply(this, arguments); }
-            },
-            "getRowCount": {
-              "value": function () { return this.get_row_count.apply(this, arguments); }
-            },
-            "getRowSpacing": {
-              "value": function () { return this.get_row_spacing.apply(this, arguments); }
-            },
-            "getSpan": {
-              "value": function () { return this.get_span.apply(this, arguments); }
-            },
-            "getUseAnimations": {
-              "value": function () { return this.get_use_animations.apply(this, arguments); }
-            },
-            "setAlignment": {
-              "value": function () { return this.set_alignment.apply(this, arguments); }
-            },
-            "setColumnSpacing": {
-              "value": function () { return this.set_column_spacing.apply(this, arguments); }
-            },
-            "setEasingDuration": {
-              "value": function () { return this.set_easing_duration.apply(this, arguments); }
-            },
-            "setEasingMode": {
-              "value": function () { return this.set_easing_mode.apply(this, arguments); }
-            },
-            "setExpand": {
-              "value": function () { return this.set_expand.apply(this, arguments); }
-            },
-            "setFill": {
-              "value": function () { return this.set_fill.apply(this, arguments); }
-            },
-            "setRowSpacing": {
-              "value": function () { return this.set_row_spacing.apply(this, arguments); }
-            },
-            "setSpan": {
-              "value": function () { return this.set_span.apply(this, arguments); }
-            },
-            "setUseAnimations": {
-              "value": function () { return this.set_use_animations.apply(this, arguments); }
-            },
-            "columnSpacing": {
-              "get": function () { return this.column_spacing; },
-              "set": function (value) { this.column_spacing = value; }
-            },
-            "easingDuration": {
-              "get": function () { return this.easing_duration; },
-              "set": function (value) { this.easing_duration = value; }
-            },
-            "easingMode": {
-              "get": function () { return this.easing_mode; },
-              "set": function (value) { this.easing_mode = value; }
-            },
-            "rowSpacing": {
-              "get": function () { return this.row_spacing; },
-              "set": function (value) { this.row_spacing = value; }
-            },
-            "useAnimations": {
-              "get": function () { return this.use_animations; },
-              "set": function (value) { this.use_animations = value; }
-            }
-          },
-          "static": {}
-        },
-        "TapAction": {
-          "prototype": {},
-          "static": {}
-        },
-        "Text": {
-          "prototype": {
-            "coordsToPosition": {
-              "value": function () { return this.coords_to_position.apply(this, arguments); }
-            },
-            "deleteChars": {
-              "value": function () { return this.delete_chars.apply(this, arguments); }
-            },
-            "deleteSelection": {
-              "value": function () { return this.delete_selection.apply(this, arguments); }
-            },
-            "deleteText": {
-              "value": function () { return this.delete_text.apply(this, arguments); }
-            },
-            "getActivatable": {
-              "value": function () { return this.get_activatable.apply(this, arguments); }
-            },
-            "getAttributes": {
-              "value": function () { return this.get_attributes.apply(this, arguments); }
-            },
-            "getBuffer": {
-              "value": function () { return this.get_buffer.apply(this, arguments); }
-            },
-            "getChars": {
-              "value": function () { return this.get_chars.apply(this, arguments); }
-            },
-            "getColor": {
-              "value": function () { return this.get_color.apply(this, arguments); }
-            },
-            "getCursorColor": {
-              "value": function () { return this.get_cursor_color.apply(this, arguments); }
-            },
-            "getCursorPosition": {
-              "value": function () { return this.get_cursor_position.apply(this, arguments); }
-            },
-            "getCursorRect": {
-              "value": function () { return this.get_cursor_rect.apply(this, arguments); }
-            },
-            "getCursorSize": {
-              "value": function () { return this.get_cursor_size.apply(this, arguments); }
-            },
-            "getCursorVisible": {
-              "value": function () { return this.get_cursor_visible.apply(this, arguments); }
-            },
-            "getEditable": {
-              "value": function () { return this.get_editable.apply(this, arguments); }
-            },
-            "getEllipsize": {
-              "value": function () { return this.get_ellipsize.apply(this, arguments); }
-            },
-            "getFontDescription": {
-              "value": function () { return this.get_font_description.apply(this, arguments); }
-            },
-            "getFontName": {
-              "value": function () { return this.get_font_name.apply(this, arguments); }
-            },
-            "getJustify": {
-              "value": function () { return this.get_justify.apply(this, arguments); }
-            },
-            "getLayout": {
-              "value": function () { return this.get_layout.apply(this, arguments); }
-            },
-            "getLayoutOffsets": {
-              "value": function () { return this.get_layout_offsets.apply(this, arguments); }
-            },
-            "getLineAlignment": {
-              "value": function () { return this.get_line_alignment.apply(this, arguments); }
-            },
-            "getLineWrap": {
-              "value": function () { return this.get_line_wrap.apply(this, arguments); }
-            },
-            "getLineWrapMode": {
-              "value": function () { return this.get_line_wrap_mode.apply(this, arguments); }
-            },
-            "getMaxLength": {
-              "value": function () { return this.get_max_length.apply(this, arguments); }
-            },
-            "getPasswordChar": {
-              "value": function () { return this.get_password_char.apply(this, arguments); }
-            },
-            "getSelectable": {
-              "value": function () { return this.get_selectable.apply(this, arguments); }
-            },
-            "getSelectedTextColor": {
-              "value": function () { return this.get_selected_text_color.apply(this, arguments); }
-            },
-            "getSelection": {
-              "value": function () { return this.get_selection.apply(this, arguments); }
-            },
-            "getSelectionBound": {
-              "value": function () { return this.get_selection_bound.apply(this, arguments); }
-            },
-            "getSelectionColor": {
-              "value": function () { return this.get_selection_color.apply(this, arguments); }
-            },
-            "getSingleLineMode": {
-              "value": function () { return this.get_single_line_mode.apply(this, arguments); }
-            },
-            "getText": {
-              "value": function () { return this.get_text.apply(this, arguments); }
-            },
-            "getUseMarkup": {
-              "value": function () { return this.get_use_markup.apply(this, arguments); }
-            },
-            "insertText": {
-              "value": function () { return this.insert_text.apply(this, arguments); }
-            },
-            "insertUnichar": {
-              "value": function () { return this.insert_unichar.apply(this, arguments); }
-            },
-            "positionToCoords": {
-              "value": function () { return this.position_to_coords.apply(this, arguments); }
-            },
-            "setActivatable": {
-              "value": function () { return this.set_activatable.apply(this, arguments); }
-            },
-            "setAttributes": {
-              "value": function () { return this.set_attributes.apply(this, arguments); }
-            },
-            "setBuffer": {
-              "value": function () { return this.set_buffer.apply(this, arguments); }
-            },
-            "setColor": {
-              "value": function () { return this.set_color.apply(this, arguments); }
-            },
-            "setCursorColor": {
-              "value": function () { return this.set_cursor_color.apply(this, arguments); }
-            },
-            "setCursorPosition": {
-              "value": function () { return this.set_cursor_position.apply(this, arguments); }
-            },
-            "setCursorSize": {
-              "value": function () { return this.set_cursor_size.apply(this, arguments); }
-            },
-            "setCursorVisible": {
-              "value": function () { return this.set_cursor_visible.apply(this, arguments); }
-            },
-            "setEditable": {
-              "value": function () { return this.set_editable.apply(this, arguments); }
-            },
-            "setEllipsize": {
-              "value": function () { return this.set_ellipsize.apply(this, arguments); }
-            },
-            "setFontDescription": {
-              "value": function () { return this.set_font_description.apply(this, arguments); }
-            },
-            "setFontName": {
-              "value": function () { return this.set_font_name.apply(this, arguments); }
-            },
-            "setJustify": {
-              "value": function () { return this.set_justify.apply(this, arguments); }
-            },
-            "setLineAlignment": {
-              "value": function () { return this.set_line_alignment.apply(this, arguments); }
-            },
-            "setLineWrap": {
-              "value": function () { return this.set_line_wrap.apply(this, arguments); }
-            },
-            "setLineWrapMode": {
-              "value": function () { return this.set_line_wrap_mode.apply(this, arguments); }
-            },
-            "setMarkup": {
-              "value": function () { return this.set_markup.apply(this, arguments); }
-            },
-            "setMaxLength": {
-              "value": function () { return this.set_max_length.apply(this, arguments); }
-            },
-            "setPasswordChar": {
-              "value": function () { return this.set_password_char.apply(this, arguments); }
-            },
-            "setPreeditString": {
-              "value": function () { return this.set_preedit_string.apply(this, arguments); }
-            },
-            "setSelectable": {
-              "value": function () { return this.set_selectable.apply(this, arguments); }
-            },
-            "setSelectedTextColor": {
-              "value": function () { return this.set_selected_text_color.apply(this, arguments); }
-            },
-            "setSelection": {
-              "value": function () { return this.set_selection.apply(this, arguments); }
-            },
-            "setSelectionBound": {
-              "value": function () { return this.set_selection_bound.apply(this, arguments); }
-            },
-            "setSelectionColor": {
-              "value": function () { return this.set_selection_color.apply(this, arguments); }
-            },
-            "setSingleLineMode": {
-              "value": function () { return this.set_single_line_mode.apply(this, arguments); }
-            },
-            "setText": {
-              "value": function () { return this.set_text.apply(this, arguments); }
-            },
-            "setUseMarkup": {
-              "value": function () { return this.set_use_markup.apply(this, arguments); }
-            },
-            "cursorColor": {
-              "get": function () { return this.cursor_color; },
-              "set": function (value) { this.cursor_color = value; }
-            },
-            "cursorColorSet": {
-              "get": function () { return this.cursor_color_set; },
-              "set": function (value) { this.cursor_color_set = value; }
-            },
-            "cursorPosition": {
-              "get": function () { return this.cursor_position; },
-              "set": function (value) { this.cursor_position = value; }
-            },
-            "cursorSize": {
-              "get": function () { return this.cursor_size; },
-              "set": function (value) { this.cursor_size = value; }
-            },
-            "cursorVisible": {
-              "get": function () { return this.cursor_visible; },
-              "set": function (value) { this.cursor_visible = value; }
-            },
-            "fontDescription": {
-              "get": function () { return this.font_description; },
-              "set": function (value) { this.font_description = value; }
-            },
-            "fontName": {
-              "get": function () { return this.font_name; },
-              "set": function (value) { this.font_name = value; }
-            },
-            "lineAlignment": {
-              "get": function () { return this.line_alignment; },
-              "set": function (value) { this.line_alignment = value; }
-            },
-            "lineWrap": {
-              "get": function () { return this.line_wrap; },
-              "set": function (value) { this.line_wrap = value; }
-            },
-            "lineWrapMode": {
-              "get": function () { return this.line_wrap_mode; },
-              "set": function (value) { this.line_wrap_mode = value; }
-            },
-            "maxLength": {
-              "get": function () { return this.max_length; },
-              "set": function (value) { this.max_length = value; }
-            },
-            "passwordChar": {
-              "get": function () { return this.password_char; },
-              "set": function (value) { this.password_char = value; }
-            },
-            "selectedTextColor": {
-              "get": function () { return this.selected_text_color; },
-              "set": function (value) { this.selected_text_color = value; }
-            },
-            "selectedTextColorSet": {
-              "get": function () { return this.selected_text_color_set; },
-              "set": function (value) { this.selected_text_color_set = value; }
-            },
-            "selectionBound": {
-              "get": function () { return this.selection_bound; },
-              "set": function (value) { this.selection_bound = value; }
-            },
-            "selectionColor": {
-              "get": function () { return this.selection_color; },
-              "set": function (value) { this.selection_color = value; }
-            },
-            "selectionColorSet": {
-              "get": function () { return this.selection_color_set; },
-              "set": function (value) { this.selection_color_set = value; }
-            },
-            "singleLineMode": {
-              "get": function () { return this.single_line_mode; },
-              "set": function (value) { this.single_line_mode = value; }
-            },
-            "useMarkup": {
-              "get": function () { return this.use_markup; },
-              "set": function (value) { this.use_markup = value; }
-            }
-          },
-          "static": {}
-        },
-        "TextBuffer": {
-          "prototype": {
-            "deleteText": {
-              "value": function () { return this.delete_text.apply(this, arguments); }
-            },
-            "emitDeletedText": {
-              "value": function () { return this.emit_deleted_text.apply(this, arguments); }
-            },
-            "emitInsertedText": {
-              "value": function () { return this.emit_inserted_text.apply(this, arguments); }
-            },
-            "getBytes": {
-              "value": function () { return this.get_bytes.apply(this, arguments); }
-            },
-            "getLength": {
-              "value": function () { return this.get_length.apply(this, arguments); }
-            },
-            "getMaxLength": {
-              "value": function () { return this.get_max_length.apply(this, arguments); }
-            },
-            "getText": {
-              "value": function () { return this.get_text.apply(this, arguments); }
-            },
-            "insertText": {
-              "value": function () { return this.insert_text.apply(this, arguments); }
-            },
-            "setMaxLength": {
-              "value": function () { return this.set_max_length.apply(this, arguments); }
-            },
-            "setText": {
-              "value": function () { return this.set_text.apply(this, arguments); }
-            },
-            "maxLength": {
-              "get": function () { return this.max_length; },
-              "set": function (value) { this.max_length = value; }
-            }
-          },
-          "static": {}
-        },
-        "TextNode": {
-          "prototype": {},
-          "static": {}
-        },
-        "Texture": {
-          "prototype": {
-            "getBaseSize": {
-              "value": function () { return this.get_base_size.apply(this, arguments); }
-            },
-            "getCoglMaterial": {
-              "value": function () { return this.get_cogl_material.apply(this, arguments); }
-            },
-            "getCoglTexture": {
-              "value": function () { return this.get_cogl_texture.apply(this, arguments); }
-            },
-            "getFilterQuality": {
-              "value": function () { return this.get_filter_quality.apply(this, arguments); }
-            },
-            "getKeepAspectRatio": {
-              "value": function () { return this.get_keep_aspect_ratio.apply(this, arguments); }
-            },
-            "getLoadAsync": {
-              "value": function () { return this.get_load_async.apply(this, arguments); }
-            },
-            "getLoadDataAsync": {
-              "value": function () { return this.get_load_data_async.apply(this, arguments); }
-            },
-            "getMaxTileWaste": {
-              "value": function () { return this.get_max_tile_waste.apply(this, arguments); }
-            },
-            "getPickWithAlpha": {
-              "value": function () { return this.get_pick_with_alpha.apply(this, arguments); }
-            },
-            "getPixelFormat": {
-              "value": function () { return this.get_pixel_format.apply(this, arguments); }
-            },
-            "getRepeat": {
-              "value": function () { return this.get_repeat.apply(this, arguments); }
-            },
-            "getSyncSize": {
-              "value": function () { return this.get_sync_size.apply(this, arguments); }
-            },
-            "setAreaFromRgbData": {
-              "value": function () { return this.set_area_from_rgb_data.apply(this, arguments); }
-            },
-            "setCoglMaterial": {
-              "value": function () { return this.set_cogl_material.apply(this, arguments); }
-            },
-            "setCoglTexture": {
-              "value": function () { return this.set_cogl_texture.apply(this, arguments); }
-            },
-            "setFilterQuality": {
-              "value": function () { return this.set_filter_quality.apply(this, arguments); }
-            },
-            "setFromFile": {
-              "value": function () { return this.set_from_file.apply(this, arguments); }
-            },
-            "setFromRgbData": {
-              "value": function () { return this.set_from_rgb_data.apply(this, arguments); }
-            },
-            "setFromYuvData": {
-              "value": function () { return this.set_from_yuv_data.apply(this, arguments); }
-            },
-            "setKeepAspectRatio": {
-              "value": function () { return this.set_keep_aspect_ratio.apply(this, arguments); }
-            },
-            "setLoadAsync": {
-              "value": function () { return this.set_load_async.apply(this, arguments); }
-            },
-            "setLoadDataAsync": {
-              "value": function () { return this.set_load_data_async.apply(this, arguments); }
-            },
-            "setPickWithAlpha": {
-              "value": function () { return this.set_pick_with_alpha.apply(this, arguments); }
-            },
-            "setRepeat": {
-              "value": function () { return this.set_repeat.apply(this, arguments); }
-            },
-            "setSyncSize": {
-              "value": function () { return this.set_sync_size.apply(this, arguments); }
-            },
-            "coglMaterial": {
-              "get": function () { return this.cogl_material; },
-              "set": function (value) { this.cogl_material = value; }
-            },
-            "coglTexture": {
-              "get": function () { return this.cogl_texture; },
-              "set": function (value) { this.cogl_texture = value; }
-            },
-            "disableSlicing": {
-              "get": function () { return this.disable_slicing; },
-              "set": function (value) { this.disable_slicing = value; }
-            },
-            "filterQuality": {
-              "get": function () { return this.filter_quality; },
-              "set": function (value) { this.filter_quality = value; }
-            },
-            "keepAspectRatio": {
-              "get": function () { return this.keep_aspect_ratio; },
-              "set": function (value) { this.keep_aspect_ratio = value; }
-            },
-            "loadAsync": {
-              "get": function () { return this.load_async; },
-              "set": function (value) { this.load_async = value; }
-            },
-            "loadDataAsync": {
-              "get": function () { return this.load_data_async; },
-              "set": function (value) { this.load_data_async = value; }
-            },
-            "pickWithAlpha": {
-              "get": function () { return this.pick_with_alpha; },
-              "set": function (value) { this.pick_with_alpha = value; }
-            },
-            "pixelFormat": {
-              "get": function () { return this.pixel_format; },
-              "set": function (value) { this.pixel_format = value; }
-            },
-            "repeatX": {
-              "get": function () { return this.repeat_x; },
-              "set": function (value) { this.repeat_x = value; }
-            },
-            "repeatY": {
-              "get": function () { return this.repeat_y; },
-              "set": function (value) { this.repeat_y = value; }
-            },
-            "syncSize": {
-              "get": function () { return this.sync_size; },
-              "set": function (value) { this.sync_size = value; }
-            },
-            "tileWaste": {
-              "get": function () { return this.tile_waste; },
-              "set": function (value) { this.tile_waste = value; }
-            }
-          },
-          "static": {}
-        },
-        "TextureNode": {
-          "prototype": {},
-          "static": {}
-        },
-        "Timeline": {
-          "prototype": {
-            "addMarker": {
-              "value": function () { return this.add_marker.apply(this, arguments); }
-            },
-            "addMarkerAtTime": {
-              "value": function () { return this.add_marker_at_time.apply(this, arguments); }
-            },
-            "advanceToMarker": {
-              "value": function () { return this.advance_to_marker.apply(this, arguments); }
-            },
-            "getAutoReverse": {
-              "value": function () { return this.get_auto_reverse.apply(this, arguments); }
-            },
-            "getCubicBezierProgress": {
-              "value": function () { return this.get_cubic_bezier_progress.apply(this, arguments); }
-            },
-            "getCurrentRepeat": {
-              "value": function () { return this.get_current_repeat.apply(this, arguments); }
-            },
-            "getDelay": {
-              "value": function () { return this.get_delay.apply(this, arguments); }
-            },
-            "getDelta": {
-              "value": function () { return this.get_delta.apply(this, arguments); }
-            },
-            "getDirection": {
-              "value": function () { return this.get_direction.apply(this, arguments); }
-            },
-            "getDuration": {
-              "value": function () { return this.get_duration.apply(this, arguments); }
-            },
-            "getDurationHint": {
-              "value": function () { return this.get_duration_hint.apply(this, arguments); }
-            },
-            "getElapsedTime": {
-              "value": function () { return this.get_elapsed_time.apply(this, arguments); }
-            },
-            "getLoop": {
-              "value": function () { return this.get_loop.apply(this, arguments); }
-            },
-            "getProgress": {
-              "value": function () { return this.get_progress.apply(this, arguments); }
-            },
-            "getProgressMode": {
-              "value": function () { return this.get_progress_mode.apply(this, arguments); }
-            },
-            "getRepeatCount": {
-              "value": function () { return this.get_repeat_count.apply(this, arguments); }
-            },
-            "getStepProgress": {
-              "value": function () { return this.get_step_progress.apply(this, arguments); }
-            },
-            "hasMarker": {
-              "value": function () { return this.has_marker.apply(this, arguments); }
-            },
-            "isPlaying": {
-              "value": function () { return this.is_playing.apply(this, arguments); }
-            },
-            "listMarkers": {
-              "value": function () { return this.list_markers.apply(this, arguments); }
-            },
-            "removeMarker": {
-              "value": function () { return this.remove_marker.apply(this, arguments); }
-            },
-            "setAutoReverse": {
-              "value": function () { return this.set_auto_reverse.apply(this, arguments); }
-            },
-            "setCubicBezierProgress": {
-              "value": function () { return this.set_cubic_bezier_progress.apply(this, arguments); }
-            },
-            "setDelay": {
-              "value": function () { return this.set_delay.apply(this, arguments); }
-            },
-            "setDirection": {
-              "value": function () { return this.set_direction.apply(this, arguments); }
-            },
-            "setDuration": {
-              "value": function () { return this.set_duration.apply(this, arguments); }
-            },
-            "setLoop": {
-              "value": function () { return this.set_loop.apply(this, arguments); }
-            },
-            "setProgressFunc": {
-              "value": function () { return this.set_progress_func.apply(this, arguments); }
-            },
-            "setProgressMode": {
-              "value": function () { return this.set_progress_mode.apply(this, arguments); }
-            },
-            "setRepeatCount": {
-              "value": function () { return this.set_repeat_count.apply(this, arguments); }
-            },
-            "setStepProgress": {
-              "value": function () { return this.set_step_progress.apply(this, arguments); }
-            },
-            "autoReverse": {
-              "get": function () { return this.auto_reverse; },
-              "set": function (value) { this.auto_reverse = value; }
-            },
-            "progressMode": {
-              "get": function () { return this.progress_mode; },
-              "set": function (value) { this.progress_mode = value; }
-            },
-            "repeatCount": {
-              "get": function () { return this.repeat_count; },
-              "set": function (value) { this.repeat_count = value; }
-            }
-          },
-          "static": {}
-        },
-        "Transition": {
-          "prototype": {
-            "getAnimatable": {
-              "value": function () { return this.get_animatable.apply(this, arguments); }
-            },
-            "getInterval": {
-              "value": function () { return this.get_interval.apply(this, arguments); }
-            },
-            "getRemoveOnComplete": {
-              "value": function () { return this.get_remove_on_complete.apply(this, arguments); }
-            },
-            "setAnimatable": {
-              "value": function () { return this.set_animatable.apply(this, arguments); }
-            },
-            "setFrom": {
-              "value": function () { return this.set_from.apply(this, arguments); }
-            },
-            "setFromValue": {
-              "value": function () { return this.set_from_value.apply(this, arguments); }
-            },
-            "setInterval": {
-              "value": function () { return this.set_interval.apply(this, arguments); }
-            },
-            "setRemoveOnComplete": {
-              "value": function () { return this.set_remove_on_complete.apply(this, arguments); }
-            },
-            "setTo": {
-              "value": function () { return this.set_to.apply(this, arguments); }
-            },
-            "setToValue": {
-              "value": function () { return this.set_to_value.apply(this, arguments); }
-            },
-            "removeOnComplete": {
-              "get": function () { return this.remove_on_complete; },
-              "set": function (value) { this.remove_on_complete = value; }
-            }
-          },
-          "static": {}
-        },
-        "TransitionGroup": {
-          "prototype": {
-            "addTransition": {
-              "value": function () { return this.add_transition.apply(this, arguments); }
-            },
-            "removeAll": {
-              "value": function () { return this.remove_all.apply(this, arguments); }
-            },
-            "removeTransition": {
-              "value": function () { return this.remove_transition.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "ZoomAction": {
-          "prototype": {
-            "getFocalPoint": {
-              "value": function () { return this.get_focal_point.apply(this, arguments); }
-            },
-            "getTransformedFocalPoint": {
-              "value": function () { return this.get_transformed_focal_point.apply(this, arguments); }
-            },
-            "getZoomAxis": {
-              "value": function () { return this.get_zoom_axis.apply(this, arguments); }
-            },
-            "setZoomAxis": {
-              "value": function () { return this.set_zoom_axis.apply(this, arguments); }
-            },
-            "zoomAxis": {
-              "get": function () { return this.zoom_axis; },
-              "set": function (value) { this.zoom_axis = value; }
-            }
-          },
-          "static": {}
-        }
-      },
-      "static": {
-        "actorBoxAlloc": {
-          "value": function () { return this.actor_box_alloc.apply(this, arguments); }
-        },
-        "baseInit": {
-          "value": function () { return this.base_init.apply(this, arguments); }
-        },
-        "cairoClear": {
-          "value": function () { return this.cairo_clear.apply(this, arguments); }
-        },
-        "cairoSetSourceColor": {
-          "value": function () { return this.cairo_set_source_color.apply(this, arguments); }
-        },
-        "checkVersion": {
-          "value": function () { return this.check_version.apply(this, arguments); }
-        },
-        "checkWindowingBackend": {
-          "value": function () { return this.check_windowing_backend.apply(this, arguments); }
-        },
-        "clearGlyphCache": {
-          "value": function () { return this.clear_glyph_cache.apply(this, arguments); }
-        },
-        "colorFromHls": {
-          "value": function () { return this.color_from_hls.apply(this, arguments); }
-        },
-        "colorFromPixel": {
-          "value": function () { return this.color_from_pixel.apply(this, arguments); }
-        },
-        "colorFromString": {
-          "value": function () { return this.color_from_string.apply(this, arguments); }
-        },
-        "colorGetStatic": {
-          "value": function () { return this.color_get_static.apply(this, arguments); }
-        },
-        "containerClassFindChildProperty": {
-          "value": function () { return this.container_class_find_child_property.apply(this, arguments); }
-        },
-        "containerClassListChildProperties": {
-          "value": function () { return this.container_class_list_child_properties.apply(this, arguments); }
-        },
-        "disableAccessibility": {
-          "value": function () { return this.disable_accessibility.apply(this, arguments); }
-        },
-        "doEvent": {
-          "value": function () { return this.do_event.apply(this, arguments); }
-        },
-        "eventAddFilter": {
-          "value": function () { return this.event_add_filter.apply(this, arguments); }
-        },
-        "eventGet": {
-          "value": function () { return this.event_get.apply(this, arguments); }
-        },
-        "eventPeek": {
-          "value": function () { return this.event_peek.apply(this, arguments); }
-        },
-        "eventRemoveFilter": {
-          "value": function () { return this.event_remove_filter.apply(this, arguments); }
-        },
-        "eventsPending": {
-          "value": function () { return this.events_pending.apply(this, arguments); }
-        },
-        "featureAvailable": {
-          "value": function () { return this.feature_available.apply(this, arguments); }
-        },
-        "featureGetAll": {
-          "value": function () { return this.feature_get_all.apply(this, arguments); }
-        },
-        "frameSourceAdd": {
-          "value": function () { return this.frame_source_add.apply(this, arguments); }
-        },
-        "frameSourceAddFull": {
-          "value": function () { return this.frame_source_add_full.apply(this, arguments); }
-        },
-        "getAccessibilityEnabled": {
-          "value": function () { return this.get_accessibility_enabled.apply(this, arguments); }
-        },
-        "getActorByGid": {
-          "value": function () { return this.get_actor_by_gid.apply(this, arguments); }
-        },
-        "getCurrentEvent": {
-          "value": function () { return this.get_current_event.apply(this, arguments); }
-        },
-        "getCurrentEventTime": {
-          "value": function () { return this.get_current_event_time.apply(this, arguments); }
-        },
-        "getDebugEnabled": {
-          "value": function () { return this.get_debug_enabled.apply(this, arguments); }
-        },
-        "getDefaultBackend": {
-          "value": function () { return this.get_default_backend.apply(this, arguments); }
-        },
-        "getDefaultFrameRate": {
-          "value": function () { return this.get_default_frame_rate.apply(this, arguments); }
-        },
-        "getDefaultTextDirection": {
-          "value": function () { return this.get_default_text_direction.apply(this, arguments); }
-        },
-        "getFontFlags": {
-          "value": function () { return this.get_font_flags.apply(this, arguments); }
-        },
-        "getFontMap": {
-          "value": function () { return this.get_font_map.apply(this, arguments); }
-        },
-        "getInputDeviceForId": {
-          "value": function () { return this.get_input_device_for_id.apply(this, arguments); }
-        },
-        "getKeyboardGrab": {
-          "value": function () { return this.get_keyboard_grab.apply(this, arguments); }
-        },
-        "getMotionEventsEnabled": {
-          "value": function () { return this.get_motion_events_enabled.apply(this, arguments); }
-        },
-        "getOptionGroup": {
-          "value": function () { return this.get_option_group.apply(this, arguments); }
-        },
-        "getOptionGroupWithoutInit": {
-          "value": function () { return this.get_option_group_without_init.apply(this, arguments); }
-        },
-        "getPointerGrab": {
-          "value": function () { return this.get_pointer_grab.apply(this, arguments); }
-        },
-        "getScriptId": {
-          "value": function () { return this.get_script_id.apply(this, arguments); }
-        },
-        "getShowFps": {
-          "value": function () { return this.get_show_fps.apply(this, arguments); }
-        },
-        "getTimestamp": {
-          "value": function () { return this.get_timestamp.apply(this, arguments); }
-        },
-        "grabKeyboard": {
-          "value": function () { return this.grab_keyboard.apply(this, arguments); }
-        },
-        "grabPointer": {
-          "value": function () { return this.grab_pointer.apply(this, arguments); }
-        },
-        "grabPointerForDevice": {
-          "value": function () { return this.grab_pointer_for_device.apply(this, arguments); }
-        },
-        "imageErrorQuark": {
-          "value": function () { return this.image_error_quark.apply(this, arguments); }
-        },
-        "initErrorQuark": {
-          "value": function () { return this.init_error_quark.apply(this, arguments); }
-        },
-        "initWithArgs": {
-          "value": function () { return this.init_with_args.apply(this, arguments); }
-        },
-        "keysymToUnicode": {
-          "value": function () { return this.keysym_to_unicode.apply(this, arguments); }
-        },
-        "mainLevel": {
-          "value": function () { return this.main_level.apply(this, arguments); }
-        },
-        "mainQuit": {
-          "value": function () { return this.main_quit.apply(this, arguments); }
-        },
-        "matrixAlloc": {
-          "value": function () { return this.matrix_alloc.apply(this, arguments); }
-        },
-        "matrixFree": {
-          "value": function () { return this.matrix_free.apply(this, arguments); }
-        },
-        "matrixGetType": {
-          "value": function () { return this.matrix_get_type.apply(this, arguments); }
-        },
-        "matrixInitFromArray": {
-          "value": function () { return this.matrix_init_from_array.apply(this, arguments); }
-        },
-        "matrixInitFromMatrix": {
-          "value": function () { return this.matrix_init_from_matrix.apply(this, arguments); }
-        },
-        "matrixInitIdentity": {
-          "value": function () { return this.matrix_init_identity.apply(this, arguments); }
-        },
-        "paramSpecColor": {
-          "value": function () { return this.param_spec_color.apply(this, arguments); }
-        },
-        "paramSpecFixed": {
-          "value": function () { return this.param_spec_fixed.apply(this, arguments); }
-        },
-        "paramSpecUnits": {
-          "value": function () { return this.param_spec_units.apply(this, arguments); }
-        },
-        "pointZero": {
-          "value": function () { return this.point_zero.apply(this, arguments); }
-        },
-        "rectZero": {
-          "value": function () { return this.rect_zero.apply(this, arguments); }
-        },
-        "scriptErrorQuark": {
-          "value": function () { return this.script_error_quark.apply(this, arguments); }
-        },
-        "setDefaultFrameRate": {
-          "value": function () { return this.set_default_frame_rate.apply(this, arguments); }
-        },
-        "setFontFlags": {
-          "value": function () { return this.set_font_flags.apply(this, arguments); }
-        },
-        "setMotionEventsEnabled": {
-          "value": function () { return this.set_motion_events_enabled.apply(this, arguments); }
-        },
-        "setWindowingBackend": {
-          "value": function () { return this.set_windowing_backend.apply(this, arguments); }
-        },
-        "shaderErrorQuark": {
-          "value": function () { return this.shader_error_quark.apply(this, arguments); }
-        },
-        "testAdd": {
-          "value": function () { return this.test_add.apply(this, arguments); }
-        },
-        "testAddData": {
-          "value": function () { return this.test_add_data.apply(this, arguments); }
-        },
-        "testAddDataFull": {
-          "value": function () { return this.test_add_data_full.apply(this, arguments); }
-        },
-        "testCheckActorAtPoint": {
-          "value": function () { return this.test_check_actor_at_point.apply(this, arguments); }
-        },
-        "testCheckColorAtPoint": {
-          "value": function () { return this.test_check_color_at_point.apply(this, arguments); }
-        },
-        "testGetStage": {
-          "value": function () { return this.test_get_stage.apply(this, arguments); }
-        },
-        "testInit": {
-          "value": function () { return this.test_init.apply(this, arguments); }
-        },
-        "testRun": {
-          "value": function () { return this.test_run.apply(this, arguments); }
-        },
-        "textureErrorQuark": {
-          "value": function () { return this.texture_error_quark.apply(this, arguments); }
-        },
-        "threadsAddFrameSource": {
-          "value": function () { return this.threads_add_frame_source.apply(this, arguments); }
-        },
-        "threadsAddFrameSourceFull": {
-          "value": function () { return this.threads_add_frame_source_full.apply(this, arguments); }
-        },
-        "threadsAddIdle": {
-          "value": function () { return this.threads_add_idle.apply(this, arguments); }
-        },
-        "threadsAddIdleFull": {
-          "value": function () { return this.threads_add_idle_full.apply(this, arguments); }
-        },
-        "threadsAddRepaintFunc": {
-          "value": function () { return this.threads_add_repaint_func.apply(this, arguments); }
-        },
-        "threadsAddRepaintFuncFull": {
-          "value": function () { return this.threads_add_repaint_func_full.apply(this, arguments); }
-        },
-        "threadsAddTimeout": {
-          "value": function () { return this.threads_add_timeout.apply(this, arguments); }
-        },
-        "threadsAddTimeoutFull": {
-          "value": function () { return this.threads_add_timeout_full.apply(this, arguments); }
-        },
-        "threadsEnter": {
-          "value": function () { return this.threads_enter.apply(this, arguments); }
-        },
-        "threadsInit": {
-          "value": function () { return this.threads_init.apply(this, arguments); }
-        },
-        "threadsLeave": {
-          "value": function () { return this.threads_leave.apply(this, arguments); }
-        },
-        "threadsRemoveRepaintFunc": {
-          "value": function () { return this.threads_remove_repaint_func.apply(this, arguments); }
-        },
-        "threadsSetLockFunctions": {
-          "value": function () { return this.threads_set_lock_functions.apply(this, arguments); }
-        },
-        "timeoutPoolNew": {
-          "value": function () { return this.timeout_pool_new.apply(this, arguments); }
-        },
-        "ungrabKeyboard": {
-          "value": function () { return this.ungrab_keyboard.apply(this, arguments); }
-        },
-        "ungrabPointer": {
-          "value": function () { return this.ungrab_pointer.apply(this, arguments); }
-        },
-        "ungrabPointerForDevice": {
-          "value": function () { return this.ungrab_pointer_for_device.apply(this, arguments); }
-        },
-        "unicodeToKeysym": {
-          "value": function () { return this.unicode_to_keysym.apply(this, arguments); }
-        },
-        "unitsFromCm": {
-          "value": function () { return this.units_from_cm.apply(this, arguments); }
-        },
-        "unitsFromEm": {
-          "value": function () { return this.units_from_em.apply(this, arguments); }
-        },
-        "unitsFromEmForFont": {
-          "value": function () { return this.units_from_em_for_font.apply(this, arguments); }
-        },
-        "unitsFromMm": {
-          "value": function () { return this.units_from_mm.apply(this, arguments); }
-        },
-        "unitsFromPixels": {
-          "value": function () { return this.units_from_pixels.apply(this, arguments); }
-        },
-        "unitsFromPt": {
-          "value": function () { return this.units_from_pt.apply(this, arguments); }
-        },
-        "unitsFromString": {
-          "value": function () { return this.units_from_string.apply(this, arguments); }
-        },
-        "utilNextP2": {
-          "value": function () { return this.util_next_p2.apply(this, arguments); }
-        },
-        "valueDupPaintNode": {
-          "value": function () { return this.value_dup_paint_node.apply(this, arguments); }
-        },
-        "valueGetColor": {
-          "value": function () { return this.value_get_color.apply(this, arguments); }
-        },
-        "valueGetFixed": {
-          "value": function () { return this.value_get_fixed.apply(this, arguments); }
-        },
-        "valueGetPaintNode": {
-          "value": function () { return this.value_get_paint_node.apply(this, arguments); }
-        },
-        "valueGetShaderFloat": {
-          "value": function () { return this.value_get_shader_float.apply(this, arguments); }
-        },
-        "valueGetShaderInt": {
-          "value": function () { return this.value_get_shader_int.apply(this, arguments); }
-        },
-        "valueGetShaderMatrix": {
-          "value": function () { return this.value_get_shader_matrix.apply(this, arguments); }
-        },
-        "valueGetUnits": {
-          "value": function () { return this.value_get_units.apply(this, arguments); }
-        },
-        "valueSetColor": {
-          "value": function () { return this.value_set_color.apply(this, arguments); }
-        },
-        "valueSetFixed": {
-          "value": function () { return this.value_set_fixed.apply(this, arguments); }
-        },
-        "valueSetPaintNode": {
-          "value": function () { return this.value_set_paint_node.apply(this, arguments); }
-        },
-        "valueSetShaderFloat": {
-          "value": function () { return this.value_set_shader_float.apply(this, arguments); }
-        },
-        "valueSetShaderInt": {
-          "value": function () { return this.value_set_shader_int.apply(this, arguments); }
-        },
-        "valueSetShaderMatrix": {
-          "value": function () { return this.value_set_shader_matrix.apply(this, arguments); }
-        },
-        "valueSetUnits": {
-          "value": function () { return this.value_set_units.apply(this, arguments); }
-        },
-        "valueTakePaintNode": {
-          "value": function () { return this.value_take_paint_node.apply(this, arguments); }
-        }
-      }
-    },
-    "Cogl": {
-      "class": {
-        "AtlasTexture": {
-          "prototype": {},
-          "static": {}
-        },
-        "Attribute": {
-          "prototype": {
-            "getBuffer": {
-              "value": function () { return this.get_buffer.apply(this, arguments); }
-            },
-            "getNormalized": {
-              "value": function () { return this.get_normalized.apply(this, arguments); }
-            },
-            "setBuffer": {
-              "value": function () { return this.set_buffer.apply(this, arguments); }
-            },
-            "setNormalized": {
-              "value": function () { return this.set_normalized.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "AttributeBuffer": {
-          "prototype": {},
-          "static": {}
-        },
-        "Bitmap": {
-          "prototype": {
-            "getBuffer": {
-              "value": function () { return this.get_buffer.apply(this, arguments); }
-            },
-            "getFormat": {
-              "value": function () { return this.get_format.apply(this, arguments); }
-            },
-            "getHeight": {
-              "value": function () { return this.get_height.apply(this, arguments); }
-            },
-            "getRowstride": {
-              "value": function () { return this.get_rowstride.apply(this, arguments); }
-            },
-            "getWidth": {
-              "value": function () { return this.get_width.apply(this, arguments); }
-            }
-          },
-          "static": {
-            "getSizeFromFile": {
-              "value": function () { return this.get_size_from_file.apply(this, arguments); }
-            }
-          }
-        },
-        "Context": {
-          "prototype": {
-            "getDisplay": {
-              "value": function () { return this.get_display.apply(this, arguments); }
-            },
-            "getRenderer": {
-              "value": function () { return this.get_renderer.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "Display": {
-          "prototype": {
-            "getRenderer": {
-              "value": function () { return this.get_renderer.apply(this, arguments); }
-            },
-            "setOnscreenTemplate": {
-              "value": function () { return this.set_onscreen_template.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "Fixed": {
-          "prototype": {},
-          "static": {}
-        },
-        "FrameInfo": {
-          "prototype": {
-            "getFrameCounter": {
-              "value": function () { return this.get_frame_counter.apply(this, arguments); }
-            },
-            "getOutput": {
-              "value": function () { return this.get_output.apply(this, arguments); }
-            },
-            "getPresentationTime": {
-              "value": function () { return this.get_presentation_time.apply(this, arguments); }
-            },
-            "getRefreshRate": {
-              "value": function () { return this.get_refresh_rate.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "GLES2Context": {
-          "prototype": {
-            "getVtable": {
-              "value": function () { return this.get_vtable.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "IndexBuffer": {
-          "prototype": {},
-          "static": {}
-        },
-        "Indices": {
-          "prototype": {
-            "getBuffer": {
-              "value": function () { return this.get_buffer.apply(this, arguments); }
-            },
-            "getOffset": {
-              "value": function () { return this.get_offset.apply(this, arguments); }
-            },
-            "getType": {
-              "value": function () { return this.get_type.apply(this, arguments); }
-            },
-            "setOffset": {
-              "value": function () { return this.set_offset.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "MatrixStack": {
-          "prototype": {
-            "getEntry": {
-              "value": function () { return this.get_entry.apply(this, arguments); }
-            },
-            "getInverse": {
-              "value": function () { return this.get_inverse.apply(this, arguments); }
-            },
-            "loadIdentity": {
-              "value": function () { return this.load_identity.apply(this, arguments); }
-            },
-            "rotateEuler": {
-              "value": function () { return this.rotate_euler.apply(this, arguments); }
-            },
-            "rotateQuaternion": {
-              "value": function () { return this.rotate_quaternion.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "Object": {
-          "prototype": {
-            "getUserData": {
-              "value": function () { return this.get_user_data.apply(this, arguments); }
-            },
-            "setUserData": {
-              "value": function () { return this.set_user_data.apply(this, arguments); }
-            }
-          },
-          "static": {
-            "valueGetObject": {
-              "value": function () { return this.value_get_object.apply(this, arguments); }
-            },
-            "valueSetObject": {
-              "value": function () { return this.value_set_object.apply(this, arguments); }
-            }
-          }
-        },
-        "Onscreen": {
-          "prototype": {
-            "addDirtyCallback": {
-              "value": function () { return this.add_dirty_callback.apply(this, arguments); }
-            },
-            "addFrameCallback": {
-              "value": function () { return this.add_frame_callback.apply(this, arguments); }
-            },
-            "addResizeCallback": {
-              "value": function () { return this.add_resize_callback.apply(this, arguments); }
-            },
-            "addSwapBuffersCallback": {
-              "value": function () { return this.add_swap_buffers_callback.apply(this, arguments); }
-            },
-            "getBufferAge": {
-              "value": function () { return this.get_buffer_age.apply(this, arguments); }
-            },
-            "getFrameCounter": {
-              "value": function () { return this.get_frame_counter.apply(this, arguments); }
-            },
-            "getResizable": {
-              "value": function () { return this.get_resizable.apply(this, arguments); }
-            },
-            "removeDirtyCallback": {
-              "value": function () { return this.remove_dirty_callback.apply(this, arguments); }
-            },
-            "removeFrameCallback": {
-              "value": function () { return this.remove_frame_callback.apply(this, arguments); }
-            },
-            "removeResizeCallback": {
-              "value": function () { return this.remove_resize_callback.apply(this, arguments); }
-            },
-            "removeSwapBuffersCallback": {
-              "value": function () { return this.remove_swap_buffers_callback.apply(this, arguments); }
-            },
-            "setResizable": {
-              "value": function () { return this.set_resizable.apply(this, arguments); }
-            },
-            "setSwapThrottled": {
-              "value": function () { return this.set_swap_throttled.apply(this, arguments); }
-            },
-            "swapBuffers": {
-              "value": function () { return this.swap_buffers.apply(this, arguments); }
-            },
-            "swapBuffersWithDamage": {
-              "value": function () { return this.swap_buffers_with_damage.apply(this, arguments); }
-            },
-            "swapRegion": {
-              "value": function () { return this.swap_region.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "OnscreenTemplate": {
-          "prototype": {
-            "setSamplesPerPixel": {
-              "value": function () { return this.set_samples_per_pixel.apply(this, arguments); }
-            },
-            "setStereoEnabled": {
-              "value": function () { return this.set_stereo_enabled.apply(this, arguments); }
-            },
-            "setSwapThrottled": {
-              "value": function () { return this.set_swap_throttled.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "Output": {
-          "prototype": {
-            "getHeight": {
-              "value": function () { return this.get_height.apply(this, arguments); }
-            },
-            "getMmHeight": {
-              "value": function () { return this.get_mm_height.apply(this, arguments); }
-            },
-            "getMmWidth": {
-              "value": function () { return this.get_mm_width.apply(this, arguments); }
-            },
-            "getRefreshRate": {
-              "value": function () { return this.get_refresh_rate.apply(this, arguments); }
-            },
-            "getSubpixelOrder": {
-              "value": function () { return this.get_subpixel_order.apply(this, arguments); }
-            },
-            "getWidth": {
-              "value": function () { return this.get_width.apply(this, arguments); }
-            },
-            "getX": {
-              "value": function () { return this.get_x.apply(this, arguments); }
-            },
-            "getY": {
-              "value": function () { return this.get_y.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "Pipeline": {
-          "prototype": {
-            "addLayerSnippet": {
-              "value": function () { return this.add_layer_snippet.apply(this, arguments); }
-            },
-            "addSnippet": {
-              "value": function () { return this.add_snippet.apply(this, arguments); }
-            },
-            "foreachLayer": {
-              "value": function () { return this.foreach_layer.apply(this, arguments); }
-            },
-            "getAlphaTestFunction": {
-              "value": function () { return this.get_alpha_test_function.apply(this, arguments); }
-            },
-            "getAlphaTestReference": {
-              "value": function () { return this.get_alpha_test_reference.apply(this, arguments); }
-            },
-            "getAmbient": {
-              "value": function () { return this.get_ambient.apply(this, arguments); }
-            },
-            "getColor": {
-              "value": function () { return this.get_color.apply(this, arguments); }
-            },
-            "getColorMask": {
-              "value": function () { return this.get_color_mask.apply(this, arguments); }
-            },
-            "getCullFaceMode": {
-              "value": function () { return this.get_cull_face_mode.apply(this, arguments); }
-            },
-            "getDepthState": {
-              "value": function () { return this.get_depth_state.apply(this, arguments); }
-            },
-            "getDiffuse": {
-              "value": function () { return this.get_diffuse.apply(this, arguments); }
-            },
-            "getEmission": {
-              "value": function () { return this.get_emission.apply(this, arguments); }
-            },
-            "getFrontFaceWinding": {
-              "value": function () { return this.get_front_face_winding.apply(this, arguments); }
-            },
-            "getLayerMagFilter": {
-              "value": function () { return this.get_layer_mag_filter.apply(this, arguments); }
-            },
-            "getLayerMinFilter": {
-              "value": function () { return this.get_layer_min_filter.apply(this, arguments); }
-            },
-            "getLayerPointSpriteCoordsEnabled": {
-              "value": function () { return this.get_layer_point_sprite_coords_enabled.apply(this, arguments); }
-            },
-            "getLayerTexture": {
-              "value": function () { return this.get_layer_texture.apply(this, arguments); }
-            },
-            "getLayerWrapModeP": {
-              "value": function () { return this.get_layer_wrap_mode_p.apply(this, arguments); }
-            },
-            "getLayerWrapModeS": {
-              "value": function () { return this.get_layer_wrap_mode_s.apply(this, arguments); }
-            },
-            "getLayerWrapModeT": {
-              "value": function () { return this.get_layer_wrap_mode_t.apply(this, arguments); }
-            },
-            "getNLayers": {
-              "value": function () { return this.get_n_layers.apply(this, arguments); }
-            },
-            "getPerVertexPointSize": {
-              "value": function () { return this.get_per_vertex_point_size.apply(this, arguments); }
-            },
-            "getPointSize": {
-              "value": function () { return this.get_point_size.apply(this, arguments); }
-            },
-            "getShininess": {
-              "value": function () { return this.get_shininess.apply(this, arguments); }
-            },
-            "getSpecular": {
-              "value": function () { return this.get_specular.apply(this, arguments); }
-            },
-            "getUniformLocation": {
-              "value": function () { return this.get_uniform_location.apply(this, arguments); }
-            },
-            "getUserProgram": {
-              "value": function () { return this.get_user_program.apply(this, arguments); }
-            },
-            "removeLayer": {
-              "value": function () { return this.remove_layer.apply(this, arguments); }
-            },
-            "setAlphaTestFunction": {
-              "value": function () { return this.set_alpha_test_function.apply(this, arguments); }
-            },
-            "setAmbient": {
-              "value": function () { return this.set_ambient.apply(this, arguments); }
-            },
-            "setAmbientAndDiffuse": {
-              "value": function () { return this.set_ambient_and_diffuse.apply(this, arguments); }
-            },
-            "setBlend": {
-              "value": function () { return this.set_blend.apply(this, arguments); }
-            },
-            "setBlendConstant": {
-              "value": function () { return this.set_blend_constant.apply(this, arguments); }
-            },
-            "setColor": {
-              "value": function () { return this.set_color.apply(this, arguments); }
-            },
-            "setColor4f": {
-              "value": function () { return this.set_color4f.apply(this, arguments); }
-            },
-            "setColor4ub": {
-              "value": function () { return this.set_color4ub.apply(this, arguments); }
-            },
-            "setColorMask": {
-              "value": function () { return this.set_color_mask.apply(this, arguments); }
-            },
-            "setCullFaceMode": {
-              "value": function () { return this.set_cull_face_mode.apply(this, arguments); }
-            },
-            "setDepthState": {
-              "value": function () { return this.set_depth_state.apply(this, arguments); }
-            },
-            "setDiffuse": {
-              "value": function () { return this.set_diffuse.apply(this, arguments); }
-            },
-            "setEmission": {
-              "value": function () { return this.set_emission.apply(this, arguments); }
-            },
-            "setFrontFaceWinding": {
-              "value": function () { return this.set_front_face_winding.apply(this, arguments); }
-            },
-            "setLayerCombine": {
-              "value": function () { return this.set_layer_combine.apply(this, arguments); }
-            },
-            "setLayerCombineConstant": {
-              "value": function () { return this.set_layer_combine_constant.apply(this, arguments); }
-            },
-            "setLayerFilters": {
-              "value": function () { return this.set_layer_filters.apply(this, arguments); }
-            },
-            "setLayerMatrix": {
-              "value": function () { return this.set_layer_matrix.apply(this, arguments); }
-            },
-            "setLayerNullTexture": {
-              "value": function () { return this.set_layer_null_texture.apply(this, arguments); }
-            },
-            "setLayerPointSpriteCoordsEnabled": {
-              "value": function () { return this.set_layer_point_sprite_coords_enabled.apply(this, arguments); }
-            },
-            "setLayerTexture": {
-              "value": function () { return this.set_layer_texture.apply(this, arguments); }
-            },
-            "setLayerWrapMode": {
-              "value": function () { return this.set_layer_wrap_mode.apply(this, arguments); }
-            },
-            "setLayerWrapModeP": {
-              "value": function () { return this.set_layer_wrap_mode_p.apply(this, arguments); }
-            },
-            "setLayerWrapModeS": {
-              "value": function () { return this.set_layer_wrap_mode_s.apply(this, arguments); }
-            },
-            "setLayerWrapModeT": {
-              "value": function () { return this.set_layer_wrap_mode_t.apply(this, arguments); }
-            },
-            "setPerVertexPointSize": {
-              "value": function () { return this.set_per_vertex_point_size.apply(this, arguments); }
-            },
-            "setPointSize": {
-              "value": function () { return this.set_point_size.apply(this, arguments); }
-            },
-            "setShininess": {
-              "value": function () { return this.set_shininess.apply(this, arguments); }
-            },
-            "setSpecular": {
-              "value": function () { return this.set_specular.apply(this, arguments); }
-            },
-            "setUniform1f": {
-              "value": function () { return this.set_uniform_1f.apply(this, arguments); }
-            },
-            "setUniform1i": {
-              "value": function () { return this.set_uniform_1i.apply(this, arguments); }
-            },
-            "setUniformFloat": {
-              "value": function () { return this.set_uniform_float.apply(this, arguments); }
-            },
-            "setUniformInt": {
-              "value": function () { return this.set_uniform_int.apply(this, arguments); }
-            },
-            "setUniformMatrix": {
-              "value": function () { return this.set_uniform_matrix.apply(this, arguments); }
-            },
-            "setUserProgram": {
-              "value": function () { return this.set_user_program.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "PixelBuffer": {
-          "prototype": {},
-          "static": {}
-        },
-        "Primitive": {
-          "prototype": {
-            "foreachAttribute": {
-              "value": function () { return this.foreach_attribute.apply(this, arguments); }
-            },
-            "getFirstVertex": {
-              "value": function () { return this.get_first_vertex.apply(this, arguments); }
-            },
-            "getIndices": {
-              "value": function () { return this.get_indices.apply(this, arguments); }
-            },
-            "getMode": {
-              "value": function () { return this.get_mode.apply(this, arguments); }
-            },
-            "getNVertices": {
-              "value": function () { return this.get_n_vertices.apply(this, arguments); }
-            },
-            "setAttributes": {
-              "value": function () { return this.set_attributes.apply(this, arguments); }
-            },
-            "setFirstVertex": {
-              "value": function () { return this.set_first_vertex.apply(this, arguments); }
-            },
-            "setIndices": {
-              "value": function () { return this.set_indices.apply(this, arguments); }
-            },
-            "setMode": {
-              "value": function () { return this.set_mode.apply(this, arguments); }
-            },
-            "setNVertices": {
-              "value": function () { return this.set_n_vertices.apply(this, arguments); }
-            }
-          },
-          "static": {
-            "textureSetAutoMipmap": {
-              "value": function () { return this.texture_set_auto_mipmap.apply(this, arguments); }
-            }
-          }
-        },
-        "Renderer": {
-          "prototype": {
-            "addConstraint": {
-              "value": function () { return this.add_constraint.apply(this, arguments); }
-            },
-            "checkOnscreenTemplate": {
-              "value": function () { return this.check_onscreen_template.apply(this, arguments); }
-            },
-            "foreachOutput": {
-              "value": function () { return this.foreach_output.apply(this, arguments); }
-            },
-            "getDriver": {
-              "value": function () { return this.get_driver.apply(this, arguments); }
-            },
-            "getNFragmentTextureUnits": {
-              "value": function () { return this.get_n_fragment_texture_units.apply(this, arguments); }
-            },
-            "getWinsysId": {
-              "value": function () { return this.get_winsys_id.apply(this, arguments); }
-            },
-            "removeConstraint": {
-              "value": function () { return this.remove_constraint.apply(this, arguments); }
-            },
-            "setDriver": {
-              "value": function () { return this.set_driver.apply(this, arguments); }
-            },
-            "setWinsysId": {
-              "value": function () { return this.set_winsys_id.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "Snippet": {
-          "prototype": {
-            "getDeclarations": {
-              "value": function () { return this.get_declarations.apply(this, arguments); }
-            },
-            "getHook": {
-              "value": function () { return this.get_hook.apply(this, arguments); }
-            },
-            "getPost": {
-              "value": function () { return this.get_post.apply(this, arguments); }
-            },
-            "getPre": {
-              "value": function () { return this.get_pre.apply(this, arguments); }
-            },
-            "getReplace": {
-              "value": function () { return this.get_replace.apply(this, arguments); }
-            },
-            "setDeclarations": {
-              "value": function () { return this.set_declarations.apply(this, arguments); }
-            },
-            "setPost": {
-              "value": function () { return this.set_post.apply(this, arguments); }
-            },
-            "setPre": {
-              "value": function () { return this.set_pre.apply(this, arguments); }
-            },
-            "setReplace": {
-              "value": function () { return this.set_replace.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "SubTexture": {
-          "prototype": {
-            "getParent": {
-              "value": function () { return this.get_parent.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "SwapChain": {
-          "prototype": {
-            "setHasAlpha": {
-              "value": function () { return this.set_has_alpha.apply(this, arguments); }
-            },
-            "setLength": {
-              "value": function () { return this.set_length.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "Texture2D": {
-          "prototype": {},
-          "static": {}
-        },
-        "Texture2DSliced": {
-          "prototype": {},
-          "static": {}
-        },
-        "Texture3D": {
-          "prototype": {},
-          "static": {}
-        },
-        "TexturePixmapX11": {
-          "prototype": {
-            "isUsingTfpExtension": {
-              "value": function () { return this.is_using_tfp_extension.apply(this, arguments); }
-            },
-            "newRight": {
-              "value": function () { return this.new_right.apply(this, arguments); }
-            },
-            "setDamageObject": {
-              "value": function () { return this.set_damage_object.apply(this, arguments); }
-            },
-            "updateArea": {
-              "value": function () { return this.update_area.apply(this, arguments); }
-            }
-          },
-          "static": {
-            "errorQuark": {
-              "value": function () { return this.error_quark.apply(this, arguments); }
-            }
-          }
-        },
-        "TextureRectangle": {
-          "prototype": {},
-          "static": {}
-        }
-      },
-      "static": {
-        "bitmapErrorQuark": {
-          "value": function () { return this.bitmap_error_quark.apply(this, arguments); }
-        },
-        "blendStringErrorQuark": {
-          "value": function () { return this.blend_string_error_quark.apply(this, arguments); }
-        },
-        "bufferGetSize": {
-          "value": function () { return this.buffer_get_size.apply(this, arguments); }
-        },
-        "bufferGetUpdateHint": {
-          "value": function () { return this.buffer_get_update_hint.apply(this, arguments); }
-        },
-        "bufferMap": {
-          "value": function () { return this.buffer_map.apply(this, arguments); }
-        },
-        "bufferMapRange": {
-          "value": function () { return this.buffer_map_range.apply(this, arguments); }
-        },
-        "bufferSetData": {
-          "value": function () { return this.buffer_set_data.apply(this, arguments); }
-        },
-        "bufferSetUpdateHint": {
-          "value": function () { return this.buffer_set_update_hint.apply(this, arguments); }
-        },
-        "bufferUnmap": {
-          "value": function () { return this.buffer_unmap.apply(this, arguments); }
-        },
-        "colorEqual": {
-          "value": function () { return this.color_equal.apply(this, arguments); }
-        },
-        "colorInitFromHsl": {
-          "value": function () { return this.color_init_from_hsl.apply(this, arguments); }
-        },
-        "debugMatrixEntryPrint": {
-          "value": function () { return this.debug_matrix_entry_print.apply(this, arguments); }
-        },
-        "debugMatrixPrint": {
-          "value": function () { return this.debug_matrix_print.apply(this, arguments); }
-        },
-        "debugObjectForeachType": {
-          "value": function () { return this.debug_object_foreach_type.apply(this, arguments); }
-        },
-        "debugObjectPrintInstances": {
-          "value": function () { return this.debug_object_print_instances.apply(this, arguments); }
-        },
-        "eglContextGetEglContext": {
-          "value": function () { return this.egl_context_get_egl_context.apply(this, arguments); }
-        },
-        "eglContextGetEglDisplay": {
-          "value": function () { return this.egl_context_get_egl_display.apply(this, arguments); }
-        },
-        "errorCopy": {
-          "value": function () { return this.error_copy.apply(this, arguments); }
-        },
-        "errorFree": {
-          "value": function () { return this.error_free.apply(this, arguments); }
-        },
-        "errorMatches": {
-          "value": function () { return this.error_matches.apply(this, arguments); }
-        },
-        "eulerEqual": {
-          "value": function () { return this.euler_equal.apply(this, arguments); }
-        },
-        "foreachFeature": {
-          "value": function () { return this.foreach_feature.apply(this, arguments); }
-        },
-        "framebufferErrorQuark": {
-          "value": function () { return this.framebuffer_error_quark.apply(this, arguments); }
-        },
-        "getClockTime": {
-          "value": function () { return this.get_clock_time.apply(this, arguments); }
-        },
-        "getDrawFramebuffer": {
-          "value": function () { return this.get_draw_framebuffer.apply(this, arguments); }
-        },
-        "getRectangleIndices": {
-          "value": function () { return this.get_rectangle_indices.apply(this, arguments); }
-        },
-        "getStaticIdentityQuaternion": {
-          "value": function () { return this.get_static_identity_quaternion.apply(this, arguments); }
-        },
-        "getStaticZeroQuaternion": {
-          "value": function () { return this.get_static_zero_quaternion.apply(this, arguments); }
-        },
-        "gles2GetCurrentVtable": {
-          "value": function () { return this.gles2_get_current_vtable.apply(this, arguments); }
-        },
-        "gles2Texture2dNewFromHandle": {
-          "value": function () { return this.gles2_texture_2d_new_from_handle.apply(this, arguments); }
-        },
-        "gles2TextureGetHandle": {
-          "value": function () { return this.gles2_texture_get_handle.apply(this, arguments); }
-        },
-        "glibRendererSourceNew": {
-          "value": function () { return this.glib_renderer_source_new.apply(this, arguments); }
-        },
-        "glibSourceNew": {
-          "value": function () { return this.glib_source_new.apply(this, arguments); }
-        },
-        "glxContextGetGlxContext": {
-          "value": function () { return this.glx_context_get_glx_context.apply(this, arguments); }
-        },
-        "gtypeMatrixGetType": {
-          "value": function () { return this.gtype_matrix_get_type.apply(this, arguments); }
-        },
-        "handleGetType": {
-          "value": function () { return this.handle_get_type.apply(this, arguments); }
-        },
-        "handleRef": {
-          "value": function () { return this.handle_ref.apply(this, arguments); }
-        },
-        "handleUnref": {
-          "value": function () { return this.handle_unref.apply(this, arguments); }
-        },
-        "hasFeature": {
-          "value": function () { return this.has_feature.apply(this, arguments); }
-        },
-        "hasFeatures": {
-          "value": function () { return this.has_features.apply(this, arguments); }
-        },
-        "isAtlasTexture": {
-          "value": function () { return this.is_atlas_texture.apply(this, arguments); }
-        },
-        "isAttribute": {
-          "value": function () { return this.is_attribute.apply(this, arguments); }
-        },
-        "isAttributeBuffer": {
-          "value": function () { return this.is_attribute_buffer.apply(this, arguments); }
-        },
-        "isBitmap": {
-          "value": function () { return this.is_bitmap.apply(this, arguments); }
-        },
-        "isBuffer": {
-          "value": function () { return this.is_buffer.apply(this, arguments); }
-        },
-        "isContext": {
-          "value": function () { return this.is_context.apply(this, arguments); }
-        },
-        "isDisplay": {
-          "value": function () { return this.is_display.apply(this, arguments); }
-        },
-        "isFrameInfo": {
-          "value": function () { return this.is_frame_info.apply(this, arguments); }
-        },
-        "isFramebuffer": {
-          "value": function () { return this.is_framebuffer.apply(this, arguments); }
-        },
-        "isGles2Context": {
-          "value": function () { return this.is_gles2_context.apply(this, arguments); }
-        },
-        "isIndexBuffer": {
-          "value": function () { return this.is_index_buffer.apply(this, arguments); }
-        },
-        "isIndices": {
-          "value": function () { return this.is_indices.apply(this, arguments); }
-        },
-        "isMatrixStack": {
-          "value": function () { return this.is_matrix_stack.apply(this, arguments); }
-        },
-        "isOnscreen": {
-          "value": function () { return this.is_onscreen.apply(this, arguments); }
-        },
-        "isOnscreenTemplate": {
-          "value": function () { return this.is_onscreen_template.apply(this, arguments); }
-        },
-        "isOutput": {
-          "value": function () { return this.is_output.apply(this, arguments); }
-        },
-        "isPipeline": {
-          "value": function () { return this.is_pipeline.apply(this, arguments); }
-        },
-        "isPixelBuffer": {
-          "value": function () { return this.is_pixel_buffer.apply(this, arguments); }
-        },
-        "isPrimitive": {
-          "value": function () { return this.is_primitive.apply(this, arguments); }
-        },
-        "isPrimitiveTexture": {
-          "value": function () { return this.is_primitive_texture.apply(this, arguments); }
-        },
-        "isRenderer": {
-          "value": function () { return this.is_renderer.apply(this, arguments); }
-        },
-        "isSnippet": {
-          "value": function () { return this.is_snippet.apply(this, arguments); }
-        },
-        "isSubTexture": {
-          "value": function () { return this.is_sub_texture.apply(this, arguments); }
-        },
-        "isSwapChain": {
-          "value": function () { return this.is_swap_chain.apply(this, arguments); }
-        },
-        "isTexture": {
-          "value": function () { return this.is_texture.apply(this, arguments); }
-        },
-        "isTexture2d": {
-          "value": function () { return this.is_texture_2d.apply(this, arguments); }
-        },
-        "isTexture2dSliced": {
-          "value": function () { return this.is_texture_2d_sliced.apply(this, arguments); }
-        },
-        "isTexture3d": {
-          "value": function () { return this.is_texture_3d.apply(this, arguments); }
-        },
-        "isTexturePixmapX11": {
-          "value": function () { return this.is_texture_pixmap_x11.apply(this, arguments); }
-        },
-        "isTextureRectangle": {
-          "value": function () { return this.is_texture_rectangle.apply(this, arguments); }
-        },
-        "kmsDisplayQueueModesReset": {
-          "value": function () { return this.kms_display_queue_modes_reset.apply(this, arguments); }
-        },
-        "kmsDisplaySetIgnoreCrtc": {
-          "value": function () { return this.kms_display_set_ignore_crtc.apply(this, arguments); }
-        },
-        "kmsDisplaySetLayout": {
-          "value": function () { return this.kms_display_set_layout.apply(this, arguments); }
-        },
-        "kmsRendererGetGbm": {
-          "value": function () { return this.kms_renderer_get_gbm.apply(this, arguments); }
-        },
-        "kmsRendererGetKmsFd": {
-          "value": function () { return this.kms_renderer_get_kms_fd.apply(this, arguments); }
-        },
-        "kmsRendererSetKmsFd": {
-          "value": function () { return this.kms_renderer_set_kms_fd.apply(this, arguments); }
-        },
-        "matrixEqual": {
-          "value": function () { return this.matrix_equal.apply(this, arguments); }
-        },
-        "metaTextureForeachInRegion": {
-          "value": function () { return this.meta_texture_foreach_in_region.apply(this, arguments); }
-        },
-        "pollRendererDispatch": {
-          "value": function () { return this.poll_renderer_dispatch.apply(this, arguments); }
-        },
-        "pollRendererGetInfo": {
-          "value": function () { return this.poll_renderer_get_info.apply(this, arguments); }
-        },
-        "popGles2Context": {
-          "value": function () { return this.pop_gles2_context.apply(this, arguments); }
-        },
-        "pushGles2Context": {
-          "value": function () { return this.push_gles2_context.apply(this, arguments); }
-        },
-        "quaternionEqual": {
-          "value": function () { return this.quaternion_equal.apply(this, arguments); }
-        },
-        "rendererErrorQuark": {
-          "value": function () { return this.renderer_error_quark.apply(this, arguments); }
-        },
-        "textureErrorQuark": {
-          "value": function () { return this.texture_error_quark.apply(this, arguments); }
-        },
-        "vector3Add": {
-          "value": function () { return this.vector3_add.apply(this, arguments); }
-        },
-        "vector3Copy": {
-          "value": function () { return this.vector3_copy.apply(this, arguments); }
-        },
-        "vector3CrossProduct": {
-          "value": function () { return this.vector3_cross_product.apply(this, arguments); }
-        },
-        "vector3Distance": {
-          "value": function () { return this.vector3_distance.apply(this, arguments); }
-        },
-        "vector3DivideScalar": {
-          "value": function () { return this.vector3_divide_scalar.apply(this, arguments); }
-        },
-        "vector3DotProduct": {
-          "value": function () { return this.vector3_dot_product.apply(this, arguments); }
-        },
-        "vector3Equal": {
-          "value": function () { return this.vector3_equal.apply(this, arguments); }
-        },
-        "vector3EqualWithEpsilon": {
-          "value": function () { return this.vector3_equal_with_epsilon.apply(this, arguments); }
-        },
-        "vector3Free": {
-          "value": function () { return this.vector3_free.apply(this, arguments); }
-        },
-        "vector3Init": {
-          "value": function () { return this.vector3_init.apply(this, arguments); }
-        },
-        "vector3InitZero": {
-          "value": function () { return this.vector3_init_zero.apply(this, arguments); }
-        },
-        "vector3Invert": {
-          "value": function () { return this.vector3_invert.apply(this, arguments); }
-        },
-        "vector3Magnitude": {
-          "value": function () { return this.vector3_magnitude.apply(this, arguments); }
-        },
-        "vector3MultiplyScalar": {
-          "value": function () { return this.vector3_multiply_scalar.apply(this, arguments); }
-        },
-        "vector3Normalize": {
-          "value": function () { return this.vector3_normalize.apply(this, arguments); }
-        },
-        "vector3Subtract": {
-          "value": function () { return this.vector3_subtract.apply(this, arguments); }
-        },
-        "waylandDisplaySetCompositorDisplay": {
-          "value": function () { return this.wayland_display_set_compositor_display.apply(this, arguments); }
-        },
-        "waylandOnscreenGetShellSurface": {
-          "value": function () { return this.wayland_onscreen_get_shell_surface.apply(this, arguments); }
-        },
-        "waylandOnscreenGetSurface": {
-          "value": function () { return this.wayland_onscreen_get_surface.apply(this, arguments); }
-        },
-        "waylandOnscreenResize": {
-          "value": function () { return this.wayland_onscreen_resize.apply(this, arguments); }
-        },
-        "waylandOnscreenSetForeignSurface": {
-          "value": function () { return this.wayland_onscreen_set_foreign_surface.apply(this, arguments); }
-        },
-        "waylandRendererGetDisplay": {
-          "value": function () { return this.wayland_renderer_get_display.apply(this, arguments); }
-        },
-        "waylandRendererSetEventDispatchEnabled": {
-          "value": function () { return this.wayland_renderer_set_event_dispatch_enabled.apply(this, arguments); }
-        },
-        "waylandRendererSetForeignDisplay": {
-          "value": function () { return this.wayland_renderer_set_foreign_display.apply(this, arguments); }
-        },
-        "waylandTexture2dNewFromBuffer": {
-          "value": function () { return this.wayland_texture_2d_new_from_buffer.apply(this, arguments); }
-        },
-        "waylandTextureSetRegionFromShmBuffer": {
-          "value": function () { return this.wayland_texture_set_region_from_shm_buffer.apply(this, arguments); }
-        },
-        "x11OnscreenGetVisualXid": {
-          "value": function () { return this.x11_onscreen_get_visual_xid.apply(this, arguments); }
-        },
-        "x11OnscreenGetWindowXid": {
-          "value": function () { return this.x11_onscreen_get_window_xid.apply(this, arguments); }
-        },
-        "x11OnscreenSetForeignWindowXid": {
-          "value": function () { return this.x11_onscreen_set_foreign_window_xid.apply(this, arguments); }
-        },
-        "xlibGetDisplay": {
-          "value": function () { return this.xlib_get_display.apply(this, arguments); }
-        },
-        "xlibHandleEvent": {
-          "value": function () { return this.xlib_handle_event.apply(this, arguments); }
-        },
-        "xlibSetDisplay": {
-          "value": function () { return this.xlib_set_display.apply(this, arguments); }
         }
       }
     },
@@ -15045,1910 +9778,6 @@
         },
         "unixMountsGet": {
           "value": function () { return this.unix_mounts_get.apply(this, arguments); }
-        }
-      }
-    },
-    "Gst": {
-      "class": {
-        "Allocator": {
-          "prototype": {
-            "setDefault": {
-              "value": function () { return this.set_default.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "Bin": {
-          "prototype": {
-            "addMany": {
-              "value": function () { return this.add_many.apply(this, arguments); }
-            },
-            "findUnlinkedPad": {
-              "value": function () { return this.find_unlinked_pad.apply(this, arguments); }
-            },
-            "getByInterface": {
-              "value": function () { return this.get_by_interface.apply(this, arguments); }
-            },
-            "getByName": {
-              "value": function () { return this.get_by_name.apply(this, arguments); }
-            },
-            "getByNameRecurseUp": {
-              "value": function () { return this.get_by_name_recurse_up.apply(this, arguments); }
-            },
-            "iterateAllByInterface": {
-              "value": function () { return this.iterate_all_by_interface.apply(this, arguments); }
-            },
-            "iterateElements": {
-              "value": function () { return this.iterate_elements.apply(this, arguments); }
-            },
-            "iterateRecurse": {
-              "value": function () { return this.iterate_recurse.apply(this, arguments); }
-            },
-            "iterateSinks": {
-              "value": function () { return this.iterate_sinks.apply(this, arguments); }
-            },
-            "iterateSorted": {
-              "value": function () { return this.iterate_sorted.apply(this, arguments); }
-            },
-            "iterateSources": {
-              "value": function () { return this.iterate_sources.apply(this, arguments); }
-            },
-            "recalculateLatency": {
-              "value": function () { return this.recalculate_latency.apply(this, arguments); }
-            },
-            "removeMany": {
-              "value": function () { return this.remove_many.apply(this, arguments); }
-            },
-            "syncChildrenStates": {
-              "value": function () { return this.sync_children_states.apply(this, arguments); }
-            },
-            "asyncHandling": {
-              "get": function () { return this.async_handling; },
-              "set": function (value) { this.async_handling = value; }
-            },
-            "messageForward": {
-              "get": function () { return this.message_forward; },
-              "set": function (value) { this.message_forward = value; }
-            }
-          },
-          "static": {}
-        },
-        "Bitmask": {
-          "prototype": {},
-          "static": {}
-        },
-        "BufferPool": {
-          "prototype": {
-            "acquireBuffer": {
-              "value": function () { return this.acquire_buffer.apply(this, arguments); }
-            },
-            "getConfig": {
-              "value": function () { return this.get_config.apply(this, arguments); }
-            },
-            "getOptions": {
-              "value": function () { return this.get_options.apply(this, arguments); }
-            },
-            "hasOption": {
-              "value": function () { return this.has_option.apply(this, arguments); }
-            },
-            "isActive": {
-              "value": function () { return this.is_active.apply(this, arguments); }
-            },
-            "releaseBuffer": {
-              "value": function () { return this.release_buffer.apply(this, arguments); }
-            },
-            "setActive": {
-              "value": function () { return this.set_active.apply(this, arguments); }
-            },
-            "setConfig": {
-              "value": function () { return this.set_config.apply(this, arguments); }
-            },
-            "setFlushing": {
-              "value": function () { return this.set_flushing.apply(this, arguments); }
-            }
-          },
-          "static": {
-            "configAddOption": {
-              "value": function () { return this.config_add_option.apply(this, arguments); }
-            },
-            "configGetAllocator": {
-              "value": function () { return this.config_get_allocator.apply(this, arguments); }
-            },
-            "configGetOption": {
-              "value": function () { return this.config_get_option.apply(this, arguments); }
-            },
-            "configGetParams": {
-              "value": function () { return this.config_get_params.apply(this, arguments); }
-            },
-            "configHasOption": {
-              "value": function () { return this.config_has_option.apply(this, arguments); }
-            },
-            "configNOptions": {
-              "value": function () { return this.config_n_options.apply(this, arguments); }
-            },
-            "configSetAllocator": {
-              "value": function () { return this.config_set_allocator.apply(this, arguments); }
-            },
-            "configSetParams": {
-              "value": function () { return this.config_set_params.apply(this, arguments); }
-            },
-            "configValidateParams": {
-              "value": function () { return this.config_validate_params.apply(this, arguments); }
-            }
-          }
-        },
-        "Bus": {
-          "prototype": {
-            "addSignalWatch": {
-              "value": function () { return this.add_signal_watch.apply(this, arguments); }
-            },
-            "addSignalWatchFull": {
-              "value": function () { return this.add_signal_watch_full.apply(this, arguments); }
-            },
-            "addWatch": {
-              "value": function () { return this.add_watch.apply(this, arguments); }
-            },
-            "addWatchFull": {
-              "value": function () { return this.add_watch_full.apply(this, arguments); }
-            },
-            "asyncSignalFunc": {
-              "value": function () { return this.async_signal_func.apply(this, arguments); }
-            },
-            "createWatch": {
-              "value": function () { return this.create_watch.apply(this, arguments); }
-            },
-            "disableSyncMessageEmission": {
-              "value": function () { return this.disable_sync_message_emission.apply(this, arguments); }
-            },
-            "enableSyncMessageEmission": {
-              "value": function () { return this.enable_sync_message_emission.apply(this, arguments); }
-            },
-            "havePending": {
-              "value": function () { return this.have_pending.apply(this, arguments); }
-            },
-            "popFiltered": {
-              "value": function () { return this.pop_filtered.apply(this, arguments); }
-            },
-            "removeSignalWatch": {
-              "value": function () { return this.remove_signal_watch.apply(this, arguments); }
-            },
-            "removeWatch": {
-              "value": function () { return this.remove_watch.apply(this, arguments); }
-            },
-            "setFlushing": {
-              "value": function () { return this.set_flushing.apply(this, arguments); }
-            },
-            "setSyncHandler": {
-              "value": function () { return this.set_sync_handler.apply(this, arguments); }
-            },
-            "syncSignalHandler": {
-              "value": function () { return this.sync_signal_handler.apply(this, arguments); }
-            },
-            "timedPop": {
-              "value": function () { return this.timed_pop.apply(this, arguments); }
-            },
-            "timedPopFiltered": {
-              "value": function () { return this.timed_pop_filtered.apply(this, arguments); }
-            },
-            "enableAsync": {
-              "get": function () { return this.enable_async; },
-              "set": function (value) { this.enable_async = value; }
-            }
-          },
-          "static": {}
-        },
-        "Clock": {
-          "prototype": {
-            "addObservation": {
-              "value": function () { return this.add_observation.apply(this, arguments); }
-            },
-            "addObservationUnapplied": {
-              "value": function () { return this.add_observation_unapplied.apply(this, arguments); }
-            },
-            "adjustUnlocked": {
-              "value": function () { return this.adjust_unlocked.apply(this, arguments); }
-            },
-            "adjustWithCalibration": {
-              "value": function () { return this.adjust_with_calibration.apply(this, arguments); }
-            },
-            "getCalibration": {
-              "value": function () { return this.get_calibration.apply(this, arguments); }
-            },
-            "getInternalTime": {
-              "value": function () { return this.get_internal_time.apply(this, arguments); }
-            },
-            "getMaster": {
-              "value": function () { return this.get_master.apply(this, arguments); }
-            },
-            "getResolution": {
-              "value": function () { return this.get_resolution.apply(this, arguments); }
-            },
-            "getTime": {
-              "value": function () { return this.get_time.apply(this, arguments); }
-            },
-            "getTimeout": {
-              "value": function () { return this.get_timeout.apply(this, arguments); }
-            },
-            "isSynced": {
-              "value": function () { return this.is_synced.apply(this, arguments); }
-            },
-            "newPeriodicId": {
-              "value": function () { return this.new_periodic_id.apply(this, arguments); }
-            },
-            "newSingleShotId": {
-              "value": function () { return this.new_single_shot_id.apply(this, arguments); }
-            },
-            "periodicIdReinit": {
-              "value": function () { return this.periodic_id_reinit.apply(this, arguments); }
-            },
-            "setCalibration": {
-              "value": function () { return this.set_calibration.apply(this, arguments); }
-            },
-            "setMaster": {
-              "value": function () { return this.set_master.apply(this, arguments); }
-            },
-            "setResolution": {
-              "value": function () { return this.set_resolution.apply(this, arguments); }
-            },
-            "setSynced": {
-              "value": function () { return this.set_synced.apply(this, arguments); }
-            },
-            "setTimeout": {
-              "value": function () { return this.set_timeout.apply(this, arguments); }
-            },
-            "singleShotIdReinit": {
-              "value": function () { return this.single_shot_id_reinit.apply(this, arguments); }
-            },
-            "unadjustUnlocked": {
-              "value": function () { return this.unadjust_unlocked.apply(this, arguments); }
-            },
-            "waitForSync": {
-              "value": function () { return this.wait_for_sync.apply(this, arguments); }
-            },
-            "windowSize": {
-              "get": function () { return this.window_size; },
-              "set": function (value) { this.window_size = value; }
-            },
-            "windowThreshold": {
-              "get": function () { return this.window_threshold; },
-              "set": function (value) { this.window_threshold = value; }
-            }
-          },
-          "static": {
-            "idCompareFunc": {
-              "value": function () { return this.id_compare_func.apply(this, arguments); }
-            },
-            "idGetTime": {
-              "value": function () { return this.id_get_time.apply(this, arguments); }
-            },
-            "idRef": {
-              "value": function () { return this.id_ref.apply(this, arguments); }
-            },
-            "idUnref": {
-              "value": function () { return this.id_unref.apply(this, arguments); }
-            },
-            "idUnschedule": {
-              "value": function () { return this.id_unschedule.apply(this, arguments); }
-            },
-            "idWait": {
-              "value": function () { return this.id_wait.apply(this, arguments); }
-            },
-            "idWaitAsync": {
-              "value": function () { return this.id_wait_async.apply(this, arguments); }
-            }
-          }
-        },
-        "ControlBinding": {
-          "prototype": {
-            "getGValueArray": {
-              "value": function () { return this.get_g_value_array.apply(this, arguments); }
-            },
-            "getValue": {
-              "value": function () { return this.get_value.apply(this, arguments); }
-            },
-            "getValueArray": {
-              "value": function () { return this.get_value_array.apply(this, arguments); }
-            },
-            "isDisabled": {
-              "value": function () { return this.is_disabled.apply(this, arguments); }
-            },
-            "setDisabled": {
-              "value": function () { return this.set_disabled.apply(this, arguments); }
-            },
-            "syncValues": {
-              "value": function () { return this.sync_values.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "ControlSource": {
-          "prototype": {
-            "controlSourceGetValue": {
-              "value": function () { return this.control_source_get_value.apply(this, arguments); }
-            },
-            "controlSourceGetValueArray": {
-              "value": function () { return this.control_source_get_value_array.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "Device": {
-          "prototype": {
-            "createElement": {
-              "value": function () { return this.create_element.apply(this, arguments); }
-            },
-            "getCaps": {
-              "value": function () { return this.get_caps.apply(this, arguments); }
-            },
-            "getDeviceClass": {
-              "value": function () { return this.get_device_class.apply(this, arguments); }
-            },
-            "getDisplayName": {
-              "value": function () { return this.get_display_name.apply(this, arguments); }
-            },
-            "getProperties": {
-              "value": function () { return this.get_properties.apply(this, arguments); }
-            },
-            "hasClasses": {
-              "value": function () { return this.has_classes.apply(this, arguments); }
-            },
-            "hasClassesv": {
-              "value": function () { return this.has_classesv.apply(this, arguments); }
-            },
-            "reconfigureElement": {
-              "value": function () { return this.reconfigure_element.apply(this, arguments); }
-            },
-            "deviceClass": {
-              "get": function () { return this.device_class; },
-              "set": function (value) { this.device_class = value; }
-            },
-            "displayName": {
-              "get": function () { return this.display_name; },
-              "set": function (value) { this.display_name = value; }
-            }
-          },
-          "static": {}
-        },
-        "DeviceMonitor": {
-          "prototype": {
-            "addFilter": {
-              "value": function () { return this.add_filter.apply(this, arguments); }
-            },
-            "getBus": {
-              "value": function () { return this.get_bus.apply(this, arguments); }
-            },
-            "getDevices": {
-              "value": function () { return this.get_devices.apply(this, arguments); }
-            },
-            "getProviders": {
-              "value": function () { return this.get_providers.apply(this, arguments); }
-            },
-            "getShowAllDevices": {
-              "value": function () { return this.get_show_all_devices.apply(this, arguments); }
-            },
-            "removeFilter": {
-              "value": function () { return this.remove_filter.apply(this, arguments); }
-            },
-            "setShowAllDevices": {
-              "value": function () { return this.set_show_all_devices.apply(this, arguments); }
-            },
-            "showAll": {
-              "get": function () { return this.show_all; },
-              "set": function (value) { this.show_all = value; }
-            }
-          },
-          "static": {}
-        },
-        "DeviceProvider": {
-          "prototype": {
-            "canMonitor": {
-              "value": function () { return this.can_monitor.apply(this, arguments); }
-            },
-            "deviceAdd": {
-              "value": function () { return this.device_add.apply(this, arguments); }
-            },
-            "deviceRemove": {
-              "value": function () { return this.device_remove.apply(this, arguments); }
-            },
-            "getBus": {
-              "value": function () { return this.get_bus.apply(this, arguments); }
-            },
-            "getDevices": {
-              "value": function () { return this.get_devices.apply(this, arguments); }
-            },
-            "getFactory": {
-              "value": function () { return this.get_factory.apply(this, arguments); }
-            },
-            "getHiddenProviders": {
-              "value": function () { return this.get_hidden_providers.apply(this, arguments); }
-            },
-            "hideProvider": {
-              "value": function () { return this.hide_provider.apply(this, arguments); }
-            },
-            "unhideProvider": {
-              "value": function () { return this.unhide_provider.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "DeviceProviderFactory": {
-          "prototype": {
-            "getDeviceProviderType": {
-              "value": function () { return this.get_device_provider_type.apply(this, arguments); }
-            },
-            "getMetadata": {
-              "value": function () { return this.get_metadata.apply(this, arguments); }
-            },
-            "getMetadataKeys": {
-              "value": function () { return this.get_metadata_keys.apply(this, arguments); }
-            },
-            "hasClasses": {
-              "value": function () { return this.has_classes.apply(this, arguments); }
-            },
-            "hasClassesv": {
-              "value": function () { return this.has_classesv.apply(this, arguments); }
-            }
-          },
-          "static": {
-            "getByName": {
-              "value": function () { return this.get_by_name.apply(this, arguments); }
-            },
-            "listGetDeviceProviders": {
-              "value": function () { return this.list_get_device_providers.apply(this, arguments); }
-            }
-          }
-        },
-        "DoubleRange": {
-          "prototype": {},
-          "static": {}
-        },
-        "Element": {
-          "prototype": {
-            "abortState": {
-              "value": function () { return this.abort_state.apply(this, arguments); }
-            },
-            "addPad": {
-              "value": function () { return this.add_pad.apply(this, arguments); }
-            },
-            "changeState": {
-              "value": function () { return this.change_state.apply(this, arguments); }
-            },
-            "continueState": {
-              "value": function () { return this.continue_state.apply(this, arguments); }
-            },
-            "createAllPads": {
-              "value": function () { return this.create_all_pads.apply(this, arguments); }
-            },
-            "getBaseTime": {
-              "value": function () { return this.get_base_time.apply(this, arguments); }
-            },
-            "getBus": {
-              "value": function () { return this.get_bus.apply(this, arguments); }
-            },
-            "getClock": {
-              "value": function () { return this.get_clock.apply(this, arguments); }
-            },
-            "getCompatiblePad": {
-              "value": function () { return this.get_compatible_pad.apply(this, arguments); }
-            },
-            "getCompatiblePadTemplate": {
-              "value": function () { return this.get_compatible_pad_template.apply(this, arguments); }
-            },
-            "getFactory": {
-              "value": function () { return this.get_factory.apply(this, arguments); }
-            },
-            "getRequestPad": {
-              "value": function () { return this.get_request_pad.apply(this, arguments); }
-            },
-            "getStartTime": {
-              "value": function () { return this.get_start_time.apply(this, arguments); }
-            },
-            "getState": {
-              "value": function () { return this.get_state.apply(this, arguments); }
-            },
-            "getStaticPad": {
-              "value": function () { return this.get_static_pad.apply(this, arguments); }
-            },
-            "isLockedState": {
-              "value": function () { return this.is_locked_state.apply(this, arguments); }
-            },
-            "iteratePads": {
-              "value": function () { return this.iterate_pads.apply(this, arguments); }
-            },
-            "iterateSinkPads": {
-              "value": function () { return this.iterate_sink_pads.apply(this, arguments); }
-            },
-            "iterateSrcPads": {
-              "value": function () { return this.iterate_src_pads.apply(this, arguments); }
-            },
-            "linkFiltered": {
-              "value": function () { return this.link_filtered.apply(this, arguments); }
-            },
-            "linkMany": {
-              "value": function () { return this.link_many.apply(this, arguments); }
-            },
-            "linkPads": {
-              "value": function () { return this.link_pads.apply(this, arguments); }
-            },
-            "linkPadsFiltered": {
-              "value": function () { return this.link_pads_filtered.apply(this, arguments); }
-            },
-            "linkPadsFull": {
-              "value": function () { return this.link_pads_full.apply(this, arguments); }
-            },
-            "lostState": {
-              "value": function () { return this.lost_state.apply(this, arguments); }
-            },
-            "messageFull": {
-              "value": function () { return this.message_full.apply(this, arguments); }
-            },
-            "noMorePads": {
-              "value": function () { return this.no_more_pads.apply(this, arguments); }
-            },
-            "postMessage": {
-              "value": function () { return this.post_message.apply(this, arguments); }
-            },
-            "provideClock": {
-              "value": function () { return this.provide_clock.apply(this, arguments); }
-            },
-            "queryConvert": {
-              "value": function () { return this.query_convert.apply(this, arguments); }
-            },
-            "queryDuration": {
-              "value": function () { return this.query_duration.apply(this, arguments); }
-            },
-            "queryPosition": {
-              "value": function () { return this.query_position.apply(this, arguments); }
-            },
-            "releaseRequestPad": {
-              "value": function () { return this.release_request_pad.apply(this, arguments); }
-            },
-            "removePad": {
-              "value": function () { return this.remove_pad.apply(this, arguments); }
-            },
-            "requestPad": {
-              "value": function () { return this.request_pad.apply(this, arguments); }
-            },
-            "seekSimple": {
-              "value": function () { return this.seek_simple.apply(this, arguments); }
-            },
-            "sendEvent": {
-              "value": function () { return this.send_event.apply(this, arguments); }
-            },
-            "setBaseTime": {
-              "value": function () { return this.set_base_time.apply(this, arguments); }
-            },
-            "setBus": {
-              "value": function () { return this.set_bus.apply(this, arguments); }
-            },
-            "setClock": {
-              "value": function () { return this.set_clock.apply(this, arguments); }
-            },
-            "setContext": {
-              "value": function () { return this.set_context.apply(this, arguments); }
-            },
-            "setLockedState": {
-              "value": function () { return this.set_locked_state.apply(this, arguments); }
-            },
-            "setStartTime": {
-              "value": function () { return this.set_start_time.apply(this, arguments); }
-            },
-            "setState": {
-              "value": function () { return this.set_state.apply(this, arguments); }
-            },
-            "syncStateWithParent": {
-              "value": function () { return this.sync_state_with_parent.apply(this, arguments); }
-            },
-            "unlinkMany": {
-              "value": function () { return this.unlink_many.apply(this, arguments); }
-            },
-            "unlinkPads": {
-              "value": function () { return this.unlink_pads.apply(this, arguments); }
-            }
-          },
-          "static": {
-            "makeFromUri": {
-              "value": function () { return this.make_from_uri.apply(this, arguments); }
-            },
-            "stateChangeReturnGetName": {
-              "value": function () { return this.state_change_return_get_name.apply(this, arguments); }
-            },
-            "stateGetName": {
-              "value": function () { return this.state_get_name.apply(this, arguments); }
-            }
-          }
-        },
-        "ElementFactory": {
-          "prototype": {
-            "canSinkAllCaps": {
-              "value": function () { return this.can_sink_all_caps.apply(this, arguments); }
-            },
-            "canSinkAnyCaps": {
-              "value": function () { return this.can_sink_any_caps.apply(this, arguments); }
-            },
-            "canSrcAllCaps": {
-              "value": function () { return this.can_src_all_caps.apply(this, arguments); }
-            },
-            "canSrcAnyCaps": {
-              "value": function () { return this.can_src_any_caps.apply(this, arguments); }
-            },
-            "getElementType": {
-              "value": function () { return this.get_element_type.apply(this, arguments); }
-            },
-            "getMetadata": {
-              "value": function () { return this.get_metadata.apply(this, arguments); }
-            },
-            "getMetadataKeys": {
-              "value": function () { return this.get_metadata_keys.apply(this, arguments); }
-            },
-            "getNumPadTemplates": {
-              "value": function () { return this.get_num_pad_templates.apply(this, arguments); }
-            },
-            "getStaticPadTemplates": {
-              "value": function () { return this.get_static_pad_templates.apply(this, arguments); }
-            },
-            "getUriProtocols": {
-              "value": function () { return this.get_uri_protocols.apply(this, arguments); }
-            },
-            "getUriType": {
-              "value": function () { return this.get_uri_type.apply(this, arguments); }
-            },
-            "hasInterface": {
-              "value": function () { return this.has_interface.apply(this, arguments); }
-            },
-            "listIsType": {
-              "value": function () { return this.list_is_type.apply(this, arguments); }
-            }
-          },
-          "static": {
-            "listFilter": {
-              "value": function () { return this.list_filter.apply(this, arguments); }
-            },
-            "listGetElements": {
-              "value": function () { return this.list_get_elements.apply(this, arguments); }
-            }
-          }
-        },
-        "FlagSet": {
-          "prototype": {},
-          "static": {}
-        },
-        "Fraction": {
-          "prototype": {},
-          "static": {}
-        },
-        "FractionRange": {
-          "prototype": {},
-          "static": {}
-        },
-        "GhostPad": {
-          "prototype": {
-            "getTarget": {
-              "value": function () { return this.get_target.apply(this, arguments); }
-            },
-            "setTarget": {
-              "value": function () { return this.set_target.apply(this, arguments); }
-            }
-          },
-          "static": {
-            "activateModeDefault": {
-              "value": function () { return this.activate_mode_default.apply(this, arguments); }
-            },
-            "internalActivateModeDefault": {
-              "value": function () { return this.internal_activate_mode_default.apply(this, arguments); }
-            }
-          }
-        },
-        "Int64Range": {
-          "prototype": {},
-          "static": {}
-        },
-        "IntRange": {
-          "prototype": {},
-          "static": {}
-        },
-        "Object": {
-          "prototype": {
-            "addControlBinding": {
-              "value": function () { return this.add_control_binding.apply(this, arguments); }
-            },
-            "defaultError": {
-              "value": function () { return this.default_error.apply(this, arguments); }
-            },
-            "getControlBinding": {
-              "value": function () { return this.get_control_binding.apply(this, arguments); }
-            },
-            "getControlRate": {
-              "value": function () { return this.get_control_rate.apply(this, arguments); }
-            },
-            "getGValueArray": {
-              "value": function () { return this.get_g_value_array.apply(this, arguments); }
-            },
-            "getName": {
-              "value": function () { return this.get_name.apply(this, arguments); }
-            },
-            "getParent": {
-              "value": function () { return this.get_parent.apply(this, arguments); }
-            },
-            "getPathString": {
-              "value": function () { return this.get_path_string.apply(this, arguments); }
-            },
-            "getValue": {
-              "value": function () { return this.get_value.apply(this, arguments); }
-            },
-            "getValueArray": {
-              "value": function () { return this.get_value_array.apply(this, arguments); }
-            },
-            "hasActiveControlBindings": {
-              "value": function () { return this.has_active_control_bindings.apply(this, arguments); }
-            },
-            "hasAncestor": {
-              "value": function () { return this.has_ancestor.apply(this, arguments); }
-            },
-            "hasAsAncestor": {
-              "value": function () { return this.has_as_ancestor.apply(this, arguments); }
-            },
-            "hasAsParent": {
-              "value": function () { return this.has_as_parent.apply(this, arguments); }
-            },
-            "removeControlBinding": {
-              "value": function () { return this.remove_control_binding.apply(this, arguments); }
-            },
-            "setControlBindingDisabled": {
-              "value": function () { return this.set_control_binding_disabled.apply(this, arguments); }
-            },
-            "setControlBindingsDisabled": {
-              "value": function () { return this.set_control_bindings_disabled.apply(this, arguments); }
-            },
-            "setControlRate": {
-              "value": function () { return this.set_control_rate.apply(this, arguments); }
-            },
-            "setName": {
-              "value": function () { return this.set_name.apply(this, arguments); }
-            },
-            "setParent": {
-              "value": function () { return this.set_parent.apply(this, arguments); }
-            },
-            "suggestNextSync": {
-              "value": function () { return this.suggest_next_sync.apply(this, arguments); }
-            },
-            "syncValues": {
-              "value": function () { return this.sync_values.apply(this, arguments); }
-            }
-          },
-          "static": {
-            "checkUniqueness": {
-              "value": function () { return this.check_uniqueness.apply(this, arguments); }
-            },
-            "defaultDeepNotify": {
-              "value": function () { return this.default_deep_notify.apply(this, arguments); }
-            },
-            "refSink": {
-              "value": function () { return this.ref_sink.apply(this, arguments); }
-            }
-          }
-        },
-        "Pad": {
-          "prototype": {
-            "activateMode": {
-              "value": function () { return this.activate_mode.apply(this, arguments); }
-            },
-            "addProbe": {
-              "value": function () { return this.add_probe.apply(this, arguments); }
-            },
-            "canLink": {
-              "value": function () { return this.can_link.apply(this, arguments); }
-            },
-            "chainList": {
-              "value": function () { return this.chain_list.apply(this, arguments); }
-            },
-            "checkReconfigure": {
-              "value": function () { return this.check_reconfigure.apply(this, arguments); }
-            },
-            "createStreamId": {
-              "value": function () { return this.create_stream_id.apply(this, arguments); }
-            },
-            "createStreamIdPrintf": {
-              "value": function () { return this.create_stream_id_printf.apply(this, arguments); }
-            },
-            "createStreamIdPrintfValist": {
-              "value": function () { return this.create_stream_id_printf_valist.apply(this, arguments); }
-            },
-            "eventDefault": {
-              "value": function () { return this.event_default.apply(this, arguments); }
-            },
-            "getAllowedCaps": {
-              "value": function () { return this.get_allowed_caps.apply(this, arguments); }
-            },
-            "getCurrentCaps": {
-              "value": function () { return this.get_current_caps.apply(this, arguments); }
-            },
-            "getDirection": {
-              "value": function () { return this.get_direction.apply(this, arguments); }
-            },
-            "getElementPrivate": {
-              "value": function () { return this.get_element_private.apply(this, arguments); }
-            },
-            "getLastFlowReturn": {
-              "value": function () { return this.get_last_flow_return.apply(this, arguments); }
-            },
-            "getOffset": {
-              "value": function () { return this.get_offset.apply(this, arguments); }
-            },
-            "getPadTemplate": {
-              "value": function () { return this.get_pad_template.apply(this, arguments); }
-            },
-            "getPadTemplateCaps": {
-              "value": function () { return this.get_pad_template_caps.apply(this, arguments); }
-            },
-            "getParentElement": {
-              "value": function () { return this.get_parent_element.apply(this, arguments); }
-            },
-            "getPeer": {
-              "value": function () { return this.get_peer.apply(this, arguments); }
-            },
-            "getRange": {
-              "value": function () { return this.get_range.apply(this, arguments); }
-            },
-            "getStickyEvent": {
-              "value": function () { return this.get_sticky_event.apply(this, arguments); }
-            },
-            "getStreamId": {
-              "value": function () { return this.get_stream_id.apply(this, arguments); }
-            },
-            "hasCurrentCaps": {
-              "value": function () { return this.has_current_caps.apply(this, arguments); }
-            },
-            "isActive": {
-              "value": function () { return this.is_active.apply(this, arguments); }
-            },
-            "isBlocked": {
-              "value": function () { return this.is_blocked.apply(this, arguments); }
-            },
-            "isBlocking": {
-              "value": function () { return this.is_blocking.apply(this, arguments); }
-            },
-            "isLinked": {
-              "value": function () { return this.is_linked.apply(this, arguments); }
-            },
-            "iterateInternalLinks": {
-              "value": function () { return this.iterate_internal_links.apply(this, arguments); }
-            },
-            "iterateInternalLinksDefault": {
-              "value": function () { return this.iterate_internal_links_default.apply(this, arguments); }
-            },
-            "linkFull": {
-              "value": function () { return this.link_full.apply(this, arguments); }
-            },
-            "markReconfigure": {
-              "value": function () { return this.mark_reconfigure.apply(this, arguments); }
-            },
-            "needsReconfigure": {
-              "value": function () { return this.needs_reconfigure.apply(this, arguments); }
-            },
-            "pauseTask": {
-              "value": function () { return this.pause_task.apply(this, arguments); }
-            },
-            "peerQuery": {
-              "value": function () { return this.peer_query.apply(this, arguments); }
-            },
-            "peerQueryAcceptCaps": {
-              "value": function () { return this.peer_query_accept_caps.apply(this, arguments); }
-            },
-            "peerQueryCaps": {
-              "value": function () { return this.peer_query_caps.apply(this, arguments); }
-            },
-            "peerQueryConvert": {
-              "value": function () { return this.peer_query_convert.apply(this, arguments); }
-            },
-            "peerQueryDuration": {
-              "value": function () { return this.peer_query_duration.apply(this, arguments); }
-            },
-            "peerQueryPosition": {
-              "value": function () { return this.peer_query_position.apply(this, arguments); }
-            },
-            "proxyQueryAcceptCaps": {
-              "value": function () { return this.proxy_query_accept_caps.apply(this, arguments); }
-            },
-            "proxyQueryCaps": {
-              "value": function () { return this.proxy_query_caps.apply(this, arguments); }
-            },
-            "pullRange": {
-              "value": function () { return this.pull_range.apply(this, arguments); }
-            },
-            "pushEvent": {
-              "value": function () { return this.push_event.apply(this, arguments); }
-            },
-            "pushList": {
-              "value": function () { return this.push_list.apply(this, arguments); }
-            },
-            "queryAcceptCaps": {
-              "value": function () { return this.query_accept_caps.apply(this, arguments); }
-            },
-            "queryCaps": {
-              "value": function () { return this.query_caps.apply(this, arguments); }
-            },
-            "queryConvert": {
-              "value": function () { return this.query_convert.apply(this, arguments); }
-            },
-            "queryDefault": {
-              "value": function () { return this.query_default.apply(this, arguments); }
-            },
-            "queryDuration": {
-              "value": function () { return this.query_duration.apply(this, arguments); }
-            },
-            "queryPosition": {
-              "value": function () { return this.query_position.apply(this, arguments); }
-            },
-            "removeProbe": {
-              "value": function () { return this.remove_probe.apply(this, arguments); }
-            },
-            "sendEvent": {
-              "value": function () { return this.send_event.apply(this, arguments); }
-            },
-            "setActivateFunctionFull": {
-              "value": function () { return this.set_activate_function_full.apply(this, arguments); }
-            },
-            "setActivatemodeFunctionFull": {
-              "value": function () { return this.set_activatemode_function_full.apply(this, arguments); }
-            },
-            "setActive": {
-              "value": function () { return this.set_active.apply(this, arguments); }
-            },
-            "setChainFunctionFull": {
-              "value": function () { return this.set_chain_function_full.apply(this, arguments); }
-            },
-            "setChainListFunctionFull": {
-              "value": function () { return this.set_chain_list_function_full.apply(this, arguments); }
-            },
-            "setElementPrivate": {
-              "value": function () { return this.set_element_private.apply(this, arguments); }
-            },
-            "setEventFunctionFull": {
-              "value": function () { return this.set_event_function_full.apply(this, arguments); }
-            },
-            "setGetrangeFunctionFull": {
-              "value": function () { return this.set_getrange_function_full.apply(this, arguments); }
-            },
-            "setIterateInternalLinksFunctionFull": {
-              "value": function () { return this.set_iterate_internal_links_function_full.apply(this, arguments); }
-            },
-            "setLinkFunctionFull": {
-              "value": function () { return this.set_link_function_full.apply(this, arguments); }
-            },
-            "setOffset": {
-              "value": function () { return this.set_offset.apply(this, arguments); }
-            },
-            "setQueryFunctionFull": {
-              "value": function () { return this.set_query_function_full.apply(this, arguments); }
-            },
-            "setUnlinkFunctionFull": {
-              "value": function () { return this.set_unlink_function_full.apply(this, arguments); }
-            },
-            "startTask": {
-              "value": function () { return this.start_task.apply(this, arguments); }
-            },
-            "stickyEventsForeach": {
-              "value": function () { return this.sticky_events_foreach.apply(this, arguments); }
-            },
-            "stopTask": {
-              "value": function () { return this.stop_task.apply(this, arguments); }
-            },
-            "storeStickyEvent": {
-              "value": function () { return this.store_sticky_event.apply(this, arguments); }
-            },
-            "useFixedCaps": {
-              "value": function () { return this.use_fixed_caps.apply(this, arguments); }
-            }
-          },
-          "static": {
-            "linkGetName": {
-              "value": function () { return this.link_get_name.apply(this, arguments); }
-            }
-          }
-        },
-        "PadTemplate": {
-          "prototype": {
-            "getCaps": {
-              "value": function () { return this.get_caps.apply(this, arguments); }
-            },
-            "padCreated": {
-              "value": function () { return this.pad_created.apply(this, arguments); }
-            },
-            "nameTemplate": {
-              "get": function () { return this.name_template; },
-              "set": function (value) { this.name_template = value; }
-            }
-          },
-          "static": {}
-        },
-        "ParamFraction": {
-          "prototype": {},
-          "static": {}
-        },
-        "Pipeline": {
-          "prototype": {
-            "autoClock": {
-              "value": function () { return this.auto_clock.apply(this, arguments); }
-            },
-            "getAutoFlushBus": {
-              "value": function () { return this.get_auto_flush_bus.apply(this, arguments); }
-            },
-            "getBus": {
-              "value": function () { return this.get_bus.apply(this, arguments); }
-            },
-            "getClock": {
-              "value": function () { return this.get_clock.apply(this, arguments); }
-            },
-            "getDelay": {
-              "value": function () { return this.get_delay.apply(this, arguments); }
-            },
-            "getLatency": {
-              "value": function () { return this.get_latency.apply(this, arguments); }
-            },
-            "getPipelineClock": {
-              "value": function () { return this.get_pipeline_clock.apply(this, arguments); }
-            },
-            "setAutoFlushBus": {
-              "value": function () { return this.set_auto_flush_bus.apply(this, arguments); }
-            },
-            "setClock": {
-              "value": function () { return this.set_clock.apply(this, arguments); }
-            },
-            "setDelay": {
-              "value": function () { return this.set_delay.apply(this, arguments); }
-            },
-            "setLatency": {
-              "value": function () { return this.set_latency.apply(this, arguments); }
-            },
-            "useClock": {
-              "value": function () { return this.use_clock.apply(this, arguments); }
-            },
-            "autoFlushBus": {
-              "get": function () { return this.auto_flush_bus; },
-              "set": function (value) { this.auto_flush_bus = value; }
-            }
-          },
-          "static": {}
-        },
-        "Plugin": {
-          "prototype": {
-            "addDependency": {
-              "value": function () { return this.add_dependency.apply(this, arguments); }
-            },
-            "addDependencySimple": {
-              "value": function () { return this.add_dependency_simple.apply(this, arguments); }
-            },
-            "getCacheData": {
-              "value": function () { return this.get_cache_data.apply(this, arguments); }
-            },
-            "getDescription": {
-              "value": function () { return this.get_description.apply(this, arguments); }
-            },
-            "getFilename": {
-              "value": function () { return this.get_filename.apply(this, arguments); }
-            },
-            "getLicense": {
-              "value": function () { return this.get_license.apply(this, arguments); }
-            },
-            "getName": {
-              "value": function () { return this.get_name.apply(this, arguments); }
-            },
-            "getOrigin": {
-              "value": function () { return this.get_origin.apply(this, arguments); }
-            },
-            "getPackage": {
-              "value": function () { return this.get_package.apply(this, arguments); }
-            },
-            "getReleaseDateString": {
-              "value": function () { return this.get_release_date_string.apply(this, arguments); }
-            },
-            "getSource": {
-              "value": function () { return this.get_source.apply(this, arguments); }
-            },
-            "getVersion": {
-              "value": function () { return this.get_version.apply(this, arguments); }
-            },
-            "isLoaded": {
-              "value": function () { return this.is_loaded.apply(this, arguments); }
-            },
-            "setCacheData": {
-              "value": function () { return this.set_cache_data.apply(this, arguments); }
-            }
-          },
-          "static": {
-            "listFree": {
-              "value": function () { return this.list_free.apply(this, arguments); }
-            },
-            "loadByName": {
-              "value": function () { return this.load_by_name.apply(this, arguments); }
-            },
-            "loadFile": {
-              "value": function () { return this.load_file.apply(this, arguments); }
-            },
-            "registerStatic": {
-              "value": function () { return this.register_static.apply(this, arguments); }
-            },
-            "registerStaticFull": {
-              "value": function () { return this.register_static_full.apply(this, arguments); }
-            }
-          }
-        },
-        "PluginFeature": {
-          "prototype": {
-            "checkVersion": {
-              "value": function () { return this.check_version.apply(this, arguments); }
-            },
-            "getPlugin": {
-              "value": function () { return this.get_plugin.apply(this, arguments); }
-            },
-            "getPluginName": {
-              "value": function () { return this.get_plugin_name.apply(this, arguments); }
-            },
-            "getRank": {
-              "value": function () { return this.get_rank.apply(this, arguments); }
-            },
-            "setRank": {
-              "value": function () { return this.set_rank.apply(this, arguments); }
-            }
-          },
-          "static": {
-            "listCopy": {
-              "value": function () { return this.list_copy.apply(this, arguments); }
-            },
-            "listDebug": {
-              "value": function () { return this.list_debug.apply(this, arguments); }
-            },
-            "listFree": {
-              "value": function () { return this.list_free.apply(this, arguments); }
-            },
-            "rankCompareFunc": {
-              "value": function () { return this.rank_compare_func.apply(this, arguments); }
-            }
-          }
-        },
-        "ProxyPad": {
-          "prototype": {
-            "getInternal": {
-              "value": function () { return this.get_internal.apply(this, arguments); }
-            }
-          },
-          "static": {
-            "chainDefault": {
-              "value": function () { return this.chain_default.apply(this, arguments); }
-            },
-            "chainListDefault": {
-              "value": function () { return this.chain_list_default.apply(this, arguments); }
-            },
-            "getrangeDefault": {
-              "value": function () { return this.getrange_default.apply(this, arguments); }
-            },
-            "iterateInternalLinksDefault": {
-              "value": function () { return this.iterate_internal_links_default.apply(this, arguments); }
-            }
-          }
-        },
-        "Registry": {
-          "prototype": {
-            "addFeature": {
-              "value": function () { return this.add_feature.apply(this, arguments); }
-            },
-            "addPlugin": {
-              "value": function () { return this.add_plugin.apply(this, arguments); }
-            },
-            "checkFeatureVersion": {
-              "value": function () { return this.check_feature_version.apply(this, arguments); }
-            },
-            "featureFilter": {
-              "value": function () { return this.feature_filter.apply(this, arguments); }
-            },
-            "findFeature": {
-              "value": function () { return this.find_feature.apply(this, arguments); }
-            },
-            "findPlugin": {
-              "value": function () { return this.find_plugin.apply(this, arguments); }
-            },
-            "getFeatureList": {
-              "value": function () { return this.get_feature_list.apply(this, arguments); }
-            },
-            "getFeatureListByPlugin": {
-              "value": function () { return this.get_feature_list_by_plugin.apply(this, arguments); }
-            },
-            "getFeatureListCookie": {
-              "value": function () { return this.get_feature_list_cookie.apply(this, arguments); }
-            },
-            "getPluginList": {
-              "value": function () { return this.get_plugin_list.apply(this, arguments); }
-            },
-            "lookupFeature": {
-              "value": function () { return this.lookup_feature.apply(this, arguments); }
-            },
-            "pluginFilter": {
-              "value": function () { return this.plugin_filter.apply(this, arguments); }
-            },
-            "removeFeature": {
-              "value": function () { return this.remove_feature.apply(this, arguments); }
-            },
-            "removePlugin": {
-              "value": function () { return this.remove_plugin.apply(this, arguments); }
-            },
-            "scanPath": {
-              "value": function () { return this.scan_path.apply(this, arguments); }
-            }
-          },
-          "static": {
-            "forkIsEnabled": {
-              "value": function () { return this.fork_is_enabled.apply(this, arguments); }
-            },
-            "forkSetEnabled": {
-              "value": function () { return this.fork_set_enabled.apply(this, arguments); }
-            }
-          }
-        },
-        "SystemClock": {
-          "prototype": {
-            "clockType": {
-              "get": function () { return this.clock_type; },
-              "set": function (value) { this.clock_type = value; }
-            }
-          },
-          "static": {
-            "setDefault": {
-              "value": function () { return this.set_default.apply(this, arguments); }
-            }
-          }
-        },
-        "Task": {
-          "prototype": {
-            "getPool": {
-              "value": function () { return this.get_pool.apply(this, arguments); }
-            },
-            "getState": {
-              "value": function () { return this.get_state.apply(this, arguments); }
-            },
-            "setEnterCallback": {
-              "value": function () { return this.set_enter_callback.apply(this, arguments); }
-            },
-            "setLeaveCallback": {
-              "value": function () { return this.set_leave_callback.apply(this, arguments); }
-            },
-            "setLock": {
-              "value": function () { return this.set_lock.apply(this, arguments); }
-            },
-            "setPool": {
-              "value": function () { return this.set_pool.apply(this, arguments); }
-            },
-            "setState": {
-              "value": function () { return this.set_state.apply(this, arguments); }
-            }
-          },
-          "static": {
-            "cleanupAll": {
-              "value": function () { return this.cleanup_all.apply(this, arguments); }
-            }
-          }
-        },
-        "TaskPool": {
-          "prototype": {},
-          "static": {}
-        },
-        "TypeFindFactory": {
-          "prototype": {
-            "callFunction": {
-              "value": function () { return this.call_function.apply(this, arguments); }
-            },
-            "getCaps": {
-              "value": function () { return this.get_caps.apply(this, arguments); }
-            },
-            "getExtensions": {
-              "value": function () { return this.get_extensions.apply(this, arguments); }
-            },
-            "hasFunction": {
-              "value": function () { return this.has_function.apply(this, arguments); }
-            }
-          },
-          "static": {
-            "getList": {
-              "value": function () { return this.get_list.apply(this, arguments); }
-            }
-          }
-        },
-        "ValueArray": {
-          "prototype": {},
-          "static": {
-            "appendAndTakeValue": {
-              "value": function () { return this.append_and_take_value.apply(this, arguments); }
-            },
-            "appendValue": {
-              "value": function () { return this.append_value.apply(this, arguments); }
-            },
-            "getSize": {
-              "value": function () { return this.get_size.apply(this, arguments); }
-            },
-            "getValue": {
-              "value": function () { return this.get_value.apply(this, arguments); }
-            },
-            "prependValue": {
-              "value": function () { return this.prepend_value.apply(this, arguments); }
-            }
-          }
-        },
-        "ValueList": {
-          "prototype": {},
-          "static": {
-            "appendAndTakeValue": {
-              "value": function () { return this.append_and_take_value.apply(this, arguments); }
-            },
-            "appendValue": {
-              "value": function () { return this.append_value.apply(this, arguments); }
-            },
-            "getSize": {
-              "value": function () { return this.get_size.apply(this, arguments); }
-            },
-            "getValue": {
-              "value": function () { return this.get_value.apply(this, arguments); }
-            },
-            "prependValue": {
-              "value": function () { return this.prepend_value.apply(this, arguments); }
-            }
-          }
-        }
-      },
-      "static": {
-        "bufferGetMaxMemory": {
-          "value": function () { return this.buffer_get_max_memory.apply(this, arguments); }
-        },
-        "capsFeaturesFromString": {
-          "value": function () { return this.caps_features_from_string.apply(this, arguments); }
-        },
-        "capsFromString": {
-          "value": function () { return this.caps_from_string.apply(this, arguments); }
-        },
-        "coreErrorQuark": {
-          "value": function () { return this.core_error_quark.apply(this, arguments); }
-        },
-        "debugAddLogFunction": {
-          "value": function () { return this.debug_add_log_function.apply(this, arguments); }
-        },
-        "debugBinToDotData": {
-          "value": function () { return this.debug_bin_to_dot_data.apply(this, arguments); }
-        },
-        "debugBinToDotFile": {
-          "value": function () { return this.debug_bin_to_dot_file.apply(this, arguments); }
-        },
-        "debugBinToDotFileWithTs": {
-          "value": function () { return this.debug_bin_to_dot_file_with_ts.apply(this, arguments); }
-        },
-        "debugConstructTermColor": {
-          "value": function () { return this.debug_construct_term_color.apply(this, arguments); }
-        },
-        "debugConstructWinColor": {
-          "value": function () { return this.debug_construct_win_color.apply(this, arguments); }
-        },
-        "debugGetAllCategories": {
-          "value": function () { return this.debug_get_all_categories.apply(this, arguments); }
-        },
-        "debugGetColorMode": {
-          "value": function () { return this.debug_get_color_mode.apply(this, arguments); }
-        },
-        "debugGetDefaultThreshold": {
-          "value": function () { return this.debug_get_default_threshold.apply(this, arguments); }
-        },
-        "debugIsActive": {
-          "value": function () { return this.debug_is_active.apply(this, arguments); }
-        },
-        "debugIsColored": {
-          "value": function () { return this.debug_is_colored.apply(this, arguments); }
-        },
-        "debugLevelGetName": {
-          "value": function () { return this.debug_level_get_name.apply(this, arguments); }
-        },
-        "debugLog": {
-          "value": function () { return this.debug_log.apply(this, arguments); }
-        },
-        "debugLogDefault": {
-          "value": function () { return this.debug_log_default.apply(this, arguments); }
-        },
-        "debugLogValist": {
-          "value": function () { return this.debug_log_valist.apply(this, arguments); }
-        },
-        "debugPrintStackTrace": {
-          "value": function () { return this.debug_print_stack_trace.apply(this, arguments); }
-        },
-        "debugRemoveLogFunction": {
-          "value": function () { return this.debug_remove_log_function.apply(this, arguments); }
-        },
-        "debugRemoveLogFunctionByData": {
-          "value": function () { return this.debug_remove_log_function_by_data.apply(this, arguments); }
-        },
-        "debugSetActive": {
-          "value": function () { return this.debug_set_active.apply(this, arguments); }
-        },
-        "debugSetColorMode": {
-          "value": function () { return this.debug_set_color_mode.apply(this, arguments); }
-        },
-        "debugSetColorModeFromString": {
-          "value": function () { return this.debug_set_color_mode_from_string.apply(this, arguments); }
-        },
-        "debugSetColored": {
-          "value": function () { return this.debug_set_colored.apply(this, arguments); }
-        },
-        "debugSetDefaultThreshold": {
-          "value": function () { return this.debug_set_default_threshold.apply(this, arguments); }
-        },
-        "debugSetThresholdForName": {
-          "value": function () { return this.debug_set_threshold_for_name.apply(this, arguments); }
-        },
-        "debugSetThresholdFromString": {
-          "value": function () { return this.debug_set_threshold_from_string.apply(this, arguments); }
-        },
-        "debugUnsetThresholdForName": {
-          "value": function () { return this.debug_unset_threshold_for_name.apply(this, arguments); }
-        },
-        "errorGetMessage": {
-          "value": function () { return this.error_get_message.apply(this, arguments); }
-        },
-        "eventTypeGetFlags": {
-          "value": function () { return this.event_type_get_flags.apply(this, arguments); }
-        },
-        "eventTypeGetName": {
-          "value": function () { return this.event_type_get_name.apply(this, arguments); }
-        },
-        "eventTypeToQuark": {
-          "value": function () { return this.event_type_to_quark.apply(this, arguments); }
-        },
-        "filenameToUri": {
-          "value": function () { return this.filename_to_uri.apply(this, arguments); }
-        },
-        "flowGetName": {
-          "value": function () { return this.flow_get_name.apply(this, arguments); }
-        },
-        "flowToQuark": {
-          "value": function () { return this.flow_to_quark.apply(this, arguments); }
-        },
-        "formatGetByNick": {
-          "value": function () { return this.format_get_by_nick.apply(this, arguments); }
-        },
-        "formatGetDetails": {
-          "value": function () { return this.format_get_details.apply(this, arguments); }
-        },
-        "formatGetName": {
-          "value": function () { return this.format_get_name.apply(this, arguments); }
-        },
-        "formatIterateDefinitions": {
-          "value": function () { return this.format_iterate_definitions.apply(this, arguments); }
-        },
-        "formatRegister": {
-          "value": function () { return this.format_register.apply(this, arguments); }
-        },
-        "formatToQuark": {
-          "value": function () { return this.format_to_quark.apply(this, arguments); }
-        },
-        "formatsContains": {
-          "value": function () { return this.formats_contains.apply(this, arguments); }
-        },
-        "initCheck": {
-          "value": function () { return this.init_check.apply(this, arguments); }
-        },
-        "initGetOptionGroup": {
-          "value": function () { return this.init_get_option_group.apply(this, arguments); }
-        },
-        "isCapsFeatures": {
-          "value": function () { return this.is_caps_features.apply(this, arguments); }
-        },
-        "isInitialized": {
-          "value": function () { return this.is_initialized.apply(this, arguments); }
-        },
-        "libraryErrorQuark": {
-          "value": function () { return this.library_error_quark.apply(this, arguments); }
-        },
-        "messageTypeGetName": {
-          "value": function () { return this.message_type_get_name.apply(this, arguments); }
-        },
-        "messageTypeToQuark": {
-          "value": function () { return this.message_type_to_quark.apply(this, arguments); }
-        },
-        "metaApiTypeGetTags": {
-          "value": function () { return this.meta_api_type_get_tags.apply(this, arguments); }
-        },
-        "metaApiTypeHasTag": {
-          "value": function () { return this.meta_api_type_has_tag.apply(this, arguments); }
-        },
-        "metaApiTypeRegister": {
-          "value": function () { return this.meta_api_type_register.apply(this, arguments); }
-        },
-        "metaGetInfo": {
-          "value": function () { return this.meta_get_info.apply(this, arguments); }
-        },
-        "metaRegister": {
-          "value": function () { return this.meta_register.apply(this, arguments); }
-        },
-        "miniObjectReplace": {
-          "value": function () { return this.mini_object_replace.apply(this, arguments); }
-        },
-        "miniObjectSteal": {
-          "value": function () { return this.mini_object_steal.apply(this, arguments); }
-        },
-        "miniObjectTake": {
-          "value": function () { return this.mini_object_take.apply(this, arguments); }
-        },
-        "padModeGetName": {
-          "value": function () { return this.pad_mode_get_name.apply(this, arguments); }
-        },
-        "paramSpecFraction": {
-          "value": function () { return this.param_spec_fraction.apply(this, arguments); }
-        },
-        "parentBufferMetaApiGetType": {
-          "value": function () { return this.parent_buffer_meta_api_get_type.apply(this, arguments); }
-        },
-        "parentBufferMetaGetInfo": {
-          "value": function () { return this.parent_buffer_meta_get_info.apply(this, arguments); }
-        },
-        "parseBinFromDescription": {
-          "value": function () { return this.parse_bin_from_description.apply(this, arguments); }
-        },
-        "parseBinFromDescriptionFull": {
-          "value": function () { return this.parse_bin_from_description_full.apply(this, arguments); }
-        },
-        "parseErrorQuark": {
-          "value": function () { return this.parse_error_quark.apply(this, arguments); }
-        },
-        "parseLaunch": {
-          "value": function () { return this.parse_launch.apply(this, arguments); }
-        },
-        "parseLaunchFull": {
-          "value": function () { return this.parse_launch_full.apply(this, arguments); }
-        },
-        "parseLaunchv": {
-          "value": function () { return this.parse_launchv.apply(this, arguments); }
-        },
-        "parseLaunchvFull": {
-          "value": function () { return this.parse_launchv_full.apply(this, arguments); }
-        },
-        "pluginErrorQuark": {
-          "value": function () { return this.plugin_error_quark.apply(this, arguments); }
-        },
-        "pollNew": {
-          "value": function () { return this.poll_new.apply(this, arguments); }
-        },
-        "pollNewTimer": {
-          "value": function () { return this.poll_new_timer.apply(this, arguments); }
-        },
-        "presetGetAppDir": {
-          "value": function () { return this.preset_get_app_dir.apply(this, arguments); }
-        },
-        "presetSetAppDir": {
-          "value": function () { return this.preset_set_app_dir.apply(this, arguments); }
-        },
-        "protectionMetaApiGetType": {
-          "value": function () { return this.protection_meta_api_get_type.apply(this, arguments); }
-        },
-        "protectionMetaGetInfo": {
-          "value": function () { return this.protection_meta_get_info.apply(this, arguments); }
-        },
-        "protectionSelectSystem": {
-          "value": function () { return this.protection_select_system.apply(this, arguments); }
-        },
-        "queryTypeGetFlags": {
-          "value": function () { return this.query_type_get_flags.apply(this, arguments); }
-        },
-        "queryTypeGetName": {
-          "value": function () { return this.query_type_get_name.apply(this, arguments); }
-        },
-        "queryTypeToQuark": {
-          "value": function () { return this.query_type_to_quark.apply(this, arguments); }
-        },
-        "resourceErrorQuark": {
-          "value": function () { return this.resource_error_quark.apply(this, arguments); }
-        },
-        "segtrapIsEnabled": {
-          "value": function () { return this.segtrap_is_enabled.apply(this, arguments); }
-        },
-        "segtrapSetEnabled": {
-          "value": function () { return this.segtrap_set_enabled.apply(this, arguments); }
-        },
-        "staticCapsGetType": {
-          "value": function () { return this.static_caps_get_type.apply(this, arguments); }
-        },
-        "staticPadTemplateGetType": {
-          "value": function () { return this.static_pad_template_get_type.apply(this, arguments); }
-        },
-        "streamErrorQuark": {
-          "value": function () { return this.stream_error_quark.apply(this, arguments); }
-        },
-        "structureFromString": {
-          "value": function () { return this.structure_from_string.apply(this, arguments); }
-        },
-        "tagExists": {
-          "value": function () { return this.tag_exists.apply(this, arguments); }
-        },
-        "tagGetDescription": {
-          "value": function () { return this.tag_get_description.apply(this, arguments); }
-        },
-        "tagGetFlag": {
-          "value": function () { return this.tag_get_flag.apply(this, arguments); }
-        },
-        "tagGetNick": {
-          "value": function () { return this.tag_get_nick.apply(this, arguments); }
-        },
-        "tagGetType": {
-          "value": function () { return this.tag_get_type.apply(this, arguments); }
-        },
-        "tagIsFixed": {
-          "value": function () { return this.tag_is_fixed.apply(this, arguments); }
-        },
-        "tagListCopyValue": {
-          "value": function () { return this.tag_list_copy_value.apply(this, arguments); }
-        },
-        "tagMergeStringsWithComma": {
-          "value": function () { return this.tag_merge_strings_with_comma.apply(this, arguments); }
-        },
-        "tagMergeUseFirst": {
-          "value": function () { return this.tag_merge_use_first.apply(this, arguments); }
-        },
-        "tagRegister": {
-          "value": function () { return this.tag_register.apply(this, arguments); }
-        },
-        "tagRegisterStatic": {
-          "value": function () { return this.tag_register_static.apply(this, arguments); }
-        },
-        "tocEntryTypeGetNick": {
-          "value": function () { return this.toc_entry_type_get_nick.apply(this, arguments); }
-        },
-        "typeFindGetType": {
-          "value": function () { return this.type_find_get_type.apply(this, arguments); }
-        },
-        "typeFindRegister": {
-          "value": function () { return this.type_find_register.apply(this, arguments); }
-        },
-        "updateRegistry": {
-          "value": function () { return this.update_registry.apply(this, arguments); }
-        },
-        "uriConstruct": {
-          "value": function () { return this.uri_construct.apply(this, arguments); }
-        },
-        "uriErrorQuark": {
-          "value": function () { return this.uri_error_quark.apply(this, arguments); }
-        },
-        "uriFromString": {
-          "value": function () { return this.uri_from_string.apply(this, arguments); }
-        },
-        "uriGetLocation": {
-          "value": function () { return this.uri_get_location.apply(this, arguments); }
-        },
-        "uriGetProtocol": {
-          "value": function () { return this.uri_get_protocol.apply(this, arguments); }
-        },
-        "uriHasProtocol": {
-          "value": function () { return this.uri_has_protocol.apply(this, arguments); }
-        },
-        "uriIsValid": {
-          "value": function () { return this.uri_is_valid.apply(this, arguments); }
-        },
-        "uriJoinStrings": {
-          "value": function () { return this.uri_join_strings.apply(this, arguments); }
-        },
-        "uriProtocolIsSupported": {
-          "value": function () { return this.uri_protocol_is_supported.apply(this, arguments); }
-        },
-        "uriProtocolIsValid": {
-          "value": function () { return this.uri_protocol_is_valid.apply(this, arguments); }
-        },
-        "utilArrayBinarySearch": {
-          "value": function () { return this.util_array_binary_search.apply(this, arguments); }
-        },
-        "utilDoubleToFraction": {
-          "value": function () { return this.util_double_to_fraction.apply(this, arguments); }
-        },
-        "utilDumpMem": {
-          "value": function () { return this.util_dump_mem.apply(this, arguments); }
-        },
-        "utilFractionAdd": {
-          "value": function () { return this.util_fraction_add.apply(this, arguments); }
-        },
-        "utilFractionCompare": {
-          "value": function () { return this.util_fraction_compare.apply(this, arguments); }
-        },
-        "utilFractionMultiply": {
-          "value": function () { return this.util_fraction_multiply.apply(this, arguments); }
-        },
-        "utilFractionToDouble": {
-          "value": function () { return this.util_fraction_to_double.apply(this, arguments); }
-        },
-        "utilGdoubleToGuint64": {
-          "value": function () { return this.util_gdouble_to_guint64.apply(this, arguments); }
-        },
-        "utilGetTimestamp": {
-          "value": function () { return this.util_get_timestamp.apply(this, arguments); }
-        },
-        "utilGreatestCommonDivisor": {
-          "value": function () { return this.util_greatest_common_divisor.apply(this, arguments); }
-        },
-        "utilGreatestCommonDivisorInt64": {
-          "value": function () { return this.util_greatest_common_divisor_int64.apply(this, arguments); }
-        },
-        "utilGroupIdNext": {
-          "value": function () { return this.util_group_id_next.apply(this, arguments); }
-        },
-        "utilGuint64ToGdouble": {
-          "value": function () { return this.util_guint64_to_gdouble.apply(this, arguments); }
-        },
-        "utilSeqnumCompare": {
-          "value": function () { return this.util_seqnum_compare.apply(this, arguments); }
-        },
-        "utilSeqnumNext": {
-          "value": function () { return this.util_seqnum_next.apply(this, arguments); }
-        },
-        "utilSetObjectArg": {
-          "value": function () { return this.util_set_object_arg.apply(this, arguments); }
-        },
-        "utilSetValueFromString": {
-          "value": function () { return this.util_set_value_from_string.apply(this, arguments); }
-        },
-        "utilUint64Scale": {
-          "value": function () { return this.util_uint64_scale.apply(this, arguments); }
-        },
-        "utilUint64ScaleCeil": {
-          "value": function () { return this.util_uint64_scale_ceil.apply(this, arguments); }
-        },
-        "utilUint64ScaleInt": {
-          "value": function () { return this.util_uint64_scale_int.apply(this, arguments); }
-        },
-        "utilUint64ScaleIntCeil": {
-          "value": function () { return this.util_uint64_scale_int_ceil.apply(this, arguments); }
-        },
-        "utilUint64ScaleIntRound": {
-          "value": function () { return this.util_uint64_scale_int_round.apply(this, arguments); }
-        },
-        "utilUint64ScaleRound": {
-          "value": function () { return this.util_uint64_scale_round.apply(this, arguments); }
-        },
-        "valueCanCompare": {
-          "value": function () { return this.value_can_compare.apply(this, arguments); }
-        },
-        "valueCanIntersect": {
-          "value": function () { return this.value_can_intersect.apply(this, arguments); }
-        },
-        "valueCanSubtract": {
-          "value": function () { return this.value_can_subtract.apply(this, arguments); }
-        },
-        "valueCanUnion": {
-          "value": function () { return this.value_can_union.apply(this, arguments); }
-        },
-        "valueCompare": {
-          "value": function () { return this.value_compare.apply(this, arguments); }
-        },
-        "valueDeserialize": {
-          "value": function () { return this.value_deserialize.apply(this, arguments); }
-        },
-        "valueFixate": {
-          "value": function () { return this.value_fixate.apply(this, arguments); }
-        },
-        "valueFractionMultiply": {
-          "value": function () { return this.value_fraction_multiply.apply(this, arguments); }
-        },
-        "valueFractionSubtract": {
-          "value": function () { return this.value_fraction_subtract.apply(this, arguments); }
-        },
-        "valueGetBitmask": {
-          "value": function () { return this.value_get_bitmask.apply(this, arguments); }
-        },
-        "valueGetCaps": {
-          "value": function () { return this.value_get_caps.apply(this, arguments); }
-        },
-        "valueGetCapsFeatures": {
-          "value": function () { return this.value_get_caps_features.apply(this, arguments); }
-        },
-        "valueGetDoubleRangeMax": {
-          "value": function () { return this.value_get_double_range_max.apply(this, arguments); }
-        },
-        "valueGetDoubleRangeMin": {
-          "value": function () { return this.value_get_double_range_min.apply(this, arguments); }
-        },
-        "valueGetFlagsetFlags": {
-          "value": function () { return this.value_get_flagset_flags.apply(this, arguments); }
-        },
-        "valueGetFlagsetMask": {
-          "value": function () { return this.value_get_flagset_mask.apply(this, arguments); }
-        },
-        "valueGetFractionDenominator": {
-          "value": function () { return this.value_get_fraction_denominator.apply(this, arguments); }
-        },
-        "valueGetFractionNumerator": {
-          "value": function () { return this.value_get_fraction_numerator.apply(this, arguments); }
-        },
-        "valueGetFractionRangeMax": {
-          "value": function () { return this.value_get_fraction_range_max.apply(this, arguments); }
-        },
-        "valueGetFractionRangeMin": {
-          "value": function () { return this.value_get_fraction_range_min.apply(this, arguments); }
-        },
-        "valueGetInt64RangeMax": {
-          "value": function () { return this.value_get_int64_range_max.apply(this, arguments); }
-        },
-        "valueGetInt64RangeMin": {
-          "value": function () { return this.value_get_int64_range_min.apply(this, arguments); }
-        },
-        "valueGetInt64RangeStep": {
-          "value": function () { return this.value_get_int64_range_step.apply(this, arguments); }
-        },
-        "valueGetIntRangeMax": {
-          "value": function () { return this.value_get_int_range_max.apply(this, arguments); }
-        },
-        "valueGetIntRangeMin": {
-          "value": function () { return this.value_get_int_range_min.apply(this, arguments); }
-        },
-        "valueGetIntRangeStep": {
-          "value": function () { return this.value_get_int_range_step.apply(this, arguments); }
-        },
-        "valueGetStructure": {
-          "value": function () { return this.value_get_structure.apply(this, arguments); }
-        },
-        "valueInitAndCopy": {
-          "value": function () { return this.value_init_and_copy.apply(this, arguments); }
-        },
-        "valueIntersect": {
-          "value": function () { return this.value_intersect.apply(this, arguments); }
-        },
-        "valueIsFixed": {
-          "value": function () { return this.value_is_fixed.apply(this, arguments); }
-        },
-        "valueIsSubset": {
-          "value": function () { return this.value_is_subset.apply(this, arguments); }
-        },
-        "valueRegister": {
-          "value": function () { return this.value_register.apply(this, arguments); }
-        },
-        "valueSerialize": {
-          "value": function () { return this.value_serialize.apply(this, arguments); }
-        },
-        "valueSetBitmask": {
-          "value": function () { return this.value_set_bitmask.apply(this, arguments); }
-        },
-        "valueSetCaps": {
-          "value": function () { return this.value_set_caps.apply(this, arguments); }
-        },
-        "valueSetCapsFeatures": {
-          "value": function () { return this.value_set_caps_features.apply(this, arguments); }
-        },
-        "valueSetDoubleRange": {
-          "value": function () { return this.value_set_double_range.apply(this, arguments); }
-        },
-        "valueSetFlagset": {
-          "value": function () { return this.value_set_flagset.apply(this, arguments); }
-        },
-        "valueSetFraction": {
-          "value": function () { return this.value_set_fraction.apply(this, arguments); }
-        },
-        "valueSetFractionRange": {
-          "value": function () { return this.value_set_fraction_range.apply(this, arguments); }
-        },
-        "valueSetFractionRangeFull": {
-          "value": function () { return this.value_set_fraction_range_full.apply(this, arguments); }
-        },
-        "valueSetInt64Range": {
-          "value": function () { return this.value_set_int64_range.apply(this, arguments); }
-        },
-        "valueSetInt64RangeStep": {
-          "value": function () { return this.value_set_int64_range_step.apply(this, arguments); }
-        },
-        "valueSetIntRange": {
-          "value": function () { return this.value_set_int_range.apply(this, arguments); }
-        },
-        "valueSetIntRangeStep": {
-          "value": function () { return this.value_set_int_range_step.apply(this, arguments); }
-        },
-        "valueSetStructure": {
-          "value": function () { return this.value_set_structure.apply(this, arguments); }
-        },
-        "valueSubtract": {
-          "value": function () { return this.value_subtract.apply(this, arguments); }
-        },
-        "valueUnion": {
-          "value": function () { return this.value_union.apply(this, arguments); }
-        },
-        "versionString": {
-          "value": function () { return this.version_string.apply(this, arguments); }
         }
       }
     },
@@ -29329,73 +22158,6 @@
         }
       }
     },
-    "GtkClutter": {
-      "class": {
-        "Actor": {
-          "prototype": {
-            "getContents": {
-              "value": function () { return this.get_contents.apply(this, arguments); }
-            },
-            "getWidget": {
-              "value": function () { return this.get_widget.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        },
-        "Embed": {
-          "prototype": {
-            "getStage": {
-              "value": function () { return this.get_stage.apply(this, arguments); }
-            },
-            "getUseLayoutSize": {
-              "value": function () { return this.get_use_layout_size.apply(this, arguments); }
-            },
-            "setUseLayoutSize": {
-              "value": function () { return this.set_use_layout_size.apply(this, arguments); }
-            },
-            "useLayoutSize": {
-              "get": function () { return this.use_layout_size; },
-              "set": function (value) { this.use_layout_size = value; }
-            }
-          },
-          "static": {}
-        },
-        "Texture": {
-          "prototype": {
-            "setFromIconName": {
-              "value": function () { return this.set_from_icon_name.apply(this, arguments); }
-            },
-            "setFromPixbuf": {
-              "value": function () { return this.set_from_pixbuf.apply(this, arguments); }
-            },
-            "setFromStock": {
-              "value": function () { return this.set_from_stock.apply(this, arguments); }
-            }
-          },
-          "static": {
-            "errorQuark": {
-              "value": function () { return this.error_quark.apply(this, arguments); }
-            }
-          }
-        },
-        "Window": {
-          "prototype": {
-            "getStage": {
-              "value": function () { return this.get_stage.apply(this, arguments); }
-            }
-          },
-          "static": {}
-        }
-      },
-      "static": {
-        "getOptionGroup": {
-          "value": function () { return this.get_option_group.apply(this, arguments); }
-        },
-        "initWithArgs": {
-          "value": function () { return this.init_with_args.apply(this, arguments); }
-        }
-      }
-    },
     "GtkSource": {
       "class": {
         "Buffer": {
@@ -37016,6 +29778,1668 @@
         },
         "weakRefNew": {
           "value": function () { return this.weak_ref_new.apply(this, arguments); }
+        }
+      }
+    },
+    "WebKit2": {
+      "class": {
+        "AuthenticationRequest": {
+          "prototype": {
+            "canSaveCredentials": {
+              "value": function () { return this.can_save_credentials.apply(this, arguments); }
+            },
+            "getHost": {
+              "value": function () { return this.get_host.apply(this, arguments); }
+            },
+            "getPort": {
+              "value": function () { return this.get_port.apply(this, arguments); }
+            },
+            "getProposedCredential": {
+              "value": function () { return this.get_proposed_credential.apply(this, arguments); }
+            },
+            "getRealm": {
+              "value": function () { return this.get_realm.apply(this, arguments); }
+            },
+            "getScheme": {
+              "value": function () { return this.get_scheme.apply(this, arguments); }
+            },
+            "isForProxy": {
+              "value": function () { return this.is_for_proxy.apply(this, arguments); }
+            },
+            "isRetry": {
+              "value": function () { return this.is_retry.apply(this, arguments); }
+            }
+          },
+          "static": {}
+        },
+        "BackForwardList": {
+          "prototype": {
+            "getBackItem": {
+              "value": function () { return this.get_back_item.apply(this, arguments); }
+            },
+            "getBackList": {
+              "value": function () { return this.get_back_list.apply(this, arguments); }
+            },
+            "getBackListWithLimit": {
+              "value": function () { return this.get_back_list_with_limit.apply(this, arguments); }
+            },
+            "getCurrentItem": {
+              "value": function () { return this.get_current_item.apply(this, arguments); }
+            },
+            "getForwardItem": {
+              "value": function () { return this.get_forward_item.apply(this, arguments); }
+            },
+            "getForwardList": {
+              "value": function () { return this.get_forward_list.apply(this, arguments); }
+            },
+            "getForwardListWithLimit": {
+              "value": function () { return this.get_forward_list_with_limit.apply(this, arguments); }
+            },
+            "getLength": {
+              "value": function () { return this.get_length.apply(this, arguments); }
+            },
+            "getNthItem": {
+              "value": function () { return this.get_nth_item.apply(this, arguments); }
+            }
+          },
+          "static": {}
+        },
+        "BackForwardListItem": {
+          "prototype": {
+            "getOriginalUri": {
+              "value": function () { return this.get_original_uri.apply(this, arguments); }
+            },
+            "getTitle": {
+              "value": function () { return this.get_title.apply(this, arguments); }
+            },
+            "getUri": {
+              "value": function () { return this.get_uri.apply(this, arguments); }
+            }
+          },
+          "static": {}
+        },
+        "ColorChooserRequest": {
+          "prototype": {
+            "getElementRectangle": {
+              "value": function () { return this.get_element_rectangle.apply(this, arguments); }
+            },
+            "getRgba": {
+              "value": function () { return this.get_rgba.apply(this, arguments); }
+            },
+            "setRgba": {
+              "value": function () { return this.set_rgba.apply(this, arguments); }
+            }
+          },
+          "static": {}
+        },
+        "ContextMenu": {
+          "prototype": {
+            "getItemAtPosition": {
+              "value": function () { return this.get_item_at_position.apply(this, arguments); }
+            },
+            "getItems": {
+              "value": function () { return this.get_items.apply(this, arguments); }
+            },
+            "getNItems": {
+              "value": function () { return this.get_n_items.apply(this, arguments); }
+            },
+            "getUserData": {
+              "value": function () { return this.get_user_data.apply(this, arguments); }
+            },
+            "moveItem": {
+              "value": function () { return this.move_item.apply(this, arguments); }
+            },
+            "removeAll": {
+              "value": function () { return this.remove_all.apply(this, arguments); }
+            },
+            "setUserData": {
+              "value": function () { return this.set_user_data.apply(this, arguments); }
+            }
+          },
+          "static": {}
+        },
+        "ContextMenuItem": {
+          "prototype": {
+            "getAction": {
+              "value": function () { return this.get_action.apply(this, arguments); }
+            },
+            "getStockAction": {
+              "value": function () { return this.get_stock_action.apply(this, arguments); }
+            },
+            "getSubmenu": {
+              "value": function () { return this.get_submenu.apply(this, arguments); }
+            },
+            "isSeparator": {
+              "value": function () { return this.is_separator.apply(this, arguments); }
+            },
+            "setSubmenu": {
+              "value": function () { return this.set_submenu.apply(this, arguments); }
+            }
+          },
+          "static": {}
+        },
+        "CookieManager": {
+          "prototype": {
+            "deleteAllCookies": {
+              "value": function () { return this.delete_all_cookies.apply(this, arguments); }
+            },
+            "deleteCookiesForDomain": {
+              "value": function () { return this.delete_cookies_for_domain.apply(this, arguments); }
+            },
+            "getAcceptPolicy": {
+              "value": function () { return this.get_accept_policy.apply(this, arguments); }
+            },
+            "getAcceptPolicyFinish": {
+              "value": function () { return this.get_accept_policy_finish.apply(this, arguments); }
+            },
+            "getDomainsWithCookies": {
+              "value": function () { return this.get_domains_with_cookies.apply(this, arguments); }
+            },
+            "getDomainsWithCookiesFinish": {
+              "value": function () { return this.get_domains_with_cookies_finish.apply(this, arguments); }
+            },
+            "setAcceptPolicy": {
+              "value": function () { return this.set_accept_policy.apply(this, arguments); }
+            },
+            "setPersistentStorage": {
+              "value": function () { return this.set_persistent_storage.apply(this, arguments); }
+            }
+          },
+          "static": {}
+        },
+        "Download": {
+          "prototype": {
+            "getAllowOverwrite": {
+              "value": function () { return this.get_allow_overwrite.apply(this, arguments); }
+            },
+            "getDestination": {
+              "value": function () { return this.get_destination.apply(this, arguments); }
+            },
+            "getElapsedTime": {
+              "value": function () { return this.get_elapsed_time.apply(this, arguments); }
+            },
+            "getEstimatedProgress": {
+              "value": function () { return this.get_estimated_progress.apply(this, arguments); }
+            },
+            "getReceivedDataLength": {
+              "value": function () { return this.get_received_data_length.apply(this, arguments); }
+            },
+            "getRequest": {
+              "value": function () { return this.get_request.apply(this, arguments); }
+            },
+            "getResponse": {
+              "value": function () { return this.get_response.apply(this, arguments); }
+            },
+            "getWebView": {
+              "value": function () { return this.get_web_view.apply(this, arguments); }
+            },
+            "setAllowOverwrite": {
+              "value": function () { return this.set_allow_overwrite.apply(this, arguments); }
+            },
+            "setDestination": {
+              "value": function () { return this.set_destination.apply(this, arguments); }
+            },
+            "allowOverwrite": {
+              "get": function () { return this.allow_overwrite; },
+              "set": function (value) { this.allow_overwrite = value; }
+            },
+            "estimatedProgress": {
+              "get": function () { return this.estimated_progress; },
+              "set": function (value) { this.estimated_progress = value; }
+            }
+          },
+          "static": {}
+        },
+        "EditorState": {
+          "prototype": {
+            "getTypingAttributes": {
+              "value": function () { return this.get_typing_attributes.apply(this, arguments); }
+            },
+            "typingAttributes": {
+              "get": function () { return this.typing_attributes; },
+              "set": function (value) { this.typing_attributes = value; }
+            }
+          },
+          "static": {}
+        },
+        "FaviconDatabase": {
+          "prototype": {
+            "getFavicon": {
+              "value": function () { return this.get_favicon.apply(this, arguments); }
+            },
+            "getFaviconFinish": {
+              "value": function () { return this.get_favicon_finish.apply(this, arguments); }
+            },
+            "getFaviconUri": {
+              "value": function () { return this.get_favicon_uri.apply(this, arguments); }
+            }
+          },
+          "static": {}
+        },
+        "FileChooserRequest": {
+          "prototype": {
+            "getMimeTypes": {
+              "value": function () { return this.get_mime_types.apply(this, arguments); }
+            },
+            "getMimeTypesFilter": {
+              "value": function () { return this.get_mime_types_filter.apply(this, arguments); }
+            },
+            "getSelectMultiple": {
+              "value": function () { return this.get_select_multiple.apply(this, arguments); }
+            },
+            "getSelectedFiles": {
+              "value": function () { return this.get_selected_files.apply(this, arguments); }
+            },
+            "selectFiles": {
+              "value": function () { return this.select_files.apply(this, arguments); }
+            },
+            "mimeTypes": {
+              "get": function () { return this.mime_types; },
+              "set": function (value) { this.mime_types = value; }
+            },
+            "selectMultiple": {
+              "get": function () { return this.select_multiple; },
+              "set": function (value) { this.select_multiple = value; }
+            },
+            "selectedFiles": {
+              "get": function () { return this.selected_files; },
+              "set": function (value) { this.selected_files = value; }
+            }
+          },
+          "static": {}
+        },
+        "FindController": {
+          "prototype": {
+            "countMatches": {
+              "value": function () { return this.count_matches.apply(this, arguments); }
+            },
+            "getMaxMatchCount": {
+              "value": function () { return this.get_max_match_count.apply(this, arguments); }
+            },
+            "getOptions": {
+              "value": function () { return this.get_options.apply(this, arguments); }
+            },
+            "getSearchText": {
+              "value": function () { return this.get_search_text.apply(this, arguments); }
+            },
+            "getWebView": {
+              "value": function () { return this.get_web_view.apply(this, arguments); }
+            },
+            "searchFinish": {
+              "value": function () { return this.search_finish.apply(this, arguments); }
+            },
+            "searchNext": {
+              "value": function () { return this.search_next.apply(this, arguments); }
+            },
+            "searchPrevious": {
+              "value": function () { return this.search_previous.apply(this, arguments); }
+            },
+            "maxMatchCount": {
+              "get": function () { return this.max_match_count; },
+              "set": function (value) { this.max_match_count = value; }
+            },
+            "webView": {
+              "get": function () { return this.web_view; },
+              "set": function (value) { this.web_view = value; }
+            }
+          },
+          "static": {}
+        },
+        "FormSubmissionRequest": {
+          "prototype": {
+            "getTextFields": {
+              "value": function () { return this.get_text_fields.apply(this, arguments); }
+            }
+          },
+          "static": {}
+        },
+        "GeolocationPermissionRequest": {
+          "prototype": {},
+          "static": {}
+        },
+        "HitTestResult": {
+          "prototype": {
+            "contextIsEditable": {
+              "value": function () { return this.context_is_editable.apply(this, arguments); }
+            },
+            "contextIsImage": {
+              "value": function () { return this.context_is_image.apply(this, arguments); }
+            },
+            "contextIsLink": {
+              "value": function () { return this.context_is_link.apply(this, arguments); }
+            },
+            "contextIsMedia": {
+              "value": function () { return this.context_is_media.apply(this, arguments); }
+            },
+            "contextIsScrollbar": {
+              "value": function () { return this.context_is_scrollbar.apply(this, arguments); }
+            },
+            "contextIsSelection": {
+              "value": function () { return this.context_is_selection.apply(this, arguments); }
+            },
+            "getContext": {
+              "value": function () { return this.get_context.apply(this, arguments); }
+            },
+            "getImageUri": {
+              "value": function () { return this.get_image_uri.apply(this, arguments); }
+            },
+            "getLinkLabel": {
+              "value": function () { return this.get_link_label.apply(this, arguments); }
+            },
+            "getLinkTitle": {
+              "value": function () { return this.get_link_title.apply(this, arguments); }
+            },
+            "getLinkUri": {
+              "value": function () { return this.get_link_uri.apply(this, arguments); }
+            },
+            "getMediaUri": {
+              "value": function () { return this.get_media_uri.apply(this, arguments); }
+            },
+            "imageUri": {
+              "get": function () { return this.image_uri; },
+              "set": function (value) { this.image_uri = value; }
+            },
+            "linkLabel": {
+              "get": function () { return this.link_label; },
+              "set": function (value) { this.link_label = value; }
+            },
+            "linkTitle": {
+              "get": function () { return this.link_title; },
+              "set": function (value) { this.link_title = value; }
+            },
+            "linkUri": {
+              "get": function () { return this.link_uri; },
+              "set": function (value) { this.link_uri = value; }
+            },
+            "mediaUri": {
+              "get": function () { return this.media_uri; },
+              "set": function (value) { this.media_uri = value; }
+            }
+          },
+          "static": {}
+        },
+        "InstallMissingMediaPluginsPermissionRequest": {
+          "prototype": {
+            "getDescription": {
+              "value": function () { return this.get_description.apply(this, arguments); }
+            }
+          },
+          "static": {}
+        },
+        "NavigationPolicyDecision": {
+          "prototype": {
+            "getFrameName": {
+              "value": function () { return this.get_frame_name.apply(this, arguments); }
+            },
+            "getModifiers": {
+              "value": function () { return this.get_modifiers.apply(this, arguments); }
+            },
+            "getMouseButton": {
+              "value": function () { return this.get_mouse_button.apply(this, arguments); }
+            },
+            "getNavigationAction": {
+              "value": function () { return this.get_navigation_action.apply(this, arguments); }
+            },
+            "getNavigationType": {
+              "value": function () { return this.get_navigation_type.apply(this, arguments); }
+            },
+            "getRequest": {
+              "value": function () { return this.get_request.apply(this, arguments); }
+            },
+            "frameName": {
+              "get": function () { return this.frame_name; },
+              "set": function (value) { this.frame_name = value; }
+            },
+            "mouseButton": {
+              "get": function () { return this.mouse_button; },
+              "set": function (value) { this.mouse_button = value; }
+            },
+            "navigationAction": {
+              "get": function () { return this.navigation_action; },
+              "set": function (value) { this.navigation_action = value; }
+            },
+            "navigationType": {
+              "get": function () { return this.navigation_type; },
+              "set": function (value) { this.navigation_type = value; }
+            }
+          },
+          "static": {}
+        },
+        "Notification": {
+          "prototype": {
+            "getBody": {
+              "value": function () { return this.get_body.apply(this, arguments); }
+            },
+            "getId": {
+              "value": function () { return this.get_id.apply(this, arguments); }
+            },
+            "getTitle": {
+              "value": function () { return this.get_title.apply(this, arguments); }
+            }
+          },
+          "static": {}
+        },
+        "NotificationPermissionRequest": {
+          "prototype": {},
+          "static": {}
+        },
+        "Plugin": {
+          "prototype": {
+            "getDescription": {
+              "value": function () { return this.get_description.apply(this, arguments); }
+            },
+            "getMimeInfoList": {
+              "value": function () { return this.get_mime_info_list.apply(this, arguments); }
+            },
+            "getName": {
+              "value": function () { return this.get_name.apply(this, arguments); }
+            },
+            "getPath": {
+              "value": function () { return this.get_path.apply(this, arguments); }
+            }
+          },
+          "static": {}
+        },
+        "PolicyDecision": {
+          "prototype": {},
+          "static": {}
+        },
+        "PrintOperation": {
+          "prototype": {
+            "getPageSetup": {
+              "value": function () { return this.get_page_setup.apply(this, arguments); }
+            },
+            "getPrintSettings": {
+              "value": function () { return this.get_print_settings.apply(this, arguments); }
+            },
+            "runDialog": {
+              "value": function () { return this.run_dialog.apply(this, arguments); }
+            },
+            "setPageSetup": {
+              "value": function () { return this.set_page_setup.apply(this, arguments); }
+            },
+            "setPrintSettings": {
+              "value": function () { return this.set_print_settings.apply(this, arguments); }
+            },
+            "pageSetup": {
+              "get": function () { return this.page_setup; },
+              "set": function (value) { this.page_setup = value; }
+            },
+            "printSettings": {
+              "get": function () { return this.print_settings; },
+              "set": function (value) { this.print_settings = value; }
+            },
+            "webView": {
+              "get": function () { return this.web_view; },
+              "set": function (value) { this.web_view = value; }
+            }
+          },
+          "static": {}
+        },
+        "ResponsePolicyDecision": {
+          "prototype": {
+            "getRequest": {
+              "value": function () { return this.get_request.apply(this, arguments); }
+            },
+            "getResponse": {
+              "value": function () { return this.get_response.apply(this, arguments); }
+            },
+            "isMimeTypeSupported": {
+              "value": function () { return this.is_mime_type_supported.apply(this, arguments); }
+            }
+          },
+          "static": {}
+        },
+        "SecurityManager": {
+          "prototype": {
+            "registerUriSchemeAsCorsEnabled": {
+              "value": function () { return this.register_uri_scheme_as_cors_enabled.apply(this, arguments); }
+            },
+            "registerUriSchemeAsDisplayIsolated": {
+              "value": function () { return this.register_uri_scheme_as_display_isolated.apply(this, arguments); }
+            },
+            "registerUriSchemeAsEmptyDocument": {
+              "value": function () { return this.register_uri_scheme_as_empty_document.apply(this, arguments); }
+            },
+            "registerUriSchemeAsLocal": {
+              "value": function () { return this.register_uri_scheme_as_local.apply(this, arguments); }
+            },
+            "registerUriSchemeAsNoAccess": {
+              "value": function () { return this.register_uri_scheme_as_no_access.apply(this, arguments); }
+            },
+            "registerUriSchemeAsSecure": {
+              "value": function () { return this.register_uri_scheme_as_secure.apply(this, arguments); }
+            },
+            "uriSchemeIsCorsEnabled": {
+              "value": function () { return this.uri_scheme_is_cors_enabled.apply(this, arguments); }
+            },
+            "uriSchemeIsDisplayIsolated": {
+              "value": function () { return this.uri_scheme_is_display_isolated.apply(this, arguments); }
+            },
+            "uriSchemeIsEmptyDocument": {
+              "value": function () { return this.uri_scheme_is_empty_document.apply(this, arguments); }
+            },
+            "uriSchemeIsLocal": {
+              "value": function () { return this.uri_scheme_is_local.apply(this, arguments); }
+            },
+            "uriSchemeIsNoAccess": {
+              "value": function () { return this.uri_scheme_is_no_access.apply(this, arguments); }
+            },
+            "uriSchemeIsSecure": {
+              "value": function () { return this.uri_scheme_is_secure.apply(this, arguments); }
+            }
+          },
+          "static": {}
+        },
+        "Settings": {
+          "prototype": {
+            "getAllowFileAccessFromFileUrls": {
+              "value": function () { return this.get_allow_file_access_from_file_urls.apply(this, arguments); }
+            },
+            "getAllowModalDialogs": {
+              "value": function () { return this.get_allow_modal_dialogs.apply(this, arguments); }
+            },
+            "getAutoLoadImages": {
+              "value": function () { return this.get_auto_load_images.apply(this, arguments); }
+            },
+            "getCursiveFontFamily": {
+              "value": function () { return this.get_cursive_font_family.apply(this, arguments); }
+            },
+            "getDefaultCharset": {
+              "value": function () { return this.get_default_charset.apply(this, arguments); }
+            },
+            "getDefaultFontFamily": {
+              "value": function () { return this.get_default_font_family.apply(this, arguments); }
+            },
+            "getDefaultFontSize": {
+              "value": function () { return this.get_default_font_size.apply(this, arguments); }
+            },
+            "getDefaultMonospaceFontSize": {
+              "value": function () { return this.get_default_monospace_font_size.apply(this, arguments); }
+            },
+            "getDrawCompositingIndicators": {
+              "value": function () { return this.get_draw_compositing_indicators.apply(this, arguments); }
+            },
+            "getEnableAccelerated2dCanvas": {
+              "value": function () { return this.get_enable_accelerated_2d_canvas.apply(this, arguments); }
+            },
+            "getEnableCaretBrowsing": {
+              "value": function () { return this.get_enable_caret_browsing.apply(this, arguments); }
+            },
+            "getEnableDeveloperExtras": {
+              "value": function () { return this.get_enable_developer_extras.apply(this, arguments); }
+            },
+            "getEnableDnsPrefetching": {
+              "value": function () { return this.get_enable_dns_prefetching.apply(this, arguments); }
+            },
+            "getEnableFrameFlattening": {
+              "value": function () { return this.get_enable_frame_flattening.apply(this, arguments); }
+            },
+            "getEnableFullscreen": {
+              "value": function () { return this.get_enable_fullscreen.apply(this, arguments); }
+            },
+            "getEnableHtml5Database": {
+              "value": function () { return this.get_enable_html5_database.apply(this, arguments); }
+            },
+            "getEnableHtml5LocalStorage": {
+              "value": function () { return this.get_enable_html5_local_storage.apply(this, arguments); }
+            },
+            "getEnableHyperlinkAuditing": {
+              "value": function () { return this.get_enable_hyperlink_auditing.apply(this, arguments); }
+            },
+            "getEnableJava": {
+              "value": function () { return this.get_enable_java.apply(this, arguments); }
+            },
+            "getEnableJavascript": {
+              "value": function () { return this.get_enable_javascript.apply(this, arguments); }
+            },
+            "getEnableMediaStream": {
+              "value": function () { return this.get_enable_media_stream.apply(this, arguments); }
+            },
+            "getEnableMediasource": {
+              "value": function () { return this.get_enable_mediasource.apply(this, arguments); }
+            },
+            "getEnableOfflineWebApplicationCache": {
+              "value": function () { return this.get_enable_offline_web_application_cache.apply(this, arguments); }
+            },
+            "getEnablePageCache": {
+              "value": function () { return this.get_enable_page_cache.apply(this, arguments); }
+            },
+            "getEnablePlugins": {
+              "value": function () { return this.get_enable_plugins.apply(this, arguments); }
+            },
+            "getEnablePrivateBrowsing": {
+              "value": function () { return this.get_enable_private_browsing.apply(this, arguments); }
+            },
+            "getEnableResizableTextAreas": {
+              "value": function () { return this.get_enable_resizable_text_areas.apply(this, arguments); }
+            },
+            "getEnableSiteSpecificQuirks": {
+              "value": function () { return this.get_enable_site_specific_quirks.apply(this, arguments); }
+            },
+            "getEnableSmoothScrolling": {
+              "value": function () { return this.get_enable_smooth_scrolling.apply(this, arguments); }
+            },
+            "getEnableSpatialNavigation": {
+              "value": function () { return this.get_enable_spatial_navigation.apply(this, arguments); }
+            },
+            "getEnableTabsToLinks": {
+              "value": function () { return this.get_enable_tabs_to_links.apply(this, arguments); }
+            },
+            "getEnableWebaudio": {
+              "value": function () { return this.get_enable_webaudio.apply(this, arguments); }
+            },
+            "getEnableWebgl": {
+              "value": function () { return this.get_enable_webgl.apply(this, arguments); }
+            },
+            "getEnableWriteConsoleMessagesToStdout": {
+              "value": function () { return this.get_enable_write_console_messages_to_stdout.apply(this, arguments); }
+            },
+            "getEnableXssAuditor": {
+              "value": function () { return this.get_enable_xss_auditor.apply(this, arguments); }
+            },
+            "getFantasyFontFamily": {
+              "value": function () { return this.get_fantasy_font_family.apply(this, arguments); }
+            },
+            "getJavascriptCanAccessClipboard": {
+              "value": function () { return this.get_javascript_can_access_clipboard.apply(this, arguments); }
+            },
+            "getJavascriptCanOpenWindowsAutomatically": {
+              "value": function () { return this.get_javascript_can_open_windows_automatically.apply(this, arguments); }
+            },
+            "getLoadIconsIgnoringImageLoadSetting": {
+              "value": function () { return this.get_load_icons_ignoring_image_load_setting.apply(this, arguments); }
+            },
+            "getMediaPlaybackAllowsInline": {
+              "value": function () { return this.get_media_playback_allows_inline.apply(this, arguments); }
+            },
+            "getMediaPlaybackRequiresUserGesture": {
+              "value": function () { return this.get_media_playback_requires_user_gesture.apply(this, arguments); }
+            },
+            "getMinimumFontSize": {
+              "value": function () { return this.get_minimum_font_size.apply(this, arguments); }
+            },
+            "getMonospaceFontFamily": {
+              "value": function () { return this.get_monospace_font_family.apply(this, arguments); }
+            },
+            "getPictographFontFamily": {
+              "value": function () { return this.get_pictograph_font_family.apply(this, arguments); }
+            },
+            "getPrintBackgrounds": {
+              "value": function () { return this.get_print_backgrounds.apply(this, arguments); }
+            },
+            "getSansSerifFontFamily": {
+              "value": function () { return this.get_sans_serif_font_family.apply(this, arguments); }
+            },
+            "getSerifFontFamily": {
+              "value": function () { return this.get_serif_font_family.apply(this, arguments); }
+            },
+            "getUserAgent": {
+              "value": function () { return this.get_user_agent.apply(this, arguments); }
+            },
+            "getZoomTextOnly": {
+              "value": function () { return this.get_zoom_text_only.apply(this, arguments); }
+            },
+            "setAllowFileAccessFromFileUrls": {
+              "value": function () { return this.set_allow_file_access_from_file_urls.apply(this, arguments); }
+            },
+            "setAllowModalDialogs": {
+              "value": function () { return this.set_allow_modal_dialogs.apply(this, arguments); }
+            },
+            "setAutoLoadImages": {
+              "value": function () { return this.set_auto_load_images.apply(this, arguments); }
+            },
+            "setCursiveFontFamily": {
+              "value": function () { return this.set_cursive_font_family.apply(this, arguments); }
+            },
+            "setDefaultCharset": {
+              "value": function () { return this.set_default_charset.apply(this, arguments); }
+            },
+            "setDefaultFontFamily": {
+              "value": function () { return this.set_default_font_family.apply(this, arguments); }
+            },
+            "setDefaultFontSize": {
+              "value": function () { return this.set_default_font_size.apply(this, arguments); }
+            },
+            "setDefaultMonospaceFontSize": {
+              "value": function () { return this.set_default_monospace_font_size.apply(this, arguments); }
+            },
+            "setDrawCompositingIndicators": {
+              "value": function () { return this.set_draw_compositing_indicators.apply(this, arguments); }
+            },
+            "setEnableAccelerated2dCanvas": {
+              "value": function () { return this.set_enable_accelerated_2d_canvas.apply(this, arguments); }
+            },
+            "setEnableCaretBrowsing": {
+              "value": function () { return this.set_enable_caret_browsing.apply(this, arguments); }
+            },
+            "setEnableDeveloperExtras": {
+              "value": function () { return this.set_enable_developer_extras.apply(this, arguments); }
+            },
+            "setEnableDnsPrefetching": {
+              "value": function () { return this.set_enable_dns_prefetching.apply(this, arguments); }
+            },
+            "setEnableFrameFlattening": {
+              "value": function () { return this.set_enable_frame_flattening.apply(this, arguments); }
+            },
+            "setEnableFullscreen": {
+              "value": function () { return this.set_enable_fullscreen.apply(this, arguments); }
+            },
+            "setEnableHtml5Database": {
+              "value": function () { return this.set_enable_html5_database.apply(this, arguments); }
+            },
+            "setEnableHtml5LocalStorage": {
+              "value": function () { return this.set_enable_html5_local_storage.apply(this, arguments); }
+            },
+            "setEnableHyperlinkAuditing": {
+              "value": function () { return this.set_enable_hyperlink_auditing.apply(this, arguments); }
+            },
+            "setEnableJava": {
+              "value": function () { return this.set_enable_java.apply(this, arguments); }
+            },
+            "setEnableJavascript": {
+              "value": function () { return this.set_enable_javascript.apply(this, arguments); }
+            },
+            "setEnableMediaStream": {
+              "value": function () { return this.set_enable_media_stream.apply(this, arguments); }
+            },
+            "setEnableMediasource": {
+              "value": function () { return this.set_enable_mediasource.apply(this, arguments); }
+            },
+            "setEnableOfflineWebApplicationCache": {
+              "value": function () { return this.set_enable_offline_web_application_cache.apply(this, arguments); }
+            },
+            "setEnablePageCache": {
+              "value": function () { return this.set_enable_page_cache.apply(this, arguments); }
+            },
+            "setEnablePlugins": {
+              "value": function () { return this.set_enable_plugins.apply(this, arguments); }
+            },
+            "setEnablePrivateBrowsing": {
+              "value": function () { return this.set_enable_private_browsing.apply(this, arguments); }
+            },
+            "setEnableResizableTextAreas": {
+              "value": function () { return this.set_enable_resizable_text_areas.apply(this, arguments); }
+            },
+            "setEnableSiteSpecificQuirks": {
+              "value": function () { return this.set_enable_site_specific_quirks.apply(this, arguments); }
+            },
+            "setEnableSmoothScrolling": {
+              "value": function () { return this.set_enable_smooth_scrolling.apply(this, arguments); }
+            },
+            "setEnableSpatialNavigation": {
+              "value": function () { return this.set_enable_spatial_navigation.apply(this, arguments); }
+            },
+            "setEnableTabsToLinks": {
+              "value": function () { return this.set_enable_tabs_to_links.apply(this, arguments); }
+            },
+            "setEnableWebaudio": {
+              "value": function () { return this.set_enable_webaudio.apply(this, arguments); }
+            },
+            "setEnableWebgl": {
+              "value": function () { return this.set_enable_webgl.apply(this, arguments); }
+            },
+            "setEnableWriteConsoleMessagesToStdout": {
+              "value": function () { return this.set_enable_write_console_messages_to_stdout.apply(this, arguments); }
+            },
+            "setEnableXssAuditor": {
+              "value": function () { return this.set_enable_xss_auditor.apply(this, arguments); }
+            },
+            "setFantasyFontFamily": {
+              "value": function () { return this.set_fantasy_font_family.apply(this, arguments); }
+            },
+            "setJavascriptCanAccessClipboard": {
+              "value": function () { return this.set_javascript_can_access_clipboard.apply(this, arguments); }
+            },
+            "setJavascriptCanOpenWindowsAutomatically": {
+              "value": function () { return this.set_javascript_can_open_windows_automatically.apply(this, arguments); }
+            },
+            "setLoadIconsIgnoringImageLoadSetting": {
+              "value": function () { return this.set_load_icons_ignoring_image_load_setting.apply(this, arguments); }
+            },
+            "setMediaPlaybackAllowsInline": {
+              "value": function () { return this.set_media_playback_allows_inline.apply(this, arguments); }
+            },
+            "setMediaPlaybackRequiresUserGesture": {
+              "value": function () { return this.set_media_playback_requires_user_gesture.apply(this, arguments); }
+            },
+            "setMinimumFontSize": {
+              "value": function () { return this.set_minimum_font_size.apply(this, arguments); }
+            },
+            "setMonospaceFontFamily": {
+              "value": function () { return this.set_monospace_font_family.apply(this, arguments); }
+            },
+            "setPictographFontFamily": {
+              "value": function () { return this.set_pictograph_font_family.apply(this, arguments); }
+            },
+            "setPrintBackgrounds": {
+              "value": function () { return this.set_print_backgrounds.apply(this, arguments); }
+            },
+            "setSansSerifFontFamily": {
+              "value": function () { return this.set_sans_serif_font_family.apply(this, arguments); }
+            },
+            "setSerifFontFamily": {
+              "value": function () { return this.set_serif_font_family.apply(this, arguments); }
+            },
+            "setUserAgent": {
+              "value": function () { return this.set_user_agent.apply(this, arguments); }
+            },
+            "setUserAgentWithApplicationDetails": {
+              "value": function () { return this.set_user_agent_with_application_details.apply(this, arguments); }
+            },
+            "setZoomTextOnly": {
+              "value": function () { return this.set_zoom_text_only.apply(this, arguments); }
+            },
+            "allowFileAccessFromFileUrls": {
+              "get": function () { return this.allow_file_access_from_file_urls; },
+              "set": function (value) { this.allow_file_access_from_file_urls = value; }
+            },
+            "allowModalDialogs": {
+              "get": function () { return this.allow_modal_dialogs; },
+              "set": function (value) { this.allow_modal_dialogs = value; }
+            },
+            "autoLoadImages": {
+              "get": function () { return this.auto_load_images; },
+              "set": function (value) { this.auto_load_images = value; }
+            },
+            "cursiveFontFamily": {
+              "get": function () { return this.cursive_font_family; },
+              "set": function (value) { this.cursive_font_family = value; }
+            },
+            "defaultCharset": {
+              "get": function () { return this.default_charset; },
+              "set": function (value) { this.default_charset = value; }
+            },
+            "defaultFontFamily": {
+              "get": function () { return this.default_font_family; },
+              "set": function (value) { this.default_font_family = value; }
+            },
+            "defaultFontSize": {
+              "get": function () { return this.default_font_size; },
+              "set": function (value) { this.default_font_size = value; }
+            },
+            "defaultMonospaceFontSize": {
+              "get": function () { return this.default_monospace_font_size; },
+              "set": function (value) { this.default_monospace_font_size = value; }
+            },
+            "drawCompositingIndicators": {
+              "get": function () { return this.draw_compositing_indicators; },
+              "set": function (value) { this.draw_compositing_indicators = value; }
+            },
+            "enableAccelerated2dCanvas": {
+              "get": function () { return this.enable_accelerated_2d_canvas; },
+              "set": function (value) { this.enable_accelerated_2d_canvas = value; }
+            },
+            "enableCaretBrowsing": {
+              "get": function () { return this.enable_caret_browsing; },
+              "set": function (value) { this.enable_caret_browsing = value; }
+            },
+            "enableDeveloperExtras": {
+              "get": function () { return this.enable_developer_extras; },
+              "set": function (value) { this.enable_developer_extras = value; }
+            },
+            "enableDnsPrefetching": {
+              "get": function () { return this.enable_dns_prefetching; },
+              "set": function (value) { this.enable_dns_prefetching = value; }
+            },
+            "enableFrameFlattening": {
+              "get": function () { return this.enable_frame_flattening; },
+              "set": function (value) { this.enable_frame_flattening = value; }
+            },
+            "enableFullscreen": {
+              "get": function () { return this.enable_fullscreen; },
+              "set": function (value) { this.enable_fullscreen = value; }
+            },
+            "enableHtml5Database": {
+              "get": function () { return this.enable_html5_database; },
+              "set": function (value) { this.enable_html5_database = value; }
+            },
+            "enableHtml5LocalStorage": {
+              "get": function () { return this.enable_html5_local_storage; },
+              "set": function (value) { this.enable_html5_local_storage = value; }
+            },
+            "enableHyperlinkAuditing": {
+              "get": function () { return this.enable_hyperlink_auditing; },
+              "set": function (value) { this.enable_hyperlink_auditing = value; }
+            },
+            "enableJava": {
+              "get": function () { return this.enable_java; },
+              "set": function (value) { this.enable_java = value; }
+            },
+            "enableJavascript": {
+              "get": function () { return this.enable_javascript; },
+              "set": function (value) { this.enable_javascript = value; }
+            },
+            "enableMediaStream": {
+              "get": function () { return this.enable_media_stream; },
+              "set": function (value) { this.enable_media_stream = value; }
+            },
+            "enableMediasource": {
+              "get": function () { return this.enable_mediasource; },
+              "set": function (value) { this.enable_mediasource = value; }
+            },
+            "enableOfflineWebApplicationCache": {
+              "get": function () { return this.enable_offline_web_application_cache; },
+              "set": function (value) { this.enable_offline_web_application_cache = value; }
+            },
+            "enablePageCache": {
+              "get": function () { return this.enable_page_cache; },
+              "set": function (value) { this.enable_page_cache = value; }
+            },
+            "enablePlugins": {
+              "get": function () { return this.enable_plugins; },
+              "set": function (value) { this.enable_plugins = value; }
+            },
+            "enablePrivateBrowsing": {
+              "get": function () { return this.enable_private_browsing; },
+              "set": function (value) { this.enable_private_browsing = value; }
+            },
+            "enableResizableTextAreas": {
+              "get": function () { return this.enable_resizable_text_areas; },
+              "set": function (value) { this.enable_resizable_text_areas = value; }
+            },
+            "enableSiteSpecificQuirks": {
+              "get": function () { return this.enable_site_specific_quirks; },
+              "set": function (value) { this.enable_site_specific_quirks = value; }
+            },
+            "enableSmoothScrolling": {
+              "get": function () { return this.enable_smooth_scrolling; },
+              "set": function (value) { this.enable_smooth_scrolling = value; }
+            },
+            "enableSpatialNavigation": {
+              "get": function () { return this.enable_spatial_navigation; },
+              "set": function (value) { this.enable_spatial_navigation = value; }
+            },
+            "enableTabsToLinks": {
+              "get": function () { return this.enable_tabs_to_links; },
+              "set": function (value) { this.enable_tabs_to_links = value; }
+            },
+            "enableWebaudio": {
+              "get": function () { return this.enable_webaudio; },
+              "set": function (value) { this.enable_webaudio = value; }
+            },
+            "enableWebgl": {
+              "get": function () { return this.enable_webgl; },
+              "set": function (value) { this.enable_webgl = value; }
+            },
+            "enableWriteConsoleMessagesToStdout": {
+              "get": function () { return this.enable_write_console_messages_to_stdout; },
+              "set": function (value) { this.enable_write_console_messages_to_stdout = value; }
+            },
+            "enableXssAuditor": {
+              "get": function () { return this.enable_xss_auditor; },
+              "set": function (value) { this.enable_xss_auditor = value; }
+            },
+            "fantasyFontFamily": {
+              "get": function () { return this.fantasy_font_family; },
+              "set": function (value) { this.fantasy_font_family = value; }
+            },
+            "javascriptCanAccessClipboard": {
+              "get": function () { return this.javascript_can_access_clipboard; },
+              "set": function (value) { this.javascript_can_access_clipboard = value; }
+            },
+            "javascriptCanOpenWindowsAutomatically": {
+              "get": function () { return this.javascript_can_open_windows_automatically; },
+              "set": function (value) { this.javascript_can_open_windows_automatically = value; }
+            },
+            "loadIconsIgnoringImageLoadSetting": {
+              "get": function () { return this.load_icons_ignoring_image_load_setting; },
+              "set": function (value) { this.load_icons_ignoring_image_load_setting = value; }
+            },
+            "mediaPlaybackAllowsInline": {
+              "get": function () { return this.media_playback_allows_inline; },
+              "set": function (value) { this.media_playback_allows_inline = value; }
+            },
+            "mediaPlaybackRequiresUserGesture": {
+              "get": function () { return this.media_playback_requires_user_gesture; },
+              "set": function (value) { this.media_playback_requires_user_gesture = value; }
+            },
+            "minimumFontSize": {
+              "get": function () { return this.minimum_font_size; },
+              "set": function (value) { this.minimum_font_size = value; }
+            },
+            "monospaceFontFamily": {
+              "get": function () { return this.monospace_font_family; },
+              "set": function (value) { this.monospace_font_family = value; }
+            },
+            "pictographFontFamily": {
+              "get": function () { return this.pictograph_font_family; },
+              "set": function (value) { this.pictograph_font_family = value; }
+            },
+            "printBackgrounds": {
+              "get": function () { return this.print_backgrounds; },
+              "set": function (value) { this.print_backgrounds = value; }
+            },
+            "sansSerifFontFamily": {
+              "get": function () { return this.sans_serif_font_family; },
+              "set": function (value) { this.sans_serif_font_family = value; }
+            },
+            "serifFontFamily": {
+              "get": function () { return this.serif_font_family; },
+              "set": function (value) { this.serif_font_family = value; }
+            },
+            "userAgent": {
+              "get": function () { return this.user_agent; },
+              "set": function (value) { this.user_agent = value; }
+            },
+            "zoomTextOnly": {
+              "get": function () { return this.zoom_text_only; },
+              "set": function (value) { this.zoom_text_only = value; }
+            }
+          },
+          "static": {}
+        },
+        "URIRequest": {
+          "prototype": {
+            "getHttpHeaders": {
+              "value": function () { return this.get_http_headers.apply(this, arguments); }
+            },
+            "getUri": {
+              "value": function () { return this.get_uri.apply(this, arguments); }
+            },
+            "setUri": {
+              "value": function () { return this.set_uri.apply(this, arguments); }
+            }
+          },
+          "static": {}
+        },
+        "URIResponse": {
+          "prototype": {
+            "getContentLength": {
+              "value": function () { return this.get_content_length.apply(this, arguments); }
+            },
+            "getHttpHeaders": {
+              "value": function () { return this.get_http_headers.apply(this, arguments); }
+            },
+            "getMimeType": {
+              "value": function () { return this.get_mime_type.apply(this, arguments); }
+            },
+            "getStatusCode": {
+              "value": function () { return this.get_status_code.apply(this, arguments); }
+            },
+            "getSuggestedFilename": {
+              "value": function () { return this.get_suggested_filename.apply(this, arguments); }
+            },
+            "getUri": {
+              "value": function () { return this.get_uri.apply(this, arguments); }
+            },
+            "contentLength": {
+              "get": function () { return this.content_length; },
+              "set": function (value) { this.content_length = value; }
+            },
+            "httpHeaders": {
+              "get": function () { return this.http_headers; },
+              "set": function (value) { this.http_headers = value; }
+            },
+            "mimeType": {
+              "get": function () { return this.mime_type; },
+              "set": function (value) { this.mime_type = value; }
+            },
+            "statusCode": {
+              "get": function () { return this.status_code; },
+              "set": function (value) { this.status_code = value; }
+            },
+            "suggestedFilename": {
+              "get": function () { return this.suggested_filename; },
+              "set": function (value) { this.suggested_filename = value; }
+            }
+          },
+          "static": {}
+        },
+        "URISchemeRequest": {
+          "prototype": {
+            "finishError": {
+              "value": function () { return this.finish_error.apply(this, arguments); }
+            },
+            "getPath": {
+              "value": function () { return this.get_path.apply(this, arguments); }
+            },
+            "getScheme": {
+              "value": function () { return this.get_scheme.apply(this, arguments); }
+            },
+            "getUri": {
+              "value": function () { return this.get_uri.apply(this, arguments); }
+            },
+            "getWebView": {
+              "value": function () { return this.get_web_view.apply(this, arguments); }
+            }
+          },
+          "static": {}
+        },
+        "UserContentManager": {
+          "prototype": {
+            "addScript": {
+              "value": function () { return this.add_script.apply(this, arguments); }
+            },
+            "addStyleSheet": {
+              "value": function () { return this.add_style_sheet.apply(this, arguments); }
+            },
+            "registerScriptMessageHandler": {
+              "value": function () { return this.register_script_message_handler.apply(this, arguments); }
+            },
+            "removeAllScripts": {
+              "value": function () { return this.remove_all_scripts.apply(this, arguments); }
+            },
+            "removeAllStyleSheets": {
+              "value": function () { return this.remove_all_style_sheets.apply(this, arguments); }
+            },
+            "unregisterScriptMessageHandler": {
+              "value": function () { return this.unregister_script_message_handler.apply(this, arguments); }
+            }
+          },
+          "static": {}
+        },
+        "UserMediaPermissionRequest": {
+          "prototype": {
+            "isForAudioDevice": {
+              "get": function () { return this.is_for_audio_device; },
+              "set": function (value) { this.is_for_audio_device = value; }
+            },
+            "isForVideoDevice": {
+              "get": function () { return this.is_for_video_device; },
+              "set": function (value) { this.is_for_video_device = value; }
+            }
+          },
+          "static": {}
+        },
+        "WebContext": {
+          "prototype": {
+            "allowTlsCertificateForHost": {
+              "value": function () { return this.allow_tls_certificate_for_host.apply(this, arguments); }
+            },
+            "clearCache": {
+              "value": function () { return this.clear_cache.apply(this, arguments); }
+            },
+            "downloadUri": {
+              "value": function () { return this.download_uri.apply(this, arguments); }
+            },
+            "getCacheModel": {
+              "value": function () { return this.get_cache_model.apply(this, arguments); }
+            },
+            "getCookieManager": {
+              "value": function () { return this.get_cookie_manager.apply(this, arguments); }
+            },
+            "getFaviconDatabase": {
+              "value": function () { return this.get_favicon_database.apply(this, arguments); }
+            },
+            "getFaviconDatabaseDirectory": {
+              "value": function () { return this.get_favicon_database_directory.apply(this, arguments); }
+            },
+            "getPlugins": {
+              "value": function () { return this.get_plugins.apply(this, arguments); }
+            },
+            "getPluginsFinish": {
+              "value": function () { return this.get_plugins_finish.apply(this, arguments); }
+            },
+            "getProcessModel": {
+              "value": function () { return this.get_process_model.apply(this, arguments); }
+            },
+            "getSecurityManager": {
+              "value": function () { return this.get_security_manager.apply(this, arguments); }
+            },
+            "getSpellCheckingEnabled": {
+              "value": function () { return this.get_spell_checking_enabled.apply(this, arguments); }
+            },
+            "getSpellCheckingLanguages": {
+              "value": function () { return this.get_spell_checking_languages.apply(this, arguments); }
+            },
+            "getTlsErrorsPolicy": {
+              "value": function () { return this.get_tls_errors_policy.apply(this, arguments); }
+            },
+            "getWebProcessCountLimit": {
+              "value": function () { return this.get_web_process_count_limit.apply(this, arguments); }
+            },
+            "getWebsiteDataManager": {
+              "value": function () { return this.get_website_data_manager.apply(this, arguments); }
+            },
+            "prefetchDns": {
+              "value": function () { return this.prefetch_dns.apply(this, arguments); }
+            },
+            "registerUriScheme": {
+              "value": function () { return this.register_uri_scheme.apply(this, arguments); }
+            },
+            "setAdditionalPluginsDirectory": {
+              "value": function () { return this.set_additional_plugins_directory.apply(this, arguments); }
+            },
+            "setCacheModel": {
+              "value": function () { return this.set_cache_model.apply(this, arguments); }
+            },
+            "setDiskCacheDirectory": {
+              "value": function () { return this.set_disk_cache_directory.apply(this, arguments); }
+            },
+            "setFaviconDatabaseDirectory": {
+              "value": function () { return this.set_favicon_database_directory.apply(this, arguments); }
+            },
+            "setPreferredLanguages": {
+              "value": function () { return this.set_preferred_languages.apply(this, arguments); }
+            },
+            "setProcessModel": {
+              "value": function () { return this.set_process_model.apply(this, arguments); }
+            },
+            "setSpellCheckingEnabled": {
+              "value": function () { return this.set_spell_checking_enabled.apply(this, arguments); }
+            },
+            "setSpellCheckingLanguages": {
+              "value": function () { return this.set_spell_checking_languages.apply(this, arguments); }
+            },
+            "setTlsErrorsPolicy": {
+              "value": function () { return this.set_tls_errors_policy.apply(this, arguments); }
+            },
+            "setWebExtensionsDirectory": {
+              "value": function () { return this.set_web_extensions_directory.apply(this, arguments); }
+            },
+            "setWebExtensionsInitializationUserData": {
+              "value": function () { return this.set_web_extensions_initialization_user_data.apply(this, arguments); }
+            },
+            "setWebProcessCountLimit": {
+              "value": function () { return this.set_web_process_count_limit.apply(this, arguments); }
+            },
+            "localStorageDirectory": {
+              "get": function () { return this.local_storage_directory; },
+              "set": function (value) { this.local_storage_directory = value; }
+            },
+            "websiteDataManager": {
+              "get": function () { return this.website_data_manager; },
+              "set": function (value) { this.website_data_manager = value; }
+            }
+          },
+          "static": {
+            "getDefault": {
+              "value": function () { return this.get_default.apply(this, arguments); }
+            }
+          }
+        },
+        "WebInspector": {
+          "prototype": {
+            "getAttachedHeight": {
+              "value": function () { return this.get_attached_height.apply(this, arguments); }
+            },
+            "getCanAttach": {
+              "value": function () { return this.get_can_attach.apply(this, arguments); }
+            },
+            "getInspectedUri": {
+              "value": function () { return this.get_inspected_uri.apply(this, arguments); }
+            },
+            "getWebView": {
+              "value": function () { return this.get_web_view.apply(this, arguments); }
+            },
+            "isAttached": {
+              "value": function () { return this.is_attached.apply(this, arguments); }
+            },
+            "attachedHeight": {
+              "get": function () { return this.attached_height; },
+              "set": function (value) { this.attached_height = value; }
+            },
+            "canAttach": {
+              "get": function () { return this.can_attach; },
+              "set": function (value) { this.can_attach = value; }
+            },
+            "inspectedUri": {
+              "get": function () { return this.inspected_uri; },
+              "set": function (value) { this.inspected_uri = value; }
+            }
+          },
+          "static": {}
+        },
+        "WebResource": {
+          "prototype": {
+            "getData": {
+              "value": function () { return this.get_data.apply(this, arguments); }
+            },
+            "getDataFinish": {
+              "value": function () { return this.get_data_finish.apply(this, arguments); }
+            },
+            "getResponse": {
+              "value": function () { return this.get_response.apply(this, arguments); }
+            },
+            "getUri": {
+              "value": function () { return this.get_uri.apply(this, arguments); }
+            }
+          },
+          "static": {}
+        },
+        "WebView": {
+          "prototype": {
+            "canExecuteEditingCommand": {
+              "value": function () { return this.can_execute_editing_command.apply(this, arguments); }
+            },
+            "canExecuteEditingCommandFinish": {
+              "value": function () { return this.can_execute_editing_command_finish.apply(this, arguments); }
+            },
+            "canGoBack": {
+              "value": function () { return this.can_go_back.apply(this, arguments); }
+            },
+            "canGoForward": {
+              "value": function () { return this.can_go_forward.apply(this, arguments); }
+            },
+            "canShowMimeType": {
+              "value": function () { return this.can_show_mime_type.apply(this, arguments); }
+            },
+            "downloadUri": {
+              "value": function () { return this.download_uri.apply(this, arguments); }
+            },
+            "executeEditingCommand": {
+              "value": function () { return this.execute_editing_command.apply(this, arguments); }
+            },
+            "executeEditingCommandWithArgument": {
+              "value": function () { return this.execute_editing_command_with_argument.apply(this, arguments); }
+            },
+            "getBackForwardList": {
+              "value": function () { return this.get_back_forward_list.apply(this, arguments); }
+            },
+            "getBackgroundColor": {
+              "value": function () { return this.get_background_color.apply(this, arguments); }
+            },
+            "getContext": {
+              "value": function () { return this.get_context.apply(this, arguments); }
+            },
+            "getCustomCharset": {
+              "value": function () { return this.get_custom_charset.apply(this, arguments); }
+            },
+            "getEditorState": {
+              "value": function () { return this.get_editor_state.apply(this, arguments); }
+            },
+            "getEstimatedLoadProgress": {
+              "value": function () { return this.get_estimated_load_progress.apply(this, arguments); }
+            },
+            "getFavicon": {
+              "value": function () { return this.get_favicon.apply(this, arguments); }
+            },
+            "getFindController": {
+              "value": function () { return this.get_find_controller.apply(this, arguments); }
+            },
+            "getInspector": {
+              "value": function () { return this.get_inspector.apply(this, arguments); }
+            },
+            "getJavascriptGlobalContext": {
+              "value": function () { return this.get_javascript_global_context.apply(this, arguments); }
+            },
+            "getMainResource": {
+              "value": function () { return this.get_main_resource.apply(this, arguments); }
+            },
+            "getPageId": {
+              "value": function () { return this.get_page_id.apply(this, arguments); }
+            },
+            "getSettings": {
+              "value": function () { return this.get_settings.apply(this, arguments); }
+            },
+            "getSnapshot": {
+              "value": function () { return this.get_snapshot.apply(this, arguments); }
+            },
+            "getSnapshotFinish": {
+              "value": function () { return this.get_snapshot_finish.apply(this, arguments); }
+            },
+            "getTitle": {
+              "value": function () { return this.get_title.apply(this, arguments); }
+            },
+            "getTlsInfo": {
+              "value": function () { return this.get_tls_info.apply(this, arguments); }
+            },
+            "getUri": {
+              "value": function () { return this.get_uri.apply(this, arguments); }
+            },
+            "getUserContentManager": {
+              "value": function () { return this.get_user_content_manager.apply(this, arguments); }
+            },
+            "getWindowProperties": {
+              "value": function () { return this.get_window_properties.apply(this, arguments); }
+            },
+            "getZoomLevel": {
+              "value": function () { return this.get_zoom_level.apply(this, arguments); }
+            },
+            "goBack": {
+              "value": function () { return this.go_back.apply(this, arguments); }
+            },
+            "goForward": {
+              "value": function () { return this.go_forward.apply(this, arguments); }
+            },
+            "goToBackForwardListItem": {
+              "value": function () { return this.go_to_back_forward_list_item.apply(this, arguments); }
+            },
+            "isEditable": {
+              "value": function () { return this.is_editable.apply(this, arguments); }
+            },
+            "isLoading": {
+              "get": function () { return this.is_loading; },
+              "set": function (value) { this.is_loading = value; }
+            },
+            "isPlayingAudio": {
+              "get": function () { return this.is_playing_audio; },
+              "set": function (value) { this.is_playing_audio = value; }
+            },
+            "loadAlternateHtml": {
+              "value": function () { return this.load_alternate_html.apply(this, arguments); }
+            },
+            "loadBytes": {
+              "value": function () { return this.load_bytes.apply(this, arguments); }
+            },
+            "loadHtml": {
+              "value": function () { return this.load_html.apply(this, arguments); }
+            },
+            "loadPlainText": {
+              "value": function () { return this.load_plain_text.apply(this, arguments); }
+            },
+            "loadRequest": {
+              "value": function () { return this.load_request.apply(this, arguments); }
+            },
+            "loadUri": {
+              "value": function () { return this.load_uri.apply(this, arguments); }
+            },
+            "newWithRelatedView": {
+              "value": function () { return this.new_with_related_view.apply(this, arguments); }
+            },
+            "reloadBypassCache": {
+              "value": function () { return this.reload_bypass_cache.apply(this, arguments); }
+            },
+            "runJavascript": {
+              "value": function () { return this.run_javascript.apply(this, arguments); }
+            },
+            "runJavascriptFinish": {
+              "value": function () { return this.run_javascript_finish.apply(this, arguments); }
+            },
+            "runJavascriptFromGresource": {
+              "value": function () { return this.run_javascript_from_gresource.apply(this, arguments); }
+            },
+            "runJavascriptFromGresourceFinish": {
+              "value": function () { return this.run_javascript_from_gresource_finish.apply(this, arguments); }
+            },
+            "saveFinish": {
+              "value": function () { return this.save_finish.apply(this, arguments); }
+            },
+            "saveToFile": {
+              "value": function () { return this.save_to_file.apply(this, arguments); }
+            },
+            "saveToFileFinish": {
+              "value": function () { return this.save_to_file_finish.apply(this, arguments); }
+            },
+            "setBackgroundColor": {
+              "value": function () { return this.set_background_color.apply(this, arguments); }
+            },
+            "setCustomCharset": {
+              "value": function () { return this.set_custom_charset.apply(this, arguments); }
+            },
+            "setEditable": {
+              "value": function () { return this.set_editable.apply(this, arguments); }
+            },
+            "setSettings": {
+              "value": function () { return this.set_settings.apply(this, arguments); }
+            },
+            "setZoomLevel": {
+              "value": function () { return this.set_zoom_level.apply(this, arguments); }
+            },
+            "stopLoading": {
+              "value": function () { return this.stop_loading.apply(this, arguments); }
+            },
+            "estimatedLoadProgress": {
+              "get": function () { return this.estimated_load_progress; },
+              "set": function (value) { this.estimated_load_progress = value; }
+            },
+            "relatedView": {
+              "get": function () { return this.related_view; },
+              "set": function (value) { this.related_view = value; }
+            },
+            "userContentManager": {
+              "get": function () { return this.user_content_manager; },
+              "set": function (value) { this.user_content_manager = value; }
+            },
+            "webContext": {
+              "get": function () { return this.web_context; },
+              "set": function (value) { this.web_context = value; }
+            },
+            "zoomLevel": {
+              "get": function () { return this.zoom_level; },
+              "set": function (value) { this.zoom_level = value; }
+            }
+          },
+          "static": {}
+        },
+        "WebViewBase": {
+          "prototype": {},
+          "static": {}
+        },
+        "WebsiteDataManager": {
+          "prototype": {
+            "getBaseCacheDirectory": {
+              "value": function () { return this.get_base_cache_directory.apply(this, arguments); }
+            },
+            "getBaseDataDirectory": {
+              "value": function () { return this.get_base_data_directory.apply(this, arguments); }
+            },
+            "getDiskCacheDirectory": {
+              "value": function () { return this.get_disk_cache_directory.apply(this, arguments); }
+            },
+            "getIndexeddbDirectory": {
+              "value": function () { return this.get_indexeddb_directory.apply(this, arguments); }
+            },
+            "getLocalStorageDirectory": {
+              "value": function () { return this.get_local_storage_directory.apply(this, arguments); }
+            },
+            "getOfflineApplicationCacheDirectory": {
+              "value": function () { return this.get_offline_application_cache_directory.apply(this, arguments); }
+            },
+            "getWebsqlDirectory": {
+              "value": function () { return this.get_websql_directory.apply(this, arguments); }
+            },
+            "baseCacheDirectory": {
+              "get": function () { return this.base_cache_directory; },
+              "set": function (value) { this.base_cache_directory = value; }
+            },
+            "baseDataDirectory": {
+              "get": function () { return this.base_data_directory; },
+              "set": function (value) { this.base_data_directory = value; }
+            },
+            "diskCacheDirectory": {
+              "get": function () { return this.disk_cache_directory; },
+              "set": function (value) { this.disk_cache_directory = value; }
+            },
+            "indexeddbDirectory": {
+              "get": function () { return this.indexeddb_directory; },
+              "set": function (value) { this.indexeddb_directory = value; }
+            },
+            "localStorageDirectory": {
+              "get": function () { return this.local_storage_directory; },
+              "set": function (value) { this.local_storage_directory = value; }
+            },
+            "offlineApplicationCacheDirectory": {
+              "get": function () { return this.offline_application_cache_directory; },
+              "set": function (value) { this.offline_application_cache_directory = value; }
+            },
+            "websqlDirectory": {
+              "get": function () { return this.websql_directory; },
+              "set": function (value) { this.websql_directory = value; }
+            }
+          },
+          "static": {}
+        },
+        "WindowProperties": {
+          "prototype": {
+            "getFullscreen": {
+              "value": function () { return this.get_fullscreen.apply(this, arguments); }
+            },
+            "getGeometry": {
+              "value": function () { return this.get_geometry.apply(this, arguments); }
+            },
+            "getLocationbarVisible": {
+              "value": function () { return this.get_locationbar_visible.apply(this, arguments); }
+            },
+            "getMenubarVisible": {
+              "value": function () { return this.get_menubar_visible.apply(this, arguments); }
+            },
+            "getResizable": {
+              "value": function () { return this.get_resizable.apply(this, arguments); }
+            },
+            "getScrollbarsVisible": {
+              "value": function () { return this.get_scrollbars_visible.apply(this, arguments); }
+            },
+            "getStatusbarVisible": {
+              "value": function () { return this.get_statusbar_visible.apply(this, arguments); }
+            },
+            "getToolbarVisible": {
+              "value": function () { return this.get_toolbar_visible.apply(this, arguments); }
+            },
+            "locationbarVisible": {
+              "get": function () { return this.locationbar_visible; },
+              "set": function (value) { this.locationbar_visible = value; }
+            },
+            "menubarVisible": {
+              "get": function () { return this.menubar_visible; },
+              "set": function (value) { this.menubar_visible = value; }
+            },
+            "scrollbarsVisible": {
+              "get": function () { return this.scrollbars_visible; },
+              "set": function (value) { this.scrollbars_visible = value; }
+            },
+            "statusbarVisible": {
+              "get": function () { return this.statusbar_visible; },
+              "set": function (value) { this.statusbar_visible = value; }
+            },
+            "toolbarVisible": {
+              "get": function () { return this.toolbar_visible; },
+              "set": function (value) { this.toolbar_visible = value; }
+            }
+          },
+          "static": {}
+        }
+      },
+      "static": {
+        "downloadErrorQuark": {
+          "value": function () { return this.download_error_quark.apply(this, arguments); }
+        },
+        "faviconDatabaseErrorQuark": {
+          "value": function () { return this.favicon_database_error_quark.apply(this, arguments); }
+        },
+        "getMajorVersion": {
+          "value": function () { return this.get_major_version.apply(this, arguments); }
+        },
+        "getMicroVersion": {
+          "value": function () { return this.get_micro_version.apply(this, arguments); }
+        },
+        "getMinorVersion": {
+          "value": function () { return this.get_minor_version.apply(this, arguments); }
+        },
+        "javascriptErrorQuark": {
+          "value": function () { return this.javascript_error_quark.apply(this, arguments); }
+        },
+        "networkErrorQuark": {
+          "value": function () { return this.network_error_quark.apply(this, arguments); }
+        },
+        "pluginErrorQuark": {
+          "value": function () { return this.plugin_error_quark.apply(this, arguments); }
+        },
+        "policyErrorQuark": {
+          "value": function () { return this.policy_error_quark.apply(this, arguments); }
+        },
+        "printErrorQuark": {
+          "value": function () { return this.print_error_quark.apply(this, arguments); }
+        },
+        "snapshotErrorQuark": {
+          "value": function () { return this.snapshot_error_quark.apply(this, arguments); }
+        },
+        "userMediaPermissionIsForAudioDevice": {
+          "value": function () { return this.user_media_permission_is_for_audio_device.apply(this, arguments); }
+        },
+        "userMediaPermissionIsForVideoDevice": {
+          "value": function () { return this.user_media_permission_is_for_video_device.apply(this, arguments); }
         }
       }
     },
