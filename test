@@ -2,12 +2,11 @@
 imports=imports// "exec" "gjs" "-I" "$(dirname $0)" "$0" "$@"
 imports.jsgtk.env;
 
-const GLib = imports.gi.GLib;
+const GLib = jsgtk.gi.GLib;
 
 let
   utils = jsgtk.env._,
   Class = utils.Class,
-  gi = jsgtk.gi,
   child_process = require('child_process'),
   fs = require('fs'),
   os = require('os'),
@@ -106,11 +105,11 @@ process.run(function () {
   console.assert(require('/home/webreflection/code/jsgtk/node_modules/another/main').method() === 'node_modules works',
     'require in sub absoulte folders works as expected too');
 
-  console.assert(fs.readFileSync('./test') == GLib.file_get_contents('./test')[1],
+  console.assert(fs.readFileSync('./test') == GLib.fileGetContents('./test')[1],
     'fs.readFileSync works as expected too');
 
   fs.readFile('./test', async(function (err, data) {
-    console.assert(data == GLib.file_get_contents('./test')[1], 'fs.readFile works as expected');
+    console.assert(data == GLib.fileGetContents('./test')[1], 'fs.readFile works as expected');
     if (err) {
       console.error(err.message);
     }

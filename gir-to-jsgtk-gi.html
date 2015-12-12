@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<script>
+
+// copy this file into ~/Devel/gnome/runtime/usr/share/gir-1.0
+// launch it and wait for the console to show the output
+
+function Gir() {}
+Gir.prototype.setup = function (child) {
+  var
+    name = child.getAttribute('name'),
+    store = this[child.nodeName] || (this[child.nodeName] = new Gir())
+  ;
+  if (!store.hasOwnProperty(name))
+    store[name] = new Gir();
+  return store[name];
+};
+
+function storeInfo(child) {
+  var info = this.setup(child);
+  forEach(child.children, storeInfo, info);
+}
+
+function forEach(list, fn, context) {
+  return Array.prototype.forEach.call(list, fn, context);
+}
+
+forEach([
+  'GLib-2.0',
+  'Gio-2.0',
+  'GObject-2.0',
+  'cairo-1.0',
+  'Pango-1.0',
+  'PangoCairo-1.0',
+  'Gtk-3.0',
+  'Gdk-3.0',
+  'GdkX11-3.0',
+  'GdkPixbuf-2.0',
+  'Cogl-2.0',
+  'CoglPango-1.0',
+  'Clutter-1.0',
+  'GtkClutter-1.0',
+  'GtkSource-3.0',
+  'Atk-1.0',
+  'Gst-1.0',
+  'Soup-2.4',
+  'TelepathyGLib-0.12',
+  'Gcr-3',
+  'Gck-1',
+  'Secret-1',
+  'Notify-0.7',
+  'GWeather-3.0',
+  //'WebKit2-3.0'
+], function (file, i, arr) {'use strict';
+  var
+    out = this,
+    xhr = new  XMLHttpRequest
+  ;
+  xhr.open('GET', file + '.gir', true);
+  xhr.overrideMimeType('text/xml');
+  xhr.responseType = 'document';
+  xhr.send(null);
+  xhr.onload = function () {'use strict';
+    out.__loaded__[i] = true;
+    forEach(xhr.response.querySelectorAll('namespace'), (root) => {
+      var namespace = root.getAttribute('name');
+      out[namespace] = new Gir(namespace);
+      forEach(root.children, storeInfo, out[namespace]);
+    });
+    if (arr.every((file, i) => out.__loaded__[i])) {
+      delete out.__loaded__;
+      createModule(out);
+    }
+  };
+}, {__loaded__:[]});
+
+function createModule(gi) {'use strict';
+
+  var gir = {};
+
+  function augmentClass(Class, descriptors) {
+    Object.defineProperties(Class, descriptors.static);
+    Object.defineProperties(Class.prototype, descriptors.prototype);
+  }
+
+  function augment(namespace) {
+    let NameSpace = imports.gi[namespace];
+    Object.defineProperty(exports, namespace, {value: NameSpace});
+    if (gir.hasOwnProperty(namespace)) {
+      let info = gir[namespace];
+      Object.defineProperties(NameSpace, info.static);
+      Object.keys(info.class).forEach((Class) => {
+        augmentClass(NameSpace[Class], info.class[Class]);
+      });
+    }
+    return NameSpace;
+  }
+
+  function isRubyCase(name) {
+    return /[_-]/.test(name) && /[a-z]/.test(name);
+  }
+
+  function toCamelCase(property) {
+    return property.replace(/[_-](.)/g, ($0, $1) => $1.toUpperCase());
+  }
+
+  function noDash(property) {
+    return property.replace(/-/g, '_');
+  }
+
+  function getClass(module) {
+    var classes = {};
+    Object.keys(module.class || []).sort().forEach((name) => {
+      var namespace = module.class[name];
+      classes[name] = {
+        prototype: getPrototype(namespace),
+        static: getStatics(namespace)
+      };
+    });
+    return classes;
+  }
+
+  function getPrototype(module) {
+    var prototype = {};
+    Object.keys(module.method || []).forEach((name) => {
+      var swapped;
+      if (isRubyCase(name)) {
+        swapped = toCamelCase(name);
+        prototype[swapped] = {
+          value: Function('return function () { return this.' + name + '.apply(this, arguments); }')()
+        };
+      }
+    });
+    Object.keys(module.property || []).forEach((name) => {
+      var swapped, renamed;
+      if (isRubyCase(name)) {
+        swapped = toCamelCase(name);
+        renamed = noDash(name);
+        prototype[swapped] = {
+          get: Function('return function () { return this.' + renamed + '; }')(),
+          set: Function('return function (value) { this.' + renamed + ' = value; }')()
+        };
+      }
+    });
+    return prototype;
+  }
+
+  function getStatics(module) {
+    var statics = {};
+    Object.keys(module.function || []).sort().forEach((name) => {
+      var swapped;
+      if (isRubyCase(name)) {
+        swapped = toCamelCase(name);
+        statics[swapped] = {
+          value: Function('return function () { return this.' + name + '.apply(this, arguments); }')()
+        };
+      }
+    });
+    return statics;
+  }
+
+  Object.keys(gi).sort().forEach((namespace) => {
+    gir[namespace] = {
+      class: getClass(gi[namespace]),
+      static: getStatics(gi[namespace])
+    };
+  });
+
+  function generateGir(gir, spaces) {
+    var
+      ws = Array(spaces + 1).join(' '),
+      output = []
+    ;
+    Object.keys(gir).sort().forEach((key) => {
+      switch (typeof gir[key]) {
+        case 'function':
+          output.push(ws + key + ': ' + gir[key]);
+          break;
+        case 'object':
+          output.push(ws + key + ': {' + generateGir(gir[key], spaces + 2) + '}');
+          break;
+      }
+    });
+    return output.join('\n');
+  }
+
+  var functions = [];
+  var jsgtk = [
+  '(function (exports, gir) {"use strict";',
+    '  // WARNING file generated automatically. DO NOT MODIFY',
+    '  Object.defineProperties(exports, {',
+    Object.keys(gi).sort().map((namespace) => {return ''.concat(
+    '    ', namespace, ': {configurable: true, get: () => augment("', namespace, '")}'
+    )}).join(',\n'),
+    '  });',
+    '  ' + augment,
+    '  ' + augmentClass,
+  '}(',
+    '  this,',
+    JSON.stringify(
+      gir,
+      (key, value) =>
+        typeof value === 'function' ?
+          '[' + (functions.push(value) - 1) + ']' :
+          value,
+      '  '
+      )
+        .replace(/^([ }{])/gm, '  $1')
+        .replace(/"\[(\d+)\]"/g, ($0, $1) => functions[$1])
+      ,
+  '));'
+  ].join('\n');
+
+  document.body.appendChild(document.createElement('pre')).textContent = jsgtk;
+  console.log(jsgtk);
+
+}
+
+</script>
