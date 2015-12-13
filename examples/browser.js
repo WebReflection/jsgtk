@@ -4,7 +4,7 @@
 // Similar logic and basic interface found in this PyGTK example:
 // http://www.eurion.net/python-snippets/snippet/Webkit%20Browser.html
 
-;(function (Gtk, WebKit) {'use strict';
+;(function (Gtk, WebKit2) {'use strict';
 
   // necessary to initialize the graphic environment
   // if this fails it means the host cannot show GTK3
@@ -16,7 +16,7 @@
       type : Gtk.WindowType.TOPLEVEL
     }),
     // the WebKit browser wrapper
-    webView = new WebKit.WebView(),
+    webView = new WebKit2.WebView(),
     // toolbar with buttons
     toolbar = new Gtk.Toolbar(),
     // buttons to go back, go forward, or refresh
@@ -43,14 +43,16 @@
   }
 
   // open first argument or Google
-  webView.open(url(ARGV[0] || 'google.com'));
+  webView.load_uri(url(ARGV[0] || 'google.com'));
 
   // whenever a new page is loaded ...
-  webView.connect('load_committed', (widget, data) => {
+  webView.connect('load-changed', (webView, loadEvent) => {
+    if (WebKit2.LoadEvent.FINISHED) {
     // ... update the URL bar with the current adress
-    urlBar.set_text(widget.get_main_frame().get_uri());
-    button.back.set_sensitive(webView.can_go_back());
-    button.forward.set_sensitive(webView.can_go_forward());
+      urlBar.set_text(webView.get_uri());
+      button.back.set_sensitive(webView.can_go_back());
+      button.forward.set_sensitive(webView.can_go_forward());
+    }
   });
 
   // configure buttons actions
@@ -68,7 +70,7 @@
   urlBar.connect('activate', () => {
     let href = url(urlBar.get_text());
     urlBar.set_text(href);
-    webView.open(href);
+    webView.load_uri(href);
   });
 
   // make the container scrollable
@@ -86,9 +88,9 @@
   window.set_default_size(1024, 720);
   window.set_resizable(true);
   window.connect('show', () => {
-    // bring it on top in OSX
-    window.set_keep_above(true);
-    Gtk.main()
+    // bring it on top
+    window.present(true);
+    Gtk.main();
   });
   window.connect('destroy', () => Gtk.main_quit());
   window.connect('delete_event', () => false);
@@ -105,5 +107,5 @@
 
 }(
   imports.gi.Gtk,
-  imports.gi.WebKit
+  imports.gi.WebKit2
 ));
