@@ -23,14 +23,17 @@ process.on('uncaughtException', logError);
 
 child_process.spawn('npm', ['config', 'get', 'prefix']).on('close', function () {
   var
-    bin = path.join('', 'bin', ''),
+    DEVEL = executable.slice(-6) === '.jsgtk',
+    bin = DEVEL ? path.join('', '.jsgtk') : path.join('', 'bin', ''),
     lIO = executable.lastIndexOf(bin),
-    jsgtkModule = path.join(
-      lIO < 0 ? executable : executable.slice(0, lIO),
-      'lib',
-      'node_modules',
-      'jsgtk'
-    )
+    jsgtkModule = DEVEL ?
+      executable.slice(0, lIO) :
+      path.join(
+        lIO < 0 ? executable : executable.slice(0, lIO),
+        'lib',
+        'node_modules',
+        'jsgtk'
+      )
   ;
   // console.log(['- - - - - -', executable, jsgtkModule, __dirname, nodeModules + '/lib', '- - - - - -'].join('\n'));
   child_process.spawn(

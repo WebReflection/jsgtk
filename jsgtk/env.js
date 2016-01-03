@@ -16,11 +16,19 @@
     GLib = imports.gi.GLib,
     jsgtk = imports.jsgtk,
     System = jsgtk.System,
-    cache = Object.create(null)
+    cache = Object.create(null),
+    nodeGTK = {
+      importNS: function (ns, version) {
+        return imports.gi[ns];
+      },
+      startLoop: function () {
+        // this should be a noop in jsgtk
+      }
+    }
   ;
 
   exports.require = function require(id) {
-    return requireWithPath(id, dir);
+    return id === 'node-gtk' ? nodeGTK : requireWithPath(id, dir);
   };
 
   // basic utilities
@@ -131,7 +139,7 @@
     ).call(
       exports,
       function require(id) {
-        return requireWithPath(id, dir);
+        return id === 'node-gtk' ? nodeGTK : requireWithPath(id, dir);
       },
       exports,
       module,
