@@ -11,6 +11,9 @@
   Gtk.init(null);
 
   const
+
+    argv = process.argv.slice(2),
+
     // main program window
     window = new Gtk.Window({
       title: 'jsGtk+ browser',
@@ -38,14 +41,14 @@
 
   // Setting up optional Dark theme (gotta love it!)
   // ./browser.js google.com dark
-  if (ARGV.some(color => color === 'dark')) {
+  if (argv.some(color => color === 'dark')) {
     let gtkSettings = Gtk.Settings.getDefault();
     gtkSettings.gtkApplicationPreferDarkTheme = true;
     gtkSettings.gtkThemeName = 'Adwaita';
   }
 
   // open first argument or Google
-  webView.loadUri(url(ARGV.filter(url => !/^-|dark/.test(url))[0] || 'google.com'));
+  webView.loadUri(url(argv.filter(url => !/^-|dark/.test(url))[0] || 'google.com'));
 
   // whenever a new page is loaded ...
   webView.connect('load-changed', (widget, loadEvent, data) => {
