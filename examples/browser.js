@@ -40,15 +40,19 @@
   ;
 
   // Setting up optional Dark theme (gotta love it!)
-  // ./browser.js google.com dark
-  if (argv.some(color => color === 'dark')) {
+  // ./browser.js google.com --dark
+  if (argv.some(info => info === '--dark')) {
     let gtkSettings = Gtk.Settings.getDefault();
     gtkSettings.gtkApplicationPreferDarkTheme = true;
+    gtkSettings.gtkThemeName = 'Adwaita';
+  } else if(argv.some(info => info === '--light')) {
+    let gtkSettings = Gtk.Settings.getDefault();
+    gtkSettings.gtkApplicationPreferDarkTheme = false;
     gtkSettings.gtkThemeName = 'Adwaita';
   }
 
   // open first argument or Google
-  webView.loadUri(url(argv.filter(url => !/^-|dark/.test(url))[0] || 'google.com'));
+  webView.loadUri(url(argv.filter(url => '-' !== url[0])[0] || 'google.com'));
 
   // whenever a new page is loaded ...
   webView.connect('load-changed', (widget, loadEvent, data) => {
