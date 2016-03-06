@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+document() {
+  local f=$1
+  echo $(tput intr) | g-ir-doc-tool $f -o $2 > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    echo "[OK] $f"
+  else
+    echo "[FAILURE] $f"
+  fi
+}
+
+SOURCE=$1
+DEST=$2
+
+if [ "$SOURCE" = "" ] || [ "$DEST" = "" ]; then
+  echo './documentation source dest'
+  echo './documentation /usr/share/gir-1.0 ~/Documents/gir'
+  exit 1
+fi
+
+mkdir -p "$DEST"
+
+if [ -f ${SOURCE} ]; then
+  document ${SOURCE} $DEST
+else
+  for f in $(ls ${SOURCE}/*.gir)
+  do
+    document $f $DEST
+  done
+fi
+
+echo '[DONE] Generating HTML (this might take a while)'
+
+yelp-build html $DEST
