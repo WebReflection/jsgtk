@@ -1,13 +1,5 @@
 .DS_Store
-examples
-gjs-documentation
+experiments
 node_modules
 .gitignore
 .gitmodules
-gir-to-jsgtk-gi.html
-hello-gjs.png
-hello-world
-module.js
-python-to.js
-test
-ui.js

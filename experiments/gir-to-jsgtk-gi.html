@@ -3,6 +3,10 @@
 
 // copy this file into ~/Devel/gnome/runtime/usr/share/gir-1.0
 // launch it and wait for the console to show the output
+// or directly inside /usr/share/gir-1.0/
+// in this case create the output via
+// node -e "console.log(JSON.stringify(require('fs').readdirSync('/usr/share/gir-1.0/').filter(f=>f.slice(-4)=='.gir'),0,2))" | xclip -selection clipboard
+//
 
 function Gir() {}
 Gir.prototype.setup = function (child) {
@@ -24,50 +28,202 @@ function forEach(list, fn, context) {
   return Array.prototype.forEach.call(list, fn, context);
 }
 
-forEach([
-  /* currently not working
-  'Clutter-1.0',
-  'Cogl-2.0',
-  'Gst-1.0',
-  'GtkClutter-1.0',
-  // */
-  'GLib-2.0',
-  'Gio-2.0',
-  'GObject-2.0',
-  'cairo-1.0',
-  'Pango-1.0',
-  'PangoCairo-1.0',
-  'Gtk-3.0',
-  'Gdk-3.0',
-  'GdkX11-3.0',
-  'GdkPixbuf-2.0',
-  'CoglPango-1.0',
-  'GtkSource-3.0',
-  'Atk-1.0',
-  'Soup-2.4',
-  'TelepathyGLib-0.12',
-  'Gcr-3',
-  'Gck-1',
-  'Secret-1',
-  'Notify-0.7',
-  'GWeather-3.0',
-  'WebKit2-4.0'
-], function (file, i, arr) {'use strict';
+forEach(
+  [
+    "AccountsService-1.0.gir",
+    "Atk-1.0.gir",
+    "Atspi-2.0.gir",
+    "Avahi-0.6.gir",
+    "AvahiCore-0.6.gir",
+    "BraseroBurn-3.1.gir",
+    "BraseroMedia-3.1.gir",
+    "Cally-1.0.gir",
+    "Caribou-1.0.gir",
+    "Champlain-0.12.gir",
+    "Cheese-3.0.gir",
+    "Clutter-1.0.gir",
+    "ClutterGdk-1.0.gir",
+    "ClutterGst-2.0.gir",
+    "ClutterGst-3.0.gir",
+    "ClutterX11-1.0.gir",
+    "Cogl-1.0.gir",
+    "Cogl-2.0.gir",
+    "CoglPango-1.0.gir",
+    "CoglPango-2.0.gir",
+    "ColorHug-1.0.gir",
+    "Colord-1.0.gir",
+    "ColordGtk-1.0.gir",
+    "CryptUI-0.0.gir",
+    "DBus-1.0.gir",
+    "DBusGLib-1.0.gir",
+    "EBook-1.2.gir",
+    "EBookContacts-1.2.gir",
+    "EDataServer-1.2.gir",
+    "EvinceDocument-3.0.gir",
+    "EvinceView-3.0.gir",
+    "Farstream-0.2.gir",
+    "Folks-0.6.gir",
+    "FolksDummy-0.6.gir",
+    "FolksEds-0.6.gir",
+    "FolksTelepathy-0.6.gir",
+    "GConf-2.0.gir",
+    "GData-0.0.gir",
+    "GDesktopEnums-3.0.gir",
+    "GIRepository-2.0.gir",
+    "GL-1.0.gir",
+    "GLib-2.0.gir",
+    "GMenu-3.0.gir",
+    "GMime-2.6.gir",
+    "GModule-2.0.gir",
+    "GObject-2.0.gir",
+    "GTop-2.0.gir",
+    "GUdev-1.0.gir",
+    "GUsb-1.0.gir",
+    "GWeather-3.0.gir",
+    "GXPS-0.1.gir",
+    "Gck-1.gir",
+    "Gcr-3.gir",
+    "GcrUi-3.gir",
+    "Gdk-2.0.gir",
+    "Gdk-3.0.gir",
+    "GdkPixbuf-2.0.gir",
+    "GdkX11-2.0.gir",
+    "GdkX11-3.0.gir",
+    "Gdm-1.0.gir",
+    "Gee-0.8.gir",
+    "Geoclue-2.0.gir",
+    "GeocodeGlib-1.0.gir",
+    "Gio-2.0.gir",
+    "Gkbd-3.0.gir",
+    "GnomeBluetooth-1.0.gir",
+    "GnomeDesktop-3.0.gir",
+    "GnomeKeyring-1.0.gir",
+    "Goa-1.0.gir",
+    "Gom-1.0.gir",
+    "Graphene-1.0.gir",
+    "Grl-0.2.gir",
+    "GrlNet-0.2.gir",
+    "GrlPls-0.2.gir",
+    "Gsf-1.gir",
+    "Gst-0.10.gir",
+    "Gst-1.0.gir",
+    "GstAllocators-1.0.gir",
+    "GstApp-0.10.gir",
+    "GstApp-1.0.gir",
+    "GstAudio-0.10.gir",
+    "GstAudio-1.0.gir",
+    "GstBase-0.10.gir",
+    "GstBase-1.0.gir",
+    "GstCheck-0.10.gir",
+    "GstCheck-1.0.gir",
+    "GstController-0.10.gir",
+    "GstController-1.0.gir",
+    "GstFft-0.10.gir",
+    "GstFft-1.0.gir",
+    "GstGL-1.0.gir",
+    "GstInsertBin-1.0.gir",
+    "GstInterfaces-0.10.gir",
+    "GstMpegts-1.0.gir",
+    "GstNet-0.10.gir",
+    "GstNet-1.0.gir",
+    "GstNetbuffer-0.10.gir",
+    "GstPbutils-0.10.gir",
+    "GstPbutils-1.0.gir",
+    "GstRiff-0.10.gir",
+    "GstRtp-0.10.gir",
+    "GstRtp-1.0.gir",
+    "GstRtsp-0.10.gir",
+    "GstRtsp-1.0.gir",
+    "GstSdp-0.10.gir",
+    "GstSdp-1.0.gir",
+    "GstTag-0.10.gir",
+    "GstTag-1.0.gir",
+    "GstVideo-0.10.gir",
+    "GstVideo-1.0.gir",
+    "Gtk-2.0.gir",
+    "Gtk-3.0.gir",
+    "GtkChamplain-0.12.gir",
+    "GtkClutter-1.0.gir",
+    "GtkSource-3.0.gir",
+    "GtkSpell-3.0.gir",
+    "Gucharmap-2.90.gir",
+    "HarfBuzz-0.0.gir",
+    "IBus-1.0.gir",
+    "JavaScriptCore-3.0.gir",
+    "JavaScriptCore-4.0.gir",
+    "Json-1.0.gir",
+    "LangTag-0.5.gir",
+    "Libosinfo-1.0.gir",
+    "MediaArt-2.0.gir",
+    "ModemManager-1.0.gir",
+    "NM-1.0.gir",
+    "NMClient-1.0.gir",
+    "NMGtk-1.0.gir",
+    "Nautilus-3.0.gir",
+    "NetworkManager-1.0.gir",
+    "Notify-0.7.gir",
+    "PackageKitGlib-1.0.gir",
+    "Pango-1.0.gir",
+    "PangoCairo-1.0.gir",
+    "PangoFT2-1.0.gir",
+    "PangoXft-1.0.gir",
+    "Peas-1.0.gir",
+    "PeasGtk-1.0.gir",
+    "Polkit-1.0.gir",
+    "PolkitAgent-1.0.gir",
+    "Poppler-0.18.gir",
+    "Rest-0.7.gir",
+    "RestExtras-0.7.gir",
+    "Rsvg-2.0.gir",
+    "Secret-1.gir",
+    "Soup-2.4.gir",
+    "SoupGNOME-2.4.gir",
+    "TelepathyFarstream-0.6.gir",
+    "TelepathyGLib-0.12.gir",
+    "TelepathyLogger-0.2.gir",
+    "Totem-1.0.gir",
+    "TotemPlParser-1.0.gir",
+    "Tracker-1.0.gir",
+    "TrackerControl-1.0.gir",
+    "TrackerMiner-1.0.gir",
+    "UDisks-2.0.gir",
+    "UPowerGlib-1.0.gir",
+    "Vte-2.91.gir",
+    "WebKit-3.0.gir",
+    "WebKit2-4.0.gir",
+    "WebKit2WebExtension-4.0.gir",
+    "Wnck-3.0.gir",
+    "Xkl-1.0.gir",
+    "Zeitgeist-2.0.gir",
+    "cairo-1.0.gir",
+    "fontconfig-2.0.gir",
+    "freetype2-2.0.gir",
+    "libxml2-2.0.gir",
+    "win32-1.0.gir",
+    "xfixes-4.0.gir",
+    "xft-2.0.gir",
+    "xlib-2.0.gir",
+    "xrandr-1.3.gir"
+  ],
+  function (file, i, arr) {'use strict';
   var
     out = this,
     xhr = new  XMLHttpRequest
   ;
-  xhr.open('GET', file + '.gir', true);
+  xhr.open('GET', file, true);
   xhr.overrideMimeType('text/xml');
   xhr.responseType = 'document';
   xhr.send(null);
   xhr.onload = function () {'use strict';
     out.__loaded__[i] = true;
-    forEach(xhr.response.querySelectorAll('namespace'), (root) => {
-      var namespace = root.getAttribute('name');
-      out[namespace] = new Gir(namespace);
-      forEach(root.children, storeInfo, out[namespace]);
-    });
+    if (xhr.response) forEach(
+      xhr.response.querySelectorAll('namespace'),
+      (root) => {
+        var namespace = root.getAttribute('name');
+        out[namespace] = new Gir(namespace);
+        forEach(root.children, storeInfo, out[namespace]);
+      }
+    );
     if (arr.every((file, i) => out.__loaded__[i])) {
       delete out.__loaded__;
       createModule(out);

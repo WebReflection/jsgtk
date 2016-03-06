@@ -1,8 +1,8 @@
 {
-  "bin": ".jsgtk",
+  "bin": "jsgtk",
   "name": "jsgtk",
-  "version": "0.1.1",
-  "description": "An attempt to make GJS more JavaScript and Node.JS friendly",
+  "version": "0.2.0",
+  "description": "A simplified approach to GJS for Node.JS and JavaScript developers.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
