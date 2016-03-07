@@ -32,4 +32,6 @@ fi
 
 echo '[DONE] Generating HTML (this might take a while)'
 
-yelp-build html $DEST
+cd $DEST
+mkdir -p HTML
+yelp-build html -o ./HTML .

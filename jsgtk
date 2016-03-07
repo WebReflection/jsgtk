@@ -52,6 +52,7 @@
 
     // commonly used RegExp
     CONSTANT_CASE = /^[A-Z_]+$/,
+    evalArg = /^-e|--eval$/,
     localFile = /^(?:[A-Za-z]+:|[.\\\/])/,
     PascalCase = /^[A-Z]+[a-z]/,
     UPPERCASE = /[A-Z]+/g,
@@ -91,13 +92,14 @@
         RED = '\x1b[0;31m',
         GREEN = '\x1b[0;32m',
         YELLOW = '\x1b[0;33m',
-        BOLD = '\x1b[1m'
+        BOLD = '\x1b[1m',
+        jsUnit = imports.jsUnit
       ;
 
       return {
         assert: function assert(what, why) {
           if (!what) {
-            printerr(RED + BOLD + '[WRONG]' + RESET + ' ' + RED + BOLD + (why || '') + RESET);
+            jsUnit.error(RED + BOLD + '[WRONG]' + RESET + ' ' + RED + BOLD + (why || '') + RESET);
             // TODO: how to assert and fail natively?
           }
         },
@@ -233,13 +235,16 @@
           i = 0; i < ARGV.length; i++
         ) {
           if (ARGV[i][0] !== '-') {
-            argv = argv.concat(
-              Gio.File.new_for_path(
-                GLib.path_is_absolute(ARGV[i]) ?
-                  ARGV[i] : ('.' + DIR_SEPARATOR + ARGV[i])
-              ).get_path(),
-              ARGV.slice(i + 1)
-            );
+            if (!evalArg.test(ARGV[i - 1])) {
+              // TODO: verify it's a valid path
+              argv = argv.concat(
+                Gio.File.new_for_path(
+                  GLib.path_is_absolute(ARGV[i]) ?
+                    ARGV[i] : ('.' + DIR_SEPARATOR + ARGV[i])
+                ).get_path(),
+                ARGV.slice(i + 1)
+              );
+            }
             break;
           }
         }
@@ -1041,12 +1046,33 @@
   if (process.argv.length > 1) {
     require(process.argv[1]);
   } else {
-    console.log([
-      'Usage: jsgtk [options] script.js [arguments]',
-      '       jsgtk --debug script.js [arguments]',
-      '',
-      'Documentation can be found at https://github.com/WebReflection/jsgtk'
-    ].join('\n'));
+    if (!ARGV.some((info, i) => {
+      if (i && evalArg.test(ARGV[i - 1])) {
+        Function(
+          'require',
+          '__dirname',
+          '__filename',
+          info
+        ).call(
+          global,
+          function require(module) {
+            return requireWithPath(module, CURRENT_DIR);
+          },
+          CURRENT_DIR,
+          '[eval]'
+        );
+        return true;
+      }
+      return false;
+    })) {
+      console.log([
+        'Usage: jsgtk [options] script.js [arguments]',
+        '       jsgtk --debug script.js [arguments]',
+        '       jsgtk (-e|--eval) "console.log(\'runtime\')"',
+        '',
+        'Documentation can be found at https://github.com/WebReflection/jsgtk'
+      ].join('\n'));
+    }
   }
 
 }(Array, Function, new Date));
