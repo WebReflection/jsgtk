@@ -91,6 +91,14 @@
     console = function () {
 
       const
+        vprintf = imports.format.vprintf,
+        show = function (fn, pre, args, post) {
+          fn(pre + (
+            /%[sdxf]/.test(args[0]) ?
+              vprintf(args[0], args.slice(1)) :
+              args.join(', ')
+          ) + post);
+        },
         RESET = '\x1b[0m',
         RED = '\x1b[0;31m',
         GREEN = '\x1b[0;32m',
@@ -103,20 +111,39 @@
         assert: function assert(what, why) {
           if (!what) {
             jsUnit.error(RED + BOLD + '[WRONG]' + RESET + ' ' + RED + BOLD + (why || '') + RESET);
-            // TODO: how to assert and fail natively?
           }
         },
         error: function error(what, why) {
-          printerr(RED + BOLD + '[ERROR]' + RESET + ' ' + RED + slice.apply(0, arguments).join(', ') + RESET);
+          show(
+            printerr,
+            RED + BOLD + '[ERROR]' + RESET + ' ' + RED,
+            slice.apply(0, arguments),
+            RESET
+          );
         },
         info: function info(what, why) {
-          print(GREEN + BOLD + '[INFO]' + RESET + ' ' + BOLD + slice.apply(0, arguments).join(', ') + RESET);
+          show(
+            print,
+            GREEN + BOLD + '[INFO]' + RESET + ' ' + BOLD,
+            slice.apply(0, arguments),
+            RESET
+          );
         },
         log: function log(what, why) {
-          print(slice.apply(0, arguments).join(', '));
+          show(
+            print,
+            '',
+            slice.apply(0, arguments),
+            ''
+          );
         },
         warn: function warn(what, why) {
-          print(YELLOW + BOLD + '[WARNING]' + RESET + ' ' + YELLOW + slice.apply(0, arguments).join(', ') + RESET);
+          show(
+            print,
+            YELLOW + BOLD + '[WARNING]' + RESET + ' ' + YELLOW,
+            slice.apply(0, arguments),
+            RESET
+          );
         }
       };
 
@@ -190,22 +217,22 @@
       uptime: function getUptime() {
         return (
           new Date -
-          Date.parse(execSync('uptime -s').toString().replace(' ', 'T'))
+          Date.parse(trim(execSync('uptime -s')).replace(' ', 'T'))
         ) / 1000;
       },
       freemem: function getFreeMem() {
-        let I, mem = execSync('free -b').toString().split(os.EOL);
+        let I, mem = trim(execSync('free -b')).split(os.EOL);
         mem[0].split(/\s+/).some((info, i) => info === 'free' && (I = i));
         return parseFloat(mem[1].split(/\s+/)[I + 1]);
       },
       totalmem: function getTotalMem() {
-        let I, mem = execSync('free -b').toString().split(os.EOL);
+        let I, mem = trim(execSync('free -b')).split(os.EOL);
         mem[0].split(/\s+/).some((info, i) => info === 'total' && (I = i));
         return parseFloat(mem[1].split(/\s+/)[I + 1]);
       },
       cpus: function getCPUs() {
         var cpu, cpus = [];
-        execSync('cat /proc/cpuinfo').toString().split(/\r\n|\n|\r/).forEach((line) => {
+        trim(execSync('cat /proc/cpuinfo')).split(/\r\n|\n|\r/).forEach((line) => {
           switch (true) {
             case /^processor\s*:\s*(\d+)/i.test(line):
               cpus[trim(RegExp.$1)] = (cpu = {
@@ -624,7 +651,7 @@
           });
         },
         readdirSync: function readdirSync(path) {
-          return execSync('ls -a', path).toString().split('\n').filter(noDots).sort();
+          return trim(execSync('ls -a', path)).split('\n').filter(noDots).sort();
         },
         statSync: function statSync(path) {
           let fd = Gio.File.new_for_path(path);

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+DIR=$(pwd)
+if [ "${DIR:${#DIR}-6}" == "/utils" ]; then
+  DIR="${DIR}/.."
+fi
+
+${DIR}/jsgtk $@
+node $@
