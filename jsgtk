@@ -74,6 +74,9 @@
     }(getOwnPropertyDescriptor(Object.prototype, '__proto__'))),
     toString = Object.prototype.toString,
 
+    strim = ''.trim,
+    trim = value => strim.call(value),
+
     // list of arbitrary arguments Gtk+ classes initializers
     init = [],
 
@@ -187,30 +190,48 @@
       uptime: function getUptime() {
         return (
           new Date -
-          Date.parse(spawnSyncString('uptime', '-s').replace(' ', 'T'))
+          Date.parse(execSync('uptime -s').toString().replace(' ', 'T'))
         ) / 1000;
       },
       freemem: function getFreeMem() {
-        let I, mem = spawnSyncString('free', '-b').split(os.EOL);
+        let I, mem = execSync('free -b').toString().split(os.EOL);
         mem[0].split(/\s+/).some((info, i) => info === 'free' && (I = i));
         return parseFloat(mem[1].split(/\s+/)[I + 1]);
       },
       totalmem: function getTotalMem() {
-        let I, mem = spawnSyncString('free', '-b').split(os.EOL);
+        let I, mem = execSync('free -b').toString().split(os.EOL);
         mem[0].split(/\s+/).some((info, i) => info === 'total' && (I = i));
         return parseFloat(mem[1].split(/\s+/)[I + 1]);
       },
       cpus: function getCPUs() {
-        return GLib.get_num_processors();
+        var cpu, cpus = [];
+        execSync('cat /proc/cpuinfo').toString().split(/\r\n|\n|\r/).forEach((line) => {
+          switch (true) {
+            case /^processor\s*:\s*(\d+)/i.test(line):
+              cpus[trim(RegExp.$1)] = (cpu = {
+                model: '',
+                speed: 0,
+                times: {}
+              });
+              break;
+            case /^model[\s_]+name\s*:([^\r\n]+)/i.test(line):
+              cpu.model = trim(RegExp.$1);
+              break;
+            case /^cpu[\s_]+MHz\s*:\s*(\d+)/i.test(line):
+              cpu.speed = parseFloat(trim(RegExp.$1));
+              break;
+          }
+        });
+        return cpus;
       },
       type: function getOSType() {
-        return spawnSyncString('uname');
+        return trim(execSync('uname'));
       },
       release: function getOSRelease() {},
       networkInterfaces: function getInterfaceAddresses() {},
       homedir: function getHomeDirectory() {},
       arch: function arch() {
-        switch (spawnSyncString('uname', '-m')) {
+        switch (trim(execSync('uname -m'))) {
           case 'x86_64': return 'x64';
           case 'i686': return 'ia32';
           default: return 'arm';
@@ -263,9 +284,18 @@
         return env;
       })(GLib.get_environ()),
       exit: (status) => System.exit(status || 0),
-      platform: function () {
-
-      }(),
+      platform: (function () {
+        const platform = trim(execSync('uname'));
+        switch (platform) {
+          case 'Darwin':
+          case 'Linux':
+          case 'Win32':
+          case 'SunOS':
+          case 'FreeBSD':
+            return platform.toLowerCase();
+        }
+        return 'unknown';
+      }()),
       uptime: function () {
         return (new Date - BEGINNING) / 1000;
       }
@@ -514,7 +544,7 @@
 
         execSync: function execSync(command, options) {
           // TODO: support other options ?
-          if (!options) options = {};
+          if (!options) return execSync(command);
           let [ok, stdout, stderr, exit_status] = GLib.spawn_command_line_sync(
             options.cwd ? ('cd ' + options.cwd + ' && ' + command) : command
           );
@@ -585,8 +615,8 @@
             out = [],
             errors = false
           ;
-          ls.stderr.on('data', (data) => (errors = true, out.push(data.trim())));
-          ls.stdout.on('data', (data) => out.push(data.trim()));
+          ls.stderr.on('data', (data) => (errors = true, out.push(trim(data))));
+          ls.stdout.on('data', (data) => out.push(trim(data)));
           ls.on('close', () => {
             out = out.filter(noDots).sort();
             if (errors) callback(out.join(''));
@@ -594,7 +624,7 @@
           });
         },
         readdirSync: function readdirSync(path) {
-          return spawnSyncString('ls', '-a', path).split('\n').filter(noDots).sort();
+          return execSync('ls -a', path).toString().split('\n').filter(noDots).sort();
         },
         statSync: function statSync(path) {
           let fd = Gio.File.new_for_path(path);
@@ -951,7 +981,7 @@
         case Gio.FileType.DIRECTORY:
           fd = Gio.File.new_for_path(path + DIR_SEPARATOR + 'package.json');
           if (fd.query_exists(null)) {
-            let content = JSON.parse(''.trim.call(fd.load_contents(null)[1]));
+            let content = JSON.parse(trim(fd.load_contents(null)[1]));
             fd = Gio.File.new_for_path(path + DIR_SEPARATOR + content.main);
             if (fd.query_exists(null)) return fd;
           }
@@ -1023,8 +1053,10 @@
   }
 
   // utility to use when everything else didn't work ...
-  function spawnSyncString() {
-    return child_process.spawnSync(arguments[0], slice.apply(1, arguments)).stdout.toString().trim();
+  function execSync(command) {
+    let [ok, stdout, stderr, exit_status] = GLib.spawn_command_line_sync(command);
+    if (!ok) throw stderr;
+    return stdout;
   }
 
   // require('native-module')
