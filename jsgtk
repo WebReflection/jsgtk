@@ -227,7 +227,6 @@
         ) {
           if (ARGV[i][0] !== '-') {
             if (!evalArg.test(ARGV[i - 1])) {
-              // TODO: verify it's a valid path
               argv = argv.concat(
                 Gio.File.new_for_path(
                   GLib.path_is_absolute(ARGV[i]) ?
@@ -290,20 +289,26 @@
         return parseFloat(mem[1].split(/\s+/)[I + 1]);
       },
       cpus: function getCPUs() {
-        var cpu, cpus = [];
+        let
+          PROCESSOR = /^processor\s*:\s*(\d+)/i,
+          NAME = /^model[\s_]+name\s*:([^\r\n]+)/i,
+          FREQ = /^cpu[\s_]+MHz\s*:\s*(\d+)/i,
+          cpus = [],
+          cpu
+        ;
         iExecSync('cat /proc/cpuinfo').split(/\r\n|\n|\r/).forEach((line) => {
           switch (true) {
-            case /^processor\s*:\s*(\d+)/i.test(line):
+            case PROCESSOR.test(line):
               cpus[trim.call(RegExp.$1)] = (cpu = {
                 model: '',
                 speed: 0,
                 times: {}
               });
               break;
-            case /^model[\s_]+name\s*:([^\r\n]+)/i.test(line):
+            case NAME.test(line):
               cpu.model = trim.call(RegExp.$1);
               break;
-            case /^cpu[\s_]+MHz\s*:\s*(\d+)/i.test(line):
+            case FREQ.test(line):
               cpu.speed = parseFloat(trim.call(RegExp.$1));
               break;
           }
@@ -313,7 +318,9 @@
       type: function getOSType() {
         return iExecSync('uname');
       },
-      release: function getOSRelease() {},
+      release: function getOSRelease() {
+        return iExecSync('uname -r');
+      },
       networkInterfaces: function getInterfaceAddresses() {
 
       },
@@ -1092,6 +1099,7 @@
     return (ns[id] = module.exports);
   }
 
+  // the actual require
   function requireWithPath(module, dir) {
     switch (true) {
       case PascalCase.test(module):
@@ -1100,11 +1108,6 @@
         D&&BUG('requireWithPath(', module, dir, ')');
         return ns[module] || getLocalModule(module, dir);
     }
-  }
-
-  // exported require
-  function require(module) {
-    return requireWithPath(module, CURRENT_DIR);
   }
 
   // slices arguments without leaking them
@@ -1142,7 +1145,7 @@
   getOwnPropertyNames(timers).forEach(key => global[key] = timers[key]);
 
   if (process.argv.length > 1) {
-    require(process.argv[1]);
+    requireWithPath(process.argv[1], CURRENT_DIR);
   } else {
     if (!ARGV.some((info, i) => {
       if (i && evalArg.test(ARGV[i - 1])) {
