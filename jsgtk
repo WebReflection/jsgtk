@@ -780,7 +780,59 @@
         }
       };
 
-    }()
+    }(),
+
+    path = {
+      basename: function basename(path, suffix) {
+        let len, file = GLib.path_get_basename(path);
+        if (arguments.length === 2) {
+          len = suffix.length;
+          if (file.slice(-len) === suffix) {
+            file = file.slice(0, -len);
+          }
+        }
+        return file;
+      },
+      dirname: function dirname(path) {
+        return GLib.path_get_dirname(path);
+      },
+      extname: function extname(path) {
+        return /.(\.[A-Za-z]+)$/.test(path) ? RegExp.$1 : '';
+      },
+      isAbsolute: function isAbsolute(path) {
+        return GLib.path_is_absolute(path);
+      },
+      join: function join() {
+        return GLib.build_pathv(DIR_SEPARATOR, slice.apply(0, arguments));
+      },
+      normalize: function normalize(path) {
+        return Gio.File.new_for_path(path).get_path();
+      },
+      relative: function () {
+        // TODO: this is not working
+        return path.resolve.apply(path, arguments);
+      },
+      resolve: function resolve() {
+        let args = [CURRENT_DIR].concat(slice.apply(0, arguments));
+        let to = args.pop();
+        if (args.length) {
+          let from = Gio.File.new_for_path(args.shift());
+          while (args.length) {
+            from = from.resolve_relative_path(args.shift());
+          }
+          return from.resolve_relative_path(to).get_path();
+        }
+        return to;
+      },
+      sep: DIR_SEPARATOR,
+      delimiter: DIR_SEPARATOR === '/' ? ':' : ';',
+      get win32() {
+        return path;
+      },
+      get posix() {
+        return path;
+      }
+    }
 
   ;
 
@@ -1135,6 +1187,7 @@
   ns.events = events;
   ns.fs = fs;
   ns.os = os;
+  ns.path = path;
   ns.process = process;
   ns.stream = stream;
   ns.timers = timers;
