@@ -42,6 +42,7 @@
     Gtk = gi.Gtk,
     Gio = gi.Gio,
     GLib = gi.GLib,
+    GFormat = imports.format,
     ByteArray = imports.byteArray,
     Mainloop = imports.mainloop,
     System = imports.system,
@@ -84,6 +85,8 @@
     }(getOwnPropertyDescriptor(Object.prototype, '__proto__'))),
     toString = Object.prototype.toString,
 
+    ten = (i) => ('0' + i).slice(-2),
+
     // list of arbitrary arguments Gtk+ classes initializers
     init = [],
 
@@ -98,11 +101,10 @@
     console = function () {
 
       const
-        vprintf = imports.format.vprintf,
         show = function (fn, pre, args, post) {
           fn(pre + (
             /%[sdxf]/.test(args[0]) ?
-              vprintf(args[0], args.slice(1)) :
+              GFormat.vprintf(args[0], args.slice(1)) :
               args.join(', ')
           ) + post);
         },
@@ -255,7 +257,7 @@
       exit: (status) => System.exit(status || 0),
       platform: PLATFORM,
       uptime: function () {
-        return (new Date - BEGINNING) / 1000;
+        return (Date.now() - BEGINNING) / 1000;
       }
     },
 
@@ -832,6 +834,47 @@
       get posix() {
         return path;
       }
+    },
+
+    util = {
+      deprecate: (fn, message) => {
+        var shouldWarn = false;
+        return function() {
+          if (shouldWarn) {
+            shouldWarn = !shouldWarn;
+            console.warn(message);
+          }
+          return fn.apply(this, arguments);
+        };
+      },
+      format: function format() {
+        return GFormat.vprintf(arguments[0], slice.apply(1, arguments));
+      },
+      inherits: function inherits(Constructor, Super) {
+        Constructor.super_ = Super;
+        Constructor.prototype = Object.create(Super.prototype, {
+          constructor: {
+            configurable: true,
+            enumerable: false,
+            writable: true,
+            value: Constructor
+          }
+        });
+      },
+      log: function log(message) {
+        var d = new Date;
+        console.log([
+          d.getDate(),
+          ( / (\S+) /.test('' + d) && RegExp.$1),
+          [
+            ten(d.getHours()),
+            ten(d.getMinutes()),
+            ten(d.getSeconds())
+          ].join(':'),
+          '-',
+          message
+        ].join(' '));
+      }
     }
 
   ;
@@ -1191,6 +1234,7 @@
   ns.process = process;
   ns.stream = stream;
   ns.timers = timers;
+  ns.util = util;
 
   // global normalization
   global.console = console;
@@ -1229,4 +1273,4 @@
     }
   }
 
-}(Array, Function, new Date));
+}(Array, Function, Date.now()));
