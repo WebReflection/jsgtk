@@ -34,952 +34,73 @@
     // to debug all steps, pas --debug
     D = ARGV.some(value => value === '--debug'),
     BUG = D && function () {
-      print(empty.join.call(arguments, ' '));
+      print(Array.prototype.join.call(arguments, ' '));
     },
 
-    // closure shortcuts
+    // GJS common shortcuts
     gi = imports.gi,
-    Gtk = gi.Gtk,
     Gio = gi.Gio,
     GFile = Gio.File,
     GLib = gi.GLib,
-    GFormat = imports.format,
-    ByteArray = imports.byteArray,
-    Mainloop = imports.mainloop,
     System = imports.system,
-    trim = ''.trim,
 
-    // common CONSTANTS
-    PLATFORM = (function () {
-      const platform = iExecSync('uname');
-      switch (true) {
-        case /Win|Mingw|WOW/i.test(platform):
-          return 'win32';
-        default:
-          return platform.toLowerCase();
-      }
-    }()),
     CURRENT_DIR = GLib.get_current_dir(),
     DIR_SEPARATOR = /\//.test(CURRENT_DIR) ? '/' : '\\',
+    PROGRAM_FILE = GFile.new_for_path(System.programInvocationName).get_path(),
+    PROGRAM_DIR = PROGRAM_FILE.slice(0, -(1 + GLib.path_get_basename(PROGRAM_FILE).length)),
 
     // commonly used RegExp
     CONSTANT_CASE = /^[A-Z_]+$/,
-    evalArg = /^-e|--eval$/,
-    // localFile = /^(?:[A-Za-z]+:|[.\\\/])/,
     PascalCase = /^[A-Z]+[a-z]/,
     UPPERCASE = /[A-Z]+/g,
 
     // common utilities shortcuts
     create = Object.create,
-    defineProperty = Object.defineProperty,
-    empty = Array.prototype,
-    getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor,
     getOwnPropertyNames = Object.getOwnPropertyNames,
     getPrototypeOf = Object.getPrototypeOf,
-    hasOwnProperty = Object.prototype.hasOwnProperty,
-    keys = Object.keys,
-    setPrototypeOf = Object.setPrototypeOf || (function (descriptor) {
-      return function setPrototypeOf(target, proto) {
-        descriptor.set.call(target, proto);
-        return target;
-      };
-    }(getOwnPropertyDescriptor(Object.prototype, '__proto__'))),
+    setPrototypeOf = Object.setPrototypeOf || (function (set) {
+      return (t, p) => { set.call(t, p); return t; };
+    }(Object.getOwnPropertyDescriptor(Object.prototype, '__proto__').set)),
     toString = Object.prototype.toString,
-
-    ten = (i) => ('0' + i).slice(-2),
+    trim = String.prototype.trim,
 
     // list of arbitrary arguments Gtk+ classes initializers
     init = [],
 
-    // the gi namespace exported through require
-    ns = create(null),
+    // MODULES => each of them has different loading logic
 
-
-
-    // "NATIVE" MODULES
-
-    // incomplete
-    console = function () {
-
-      const
-        show = function (fn, pre, args, post) {
-          fn(pre + (
-            /%[sdxf]/.test(args[0]) ?
-              GFormat.vprintf(args[0], args.slice(1)) :
-              args.join(', ')
-          ) + post);
-        },
-        RESET = '\x1b[0m',
-        RED = '\x1b[0;31m',
-        GREEN = '\x1b[0;32m',
-        YELLOW = '\x1b[0;33m',
-        BOLD = '\x1b[1m',
-        jsUnit = imports.jsUnit
-      ;
-
-      return {
-        assert: function assert(what, why) {
-          if (!what) {
-            jsUnit.error(RED + BOLD + '[WRONG]' + RESET + ' ' + RED + BOLD + (why || '') + RESET);
-          }
-        },
-        error: function error(what, why) {
-          show(
-            printerr,
-            RED + BOLD + '[ERROR]' + RESET + ' ' + RED,
-            slice.apply(0, arguments),
-            RESET
-          );
-        },
-        info: function info(what, why) {
-          show(
-            print,
-            GREEN + BOLD + '[INFO]' + RESET + ' ' + BOLD,
-            slice.apply(0, arguments),
-            RESET
-          );
-        },
-        log: function log(what, why) {
-          show(
-            print,
-            '',
-            slice.apply(0, arguments),
-            ''
-          );
-        },
-        warn: function warn(what, why) {
-          show(
-            print,
-            YELLOW + BOLD + '[WARNING]' + RESET + ' ' + YELLOW,
-            slice.apply(0, arguments),
-            RESET
-          );
+    // all core modules, loaded from the distribution folder
+    core = [
+      'child_process',
+      'console',
+      'crypto',
+      'events',
+      'fs',
+      'os',
+      'path',
+      'process',
+      'querystring',
+      'stream',
+      'timers',
+      'util'
+    ].reduce(
+      (core, id) => Object.defineProperty(core, id, {
+        configurable: true,
+        get: () => {
+          delete core[id];
+          return getCoreModule(id);
         }
-      };
+      }),
+      create(null)
+    ),
 
-    }(),
+    // all Gtk and GLib loaded in memory via require
+    gtk = create(null),
 
-    // incomplete
-    crypto = function () {
-
-      return {
-        randomBytes: function randomBytes(size) {
-          let out = [];
-          while (size--) out.push(('0' + (GLib.random_int()).toString(16)).slice(-2));
-          return out.join('');
-        }
-      };
-
-    }(),
-
-    // incomplete
-    events = {
-      EventEmitter: Class({
-        constructor: function EventEmitter() {
-          defineProperty(this, '_eventEmitter', {
-            configurable: true,
-            value: Object.create(null)
-          });
-        },
-        addListener: function addListener(event, listener) {
-          return this.on(event, listener);
-        },
-        emit: function emit(event, ...args) {
-          (this._eventEmitter[event] || empty).forEach(
-            (listener) => listener.apply(this, args)
-          );
-        },
-        listenerCount: function  listenerCount(event) {
-          return (this._eventEmitter[event] || empty).length;
-        },
-        listeners: function listeners(event) {
-          return (this._eventEmitter[event] || empty).slice(0);
-        },
-        on: function on(event, listener) {
-          (this._eventEmitter[event] ||
-            (this._eventEmitter[event] = [])).push(listener);
-          return this;
-        },
-        once: function once(event, listener) {
-          return this.on(event, function dropIt() {
-            this.removeListener(event, dropIt);
-            listener.apply(this, arguments);
-          });
-        },
-        removeAllListeners: function removeAllListeners(event) {
-          if (event) this._eventEmitter[event] = [];
-          else EventEmitter.call(this);
-          return this;
-        },
-        removeListener: function removeListener(event, listener) {
-          let i = (this._eventEmitter[event] || empty).indexOf(listener);
-          if (-1 < i) this._eventEmitter[event].splice(i, 1);
-          return this;
-        }
-      })
-    },
-
-    // incomplete
-    process = {
-      argv: function () {
-        for (var
-          argv = [
-            GFile.new_for_path(System.programInvocationName).get_path()
-          ],
-          i = 0; i < ARGV.length; i++
-        ) {
-          if (ARGV[i][0] !== '-') {
-            if (!evalArg.test(ARGV[i - 1])) {
-              argv = argv.concat(
-                GFile.new_for_path(
-                  GLib.path_is_absolute(ARGV[i]) ?
-                    ARGV[i] : ('.' + DIR_SEPARATOR + ARGV[i])
-                ).get_path(),
-                ARGV.slice(i + 1)
-              );
-            }
-            break;
-          }
-        }
-        return argv;
-      }(),
-      cwd: function () {
-        return CURRENT_DIR;
-      },
-      env: ((arr) => {
-        const env = {};
-        for (let i = 0, p, info; i < arr.length; i++) {
-          info = arr[i];
-          p = info.indexOf('=');
-          env[info.slice(0, p)] = info.slice(p + 1);
-        }
-        return env;
-      })(GLib.get_environ()),
-      exit: (status) => System.exit(status || 0),
-      platform: PLATFORM,
-      uptime: function () {
-        return (Date.now() - BEGINNING) / 1000;
-      }
-    },
-
-    os = {
-      hostname: function getHostname() {
-        return GLib.get_host_name();
-      },
-      loadavg: function getLoadAvg() {
-        return /(\d+(?:\.\d+))\s+(\d+(?:\.\d+))\s+(\d+(?:\.\d+))/.test(
-          iExecSync('cat /proc/loadavg')
-        ) && [
-          parseFloat(RegExp.$1),
-          parseFloat(RegExp.$2),
-          parseFloat(RegExp.$3)
-        ];
-      },
-      uptime: function getUptime() {
-        return (
-          new Date -
-          Date.parse(iExecSync('uptime -s').replace(' ', 'T'))
-        ) / 1000;
-      },
-      freemem: function getFreeMem() {
-        let I, mem = iExecSync('free -b').split(os.EOL);
-        mem[0].split(/\s+/).some((info, i) => info === 'free' && (I = i));
-        return parseFloat(mem[1].split(/\s+/)[I + 1]);
-      },
-      totalmem: function getTotalMem() {
-        let I, mem = iExecSync('free -b').split(os.EOL);
-        mem[0].split(/\s+/).some((info, i) => info === 'total' && (I = i));
-        return parseFloat(mem[1].split(/\s+/)[I + 1]);
-      },
-      cpus: function getCPUs() {
-        let
-          PROCESSOR = /^processor\s*:\s*(\d+)/i,
-          NAME = /^model[\s_]+name\s*:([^\r\n]+)/i,
-          FREQ = /^cpu[\s_]+MHz\s*:\s*(\d+)/i,
-          cpus = [],
-          cpu
-        ;
-        iExecSync('cat /proc/cpuinfo').split(/\r\n|\n|\r/).forEach((line) => {
-          switch (true) {
-            case PROCESSOR.test(line):
-              cpus[trim.call(RegExp.$1)] = (cpu = {
-                model: '',
-                speed: 0,
-                get times() {
-                  console.warn('cpus.times is not supported');
-                  return {};
-                }
-              });
-              break;
-            case NAME.test(line):
-              cpu.model = trim.call(RegExp.$1);
-              break;
-            case FREQ.test(line):
-              cpu.speed = parseFloat(trim.call(RegExp.$1));
-              break;
-          }
-        });
-        return cpus;
-      },
-      type: function getOSType() {
-        return iExecSync('uname');
-      },
-      release: function getOSRelease() {
-        return iExecSync('uname -r');
-      },
-      networkInterfaces: function getInterfaceAddresses() {
-
-      },
-      homedir: function getHomeDirectory() {
-        return GLib.get_home_dir();
-      },
-      arch: function arch() {
-        switch (iExecSync('uname -m')) {
-          case 'x86_64': return 'x64';
-          case 'i686': return 'ia32';
-          default: return 'arm';
-        }
-      },
-      platform: function platform() {
-        return PLATFORM;
-      },
-      tmpdir: function tmpdir() {
-        return GLib.get_tmp_dir();
-      },
-      tmpDir: function tmpDir() {
-        return GLib.get_tmp_dir();
-      },
-      EOL: PLATFORM === 'win32' ? '\r\n' : '\n',
-      endianness: function endianness() {
-        // absolutely random untrustable check
-        // just assume LE is OK, the rest who knows
-        switch (PLATFORM) {
-          case 'sunos': return 'BE';
-          default: return 'LE';
-        }
-      }
-    },
-
-    // incomplete
-    timers = function () {
-
-      const
-        createClearTimer = () => (id) => Mainloop.source_remove(id),
-        createSetTimer = (repeat) =>
-          (fn, ms, ...args) =>
-            Mainloop.timeout_add(
-              (ms * 1) || 0,
-              () => (fn.apply(null, args), repeat)
-            )
-      ;
-
-      return {
-        clearInterval:  createClearTimer(),
-        clearTimeout:   createClearTimer(),
-        setInterval:    createSetTimer(true),
-        setTimeout:     createSetTimer(false)
-      };
-
-    }(),
-
-    // incomplete
-    stream = function  (EventEmitter) {
-      const
-        InernalStream = Class({
-          extends: EventEmitter,
-          constructor: function Stream() {
-            this.on('disconnect', () => {
-              if (this._source) {
-                this._source.unref();
-                if (this instanceof Writable) {
-                  this._source.shutdown(true);
-                }
-              } else {
-                this._channel.unref();
-                if (this instanceof Writable) {
-                  this._channel.shutdown(true);
-                }
-              }
-              this._channel = false;
-            });
-          }
-        }),
-        Readable = Class({
-          extends: InernalStream,
-          constructor: function Readable(channel) {
-            this._bootstrap = true;
-            this._channel = channel;
-            this._watcher = GLib.io_add_watch(
-              this._channel,
-              GLib.PRIORITY_DEFAULT,
-              GLib.IOCondition.IN,
-              (source, condition, data) => {
-                this._source = source;
-                if (this._bootstrap) {
-                  this._bootstrap = false;
-                  if (this.listenerCount('readable')) {
-                    this.emit('readable');
-                  } else {
-                    while (this.read());
-                  }
-                } else {
-                  while (this.read());
-                }
-              }
-            );
-          },
-          read: function read(size) {
-            if (size) {
-              // TODO: this is probably not going to work ...
-              let buf = new ByteArray(size);
-              this._source.read_line(buf, size, 0);
-              return buf;
-            } else {
-              let [status, result] = this._source.read_line();
-              // apparently it's not possible to compare ===
-              // against a GTK status
-              switch (true) {
-                case status == GLib.IOStatus.NORMAL:
-                  this.emit('data', result);
-                  break;
-                case status == GLib.IOStatus.EOF:
-                  this.emit('end');
-                  this._timeout = setTimeout(() => {
-                    this._source = null;
-                    this.emit('close', 0, null);
-                  }, 0);
-                  result = null;
-                  break;
-                case status == GLib.IOStatus.ERROR:
-                  this.emit('error');
-                  break;
-                case status == GLib.IOStatus.AGAIN:
-                  // Resource temporarily unavailable.
-                  // get out ? track it ? count ?
-                  result = '';
-                  break;
-              }
-              return result;
-            }
-          }
-        }),
-        Writable = Class({
-          extends: InernalStream,
-          constructor: function Writable(channel) {
-            this._writable = false;
-            this._writeBuffer = '';
-            this._channel = channel;
-            this._watcher = GLib.io_add_watch(
-              this._channel,
-              GLib.PRIORITY_DEFAULT,
-              GLib.IOCondition.OUT,
-              (source, condition, data) => {
-                this._source = source;
-                if (!this._writable) {
-                  let buf = this._writeBuffer;
-                  this._writeBuffer = '';
-                  this._writable = true;
-                  this.write(buf);
-                }
-              }
-            );
-          },
-          end: function end(chunk, encoding, callback) {
-            // TODO: support all arguments?
-            this._source.close();
-            this.emit('finish');
-          },
-          write: function write(chunk, encoding, callback) {
-            // TODO: support encoding, callback ?
-            if (this._writable) {
-              let [status, written] = this._source.write_chars(chunk, -1);
-              if (status == GLib.IOStatus.NORMAL && status == this._source.flush()) {
-                return true;
-              } else {
-                this.emit('error', status);
-                return false;
-              }
-            } else {
-              this._writeBuffer += chunk;
-              return true;
-            }
-          }
-        }),
-        Stream = Class({
-          extends: InernalStream,
-          constructor: function Stream(std) {
-            let
-              channel = GLib.IOChannel.unix_new(std),
-              flags = channel.get_flags(),
-              constructor
-            ;
-            channel.set_flags(GLib.IOFlags.NONBLOCK);
-            switch (true) {
-              case flags == GLib.IOFlags.IS_WRITABLE:
-                constructor = Writable;
-                break;
-              case flags == GLib.IOFlags.IS_READABLE:
-                constructor = Readable;
-                break;
-            }
-            return new constructor(channel);
-          }
-        })
-      ;
-
-      return {
-        Readable: Readable,
-        Writable: Writable,
-        Stream: Stream
-      };
-
-    }(events.EventEmitter),
-
-    // incomplete
-    child_process = function (EventEmitter, Stream) {
-
-      const
-        ChildProcess = Class({
-          extends: EventEmitter,
-          constructor: function ChildProcess(ok, pid, stdin, stdout, stderr) {
-            if (ok) {
-              this.pid = pid;
-              this.connected = ok;
-              this.stdin = new Stream(stdin)
-                .on('error', (reason) => this.emit('error', reason));
-              this.stdout = new Stream(stdout)
-                .on('close', (code, reason) => this.emit('close', code, reason))
-                .on('error', (reason) => this.emit('error', reason));
-              this.stderr = new Stream(stderr)
-                .on('error', (reason) => this.emit('error', reason));
-              this.stdio = [
-                this.stdin,
-                this.stdout,
-                this.stderr
-              ];
-            }
-          },
-          connected: false,
-          disconnect: function disconnect() {
-            disconnectChild.call(this);
-            this.emit('disconnect');
-          },
-          kill: function kill(signal) {
-            disconnectChild.call(this);
-            this.emit('exit', null, signal || 'SIGTERM');
-          }
-        }),
-        disconnectChild = function () {
-          this.connected = false;
-          this.stdin.emit('disconnect');
-          this.stdout.emit('disconnect');
-          this.stderr.emit('disconnect');
-          GLib.spawn_close_pid(this.pid);
-        }
-      ;
-
-      return {
-        spawn: function spawn(command, args, options) {
-          if (!options) options = {};
-          let cp, [ok, pid, stdin, stdout, stderr] = GLib.spawn_async_with_pipes(
-            options.cwd || CURRENT_DIR,
-            [command].concat(args || empty),
-            options.env ? keys(options.env)
-              .reduce((a, k) => {
-                a.push(k + '=' + options.env[k]);
-                return a;
-              }, []) : null,
-            GLib.SpawnFlags.SEARCH_PATH,
-            null
-          );
-          if (ok) {
-            cp = new ChildProcess(ok, pid, stdin, stdout, stderr);
-          } else {
-            cp = new ChildProcess(null);
-            setTimeout(() => cp.emit('error', stderr), 0);
-          }
-          return cp;
-        },
-
-        execSync: function execSync(command, options) {
-          // TODO: support other options ?
-          if (!options) options = {};
-          let [ok, stdout, stderr, exit_status] = GLib.spawn_command_line_sync(
-            options.cwd ? ('cd ' + options.cwd + ' && ' + command) : command
-          );
-          if (!ok) throw stderr;
-          return stdout;
-        },
-
-        spawnSync: function spawnSync(command, args, options) {
-          // TODO: support other options ?
-          if (!options) options = {};
-          let [ok, stdout, stderr, exit_status] = GLib.spawn_sync(
-            options.cwd || CURRENT_DIR,
-            [command].concat(args || empty),
-            options.env ? keys(options.env)
-              .reduce((a, k) => {
-                a.push(k + '=' + options.env[k]);
-                return a;
-              }, []) : null,
-            GLib.SpawnFlags.SEARCH_PATH,
-            null
-          );
-          return {
-            output: [null, stdout, stderr],
-            stdout: stdout,
-            stderr: stderr,
-            status: exit_status,
-            error: ok ? null : stderr
-          };
-        }
-      };
-
-    }(events.EventEmitter, stream.Stream),
-
-    // incomplete
-    fs = function () {
-      function getWriteOptions(options) {
-        if (!options) options = {};
-        if (!options.encoding) options.encoding = 'utf8';
-        if (!options.mode) options.mode = 666;
-        if (!options.flag) options.flag = 'w';
-        return options;
-      }
-      function noDots(fileName) {
-        return fileName !== '.' && fileName !== '..';
-      }
-      return {
-        readFile: function readFile(file, options, callback) {
-          // TODO: supports options
-          if (!callback) callback = options;
-          GFile.new_for_path(file)
-            .load_contents_async(null, (source, result) => {
-              try {
-                let [ok, data, etag] = source.load_contents_finish(result);
-                if (!ok) throw 'Unable to read ' + file;
-                callback(null, data);
-              } catch(err) {
-                callback(err);
-              }
-            });
-        },
-        readFileSync: function readFileSync(file, options) {
-          // TODO: supports options
-          return GFile.new_for_path(file).load_contents(null)[1];
-        },
-        readdir: function readdir(path, callback) {
-          let
-            ls = child_process.spawn('ls', ['-a', path]),
-            out = [],
-            errors = false
-          ;
-          ls.stderr.on('data', (data) => (errors = true, out.push(trim.call(data))));
-          ls.stdout.on('data', (data) => out.push(trim.call(data)));
-          ls.on('close', () => {
-            out = out.filter(noDots).sort();
-            if (errors) callback(out.join(''));
-            else callback(null, out);
-          });
-        },
-        readdirSync: function readdirSync(path) {
-          return iExecSync('ls -a', path).split('\n').filter(noDots).sort();
-        },
-        statSync: function statSync(path) {
-          let fd = GFile.new_for_path(path);
-          if (fd.query_exists(null)) {
-            // https://people.gnome.org/~gcampagna/docs/Gio-2.0/Gio.FileInfo.html
-            let
-              info = fd.query_info('*', Gio.FileQueryInfoFlags.NOFOLLOW_SYMLINKS, null),
-              out = {
-                // TODO: all wrong!!!
-                dev: info.get_attribute_int32('dev'),
-                ino: info.get_attribute_int32('ino'),
-                mode: info.get_attribute_int32('mode'),
-                nlink: info.get_attribute_int32('nlink'),
-                uid: info.get_attribute_int32('uid'),
-                gid: info.get_attribute_int32('gid'),
-                rdev: info.get_attribute_int32('rdev'),
-                size: info.get_size(),
-                blksize: info.get_attribute_int32('blksize'),
-                blocks: info.get_attribute_int32('blocks'),
-                atime: info.get_attribute_int32('atime'),
-                mtime: info.get_attribute_int32('mtime'),
-                ctime: info.get_attribute_int32('ctime'),
-                birthtime: info.get_attribute_int32('birthtime')
-              }
-            ;
-            // Object.keys(out).forEach((key) => log(key + ': ' + out[key]));
-            return out;
-          } else {
-            return null;
-          }
-        },
-        writeFileSync: function writeFileSync(file, data, options) {
-          // TODO: supports options
-          let fd, stream, result;
-          options = getWriteOptions(options);
-          switch (options.flag) {
-            case 'w':
-              fd = GFile.new_for_path(file);
-              try {
-                stream = fd.create_readwrite(Gio.FileCreateFlags.REPLACE_DESTINATION, null).output_stream;
-              } catch(e) {
-                stream = fd.open_readwrite(null).output_stream;
-              }
-              stream.truncate(0, null);
-              stream.write_all(String(data), null);
-              stream.flush(null);
-              result = stream.close(null);
-          }
-          return result;
-        },
-        writeFile: function writeFile(file, data, options, callback) {
-          // TODO: supports options
-          let fd;
-          if (typeof options === 'function') {
-            callback = options;
-            options = getWriteOptions(null);
-          } else {
-            options = getWriteOptions(options);
-          }
-          switch (options.flag) {
-            case 'w':
-              let onceFoundAWayTowrite = (stream) => {
-                stream.truncate(0, null);
-                stream.output_stream.write_bytes_async(
-                  ByteArray.fromString(String(data)),
-                  0,
-                  null,
-                  (source, result) => {
-                    source.write_bytes_finish(result);
-                    source.flush_async(0, null, (source, result) => {
-                      source.flush_finish(result);
-                      source.close_async(0, null, (source, result) => {
-                        callback(!source.close_finish(result));
-                      });
-                    });
-                  }
-                );
-              };
-              fd = GFile.new_for_path(file);
-              fd.create_readwrite_async(
-                Gio.FileCreateFlags.REPLACE_DESTINATION,
-                0,
-                null,
-                (source, result) => {
-                  try {
-                    onceFoundAWayTowrite(source.create_readwrite_finish(result));
-                  } catch(e) {
-                    fd.open_readwrite_async(
-                      0,
-                      null,
-                      (source, result) => {
-                        onceFoundAWayTowrite(source.open_readwrite_finish(result));
-                      }
-                    );
-                  }
-                }
-              );
-              break;
-          }
-        }
-      };
-
-    }(),
-
-    path = (function createPathObject(DIR_SEPARATOR) {
-      function dirname(path) {
-        return GLib.path_get_dirname(path);
-      }
-      function extname(path) {
-        return /\S(\.[A-Za-z]+)$/.test(path) ? RegExp.$1 : '';
-      }
-      function isAbsolute(path) {
-        return GLib.path_is_absolute(path);
-      }
-      function root(path) {
-        return path.slice(0, path.indexOf(DIR_SEPARATOR) + DIR_SEPARATOR.length);
-      }
-      return {
-        basename: function basename(path, suffix) {
-          let len, file = GLib.path_get_basename(path);
-          if (arguments.length === 2) {
-            len = suffix.length;
-            if (file.slice(-len) === suffix) {
-              file = file.slice(0, -len);
-            }
-          }
-          return file;
-        },
-        delimiter: DIR_SEPARATOR === '/' ? ':' : ';',
-        dirname: dirname,
-        extname: extname,
-        format: function format(pathObject) {
-          return [pathObject.dir, pathObject.base].join(DIR_SEPARATOR);
-        },
-        isAbsolute: isAbsolute,
-        join: function join() {
-          return GLib.build_pathv(DIR_SEPARATOR, slice.apply(0, arguments));
-        },
-        normalize: function normalize(path) {
-          return GFile.new_for_path(path).get_path();
-        },
-        parse: function parse(pathString) {
-          let
-            dir = dirname(pathString),
-            base = GLib.path_get_basename(pathString),
-            ext = extname(base),
-            name = base.slice(0, -ext.length) || base
-          ;
-          return {
-            root: isAbsolute(pathString) ? root(pathString) : '',
-            dir: dir,
-            base: base,
-            ext: ext,
-            name: name
-          };
-        },
-        get posix() {
-          return createPathObject('/');
-        },
-        relative: function relative(from, to) {
-          let
-            sfrom = GFile.new_for_path(from).get_path().split(DIR_SEPARATOR),
-            sto = GFile.new_for_path(to).get_path().split(DIR_SEPARATOR),
-            length = sfrom.length,
-            i = 0,
-            out = []
-          ;
-          while (i < length && sfrom[i] === sto[i]) i++;
-          sto = sto.slice(i);
-          while (i++ < length) out.push('..');
-          return out.concat(sto).join(DIR_SEPARATOR);
-        },
-        resolve: function resolve() {
-          let args = [CURRENT_DIR].concat(slice.apply(0, arguments));
-          let to = args.pop();
-          if (args.length) {
-            let from = GFile.new_for_path(args.shift());
-            while (args.length) {
-              from = from.resolve_relative_path(args.shift());
-            }
-            return from.resolve_relative_path(to).get_path();
-          }
-          return to;
-        },
-        sep: DIR_SEPARATOR,
-        get win32() {
-          return createPathObject('\\');
-        }
-      };
-    }(DIR_SEPARATOR)),
-
-    util = {
-      deprecate: (fn, message) => {
-        var shouldWarn = false;
-        return function() {
-          if (shouldWarn) {
-            shouldWarn = !shouldWarn;
-            console.warn(message);
-          }
-          return fn.apply(this, arguments);
-        };
-      },
-      format: function format() {
-        return GFormat.vprintf(arguments[0], slice.apply(1, arguments));
-      },
-      inherits: function inherits(Constructor, Super) {
-        Constructor.super_ = Super;
-        Constructor.prototype = Object.create(Super.prototype, {
-          constructor: {
-            configurable: true,
-            enumerable: false,
-            writable: true,
-            value: Constructor
-          }
-        });
-      },
-      log: function log(message) {
-        var d = new Date;
-        console.log([
-          d.getDate(),
-          ( / (\S+) /.test('' + d) && RegExp.$1),
-          [
-            ten(d.getHours()),
-            ten(d.getMinutes()),
-            ten(d.getSeconds())
-          ].join(':'),
-          '-',
-          message
-        ].join(' '));
-      }
-    }
+    // all external modules loaded through few filesystem operations
+    modules = create(null)
 
   ;
-
-
-  // minimalistic Class utility
-  // supports special properties such `extends` and `static`
-  function Class(proto) {
-
-    let
-      CONSTRUCTOR = 'constructor',
-      EXTENDS = 'extends',
-      hasSuper = hasOwnProperty.call(proto, EXTENDS),
-      parent = hasSuper ? proto[EXTENDS] : null,
-      constructor
-    ;
-
-    if (!hasOwnProperty.call(proto, CONSTRUCTOR)) {
-      proto[CONSTRUCTOR] = hasSuper ?
-        function Class() {
-          parent.apply(this, arguments);
-        } :
-        function Class() {};
-    } else if (hasSuper) {
-      constructor = proto[CONSTRUCTOR];
-      proto[CONSTRUCTOR] = function Class() {
-        parent.apply(this, arguments);
-        constructor.apply(this, arguments);
-      };
-    }
-
-    if (hasSuper) {
-      proto[CONSTRUCTOR].prototype = create(
-        parent.prototype,
-        {constructor: {
-          enumerable: false,
-          configurable: true,
-          writable: true,
-          value: proto[CONSTRUCTOR]
-        }}
-      );
-    }
-
-    getOwnPropertyNames(proto).forEach((key) => {
-      switch (key) {
-        case CONSTRUCTOR:
-        case EXTENDS: break;
-        case 'static':
-          getOwnPropertyNames(proto[key]).forEach((k) => {
-            defineProperty(proto[CONSTRUCTOR], k, {
-              enumerable: k.charAt(0) !== '_',
-              value: proto[key][k]
-            });
-          });
-          break;
-        default:
-          let descriptor = getOwnPropertyDescriptor(proto, key);
-          descriptor.enumerable = false;
-          defineProperty(proto[CONSTRUCTOR].prototype, key, descriptor);
-          break;
-      }
-    });
-
-    return proto[CONSTRUCTOR];
-
-  }
 
 
   // the new(bind.apply(constructor,arguments)) does not work here
@@ -1073,7 +194,7 @@
         D&&BUG('STATIC GET', module + '.' + property);
         switch (true) {
           case PascalCase.test(property):
-            return getGtkModule(ns, child, property);
+            return getGtkModule(child, property);
           default:
             return wrapResult(child[toPythonCase(property)]);
         }
@@ -1142,21 +263,33 @@
     }
   }
 
-  // internal namespace and module handler
-  function getGtkModule(ns, parent, module) {
-    return ns[module] || (
-      ns[module] = createModule(parent, module)
+  // core modules are loaded from a different, known, path
+  function getCoreModule(id) {
+    let fd = GFile.new_for_path(getCoreModulePath(id));
+    return evaluateModule(core, id, fd.get_path(), fd);
+  }
+  function getCoreModulePath(module) {
+    return [
+      PROGRAM_DIR,
+      'jsgtk_modules',
+      module + '.js'
+    ].join(DIR_SEPARATOR);
+  }
+
+  // Gtk modules loaded in memory
+  function getGtkModule(parent, module) {
+    return gtk[module] || (
+      gtk[module] = createModule(parent, module)
     );
   }
 
-  function getLocalModule(module, dir) {
-    const
+  // external modules requires more operations
+  function getModulesModule(module, dir) {
+    let
       fd = getModuleFile(module, dir),
       id = fd.get_path()
     ;
-    return ns[id] || (
-      ns[id] = evaluateModule(id, fd)
-    );
+    return evaluateModule(modules, id, id, fd);
   }
 
   function grabModuleFD(path) {
@@ -1205,14 +338,14 @@
     }
   }
 
-  function evaluateModule(id, fd) {
+  function evaluateModule(nmsp, unique, id, fd) {
     D&&BUG('require(', id, ')');
     const
       dir = id.slice(0, -1 -fd.get_basename().length),
       exports = {},
       module = {exports: exports, id: id}
     ;
-    ns[id] = exports;
+    nmsp[unique] = exports;
     Function(
       'require',
       'exports',
@@ -1230,61 +363,37 @@
       dir,
       id
     );
-    return (ns[id] = module.exports);
+    return (nmsp[unique] = module.exports);
   }
 
   // the actual require
   function requireWithPath(module, dir) {
     switch (true) {
       case PascalCase.test(module):
-        return getGtkModule(ns, gi, module);
+        return getGtkModule(gi, module);
+      case module in core:
+        return core[module];
       default:
-        D&&BUG('requireWithPath(', module, dir, ')');
-        return ns[module] || getLocalModule(module, dir);
+        return modules[module] || getModulesModule(module, dir);
     }
   }
 
-  // slices arguments without leaking them
-  function slice() {
-    for (var
-      o = +this,
-      i = o,
-      l = arguments.length,
-      n = l - o,
-      a = Array(n < 0 ? 0 : n);
-      i < l; i++
-    ) a[i - o] = arguments[i];
-    return a;
-  }
-
-  // utility to use when everything else didn't work ...
-  function iExecSync(command) {
-    return trim.call(GLib.spawn_command_line_sync(command)[1]);
-  }
-
-  // require('native-module')
-  ns.child_process = child_process;
-  ns.console = console;
-  ns.crypto = crypto;
-  ns.events = events;
-  ns.fs = fs;
-  ns.os = os;
-  ns.path = path;
-  ns.process = process;
-  ns.stream = stream;
-  ns.timers = timers;
-  ns.util = util;
-
   // global normalization
-  global.console = console;
+  const
+    process = core.process,
+    console = core.console,
+    timers =  core.timers
+  ;
+
   global.process = process;
+  global.console = console;
   getOwnPropertyNames(timers).forEach(key => global[key] = timers[key]);
 
   if (process.argv.length > 1) {
     requireWithPath(process.argv[1], CURRENT_DIR);
   } else {
     if (!ARGV.some((info, i) => {
-      if (i && evalArg.test(ARGV[i - 1])) {
+      if (i && /^-e|--eval$/.test(ARGV[i - 1])) {
         Function(
           'require',
           '__dirname',
