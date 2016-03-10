@@ -1,9 +1,18 @@
 #!/usr/bin/env bash
 
+# example
+# ./utils/compare tests/runtime.js
+
 DIR=$(pwd)
 if [ "${DIR:${#DIR}-6}" == "/utils" ]; then
   DIR="${DIR}/.."
 fi
 
-${DIR}/jsgtk $@
+echo ""
+echo -e "$(tput bold)# NodeJS ########################################$(tput sgr0)"
 node $@
+
+echo ""
+echo -e "$(tput bold)# JSGtk #########################################$(tput sgr0)"
+${DIR}/jsgtk $@
+echo ""
