@@ -41,6 +41,7 @@
     gi = imports.gi,
     Gtk = gi.Gtk,
     Gio = gi.Gio,
+    GFile = Gio.File,
     GLib = gi.GLib,
     GFormat = imports.format,
     ByteArray = imports.byteArray,
@@ -223,14 +224,14 @@
       argv: function () {
         for (var
           argv = [
-            Gio.File.new_for_path(System.programInvocationName).get_path()
+            GFile.new_for_path(System.programInvocationName).get_path()
           ],
           i = 0; i < ARGV.length; i++
         ) {
           if (ARGV[i][0] !== '-') {
             if (!evalArg.test(ARGV[i - 1])) {
               argv = argv.concat(
-                Gio.File.new_for_path(
+                GFile.new_for_path(
                   GLib.path_is_absolute(ARGV[i]) ?
                     ARGV[i] : ('.' + DIR_SEPARATOR + ARGV[i])
                 ).get_path(),
@@ -304,7 +305,10 @@
               cpus[trim.call(RegExp.$1)] = (cpu = {
                 model: '',
                 speed: 0,
-                times: {}
+                get times() {
+                  console.warn('cpus.times is not supported');
+                  return {};
+                }
               });
               break;
             case NAME.test(line):
@@ -649,12 +653,12 @@
         readFile: function readFile(file, options, callback) {
           // TODO: supports options
           if (!callback) callback = options;
-          Gio.File.new_for_path(file)
+          GFile.new_for_path(file)
             .load_contents_async(null, (source, result) => {
               try {
                 let [ok, data, etag] = source.load_contents_finish(result);
                 if (!ok) throw 'Unable to read ' + file;
-                callback(null, data.toString());
+                callback(null, data);
               } catch(err) {
                 callback(err);
               }
@@ -662,7 +666,7 @@
         },
         readFileSync: function readFileSync(file, options) {
           // TODO: supports options
-          return Gio.File.new_for_path(file).load_contents(null)[1].toString();
+          return GFile.new_for_path(file).load_contents(null)[1];
         },
         readdir: function readdir(path, callback) {
           let
@@ -682,7 +686,7 @@
           return iExecSync('ls -a', path).split('\n').filter(noDots).sort();
         },
         statSync: function statSync(path) {
-          let fd = Gio.File.new_for_path(path);
+          let fd = GFile.new_for_path(path);
           if (fd.query_exists(null)) {
             // https://people.gnome.org/~gcampagna/docs/Gio-2.0/Gio.FileInfo.html
             let
@@ -717,7 +721,7 @@
           options = getWriteOptions(options);
           switch (options.flag) {
             case 'w':
-              fd = Gio.File.new_for_path(file);
+              fd = GFile.new_for_path(file);
               try {
                 stream = fd.create_readwrite(Gio.FileCreateFlags.REPLACE_DESTINATION, null).output_stream;
               } catch(e) {
@@ -758,7 +762,7 @@
                   }
                 );
               };
-              fd = Gio.File.new_for_path(file);
+              fd = GFile.new_for_path(file);
               fd.create_readwrite_async(
                 Gio.FileCreateFlags.REPLACE_DESTINATION,
                 0,
@@ -784,57 +788,92 @@
 
     }(),
 
-    path = {
-      basename: function basename(path, suffix) {
-        let len, file = GLib.path_get_basename(path);
-        if (arguments.length === 2) {
-          len = suffix.length;
-          if (file.slice(-len) === suffix) {
-            file = file.slice(0, -len);
-          }
-        }
-        return file;
-      },
-      dirname: function dirname(path) {
+    path = (function createPathObject(DIR_SEPARATOR) {
+      function dirname(path) {
         return GLib.path_get_dirname(path);
-      },
-      extname: function extname(path) {
-        return /.(\.[A-Za-z]+)$/.test(path) ? RegExp.$1 : '';
-      },
-      isAbsolute: function isAbsolute(path) {
-        return GLib.path_is_absolute(path);
-      },
-      join: function join() {
-        return GLib.build_pathv(DIR_SEPARATOR, slice.apply(0, arguments));
-      },
-      normalize: function normalize(path) {
-        return Gio.File.new_for_path(path).get_path();
-      },
-      relative: function () {
-        // TODO: this is not working
-        return path.resolve.apply(path, arguments);
-      },
-      resolve: function resolve() {
-        let args = [CURRENT_DIR].concat(slice.apply(0, arguments));
-        let to = args.pop();
-        if (args.length) {
-          let from = Gio.File.new_for_path(args.shift());
-          while (args.length) {
-            from = from.resolve_relative_path(args.shift());
-          }
-          return from.resolve_relative_path(to).get_path();
-        }
-        return to;
-      },
-      sep: DIR_SEPARATOR,
-      delimiter: DIR_SEPARATOR === '/' ? ':' : ';',
-      get win32() {
-        return path;
-      },
-      get posix() {
-        return path;
       }
-    },
+      function extname(path) {
+        return /\S(\.[A-Za-z]+)$/.test(path) ? RegExp.$1 : '';
+      }
+      function isAbsolute(path) {
+        return GLib.path_is_absolute(path);
+      }
+      function root(path) {
+        return path.slice(0, path.indexOf(DIR_SEPARATOR) + DIR_SEPARATOR.length);
+      }
+      return {
+        basename: function basename(path, suffix) {
+          let len, file = GLib.path_get_basename(path);
+          if (arguments.length === 2) {
+            len = suffix.length;
+            if (file.slice(-len) === suffix) {
+              file = file.slice(0, -len);
+            }
+          }
+          return file;
+        },
+        delimiter: DIR_SEPARATOR === '/' ? ':' : ';',
+        dirname: dirname,
+        extname: extname,
+        format: function (pathObject) {
+          return [pathObject.dir, pathObject.base].join(DIR_SEPARATOR);
+        },
+        isAbsolute: isAbsolute,
+        join: function join() {
+          return GLib.build_pathv(DIR_SEPARATOR, slice.apply(0, arguments));
+        },
+        normalize: function normalize(path) {
+          return GFile.new_for_path(path).get_path();
+        },
+        parse: function (pathString) {
+          let
+            dir = dirname(pathString),
+            base = GLib.path_get_basename(pathString),
+            ext = extname(base),
+            name = base.slice(0, -ext.length) || base
+          ;
+          return {
+            root: isAbsolute(pathString) ? root(pathString) : '',
+            dir: dir,
+            base: base,
+            ext: ext,
+            name: name
+          };
+        },
+        get posix() {
+          return createPathObject('/');
+        },
+        relative: function (from, to) {
+          let
+            sfrom = GFile.new_for_path(from).get_path().split(DIR_SEPARATOR),
+            sto = GFile.new_for_path(to).get_path().split(DIR_SEPARATOR),
+            length = sfrom.length,
+            i = 0,
+            out = []
+          ;
+          while (i < length && sfrom[i] === sto[i]) i++;
+          sto = sto.slice(i);
+          while (i++ < length) out.push('..');
+          return out.concat(sto).join(DIR_SEPARATOR);
+        },
+        resolve: function resolve() {
+          let args = [CURRENT_DIR].concat(slice.apply(0, arguments));
+          let to = args.pop();
+          if (args.length) {
+            let from = GFile.new_for_path(args.shift());
+            while (args.length) {
+              from = from.resolve_relative_path(args.shift());
+            }
+            return from.resolve_relative_path(to).get_path();
+          }
+          return to;
+        },
+        sep: DIR_SEPARATOR,
+        get win32() {
+          return createPathObject('\\');
+        }
+      };
+    }(DIR_SEPARATOR)),
 
     util = {
       deprecate: (fn, message) => {
@@ -1121,18 +1160,18 @@
   }
 
   function grabModuleFD(path) {
-    let fd = Gio.File.new_for_path(path);
+    let fd = GFile.new_for_path(path);
     if (fd.query_exists(null)) {
       switch (fd.query_file_type(Gio.FileQueryInfoFlags.NONE, null)) {
         case Gio.FileType.REGULAR: return fd;
         case Gio.FileType.DIRECTORY:
-          fd = Gio.File.new_for_path(path + DIR_SEPARATOR + 'package.json');
+          fd = GFile.new_for_path(path + DIR_SEPARATOR + 'package.json');
           if (fd.query_exists(null)) {
             let content = JSON.parse(trim.call(fd.load_contents(null)[1]));
-            fd = Gio.File.new_for_path(path + DIR_SEPARATOR + content.main);
+            fd = GFile.new_for_path(path + DIR_SEPARATOR + content.main);
             if (fd.query_exists(null)) return fd;
           } else {
-            fd = Gio.File.new_for_path(path + DIR_SEPARATOR + 'main.js');
+            fd = GFile.new_for_path(path + DIR_SEPARATOR + 'main.js');
             if (fd.query_exists(null)) return fd;
           }
       }
@@ -1148,14 +1187,14 @@
         if (fd) {
           return fd;
         } else if (path.slice(-3) !== '.js') {
-          fd = Gio.File.new_for_path(path + '.js');
+          fd = GFile.new_for_path(path + '.js');
           if (fd.query_exists(null)) return fd;
         }
         throw new Error('unable to find ' + path);
       case '.' === path[0]:
         return getModuleFile(dir + DIR_SEPARATOR + path);
       default:
-        let tmp = Gio.File.new_for_path(dir);
+        let tmp = GFile.new_for_path(dir);
         do {
           fd = grabModuleFD([
             tmp.get_path(), 'node_modules', path
