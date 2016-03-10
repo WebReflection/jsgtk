@@ -815,7 +815,7 @@
         delimiter: DIR_SEPARATOR === '/' ? ':' : ';',
         dirname: dirname,
         extname: extname,
-        format: function (pathObject) {
+        format: function format(pathObject) {
           return [pathObject.dir, pathObject.base].join(DIR_SEPARATOR);
         },
         isAbsolute: isAbsolute,
@@ -825,7 +825,7 @@
         normalize: function normalize(path) {
           return GFile.new_for_path(path).get_path();
         },
-        parse: function (pathString) {
+        parse: function parse(pathString) {
           let
             dir = dirname(pathString),
             base = GLib.path_get_basename(pathString),
@@ -843,7 +843,7 @@
         get posix() {
           return createPathObject('/');
         },
-        relative: function (from, to) {
+        relative: function relative(from, to) {
           let
             sfrom = GFile.new_for_path(from).get_path().split(DIR_SEPARATOR),
             sto = GFile.new_for_path(to).get_path().split(DIR_SEPARATOR),
