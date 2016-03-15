@@ -5,23 +5,7 @@
  * JSGtk Status         incomplete
  */
 
-let inherits = require('util').inherits;
-
-function Class(parent, proto) {
-  let length = arguments.length;
-  if (length === 1) proto = parent;
-  if (!proto.hasOwnProperty('constructor'))
-    proto.constructor = function Class() {};
-  if (length > 1) inherits(proto.constructor, parent);
-  return Object.getOwnPropertyNames(proto).reduce(
-    (p, key) => {
-      let d = Object.getOwnPropertyDescriptor(proto, key);
-      d.enumerable = false;
-      return Object.defineProperty(p, key, d);
-    },
-    proto.constructor.prototype
-  ).constructor;
-}
+const Class = imports.jsgtk.Class;
 
 module.exports = {
   EventEmitter: Class({

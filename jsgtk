@@ -389,6 +389,8 @@
   global.console = console;
   getOwnPropertyNames(timers).forEach(key => global[key] = timers[key]);
 
+  imports.searchPath.push([PROGRAM_DIR, 'jsgtk_modules'].join(DIR_SEPARATOR));
+
   if (process.argv.length > 1) {
     requireWithPath(process.argv[1], CURRENT_DIR);
   } else {
