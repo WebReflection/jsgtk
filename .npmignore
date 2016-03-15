@@ -1,6 +1,7 @@
-.DS_Store
 experiments
 node_modules
+tests
 utils
+.DS_Store
 .gitignore
 .gitmodules

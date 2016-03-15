@@ -5,10 +5,15 @@
  * JSGtk Status         incomplete
  */
 
+/* jshint esversion: 6, strict: implied, node: true */
+/* global imports */
+
 const
   ByteArray = imports.byteArray,
   Gio = imports.gi.Gio,
   GFile = Gio.File,
+
+  child_process = require('child_process'),
 
   // TODO: used by iExecSync only
   //       and readdirSync only.

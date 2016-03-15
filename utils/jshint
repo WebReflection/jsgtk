@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+DIR=$(pwd)
+if [ "${DIR:${#DIR}-6}" == "/utils" ]; then
+  DIR="${DIR}/.."
+fi
+
+for file in $(ls $DIR/jsgtk_modules); do
+  ${DIR}/node_modules/.bin/jshint $DIR/jsgtk_modules/$file
+  if [ $? -ne 0 ]; then
+    exit 1
+  fi
+done

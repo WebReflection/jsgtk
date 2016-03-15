@@ -5,23 +5,19 @@
  * JSGtk Status         complete (without deprecated)
  */
 
+/* jshint esversion: 6, strict: implied, node: true */
+/* global imports */
+
 const
+
+  GFormat = imports.format,
+
+  slice = imports.jsgtk.slice,
+
   console = require('console'),
   create = Object.create,
   ten = (i) => ('0' + i).slice(-2)
 ;
-
-function slice() {
-  for (var
-    o = +this,
-    i = o,
-    l = arguments.length,
-    n = l - o,
-    a = Array(n < 0 ? 0 : n);
-    i < l; i++
-  ) a[i - o] = arguments[i];
-  return a;
-}
 
 module.exports = {
   deprecate: function deprecate(fn, message) {
@@ -49,7 +45,7 @@ module.exports = {
     });
   },
   log: function log(message) {
-    var d = new Date;
+    var d = new Date();
     console.log([
       d.getDate(),
       ( / (\S+) /.test('' + d) && RegExp.$1),

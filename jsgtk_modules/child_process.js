@@ -5,14 +5,31 @@
  * JSGtk Status         incomplete
  */
 
+
+/* jshint esversion: 6, strict: implied, node: true */
+/* global imports */
+
 const
 
   GLib = imports.gi.GLib,
 
   Class = imports.jsgtk.Class,
 
+  CURRENT_DIR = GLib.get_current_dir(),
+
+  empty = Array.prototype,
+  keys = Object.keys,
+
   EventEmitter = require('events').EventEmitter,
   Stream = require('stream').Stream,
+
+  disconnectChild = function () {
+    this.connected = false;
+    this.stdin.emit('disconnect');
+    this.stdout.emit('disconnect');
+    this.stderr.emit('disconnect');
+    GLib.spawn_close_pid(this.pid);
+  },
 
   ChildProcess = Class(EventEmitter, {
     constructor: function ChildProcess(ok, pid, stdin, stdout, stderr) {
@@ -42,14 +59,7 @@ const
       disconnectChild.call(this);
       this.emit('exit', null, signal || 'SIGTERM');
     }
-  }),
-  disconnectChild = function () {
-    this.connected = false;
-    this.stdin.emit('disconnect');
-    this.stdout.emit('disconnect');
-    this.stderr.emit('disconnect');
-    GLib.spawn_close_pid(this.pid);
-  }
+  })
 ;
 
 module.exports = {

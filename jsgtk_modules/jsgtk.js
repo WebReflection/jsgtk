@@ -1,5 +1,7 @@
 /*! © Andrea Giammarchi @WebReflection */
 
+/* jshint esversion: 6, strict: true, node: true */
+
 (function (exports) {'use strict';
 
   const
@@ -23,6 +25,20 @@
       },
       proto.constructor.prototype
     ).constructor;
+  };
+
+
+  exports.slice = function slice() {
+    /* jshint validthis: true */
+    for (var
+      o = +this,
+      i = o,
+      l = arguments.length,
+      n = l - o,
+      a = Array(n < 0 ? 0 : n);
+      i < l; i++
+    ) a[i - o] = arguments[i];
+    return a;
   };
 
 }(this));

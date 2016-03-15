@@ -5,6 +5,9 @@
  * JSGtk Status         complete
  */
 
+/* jshint esversion: 6, strict: implied, node: true, eqnull: true */
+/* global imports */
+
 const
 
   // gjs helpers and dependencies
@@ -12,7 +15,7 @@ const
 
   // module shortcuts
   defineProperty = Object.defineProperty,
-  hasOwnProperty = Object.prototype.hasOwnProperty,
+  hOP = Object.prototype.hasOwnProperty,
   isArray = Array.isArray,
 
   // module.exports
@@ -26,9 +29,9 @@ const
       if (sep == null) sep = '&';
       if (eq == null) eq = '=';
       if (options == null) options = {};
-      if (!hasOwnProperty.call(options, 'decodeURIComponent'))
+      if (!hOP.call(options, 'decodeURIComponent'))
         options.decodeURIComponent = querystring.unescape;
-      if (!hasOwnProperty.call(options, 'maxKeys'))
+      if (!hOP.call(options, 'maxKeys'))
         options.maxKeys = 1000;
       return parseString(str, sep, eq, options);
     },
@@ -37,9 +40,9 @@ const
       if (sep == null) sep = '&';
       if (eq == null) eq = '=';
       if (options == null) options = {};
-      if (!hasOwnProperty.call(options, 'encodeURIComponent'))
+      if (!hOP.call(options, 'encodeURIComponent'))
         options.encodeURIComponent = querystring.escape;
-      if (!hasOwnProperty.call(options, 'maxKeys'))
+      if (!hOP.call(options, 'maxKeys'))
         options.maxKeys = 1000;
       return parseObject(obj, sep, eq, options);
     },
@@ -53,7 +56,7 @@ function append(out, key, value, options) {
   key = options.decodeURIComponent(key);
   value = value.length ? options.decodeURIComponent(value) : value;
   if (key in out) {
-    if (hasOwnProperty.call(out, key))
+    if (hOP.call(out, key))
       out[key] = [].concat(out[key], value);
     else defineProperty(out, key, {
       configurable: true,
@@ -78,7 +81,7 @@ function isValid(value) {
 function parseObject(obj, sep, eq, options) {
   const out = [];
   for (let key in obj) {
-    if (hasOwnProperty.call(obj, key)) {
+    if (hOP.call(obj, key)) {
       let value = obj[key];
       if (isValid(value)) {
         out.push(

@@ -5,16 +5,25 @@
  * JSGtk Status         incomplete
  */
 
-const Class = imports.jsgtk.Class;
+/* jshint esversion: 6, strict: implied, node: true */
+/* global imports */
+
+const
+  Class = imports.jsgtk.Class,
+  defineProperty = Object.defineProperty,
+  empty = Array.prototype
+;
+
+function EventEmitter() {
+  defineProperty(this, '_eventEmitter', {
+    configurable: true,
+    value: Object.create(null)
+  });
+}
 
 module.exports = {
   EventEmitter: Class({
-    constructor: function EventEmitter() {
-      defineProperty(this, '_eventEmitter', {
-        configurable: true,
-        value: Object.create(null)
-      });
-    },
+    constructor: EventEmitter,
     addListener: function addListener(event, listener) {
       return this.on(event, listener);
     },

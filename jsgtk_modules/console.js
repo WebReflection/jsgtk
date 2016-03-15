@@ -5,6 +5,9 @@
  * JSGtk Status         incomplete
  */
 
+/* jshint esversion: 6, strict: implied, node: true */
+/* global imports, print, printerr */
+
 const
   GFormat = imports.format,
   RESET = '\x1b[0m',
@@ -12,6 +15,7 @@ const
   GREEN = '\x1b[0;32m',
   YELLOW = '\x1b[0;33m',
   BOLD = '\x1b[1m',
+  slice = imports.jsgtk.slice,
   show = (fn, pre, args, post) => {
     fn(pre + (
       /%[sdxf]/.test(args[0]) ?
@@ -20,18 +24,6 @@ const
     ) + post);
   }
 ;
-
-function slice() {
-  for (var
-    o = +this,
-    i = o,
-    l = arguments.length,
-    n = l - o,
-    a = Array(n < 0 ? 0 : n);
-    i < l; i++
-  ) a[i - o] = arguments[i];
-  return a;
-}
 
 module.exports = {
   assert: function assert(what, why) {

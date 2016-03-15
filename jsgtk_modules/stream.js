@@ -5,6 +5,9 @@
  * JSGtk Status         incomplete
  */
 
+/* jshint esversion: 6, strict: implied, node: true */
+/* global imports */
+
 const
 
   GLib = imports.gi.GLib,

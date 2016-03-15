@@ -5,11 +5,16 @@
  * JSGtk Status         complete
  */
 
+/* jshint esversion: 6, strict: implied, node: true */
+/* global imports */
+
 const
 
   gi = imports.gi,
   GLib = gi.GLib,
   GFile = gi.Gio.File,
+
+  slice = imports.jsgtk.slice,
 
   process = require('process')
 
@@ -103,18 +108,6 @@ function extname(path) {
 
 function isAbsolute(path) {
   return GLib.path_is_absolute(path);
-}
-
-function slice() {
-  for (var
-    o = +this,
-    i = o,
-    l = arguments.length,
-    n = l - o,
-    a = Array(n < 0 ? 0 : n);
-    i < l; i++
-  ) a[i - o] = arguments[i];
-  return a;
 }
 
 module.exports = createPathObject(
