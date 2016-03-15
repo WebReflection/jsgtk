@@ -2,11 +2,27 @@
 
 /* jshint esversion: 6, strict: true, node: true */
 
-(function (exports) {'use strict';
+(function (exports, Array, Object) {'use strict';
 
   const
-    inherits = require('util').inherits
+    create = Object.create,
+    dP = Object.defineProperty,
+    gOPD = Object.getOwnPropertyDescriptor,
+    gOPNs = Object.getOwnPropertyNames,
+    hOP = Object.prototype.hasOwnProperty
   ;
+
+  function inherits(Constructor, Super) {
+    Constructor.super_ = Super;
+    Constructor.prototype = create(Super.prototype, {
+      constructor: {
+        configurable: true,
+        enumerable: false,
+        writable: true,
+        value: Constructor
+      }
+    });
+  }
 
   // minimalistic utility to create classes
   // Class(Parent, {proto})
@@ -14,20 +30,21 @@
   exports.Class = function Class(parent, proto) {
     let length = arguments.length;
     if (length === 1) proto = parent;
-    if (!proto.hasOwnProperty('constructor'))
+    if (!hOP.call(proto, 'constructor'))
       proto.constructor = function Class() {};
     if (length > 1) inherits(proto.constructor, parent);
-    return Object.getOwnPropertyNames(proto).reduce(
+    return gOPNs(proto).reduce(
       (p, key) => {
-        let d = Object.getOwnPropertyDescriptor(proto, key);
+        let d = gOPD(proto, key);
         d.enumerable = false;
-        return Object.defineProperty(p, key, d);
+        return dP(p, key, d);
       },
       proto.constructor.prototype
     ).constructor;
   };
 
-
+  // utility to slice.apply(0, arguments)
+  // in a way that should be arguments leaks free
   exports.slice = function slice() {
     /* jshint validthis: true */
     for (var
@@ -41,4 +58,7 @@
     return a;
   };
 
-}(this));
+  // same function used in util
+  exports.inherits = inherits;
+
+}(this, Array, Object));

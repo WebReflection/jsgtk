@@ -5,3 +5,4 @@ utils
 .DS_Store
 .gitignore
 .gitmodules
+npm-debug.log

@@ -12,7 +12,8 @@ const
 
   GFormat = imports.format,
 
-  slice = imports.jsgtk.slice,
+  jsgtk = imports.jsgtk,
+  slice = jsgtk.slice,
 
   console = require('console'),
   create = Object.create,
@@ -33,17 +34,7 @@ module.exports = {
   format: function format() {
     return GFormat.vprintf(arguments[0], slice.apply(1, arguments));
   },
-  inherits: function inherits(Constructor, Super) {
-    Constructor.super_ = Super;
-    Constructor.prototype = create(Super.prototype, {
-      constructor: {
-        configurable: true,
-        enumerable: false,
-        writable: true,
-        value: Constructor
-      }
-    });
-  },
+  inherits: jsgtk.inherits,
   log: function log(message) {
     var d = new Date();
     console.log([

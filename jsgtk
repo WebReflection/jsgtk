@@ -378,6 +378,10 @@
     }
   }
 
+  // in order to be able to import common jsgtk utilities
+  // within node.js like modules
+  imports.searchPath.push([PROGRAM_DIR, 'jsgtk_modules'].join(DIR_SEPARATOR));
+
   // global normalization
   const
     process = core.process,
@@ -388,8 +392,6 @@
   global.process = process;
   global.console = console;
   getOwnPropertyNames(timers).forEach(key => global[key] = timers[key]);
-
-  imports.searchPath.push([PROGRAM_DIR, 'jsgtk_modules'].join(DIR_SEPARATOR));
 
   if (process.argv.length > 1) {
     requireWithPath(process.argv[1], CURRENT_DIR);
