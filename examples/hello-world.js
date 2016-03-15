@@ -26,7 +26,10 @@ if (argv.some(info => info === '--dark')) {
   gtkSettings.gtkThemeName = 'Adwaita';
 }
 
-win.connect('show', Gtk.main);
+win.connect('show', () => {
+  win.setKeepAbove(true);
+  Gtk.main();
+});
 win.connect('destroy', Gtk.mainQuit);
 
 win.setDefaultSize(200, 80);
