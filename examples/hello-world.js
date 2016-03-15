@@ -28,7 +28,10 @@ if (argv.some(info => info === '--dark')) {
 
 win.connect('show', () => {
   win.setKeepAbove(true);
-  setTimeout(() => win.setKeepAbove(false), 5);
+  setTimeout(() => {
+    win.setKeepAbove(false);
+    win.grabFocus();
+  }, 100);
   Gtk.main();
 });
 win.connect('destroy', Gtk.mainQuit);

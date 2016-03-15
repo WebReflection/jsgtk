@@ -101,6 +101,10 @@
   window.connect('show', () => {
     // bring it on top in OSX
     window.setKeepAbove(true);
+    setTimeout(() => {
+      window.setKeepAbove(false);
+      window.grabFocus();
+    }, 100);
     Gtk.main()
   });
   window.connect('destroy', () => Gtk.mainQuit());
