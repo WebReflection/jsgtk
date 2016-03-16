@@ -28,6 +28,7 @@ const
           cpus = Array(cores)
         ;
         while (cores--) {
+          /* jshint loopfunc:true */
           cpus[cores] = {
             model: brandString,
             speed: frequency,
