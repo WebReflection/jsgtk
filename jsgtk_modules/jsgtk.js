@@ -5,11 +5,15 @@
 (function (exports, Array, Object) {'use strict';
 
   const
+
+    GLib = imports.gi.GLib,
+
     create = Object.create,
     dP = Object.defineProperty,
     gOPD = Object.getOwnPropertyDescriptor,
     gOPNs = Object.getOwnPropertyNames,
-    hOP = Object.prototype.hasOwnProperty
+    hOP = Object.prototype.hasOwnProperty,
+    trim = String.prototype.trim
   ;
 
   function inherits(Constructor, Super) {
@@ -43,6 +47,9 @@
     ).constructor;
   };
 
+  // same function used in util
+  exports.inherits = inherits;
+
   // utility to slice.apply(0, arguments)
   // in a way that should be arguments leaks free
   exports.slice = function slice() {
@@ -58,7 +65,8 @@
     return a;
   };
 
-  // same function used in util
-  exports.inherits = inherits;
+  exports.system = function system(command) {
+    return trim.call(GLib.spawn_command_line_sync(command)[1]);
+  };
 
 }(this, Array, Object));

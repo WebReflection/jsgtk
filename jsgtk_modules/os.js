@@ -15,15 +15,16 @@
 const
   GLib = imports.gi.GLib,
   EOL = process.platform === 'win32' ? '\r\n' : '\n',
+  system = imports.jsgtk.system,
   trim = String.prototype.trim,
   // different per platform
   multiOp = {
     darwin: {
       cpus: function getCPUs() {
         let
-          cores = parseFloat(iExecSync('sysctl -n hw.ncpu')),
-          frequency = parseFloat(iExecSync('sysctl -n hw.cpufrequency')) / 1000 / 1000,
-          brandString = iExecSync('sysctl -n machdep.cpu.brand_string').replace(/\s+/g, ' '),
+          cores = parseFloat(system('sysctl -n hw.ncpu')),
+          frequency = parseFloat(system('sysctl -n hw.cpufrequency')) / 1000 / 1000,
+          brandString = system('sysctl -n machdep.cpu.brand_string').replace(/\s+/g, ' '),
           cpus = Array(cores)
         ;
         while (cores--) {
@@ -39,12 +40,12 @@ const
         return cpus;
       },
       freemem: function getFreeMem() {
-        return  parseFloat(iExecSync('sysctl -n hw.memsize')) -
-                parseFloat(iExecSync('sysctl -n hw.physmem'));
+        return  parseFloat(system('sysctl -n hw.memsize')) -
+                parseFloat(system('sysctl -n hw.physmem'));
       },
       loadavg: function getLoadAvg() {
         return /load\s+averages:\s+(\d+(?:\.\d+))\s+(\d+(?:\.\d+))\s+(\d+(?:\.\d+))/.test(
-          iExecSync('uptime')
+          system('uptime')
         ) && [
           parseFloat(RegExp.$1),
           parseFloat(RegExp.$2),
@@ -52,11 +53,11 @@ const
         ];
       },
       totalmem: function getTotalMem() {
-        return parseFloat(iExecSync('sysctl -n hw.memsize'));
+        return parseFloat(system('sysctl -n hw.memsize'));
       },
       uptime: function getUptime() {
         let
-          uptime = iExecSync('uptime'),
+          uptime = system('uptime'),
           up = /up\s+([^,]+)?,/.test(uptime) && RegExp.$1
         ;
         switch (true) {
@@ -84,7 +85,7 @@ const
           cpus = [],
           cpu
         ;
-        iExecSync('cat /proc/cpuinfo').split(/\r\n|\n|\r/).forEach((line) => {
+        system('cat /proc/cpuinfo').split(/\r\n|\n|\r/).forEach((line) => {
           switch (true) {
             case PROCESSOR.test(line):
               cpus[trim.call(RegExp.$1)] = (cpu = {
@@ -107,13 +108,13 @@ const
         return cpus;
       },
       freemem: function getFreeMem() {
-        let I, mem = iExecSync('free -b').split(EOL);
+        let I, mem = system('free -b').split(EOL);
         mem[0].split(/\s+/).some((info, i) => info === 'free' && (I = i));
         return parseFloat(mem[1].split(/\s+/)[I + 1]);
       },
       loadavg: function getLoadAvg() {
         return /(\d+(?:\.\d+))\s+(\d+(?:\.\d+))\s+(\d+(?:\.\d+))/.test(
-          iExecSync('cat /proc/loadavg')
+          system('cat /proc/loadavg')
         ) && [
           parseFloat(RegExp.$1),
           parseFloat(RegExp.$2),
@@ -121,14 +122,14 @@ const
         ];
       },
       totalmem: function getTotalMem() {
-        let I, mem = iExecSync('free -b').split(EOL);
+        let I, mem = system('free -b').split(EOL);
         mem[0].split(/\s+/).some((info, i) => info === 'total' && (I = i));
         return parseFloat(mem[1].split(/\s+/)[I + 1]);
       },
       uptime: function getUptime() {
         return (
           Date.now() -
-          Date.parse(iExecSync('uptime -s').replace(' ', 'T'))
+          Date.parse(system('uptime -s').replace(' ', 'T'))
         ) / 1000;
       }
     }
@@ -136,10 +137,6 @@ const
   // current platform helpers
   op = multiOp[process.platform]
 ;
-
-function iExecSync(command) {
-  return trim.call(GLib.spawn_command_line_sync(command)[1]);
-}
 
 module.exports = {
   hostname: function getHostname() {
@@ -151,10 +148,10 @@ module.exports = {
   totalmem: op.totalmem,
   cpus: op.cpus,
   type: function getOSType() {
-    return iExecSync('uname');
+    return system('uname');
   },
   release: function getOSRelease() {
-    return iExecSync('uname -r');
+    return system('uname -r');
   },
   networkInterfaces: function getInterfaceAddresses() {
 
@@ -163,7 +160,7 @@ module.exports = {
     return GLib.get_home_dir();
   },
   arch: function arch() {
-    switch (iExecSync('uname -m')) {
+    switch (system('uname -m')) {
       case 'x86_64': return 'x64';
       case 'i686': return 'ia32';
       default: return 'arm';

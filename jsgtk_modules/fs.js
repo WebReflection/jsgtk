@@ -13,9 +13,11 @@ const
   Gio = imports.gi.Gio,
   GFile = Gio.File,
 
+  system = imports.jsgtk.system,
+
   child_process = require('child_process'),
 
-  // TODO: used by iExecSync only
+  // TODO: used by system only
   //       and readdirSync only.
   //       Find a GJS way to do it instead
   GLib = imports.gi.GLib,
@@ -28,10 +30,6 @@ function getWriteOptions(options) {
   if (!options.mode) options.mode = 666;
   if (!options.flag) options.flag = 'w';
   return options;
-}
-
-function iExecSync(command) {
-  return trim.call(GLib.spawn_command_line_sync(command)[1]);
 }
 
 function noDots(fileName) {
@@ -72,7 +70,7 @@ module.exports = {
     });
   },
   readdirSync: function readdirSync(path) {
-    return iExecSync('ls -a', path).split('\n').filter(noDots).sort();
+    return system('ls -a', path).split('\n').filter(noDots).sort();
   },
   statSync: function statSync(path) {
     let fd = GFile.new_for_path(path);
