@@ -56,6 +56,8 @@ module.exports = {
   exit: status => System.exit(status || 0),
   platform: ((platform) => {
     switch (true) {
+      case 'Darwin':
+        return 'darwin';
       // TODO /Win|Mingw|WOW/i ???
       case /Win|WOW/i.test(platform):
         return 'win32';
