@@ -13,15 +13,14 @@
 /* global imports */
 
 const
-  EOL = process.platform === 'win32' ? '\r\n' : '\n',
   GLib = imports.gi.GLib,
+  EOL = process.platform === 'win32' ? '\r\n' : '\n',
   trim = String.prototype.trim,
   // different per platform
   multiOp = {
     darwin: {
       cpus: function getCPUs() {
         let
-          // cores = parseFloat(iExecSync('sysctl -n machdep.cpu.core_count')),
           cores = parseFloat(iExecSync('sysctl -n hw.ncpu')),
           frequency = parseFloat(iExecSync('sysctl -n hw.cpufrequency')) / 1000 / 1000,
           brandString = iExecSync('sysctl -n machdep.cpu.brand_string').replace(/\s+/, ' '),
@@ -29,13 +28,11 @@ const
         ;
         while (cores--) {
           cpus[cores] = {
-            {
-              model: brandString,
-              speed: frequency,
-              get times() {
-                console.warn('cpus.times is not supported');
-                return {};
-              }
+            model: brandString,
+            speed: frequency,
+            get times() {
+              console.warn('cpus.times is not supported');
+              return {};
             }
           };
         }
