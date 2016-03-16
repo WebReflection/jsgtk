@@ -23,7 +23,7 @@ const
         let
           cores = parseFloat(iExecSync('sysctl -n hw.ncpu')),
           frequency = parseFloat(iExecSync('sysctl -n hw.cpufrequency')) / 1000 / 1000,
-          brandString = iExecSync('sysctl -n machdep.cpu.brand_string').replace(/\s+/, ' '),
+          brandString = iExecSync('sysctl -n machdep.cpu.brand_string').replace(/\s+/g, ' '),
           cpus = Array(cores)
         ;
         while (cores--) {
