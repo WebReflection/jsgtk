@@ -17,12 +17,13 @@ const
   GLib = imports.gi.GLib,
 
   EOL = process.platform === 'win32' ? '\r\n' : '\n',
-  IPV4SN = Array(33).join('0'),
-  IPV6SN = Array(129).join('0'),
 
   system = imports.jsgtk.system,
 
   trim = String.prototype.trim,
+
+  getIPv4Subnet = createSubnet(32, 8, 10, '.'),
+  getIPv6Subnet = createSubnet(128, 16, 16, ':'),
 
   // different per platform
   multiOp = {
@@ -199,26 +200,21 @@ const
   op = multiOp[process.platform]
 ;
 
-function getIPv4Subnet(mask) {
+function createSubnet(size, segment, base, sep) {
   const
-    str = (Array(parseInt(mask) + 1).join('1') + IPV4SN).slice(0, 32),
-    out = Array(4)
+    empty = Array(size + 1).join('0'),
+    length = size / segment
   ;
-  for (let i = 0, j = 0; i < 32; i += 8) {
-    out[j++] = parseInt(str.substr(i, 8), 2);
-  }
-  return out.join('.');
-}
-
-function getIPv6Subnet(mask) {
-  const
-    str = (Array(parseInt(mask) + 1).join('1') + IPV6SN).slice(0, 128),
-    out = Array(8)
-  ;
-  for (let i = 0, j = 0; i < 128; i += 16) {
-    out[j++] = parseInt(str.substr(i, 16), 2).toString(16);
-  }
-  return out.join(':');
+  return function getSubnet(mask) {
+    const
+      str = (Array(parseInt(mask, 10) + 1).join('1') + empty).slice(0, size),
+      out = Array(length)
+    ;
+    for (let i = 0, j = 0; i < size; i += segment) {
+      out[j++] = parseInt(str.substr(i, segment), 2).toString(base);
+    }
+    return out.join(sep);
+  };
 }
 
 module.exports = {
