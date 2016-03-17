@@ -62,21 +62,43 @@ const
         ];
       },
       networkInterfaces: function getInterfaceAddresses() {
+        /* jshint -W098: true */
         const ifaces = {};
-        for (let
-          lines = system('ip addr').split(/\n/),
-          i = 0; i < lines.length; i++
-        ) {
-          let line = lines[i];
-          if (/^\d+:\s+(\S+?):/.test(line)) {
-            let iface = [];
-            ifaces[RegExp.$1] = iface;
-          }
-        }
+        /* jshint ignore: start */
+        system('ifconfig').split(/^\d+:\s+/m).forEach(op.parseInterfaces, ifaces);
+        /* jshint ignore: end */
         return ifaces;
       },
-      totalmem: function getTotalMem() {
-        return parseFloat(system('sysctl -n hw.memsize'));
+      parseInterfaces: function parseInterfaces(info, i) {
+        info = info.trim();
+        if (info.length < 1) return;
+        let iface = [], mac;
+        for (let
+          line,
+          lines = info.split('\n'),
+          i = 0; i < lines.length; i++
+        ) {
+          line = lines[i];
+          switch (true) {
+            case /link\/\S+\s+((?:\S{2}:)+\S{2})/.test(line):
+              mac = RegExp.$1;
+              break;
+            case /inet(\d*)\s+(\S+)/.test(line):
+              let
+                ip = RegExp.$2.split('/'),
+                v = RegExp.$1 || '4'
+              ;
+              iface.push({
+                address: ip[0],
+                netmask: (v === '4' ? getIPv4Subnet : getIPv6Subnet)(ip[1]),
+                family: 'IPv' + v,
+                mac: mac,
+                internal: ip[0] === '127.0.0.1'
+              });
+              break;
+          }
+        }
+        if (mac) this[info.slice(0, info.indexOf(':'))] = iface;
       },
       uptime: function getUptime() {
         let
@@ -146,42 +168,41 @@ const
       },
       networkInterfaces: function getInterfaceAddresses() {
         const ifaces = {};
-        for (var
-          lines = system('ip addr').split(/\n/),
-          length = lines.length,
-          i = 0; i < length;
+        /* jshint ignore: start */
+        system('ip addr').split(/^\d+:\s+/m).forEach(op.parseInterfaces, ifaces);
+        /* jshint ignore: end */
+        return ifaces;
+      },
+      parseInterfaces: function parseInterfaces(info, i) {
+        info = info.trim();
+        if (info.length < 1) return;
+        let iface = [], mac;
+        for (let
+          line,
+          lines = info.split('\n'),
+          i = 0; i < lines.length; i++
         ) {
-          let line = lines[i];
-          if (/^\d+:\s+(\S+?):/.test(line)) {
-            let iface = [], mac;
-            ifaces[RegExp.$1] = iface;
-            while (++i < length) {
-              line = lines[i];
-              switch (true) {
-                case /link\/\S+\s+((?:\S{2}:)+\S{2})/.test(line):
-                  mac = RegExp.$1;
-                  break;
-                case /inet(\d*)\s+(\S+)/.test(line):
-                  let
-                    ip = RegExp.$2.split('/'),
-                    v = RegExp.$1 || '4'
-                  ;
-                  iface.push({
-                    address: ip[0],
-                    netmask: (v === '4' ? getIPv4Subnet : getIPv6Subnet)(ip[1]),
-                    family: 'IPv' + v,
-                    mac: mac,
-                    internal: ip[0] === '127.0.0.1'
-                  });
-                  break;
-              }
-              if (iface.length === 2) break;
-            }
-          } else {
-            ++i;
+          line = lines[i];
+          switch (true) {
+            case /link\/\S+\s+((?:\S{2}:)+\S{2})/.test(line):
+              mac = RegExp.$1;
+              break;
+            case /inet(\d*)\s+(\S+)/.test(line):
+              let
+                ip = RegExp.$2.split('/'),
+                v = RegExp.$1 || '4'
+              ;
+              iface.push({
+                address: ip[0],
+                netmask: (v === '4' ? getIPv4Subnet : getIPv6Subnet)(ip[1]),
+                family: 'IPv' + v,
+                mac: mac,
+                internal: ip[0] === '127.0.0.1'
+              });
+              break;
           }
         }
-        return ifaces;
+        if (mac) this[info.slice(0, info.indexOf(':'))] = iface;
       },
       totalmem: function getTotalMem() {
         let I, mem = system('free -b').split(EOL);
