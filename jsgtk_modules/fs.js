@@ -16,6 +16,7 @@ const
 
   Gio = gi.Gio,
   GFile = Gio.File,
+  GType = Gio.FileType,
   MainLoop = gi.GLib.MainLoop,
 
   system = jsgtk.system,
@@ -46,6 +47,29 @@ const
         _fd: {value: fd},
         _info: {value: info}
       });
+    },
+    // TODO: isBlockDevice, isCharacterDevice, isFIFO, isSocket
+    //       are all threated as SPECIAL files
+    isFile: function isFile() {
+      return this._info.get_file_type() === GType.REGULAR;
+    },
+    isDirectory: function isFile() {
+      return this._info.get_file_type() === GType.DIRECTORY;
+    },
+    isBlockDevice: function isFile() {
+      return this._info.get_file_type() === GType.SPECIAL;
+    },
+    isCharacterDevice: function isFile() {
+      return this._info.get_file_type() === GType.SPECIAL;
+    },
+    isSymbolicLink: function isFile() {
+      return this._info.get_file_type() === GType.SYMBOLIC_LINK;
+    },
+    isFIFO: function isFile() {
+      return this._info.get_file_type() === GType.SPECIAL;
+    },
+    isSocket: function isSocket() {
+      return this._info.get_file_type() === GType.SPECIAL;
     }
   })
 ;
