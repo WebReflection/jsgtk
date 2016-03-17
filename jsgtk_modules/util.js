@@ -13,10 +13,11 @@ const
   GFormat = imports.format,
 
   jsgtk = imports.jsgtk,
-  slice = jsgtk.slice,
 
   console = require('console'),
+
   create = Object.create,
+
   ten = (i) => ('0' + i).slice(-2)
 ;
 
@@ -32,9 +33,10 @@ module.exports = {
     };
   },
   format: function format() {
-    return GFormat.vprintf(arguments[0], slice.apply(1, arguments));
+    return GFormat.vprintf(arguments[0], jsgtk.slice.apply(1, arguments));
   },
   inherits: jsgtk.inherits,
+  inspect: jsgtk.inspect,
   log: function log(message) {
     var d = new Date();
     console.log([

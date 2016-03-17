@@ -15,12 +15,12 @@ const
   GREEN = '\x1b[0;32m',
   YELLOW = '\x1b[0;33m',
   BOLD = '\x1b[1m',
-  slice = imports.jsgtk.slice,
+  jsgtk = imports.jsgtk,
   show = (fn, pre, args, post) => {
     fn(pre + (
       /%[sdxf]/.test(args[0]) ?
         GFormat.vprintf(args[0], args.slice(1)) :
-        args.join(', ')
+        args.map(jsgtk.inspect).join(',\n')
     ) + post);
   }
 ;
@@ -35,7 +35,7 @@ module.exports = {
     show(
       printerr,
       RED + BOLD + '[ERROR]' + RESET + ' ' + RED,
-      slice.apply(0, arguments),
+      jsgtk.slice.apply(0, arguments),
       RESET
     );
   },
@@ -43,7 +43,7 @@ module.exports = {
     show(
       print,
       GREEN + BOLD + '[INFO]' + RESET + ' ' + BOLD,
-      slice.apply(0, arguments),
+      jsgtk.slice.apply(0, arguments),
       RESET
     );
   },
@@ -51,7 +51,7 @@ module.exports = {
     show(
       print,
       '',
-      slice.apply(0, arguments),
+      jsgtk.slice.apply(0, arguments),
       ''
     );
   },
@@ -59,7 +59,7 @@ module.exports = {
     show(
       print,
       YELLOW + BOLD + '[WARNING]' + RESET + ' ' + YELLOW,
-      slice.apply(0, arguments),
+      jsgtk.slice.apply(0, arguments),
       RESET
     );
   }
