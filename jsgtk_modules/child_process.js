@@ -5,7 +5,6 @@
  * JSGtk Status         incomplete
  */
 
-
 /* jshint esversion: 6, strict: implied, node: true */
 /* global imports */
 
@@ -33,6 +32,7 @@ const
 
   ChildProcess = Class(EventEmitter, {
     constructor: function ChildProcess(ok, pid, stdin, stdout, stderr) {
+      EventEmitter.call(this);
       if (ok) {
         this.pid = pid;
         this.connected = ok;

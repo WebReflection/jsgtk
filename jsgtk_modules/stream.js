@@ -18,7 +18,8 @@ const
   EventEmitter = require('events').EventEmitter,
 
   InernalStream = Class(EventEmitter, {
-    constructor: function Stream() {
+    constructor: function InernalStream() {
+      EventEmitter.call(this);
       this.on('disconnect', () => {
         if (this._source) {
           this._source.unref();
@@ -38,6 +39,7 @@ const
 
   Readable = Class(InernalStream, {
     constructor: function Readable(channel) {
+      InernalStream.call(this);
       this._bootstrap = true;
       this._channel = channel;
       this._watcher = GLib.io_add_watch(
@@ -97,6 +99,7 @@ const
 
   Writable = Class(InernalStream, {
     constructor: function Writable(channel) {
+      InernalStream.call(this);
       this._writable = false;
       this._writeBuffer = '';
       this._channel = channel;
@@ -139,6 +142,7 @@ const
 
   Stream = Class(InernalStream, {
     constructor: function Stream(std) {
+      InernalStream.call(this);
       let
         channel = GLib.IOChannel.unix_new(std),
         flags = channel.get_flags(),
