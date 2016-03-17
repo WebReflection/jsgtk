@@ -13,10 +13,17 @@
 /* global imports */
 
 const
+
   GLib = imports.gi.GLib,
+
   EOL = process.platform === 'win32' ? '\r\n' : '\n',
+  IPV4SN = Array(33).join('0'),
+  IPV6SN = Array(129).join('0'),
+
   system = imports.jsgtk.system,
+
   trim = String.prototype.trim,
+
   // different per platform
   multiOp = {
     darwin: {
@@ -52,6 +59,20 @@ const
           parseFloat(RegExp.$2),
           parseFloat(RegExp.$3)
         ];
+      },
+      networkInterfaces: function getInterfaceAddresses() {
+        const ifaces = {};
+        for (let
+          lines = system('ip addr').split(/\n/),
+          i = 0; i < lines.length; i++
+        ) {
+          let line = lines[i];
+          if (/^\d+:\s+(\S+?):/.test(line)) {
+            let iface = [];
+            ifaces[RegExp.$1] = iface;
+          }
+        }
+        return ifaces;
       },
       totalmem: function getTotalMem() {
         return parseFloat(system('sysctl -n hw.memsize'));
@@ -122,6 +143,45 @@ const
           parseFloat(RegExp.$3)
         ];
       },
+      networkInterfaces: function getInterfaceAddresses() {
+        const ifaces = {};
+        for (var
+          lines = system('ip addr').split(/\n/),
+          length = lines.length,
+          i = 0; i < length;
+        ) {
+          let line = lines[i];
+          if (/^\d+:\s+(\S+?):/.test(line)) {
+            let iface = [], mac;
+            ifaces[RegExp.$1] = iface;
+            while (++i < length) {
+              line = lines[i];
+              switch (true) {
+                case /link\/\S+\s+((?:\S{2}:)+\S{2})/.test(line):
+                  mac = RegExp.$1;
+                  break;
+                case /inet(\d*)\s+(\S+)/.test(line):
+                  let
+                    ip = RegExp.$2.split('/'),
+                    v = RegExp.$1 || '4'
+                  ;
+                  iface.push({
+                    address: ip[0],
+                    netmask: (v === '4' ? getIPv4Subnet : getIPv6Subnet)(ip[1]),
+                    family: 'IPv' + v,
+                    mac: mac,
+                    internal: ip[0] === '127.0.0.1'
+                  });
+                  break;
+              }
+              if (iface.length === 2) break;
+            }
+          } else {
+            ++i;
+          }
+        }
+        return ifaces;
+      },
       totalmem: function getTotalMem() {
         let I, mem = system('free -b').split(EOL);
         mem[0].split(/\s+/).some((info, i) => info === 'total' && (I = i));
@@ -139,27 +199,29 @@ const
   op = multiOp[process.platform]
 ;
 
-module.exports = {
-  hostname: function getHostname() {
-    return GLib.get_host_name();
-  },
-  loadavg: op.loadavg,
-  uptime: op.uptime,
-  freemem: op.freemem,
-  totalmem: op.totalmem,
-  cpus: op.cpus,
-  type: function getOSType() {
-    return system('uname');
-  },
-  release: function getOSRelease() {
-    return system('uname -r');
-  },
-  networkInterfaces: function getInterfaceAddresses() {
+function getIPv4Subnet(mask) {
+  const
+    str = (Array(parseInt(mask) + 1).join('1') + IPV4SN).slice(0, 32),
+    out = Array(4)
+  ;
+  for (let i = 0, j = 0; i < 32; i += 8) {
+    out[j++] = parseInt(str.substr(i, 8), 2);
+  }
+  return out.join('.');
+}
 
-  },
-  homedir: function getHomeDirectory() {
-    return GLib.get_home_dir();
-  },
+function getIPv6Subnet(mask) {
+  const
+    str = (Array(parseInt(mask) + 1).join('1') + IPV6SN).slice(0, 128),
+    out = Array(8)
+  ;
+  for (let i = 0, j = 0; i < 128; i += 16) {
+    out[j++] = parseInt(str.substr(i, 16), 2).toString(16);
+  }
+  return out.join(':');
+}
+
+module.exports = {
   arch: function arch() {
     switch (system('uname -m')) {
       case 'x86_64': return 'x64';
@@ -167,16 +229,7 @@ module.exports = {
       default: return 'arm';
     }
   },
-  platform: function platform() {
-    return process.platform;
-  },
-  tmpdir: function tmpdir() {
-    return GLib.get_tmp_dir();
-  },
-  tmpDir: function tmpDir() {
-    return GLib.get_tmp_dir();
-  },
-  EOL: EOL,
+  cpus: op.cpus,
   endianness: function endianness() {
     // absolutely random untrustable check
     // just assume LE is OK, the rest who knows
@@ -184,5 +237,32 @@ module.exports = {
       case 'sunos': return 'BE';
       default: return 'LE';
     }
-  }
+  },
+  freemem: op.freemem,
+  homedir: function getHomeDirectory() {
+    return GLib.get_home_dir();
+  },
+  hostname: function getHostname() {
+    return GLib.get_host_name();
+  },
+  loadavg: op.loadavg,
+  networkInterfaces: op.networkInterfaces,
+  platform: function platform() {
+    return process.platform;
+  },
+  release: function getOSRelease() {
+    return system('uname -r');
+  },
+  tmpdir: function tmpdir() {
+    return GLib.get_tmp_dir();
+  },
+  tmpDir: function tmpDir() {
+    return GLib.get_tmp_dir();
+  },
+  totalmem: op.totalmem,
+  type: function getOSType() {
+    return system('uname');
+  },
+  uptime: op.uptime,
+  EOL: EOL
 };
