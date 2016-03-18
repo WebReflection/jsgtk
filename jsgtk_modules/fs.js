@@ -76,10 +76,11 @@ const
 
 function getWriteOptions(options) {
   if (!options) options = {};
-  if (!options.encoding) options.encoding = 'utf8';
-  if (!options.mode) options.mode = 666;
-  if (!options.flag) options.flag = 'w';
-  return options;
+  return {
+    encoding: options.encoding || 'utf8',
+    mode: options.mode || 666,
+    flag: options.flag || 'w'
+  };
 }
 
 function noDots(fileName) {
