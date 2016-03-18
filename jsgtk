@@ -46,8 +46,18 @@
 
     CURRENT_DIR = GLib.get_current_dir(),
     DIR_SEPARATOR = /\//.test(CURRENT_DIR) ? '/' : '\\',
-    PROGRAM_FILE = GFile.new_for_path(System.programInvocationName).get_path(),
-    PROGRAM_DIR = PROGRAM_FILE.slice(0, -(1 + GLib.path_get_basename(PROGRAM_FILE).length)),
+    PROGRAM_DIR = ((exe) => {
+      let
+        dir = exe.slice(0, -(1 + GLib.path_get_basename(exe).length)),
+        path = dir.split(DIR_SEPARATOR)
+      ;
+      if (path[path.length - 1] === 'bin') {
+        path.pop();
+        path.push('lib', 'node_modules', 'jsgtk');
+        dir = path.join(DIR_SEPARATOR);
+      }
+      return dir;
+    })(GFile.new_for_path(System.programInvocationName).get_path()),
 
     // commonly used RegExp
     CONSTANT_CASE = /^[A-Z_]+$/,
