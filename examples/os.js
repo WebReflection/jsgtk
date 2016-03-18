@@ -10,6 +10,6 @@ Object.keys(os).forEach(key => {
 console.log(
   require('util').inspect(
     outcome,
-    {colors: true, depth: 2}
+    {colors: true, depth: null}
   )
 );

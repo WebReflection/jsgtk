@@ -62,17 +62,33 @@ const
         ];
       },
       networkInterfaces: function getInterfaceAddresses() {
-        /* jshint -W098: true */
-        const ifaces = {};
+        const ifaces = {}, groups = [];
+        for (let
+          group = [],
+          lines = system('ifconfig').split('\n'),
+          re = /^\S+?:/,
+          i = 0,
+          length = lines.length;
+          i < lines.length; i++
+        ) {
+          if (re.test(lines[i])) {
+            group = [lines[i]];
+            while (++i < length && !re.test(lines[i])) {
+              group.push(lines[i]);
+            }
+            --i;
+          }
+          groups.push(group.join('\n'));
+        }
         /* jshint ignore: start */
-        system('ifconfig').split(/^\d+:\s+/m).forEach(op.parseInterfaces, ifaces);
+        groups.forEach(op.parseInterfaces, ifaces);
         /* jshint ignore: end */
         return ifaces;
       },
       parseInterfaces: function parseInterfaces(info, i) {
         info = info.trim();
-        if (info.length < 1) return;
-        let iface = [], mac;
+        if (info.length < 1 || !/\binet\b/.test(info)) return;
+        let iface = [], mac = '00:00:00:00:00:00';
         for (let
           line,
           lines = info.split('\n'),
@@ -80,25 +96,35 @@ const
         ) {
           line = lines[i];
           switch (true) {
-            case /link\/\S+\s+((?:\S{2}:)+\S{2})/.test(line):
+            case /ether\s+((?:\S{2}:)+\S{2})/.test(line):
               mac = RegExp.$1;
               break;
-            case /inet(\d*)\s+(\S+)/.test(line):
-              let
-                ip = RegExp.$2.split('/'),
-                v = RegExp.$1 || '4'
-              ;
+            case /inet\s+(\d+\.\d+\.\d+\.\d+)\s+netmask\s+0x(.{2})(.{2})(.{2})(.{2})/.test(line):
               iface.push({
-                address: ip[0],
-                netmask: (v === '4' ? getIPv4Subnet : getIPv6Subnet)(ip[1]),
-                family: 'IPv' + v,
+                address: RegExp.$1,
+                netmask: getIPv6Subnet(RegExp.$2),
+                family: 'IPv4',
                 mac: mac,
-                internal: ip[0] === '127.0.0.1'
+                internal: RegExp.$1 === '127.0.0.1'
+              });
+              break;
+            case /inet6\s+((?:\S{2}:)+\S{2}).+?prefixlen\s+(\d+)/.test(line):
+              iface.push({
+                address: RegExp.$1,
+                netmask: [
+                  parseInt(RegExp.$2, 16),
+                  parseInt(RegExp.$3, 16),
+                  parseInt(RegExp.$4, 16),
+                  parseInt(RegExp.$5, 16)
+                ].join('.'),
+                family: 'IPv6',
+                mac: mac,
+                internal: RegExp.$1 === '127.0.0.1'
               });
               break;
           }
         }
-        if (mac) this[info.slice(0, info.indexOf(':'))] = iface;
+        this[info.slice(0, info.indexOf(':'))] = iface;
       },
       uptime: function getUptime() {
         let
