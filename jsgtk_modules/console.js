@@ -32,7 +32,9 @@ const
 module.exports = {
   assert: function assert(what, why) {
     if (!what) {
-      imports.jsUnit.error(RED + BOLD + '[WRONG]' + RESET + ' ' + RED + BOLD + (why || '') + RESET);
+      imports.jsUnit.error(
+        RED + BOLD + '[WRONG]' + RESET + ' ' + RED + BOLD + (why || '') + RESET
+      );
     }
   },
   error: function error(what, why) {

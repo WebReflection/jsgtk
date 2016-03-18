@@ -6,7 +6,7 @@
  */
 
 /* jshint esversion: 6, strict: implied, node: true */
-/* global imports */
+/* global imports, unescape, escape */
 
 const
   GLib = imports.gi.GLib,
