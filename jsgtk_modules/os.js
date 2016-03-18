@@ -17,6 +17,7 @@ const
   GLib = imports.gi.GLib,
 
   EOL = process.platform === 'win32' ? '\r\n' : '\n',
+  NOMAC = '00:00:00:00:00:00',
 
   system = imports.jsgtk.system,
 
@@ -91,7 +92,7 @@ const
       parseInterfaces: function parseInterfaces(info, i) {
         info = info.trim();
         if (info.length < 1 || !/\binet\b/.test(info)) return;
-        let iface = [], mac = '00:00:00:00:00:00';
+        let iface = [], mac = NOMAC;
         for (let
           line,
           lines = info.split('\n'),
@@ -122,7 +123,7 @@ const
                 netmask: getIPv6Subnet(RegExp.$2),
                 family: 'IPv6',
                 mac: mac,
-                internal: RegExp.$1 === '127.0.0.1'
+                internal: mac !== NOMAC
               });
               break;
           }
