@@ -17,6 +17,7 @@ const
   console = require('console'),
 
   create = Object.create,
+  hOP = Object.prototype.hasOwnProperty,
 
   ten = (i) => ('0' + i).slice(-2)
 ;
@@ -36,7 +37,15 @@ module.exports = {
     return GFormat.vprintf(arguments[0], jsgtk.slice.apply(1, arguments));
   },
   inherits: jsgtk.inherits,
-  inspect: jsgtk.inspect,
+  inspect: function inspect(what, how) {
+    if (!how) how = {};
+    return jsgtk.inspect(what, {
+      colors: hOP.call(how, 'colors') ? how.colors : false,
+      depth: hOP.call(how, 'depth') ?
+        (how.depth === null ? Infinity : how.depth) : 2,
+      showHidden: hOP.call(how, 'showHidden') ? !!how.showHidden : false
+    });
+  },
   log: function log(message) {
     var d = new Date();
     console.log([

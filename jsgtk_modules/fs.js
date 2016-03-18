@@ -27,21 +27,21 @@ const
   Stats = jsgtk.Class({
     constructor: function Stats(fd, info) {
       if (info) {
-        this.dev        = toInt(info, Gio.FILE_ATTRIBUTE_UNIX_DEVICE),
-        this.mode       = toInt(info, Gio.FILE_ATTRIBUTE_UNIX_MODE),
-        this.nlink      = toInt(info, Gio.FILE_ATTRIBUTE_UNIX_NLINK),
-        this.uid        = toInt(info, Gio.FILE_ATTRIBUTE_UNIX_UID),
-        this.gid        = toInt(info, Gio.FILE_ATTRIBUTE_UNIX_GID),
-        this.rdev       = toInt(info, Gio.FILE_ATTRIBUTE_UNIX_RDEV),
-        this.blksize    = toInt(info, Gio.FILE_ATTRIBUTE_UNIX_BLOCK_SIZE),
-        this.ino        = toInt(info, Gio.FILE_ATTRIBUTE_UNIX_INODE),
-        this.size       = info.get_size(),
-        this.blocks     = toInt(info, Gio.FILE_ATTRIBUTE_UNIX_BLOCKS),
-        this.atime      = toDate(info, 'FILE_ATTRIBUTE_TIME_ACCESS'),
-        this.mtime      = toDate(info, 'FILE_ATTRIBUTE_TIME_MODIFIED'),
-        this.ctime      = toDate(info, 'FILE_ATTRIBUTE_TIME_CHANGED'),
+        this.dev        = toInt(info, Gio.FILE_ATTRIBUTE_UNIX_DEVICE);
+        this.mode       = toInt(info, Gio.FILE_ATTRIBUTE_UNIX_MODE);
+        this.nlink      = toInt(info, Gio.FILE_ATTRIBUTE_UNIX_NLINK);
+        this.uid        = toInt(info, Gio.FILE_ATTRIBUTE_UNIX_UID);
+        this.gid        = toInt(info, Gio.FILE_ATTRIBUTE_UNIX_GID);
+        this.rdev       = toInt(info, Gio.FILE_ATTRIBUTE_UNIX_RDEV);
+        this.blksize    = toInt(info, Gio.FILE_ATTRIBUTE_UNIX_BLOCK_SIZE);
+        this.ino        = toInt(info, Gio.FILE_ATTRIBUTE_UNIX_INODE);
+        this.size       = info.get_size();
+        this.blocks     = toInt(info, Gio.FILE_ATTRIBUTE_UNIX_BLOCKS);
+        this.atime      = toDate(info, 'FILE_ATTRIBUTE_TIME_ACCESS');
+        this.mtime      = toDate(info, 'FILE_ATTRIBUTE_TIME_MODIFIED');
+        this.ctime      = toDate(info, 'FILE_ATTRIBUTE_TIME_CHANGED');
         this.birthtime  = toDate(info, 'FILE_ATTRIBUTE_TIME_CREATED') ||
-                          toDate(info, 'FILE_ATTRIBUTE_TIME_CHANGED')
+                          toDate(info, 'FILE_ATTRIBUTE_TIME_CHANGED');
       }
       defineProperties(this, {
         _fd: {value: fd},
@@ -137,7 +137,6 @@ module.exports = {
         }
         callback(null, list.sort());
       } catch(e) {
-        print(e);
         callback(e, null);
       }
     });

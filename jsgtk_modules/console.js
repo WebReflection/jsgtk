@@ -16,11 +16,13 @@ const
   YELLOW = '\x1b[0;33m',
   BOLD = '\x1b[1m',
   jsgtk = imports.jsgtk,
+  map = arg => typeof arg === 'string' ?
+    arg : jsgtk.inspect(arg),
   show = (fn, pre, args, post) => {
     fn(pre + (
       /%[sdxf]/.test(args[0]) ?
         GFormat.vprintf(args[0], args.slice(1)) :
-        args.map(jsgtk.inspect).join(',\n')
+        args.map(map).join(',\n')
     ) + post);
   }
 ;

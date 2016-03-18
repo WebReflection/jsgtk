@@ -26,6 +26,10 @@
     trim = String.prototype.trim
   ;
 
+  function colored(what, color, how) {
+    return how.colors ? (color + what + RESET) : what;
+  }
+
   function inherits(Constructor, Super) {
     Constructor.super_ = Super;
     Constructor.prototype = create(Super.prototype, {
@@ -38,65 +42,82 @@
     });
   }
 
-  function inspectArray(obj, tab, wm) {
+  function inspectArray(obj, tab, wm, how, d) {
     let
       out = ['['],
       t = Array(tab + 1).join('  ')
     ;
     obj.forEach((value, i) => {
-      out.push(i ? ('\n' + t) : ' ', $inspect(value, tab, wm), ',');
+      out.push('\n', t, $inspect(value, tab, wm, how, d), ',');
     });
-    out.pop();
-    out.push(' ]');
+    if (out.length > 1) {
+      out.pop();
+      out.push('\n', Array(tab).join('  '), ']');
+    } else {
+      out.push(']');
+    }
     return out.join('');
   }
 
-  function inspectObject(obj, tab, wm) {
+  function inspectObject(obj, tab, wm, how, d) {
     let
       out = ['{'],
-      t = Array(tab + 1).join('  ')
+      t = Array(tab + 1).join('  '),
+      simple = /^[a-zA-Z$_]+[a-zA-Z0-9$_]*$/
     ;
-    Object.keys(obj).forEach((key, i) => {
-      out.push(i ? ('\n' + t) : ' ', key, ': ', $inspect(obj[key], tab, wm), ',');
+    (how.showHidden ?
+      Object.getOwnPropertyNames :
+      Object.keys
+    )(obj).forEach((key, i) => {
+      out.push('\n', t,
+        simple.test(key) ?
+          key : colored(JSON.stringify(key), GREEN, how),
+        ': ',
+        $inspect(obj[key], tab, wm, how, d),
+      ',');
     });
-    out.pop();
-    out.push(' }');
+    if (out.length > 1) {
+      out.pop();
+      out.push('\n', Array(tab).join('  '), '}');
+    } else {
+      out.push('}');
+    }
     return out.join('');
   }
 
-  function $inspect(obj, tab, wm) {
+  function $inspect(obj, tab, wm, how, d) {
     switch (typeof obj) {
       case 'boolean':
       case 'number':
-        return YELLOW + String(obj) + RESET;
+        return colored(String(obj), YELLOW, how);
       case 'function':
-        if (wm.has(obj)) {
-          return CYAN + '[Circular]' + RESET;
-        } else {
-          wm.set(obj, true);
-          return CYAN +
-            '[Function' + (obj.name ? (': ' + obj.name) : '') + ']' +
-          RESET;
-        }
+        return -1 < wm.indexOf(obj) ?
+          colored('[Circular]', CYAN, how) :
+          (wm.push(obj), colored(
+            '[Function' + (
+              obj.name ? (': ' + obj.name) : ''
+            ) + ']', CYAN, how
+          ));
       case 'object':
-        if (obj) {
-          if (wm.has(obj)) {
-            return CYAN + '[Circular]' + RESET;
-          } else {
-            wm.set(obj, true);
-            return Array.isArray(obj) ?
-              inspectArray(obj, tab + 1, wm) :
-              inspectObject(obj, tab + 1, wm);
-          }
-        } else {
-          return 'null';
-        }
+        return obj ? (
+          -1 < wm.indexOf(obj) ?
+            colored('[Circular]', CYAN, how) :
+            (wm.push(obj),
+              (d <= how.depth ?
+                (Array.isArray(obj) ? inspectArray : inspectObject)
+                (obj, tab + 1, wm, how, d + 1) :
+                (Array.isArray(obj) ?
+                  colored('[Array]', CYAN, how) :
+                  colored('[Object]', CYAN, how))
+              )
+            )
+        ) : 'null';
       case 'string':
-        return GREEN + JSON.stringify(obj) + RESET;
+        return colored(JSON.stringify(obj), GREEN, how);
       case 'symbol':
-        return YELLOW + String(obj) + RESET;
+        return colored(String(obj), YELLOW, how);
       case 'undefined':
-        return GREY + String(obj) + RESET;
+        return colored(String(obj), GREY, how);
     }
     return 'unknown';
   }
@@ -124,8 +145,18 @@
   exports.inherits = inherits;
 
   // same function used in util
-  exports.inspect = function inspect(obj) {
-    return $inspect(obj, 0, new WeakMap());
+  exports.inspect = function inspect(what, how) {
+    return $inspect(
+      what,
+      0,
+      [],
+      how || {
+        colors: false,
+        depth: Infinity,
+        showHidden: false
+      },
+      0
+    );
   };
 
   // utility to slice.apply(0, arguments)
