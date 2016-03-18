@@ -9,13 +9,14 @@
 /* global imports */
 
 const
-  GLib = imports.gi.GLib
+  GLib = imports.gi.GLib,
+  Buffer = require('buffer').Buffer
 ;
 
 module.exports = {
   randomBytes: function randomBytes(size) {
-    let out = [];
-    while (size--) out.push(('0' + (GLib.random_int()).toString(16)).slice(-2));
-    return out.join('');
+    let chars = new Buffer(size);
+    while (size--) chars[size] = GLib.random_int_range(0, 255);
+    return chars;
   }
 };

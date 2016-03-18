@@ -17,13 +17,13 @@ const
   GLib = imports.gi.GLib,
   GFormat = imports.format,
   jsgtk = imports.jsgtk,
-  map = arg => typeof arg === 'string' ?
+  inspect = arg => typeof arg === 'string' ?
     arg : jsgtk.inspect(arg),
   show = (fn, pre, args, post) => {
     fn(pre + (
       /%[sdxf]/.test(args[0]) ?
         GFormat.vprintf(args[0], args.slice(1)) :
-        args.map(map).join(',\n')
+        args.map(inspect).join(' ')
     ) + post);
   },
   timers = Object.create(null)

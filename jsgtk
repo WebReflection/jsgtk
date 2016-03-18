@@ -81,6 +81,7 @@
 
     // all core modules, loaded from the distribution folder
     core = [
+      'buffer',
       'child_process',
       'console',
       'crypto',
@@ -393,12 +394,12 @@
   imports.searchPath.push([PROGRAM_DIR, 'jsgtk_modules'].join(DIR_SEPARATOR));
 
   // global normalization
+  if (!Object.setPrototypeOf) Object.setPrototypeOf = setPrototypeOf;
   const
     process = core.process,
     console = core.console,
     timers =  core.timers
   ;
-
   global.process = process;
   global.console = console;
   getOwnPropertyNames(timers).forEach(key => global[key] = timers[key]);

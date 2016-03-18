@@ -10,9 +10,9 @@ fi
 
 echo ""
 echo -e "$(tput bold)# NodeJS ########################################$(tput sgr0)"
-node $@
+time node $@
 
 echo ""
 echo -e "$(tput bold)# JSGtk #########################################$(tput sgr0)"
-${DIR}/jsgtk $@
+time ${DIR}/jsgtk $@
 echo ""

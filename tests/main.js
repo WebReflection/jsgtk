@@ -1,4 +1,63 @@
+#!/usr/bin/env jsgtk
+
 [
+  function crypto() {
+    const buf = require('crypto').randomBytes(256);
+    return [buf.length, !/^0+$/.test(buf.toString('hex'))].join(',');
+  },
+  function buffer() {
+    const Buffer = require('buffer').Buffer;
+    return [
+
+      new Buffer('aGVsbG8gd29ybGQ=', 'base64').toString('ascii'),
+      new Buffer('aGVsbG8gd29ybGQ=', 'base64').toString('base64'),
+      new Buffer('aGVsbG8gd29ybGQ=', 'base64').toString('binary'),
+      new Buffer('aGVsbG8gd29ybGQ=', 'base64').toString('hex'),
+      new Buffer('aGVsbG8gd29ybGQ=', 'base64').toString('utf8'),
+      new Buffer('aGVsbG8gd29ybGQ=', 'base64').toString(),
+
+      new Buffer('7468697320697320612074c3a97374', 'hex').toString('ascii'),
+      new Buffer('7468697320697320612074c3a97374', 'hex').toString('base64'),
+      new Buffer('7468697320697320612074c3a97374', 'hex').toString('binary'),
+      new Buffer('7468697320697320612074c3a97374', 'hex').toString('hex'),
+      new Buffer('7468697320697320612074c3a97374', 'hex').toString('utf8'),
+      new Buffer('7468697320697320612074c3a97374', 'hex').toString(),
+
+      new Buffer([1,2,3]).toString('ascii'),
+      new Buffer([1,2,3]).toString('base64'),
+      new Buffer([1,2,3]).toString('binary'),
+      new Buffer([1,2,3]).toString('hex'),
+      new Buffer([1,2,3]).toString('utf8'),
+      new Buffer([1,2,3]).toString(),
+
+      new Buffer('test', 'utf8').toString('ascii'),
+      new Buffer('test', 'utf8').toString('base64'),
+      new Buffer('test', 'utf8').toString('binary'),
+      new Buffer('test', 'utf8').toString('hex'),
+      new Buffer('test', 'utf8').toString('utf8'),
+      new Buffer('test', 'utf8').toString(),
+
+      new Buffer('tést', 'utf8').toString('ascii'),
+      new Buffer('tést', 'utf8').toString('base64'),
+      new Buffer('tést', 'utf8').toString('binary'),
+      new Buffer('tést', 'utf8').toString('hex'),
+      new Buffer('tést', 'utf8').toString('utf8'),
+      new Buffer('tést', 'utf8').toString(),
+
+      new Buffer('test').toString('ascii'),
+      new Buffer('test').toString('base64'),
+      new Buffer('test').toString('binary'),
+      new Buffer('test').toString('hex'),
+      new Buffer('test').toString('utf8'),
+
+      new Buffer('tést').toString('ascii'),
+      new Buffer('tést').toString('base64'),
+      new Buffer('tést').toString('binary'),
+      new Buffer('tést').toString('hex'),
+      new Buffer('tést').toString('utf8')
+
+    ].join(',');
+  },
   function pathFormat() {
     return [
       require('path').format({
