@@ -116,7 +116,7 @@ const
                 internal: RegExp.$1 === '127.0.0.1'
               });
               break;
-            case /inet6\s+((?:\S{0,2}:)+\S{1,2}).+?prefixlen\s+(\d+)/.test(line):
+            case /inet6\s+((?:\S{0,4}:)+\S{1,4}).+?prefixlen\s+(\d+)/.test(line):
               iface.push({
                 address: RegExp.$1,
                 netmask: getIPv6Subnet(RegExp.$2),
