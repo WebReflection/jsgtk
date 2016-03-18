@@ -9,12 +9,13 @@
 /* global imports, print, printerr */
 
 const
-  GFormat = imports.format,
   RESET = '\x1b[0m',
   RED = '\x1b[0;31m',
   GREEN = '\x1b[0;32m',
   YELLOW = '\x1b[0;33m',
   BOLD = '\x1b[1m',
+  GLib = imports.gi.GLib,
+  GFormat = imports.format,
   jsgtk = imports.jsgtk,
   map = arg => typeof arg === 'string' ?
     arg : jsgtk.inspect(arg),
@@ -24,7 +25,8 @@ const
         GFormat.vprintf(args[0], args.slice(1)) :
         args.map(map).join(',\n')
     ) + post);
-  }
+  },
+  timers = Object.create(null)
 ;
 
 module.exports = {
@@ -56,6 +58,14 @@ module.exports = {
       jsgtk.slice.apply(0, arguments),
       ''
     );
+  },
+  time: function time(name) {
+    timers[name] = GLib.get_real_time();
+  },
+  timeEnd: function timeEnd(name) {
+    let result = (GLib.get_real_time() - timers[name]) / 1000;
+    delete timers[name];
+    console.log(name + ': ' + result + 'ms');
   },
   warn: function warn(what, why) {
     show(
