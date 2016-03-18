@@ -8,33 +8,42 @@
 /* jshint esversion: 6, strict: implied, node: true */
 /* global imports, unescape, escape */
 
+// TODO: the utf16le or the conversion is somehow screwed
+
 const
   GLib = imports.gi.GLib,
   map = Array.prototype.map,
   defineProperty = Object.defineProperty,
   hOP = Object.prototype.hasOwnProperty,
+  fromCharCode = String.fromCharCode,
   charCode = c => c.charCodeAt(0),
   toUTF16 = s => unescape(encodeURIComponent(s)),
   toUTF8 = s => decodeURIComponent(escape(s)),
+  toBuffer = s => toUTF16(s).split('').map(charCode),
+  utf16le = {
+    fromString: toBuffer,
+    toString: (a) => {
+      const out = [];
+      for(let i = 0; i < a.length; i += 2)
+        out.push(a[i] | (a[i + 1] << 8));
+      return fromCharCode.apply(null, out);
+    }
+  },
   ENCODINGS = {
     ascii: {
       map: c => c & 0x7F,
-      fromString: function (s) { return toUTF16(s).split('').map(charCode); },
-      toString: function (a) { return String.fromCharCode.apply(null, map.call(a, this.map)); }
+      fromString: toBuffer,
+      toString: function (a) {
+        return fromCharCode.apply(null, map.call(a, this.map));
+      }
     },
-    utf8: {
-      fromString: function (s) { return toUTF16(s).split('').map(charCode); },
-      toString: function (a) { return toUTF8(String.fromCharCode.apply(null, a)); }
-    },
-    // utf16le: {},
-    // ucs2: {},
     base64: {
       fromString: s => GLib.base64_decode(s),
       toString: a => GLib.base64_encode(a)
     },
     binary: {
       fromString: s => s.split(''),
-      toString: a => String.fromCharCode.apply(null, a)
+      toString: a => fromCharCode.apply(null, a)
     },
     hex: {
       map: i => ('0' + i.toString(16)).slice(-2),
@@ -47,7 +56,13 @@ const
       toString: function (a) {
         return map.call(a, this.map).join('');
       }
-    }
+    },
+    ucs2: utf16le,
+    utf8: {
+      fromString: toBuffer,
+      toString: (a) => toUTF8(fromCharCode.apply(null, a))
+    },
+    utf16le: utf16le
   },
   target = (parent, u8a, key) => {
     switch (key) {
