@@ -286,6 +286,7 @@ module.exports = {
     }
   },
   freemem: op.freemem,
+  getInterfaceAddresses: op.networkInterfaces,
   homedir: function getHomeDirectory() {
     return GLib.get_home_dir();
   },
