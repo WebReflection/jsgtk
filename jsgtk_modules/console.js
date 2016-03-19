@@ -16,7 +16,7 @@ const
   BOLD = '\x1b[1m',
   GLib = imports.gi.GLib,
   GFormat = imports.format,
-  jsgtk = imports.jsgtk,
+  jsgtk = process.binding('jsgtk'),
   inspect = arg => typeof arg === 'string' ?
     arg : jsgtk.inspect(arg),
   show = (fn, pre, args, post) => {

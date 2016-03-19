@@ -12,9 +12,7 @@ const
 
   GFormat = imports.format,
 
-  jsgtk = imports.jsgtk,
-
-  console = require('console'),
+  jsgtk = process.binding('jsgtk'),
 
   create = Object.create,
   hOP = Object.prototype.hasOwnProperty,

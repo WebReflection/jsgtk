@@ -11,7 +11,6 @@
 const
 
   gi = imports.gi,
-  jsgtk = imports.jsgtk,
   ByteArray = imports.byteArray,
 
   Gio = gi.Gio,
@@ -19,6 +18,7 @@ const
   GType = Gio.FileType,
   MainLoop = gi.GLib.MainLoop,
 
+  jsgtk = process.binding('jsgtk'),
   system = jsgtk.system,
 
   defineProperties = Object.defineProperties,

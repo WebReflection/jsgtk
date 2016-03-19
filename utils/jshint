@@ -5,6 +5,15 @@ if [ "${DIR:${#DIR}-6}" == "/utils" ]; then
   DIR="${DIR}/.."
 fi
 
-for file in $(ls $DIR/jsgtk_modules); do
-  ${DIR}/node_modules/.bin/jshint $DIR/jsgtk_modules/$file
-done
+jshintDir() {
+  echo -e "  $1/*"
+  for file in $(ls $1); do
+    ${DIR}/node_modules/.bin/jshint $1/$file
+  done
+}
+
+echo ''
+echo -e "$(tput bold)jshint$(tput sgr0)"
+jshintDir $DIR/jsgtk_modules/jsgtk
+jshintDir $DIR/jsgtk_modules
+echo ''

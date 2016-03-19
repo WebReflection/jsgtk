@@ -398,12 +398,10 @@
   // global normalization
   if (!Object.setPrototypeOf) Object.setPrototypeOf = setPrototypeOf;
   const
-    process = core.process,
-    console = core.console,
+    process = (global.process = core.process),
+    console = (global.console = core.console),
     timers =  core.timers
   ;
-  global.process = process;
-  global.console = console;
   getOwnPropertyNames(timers).forEach(key => global[key] = timers[key]);
 
   if (process.argv.length > 1) {

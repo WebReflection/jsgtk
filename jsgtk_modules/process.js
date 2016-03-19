@@ -43,6 +43,7 @@ module.exports = {
     }
     return argv;
   })(),
+  binding: (which) => imports.jsgtk[which],
   cwd: () => CURRENT_DIR,
   env: ((arr) => {
     const env = {};
