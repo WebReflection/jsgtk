@@ -90,9 +90,11 @@
       'os',
       'path',
       'process',
+      'punycode',
       'querystring',
       'stream',
       'timers',
+      'url',
       'util'
     ].reduce(
       (core, id) => Object.defineProperty(core, id, {
