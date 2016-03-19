@@ -66,6 +66,8 @@
 
     // common utilities shortcuts
     create = Object.create,
+    defineProperty = Object.defineProperty,
+    defineProperties = Object.defineProperties,
     getOwnPropertyNames = Object.getOwnPropertyNames,
     getPrototypeOf = Object.getPrototypeOf,
     setPrototypeOf = Object.setPrototypeOf || (function (set) {
@@ -97,7 +99,7 @@
       'url',
       'util'
     ].reduce(
-      (core, id) => Object.defineProperty(core, id, {
+      (core, id) => defineProperty(core, id, {
         configurable: true,
         get: () => {
           delete core[id];
@@ -113,6 +115,60 @@
     // all external modules loaded through few filesystem operations
     modules = create(null)
 
+  ;
+
+  // simplified Gtk objects events handling
+  // in a node.js fashion
+  const
+    weakEmitters = new WeakMap,
+    emitterDescriptors = {
+      addListener: {value: function addListener(type, handler) {
+        return emitterDescriptors.on.value.call(this, type, handler);
+      }},
+      emit: {value: function emit(type, ...args) {
+        let info = weakEmitters.get(this);
+        if (!info) return false;
+        let tinfo = info[type];
+        if (!tinfo) return false;
+        tinfo.k.forEach((handler) => handler.apply(this, args));
+        return true;
+      }},
+      on: {value: function on(type, handler) {
+        let info = weakEmitters.get(this);
+        if (!info) weakEmitters.set(this, info = Object.create(null));
+        let
+          tinfo = info[type] || (info[type] = {k: [], v: []}),
+          i = tinfo.k.indexOf(handler)
+        ;
+        if (i < 0) {
+          i = tinfo.k.push(handler) - 1;
+          tinfo.v[i] = this.connect(type, handler);
+        }
+        global.LASTFN = handler;
+        return this;
+      }},
+      once: {value: function once(type, handler) {
+        let tmp = function () {
+          emitterDescriptors.removeListener.value.call(this, type, tmp);
+          handler.apply(this, arguments);
+        }.bind(this);
+        emitterDescriptors.on.value.call(this, type, tmp);
+        return this;
+      }},
+      removeListener: {value: function removeListener(type, handler) {
+        let info = weakEmitters.get(this);
+        if (!info) return this;
+        let tinfo = info[type];
+        if (!tinfo) return this;
+        let i = tinfo.k.indexOf(handler);
+        if (i < 0) return this;
+        this.disconnect(tinfo.v[i]);
+        tinfo.k.splice(i, 1);
+        tinfo.v.splice(i, 1);
+        if (tinfo.k.length < 1) delete info[type];
+        return this;
+      }}
+    }
   ;
 
 
@@ -178,18 +234,22 @@
     return target;
   }
 
-  // handle results and wrap them
+  // handle results and wrap them once
+  const weakWraps = new WeakMap;
   function wrapResult(result) {
-    return typeof result === 'function' ?
-      function () {
+    if (typeof result === 'function') {
+      let wrap = weakWraps.get(result);
+      if (!wrap) weakWraps.set(result, wrap = function () {
         const a = [];
         for (let i = 0, l = arguments.length; i < l; i++) {
           a[i] = getTheRightObject(arguments[i]);
         }
         D&&a.length&&BUG('GTK ARGUMENTS', giArguments(a));
         return wrapResult(result.apply(this, a));
-      } :
-      result;
+      });
+      return wrap;
+    }
+    return result;
   }
 
   // invoked once per module
@@ -250,6 +310,8 @@
                 }
               })
             ;
+            if ('connect' in prototype)
+              defineProperties(prototype, emitterDescriptors);
             setPrototypeOf(prototype, proxy);
             return new Proxy(child, {
               has: hasChild,
@@ -397,12 +459,20 @@
 
   // global normalization
   if (!Object.setPrototypeOf) Object.setPrototypeOf = setPrototypeOf;
+  if (!Object.getOwnPropertySymbols) Object.getOwnPropertySymbols =
+    function getOwnPropertySymbols(){ return []; };
+
+  // node normalization
   const
     process = (global.process = core.process),
     console = (global.console = core.console),
     timers =  core.timers
   ;
-  getOwnPropertyNames(timers).forEach(key => global[key] = timers[key]);
+  global.clearInterval = timers.clearInterval;
+  global.clearTimeout = timers.clearTimeout;
+  global.setInterval = timers.setInterval;
+  global.setTimeout = timers.setTimeout;
+  defineProperty(global, 'global', {enumerable: true, value: global});
 
   if (process.argv.length > 1) {
     requireWithPath(process.argv[1], CURRENT_DIR);

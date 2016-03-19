@@ -3,6 +3,11 @@
 let
   argv = process.argv.slice(2),
   Gtk = require('Gtk'),
+  darkTheme = (choice) => {
+    let gtkSettings = Gtk.Settings.getDefault();
+    gtkSettings.gtkApplicationPreferDarkTheme = choice;
+    gtkSettings.gtkThemeName = 'Adwaita';
+  },
   win
 ;
 
@@ -14,30 +19,24 @@ win = new Gtk.Window({
   windowPosition: Gtk.WindowPosition.CENTER
 });
 
-// Setting up optional Dark theme (gotta love it!)
-// ./browser.js google.com --dark
 if (argv.some(info => info === '--dark')) {
-  let gtkSettings = Gtk.Settings.getDefault();
-  gtkSettings.gtkApplicationPreferDarkTheme = true;
-  gtkSettings.gtkThemeName = 'Adwaita';
+  darkTheme(true);
 } else if(argv.some(info => info === '--light')) {
-  let gtkSettings = Gtk.Settings.getDefault();
-  gtkSettings.gtkApplicationPreferDarkTheme = false;
-  gtkSettings.gtkThemeName = 'Adwaita';
+  darkTheme(false);
 }
 
-win.connect('show', () => {
-  win.setKeepAbove(true);
-  setTimeout(() => {
-    win.setKeepAbove(false);
-    win.grabFocus();
-  }, 100);
-  Gtk.main();
-});
-win.connect('destroy', Gtk.mainQuit);
+win
+  .once('show', () => {
+    win.setKeepAbove(true);
+    setTimeout(() => {
+      win.setKeepAbove(false);
+      win.grabFocus(); // TODO: ignored in OSX ?
+    }, 100);
+    Gtk.main();
+  })
+  .on('destroy', Gtk.mainQuit)
+  .add(new Gtk.Label({label: 'Hello jsGtk+'}))
+;
 
 win.setDefaultSize(200, 80);
-
-win.add(new Gtk.Label({label: 'Hello jsGtk+'}));
-
 win.showAll();
