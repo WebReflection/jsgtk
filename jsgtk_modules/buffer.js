@@ -72,6 +72,27 @@ const
         return parent;
     }
     return u8a;
+  },
+  bufferProxy = {
+    isExtensible: () => false,
+    get: (parent, key, receiver) => {
+      switch (key) {
+        case 'buffer':
+        case 'constructor':
+        case 'toString':
+          return parent[key];
+      }
+      return parent.buffer[key];
+    },
+    set: (parent, key, value, receiver) => {
+      switch (key) {
+        case 'buffer':
+        case 'constructor':
+        case 'toString':
+          parent[key] = value;
+      }
+      parent.buffer[key] = value;
+    }
   }
 ;
 
@@ -94,16 +115,10 @@ function Buffer(data, encoding) {
       u8a = new Uint8Array();
       break;
   }
-  defineProperty(this, 'buffer', {get: () => u8a});
-  return new Proxy(this, {
-    isExtensible: () => false,
-    get: (parent, key, receiver) => {
-      return target(parent, u8a, key)[key];
-    },
-    set: (parent, key, value, receiver) => {
-      target(parent, u8a, key)[key] = value;
-    }
-  });
+  return new Proxy(
+    defineProperty(this, 'buffer', {get: () => u8a}),
+    bufferProxy
+  );
 }
 
 Buffer.isBuffer = function isBuffer(obj) {
