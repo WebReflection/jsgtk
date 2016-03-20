@@ -6,14 +6,18 @@ if [ "${DIR:${#DIR}-6}" == "/utils" ]; then
 fi
 
 jshintDir() {
-  echo -e "  $1/*"
+  echo -e "$2$(tput bold)$1/*$(tput sgr0)"
   for file in $(ls $1); do
-    ${DIR}/node_modules/.bin/jshint $1/$file
+    if [ -d $1/$file ]; then
+      jshintDir $1/$file "$2$2"
+    else
+      echo "$2  └─  $1/$file"
+      ${DIR}/node_modules/.bin/jshint $1/$file
+    fi
   done
 }
 
 echo ''
 echo -e "$(tput bold)jshint$(tput sgr0)"
-jshintDir $DIR/jsgtk_modules/jsgtk
-jshintDir $DIR/jsgtk_modules
+jshintDir $DIR/jsgtk_modules '  '
 echo ''

@@ -4,6 +4,6 @@
 
 (function (exports) {'use strict';
 
-  exports.JSGTK = 1;
+  exports.JSGTK = true;
 
 }(this));

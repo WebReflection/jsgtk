@@ -28,23 +28,16 @@
 
   const
 
-    // the only way to retrieve GJS global reference
-    global = Function('return this')(),
-
-    // to debug all steps, pas --debug
-    D = ARGV.some(value => value === '--debug'),
-    BUG = D && function () {
-      print(Array.prototype.join.call(arguments, ' '));
-    },
-
-    // GJS common shortcuts
     gi = imports.gi,
-    Gio = gi.Gio,
-    GFile = Gio.File,
     GLib = gi.GLib,
+    GFile = gi.Gio.File,
+
+    // apparently the only way to retrieve GJS global reference
+    global = Function('return this')(),
 
     CURRENT_DIR = GLib.get_current_dir(),
     DIR_SEPARATOR = /\//.test(CURRENT_DIR) ? '/' : '\\',
+    PROGRAM_NAME = imports.system.programInvocationName,
     PROGRAM_DIR = ((exe) => {
       let
         dir = exe.slice(0, -(1 + GLib.path_get_basename(exe).length)),
@@ -56,7 +49,33 @@
         dir = path.join(DIR_SEPARATOR);
       }
       return dir;
-    })(GFile.new_for_path(imports.system.programInvocationName).get_path()),
+    })(GFile.new_for_path(PROGRAM_NAME).get_path())
+  ;
+
+  imports.searchPath.push([PROGRAM_DIR, 'jsgtk_modules'].join(DIR_SEPARATOR));
+
+  Object.defineProperties(
+    imports.jsgtk.constants,
+    {
+      global: {enumerable: true, value: global},
+      CURRENT_DIR: {enumerable: true, value: CURRENT_DIR},
+      DIR_SEPARATOR: {enumerable: true, value: DIR_SEPARATOR},
+      PROGRAM_NAME: {enumerable: true, value: PROGRAM_NAME},
+      PROGRAM_DIR: {enumerable: true, value: PROGRAM_DIR}
+    }
+  );
+
+
+  const
+
+    // to debug all steps, pas --debug
+    D = ARGV.some(value => value === '--debug'),
+    BUG = D && function () {
+      print(Array.prototype.join.call(arguments, ' '));
+    },
+
+    // GJS common shortcuts
+    Gio = gi.Gio,
 
     // commonly used RegExp
     CONSTANT_CASE = /^[A-Z_]+$/,
@@ -80,44 +99,15 @@
     // MODULES => each of them has different loading logic
 
     // all core modules, loaded from the distribution folder
-    core = [
-      'buffer',
-      'child_process',
-      'console',
-      'crypto',
-      'events',
-      'fs',
-      'os',
-      'path',
-      'process',
-      'punycode',
-      'querystring',
-      'stream',
-      'timers',
-      'url',
-      'util'
-    ].reduce(
-      (core, id) => defineProperty(core, id, {
-        configurable: true,
-        get: () => {
-          delete core[id];
-          return getCoreModule(id);
-        }
-      }),
-      create(null)
-    ),
+    core = imports.jsgtk.core_modules.withRuntime(evaluateModule),
 
     // all Gtk and GLib loaded in memory via require
     gtk = create(null),
 
     // all external modules loaded through few filesystem operations
-    modules = create(null)
+    modules = imports.jsgtk.node_modules.withRuntime(evaluateModule)
 
   ;
-
-  // in order to be able to import common jsgtk utilities
-  // within node.js like modules
-  imports.searchPath.push([PROGRAM_DIR, 'jsgtk_modules'].join(DIR_SEPARATOR));
 
   let hybrid_emitter;
 
@@ -294,79 +284,11 @@
     }
   }
 
-  // core modules are loaded from a different, known, path
-  function getCoreModule(id) {
-    let fd = GFile.new_for_path(getCoreModulePath(id));
-    return evaluateModule(core, id, fd.get_path(), fd);
-  }
-  function getCoreModulePath(module) {
-    return [
-      PROGRAM_DIR,
-      'jsgtk_modules',
-      module + '.js'
-    ].join(DIR_SEPARATOR);
-  }
-
   // Gtk modules loaded in memory
   function getGtkModule(parent, module) {
     return gtk[module] || (
       gtk[module] = createModule(parent, module)
     );
-  }
-
-  // external modules requires more operations
-  function getModulesModule(module, dir) {
-    let
-      fd = getModuleFile(module, dir),
-      id = fd.get_path()
-    ;
-    return evaluateModule(modules, id, id, fd);
-  }
-
-  function grabModuleFD(path) {
-    let fd = GFile.new_for_path(path);
-    if (fd.query_exists(null)) {
-      switch (fd.query_file_type(Gio.FileQueryInfoFlags.NONE, null)) {
-        case Gio.FileType.REGULAR: return fd;
-        case Gio.FileType.DIRECTORY:
-          fd = GFile.new_for_path(path + DIR_SEPARATOR + 'package.json');
-          if (fd.query_exists(null)) {
-            let content = JSON.parse(trim.call(fd.load_contents(null)[1]));
-            fd = GFile.new_for_path(path + DIR_SEPARATOR + content.main);
-            if (fd.query_exists(null)) return fd;
-          } else {
-            fd = GFile.new_for_path(path + DIR_SEPARATOR + 'main.js');
-            if (fd.query_exists(null)) return fd;
-          }
-      }
-    }
-    return null;
-  }
-
-  function getModuleFile(path, dir) {
-    let fd;
-    switch (true) {
-      case GLib.path_is_absolute(path):
-        fd = grabModuleFD(path);
-        if (fd) {
-          return fd;
-        } else if (path.slice(-3) !== '.js') {
-          fd = GFile.new_for_path(path + '.js');
-          if (fd.query_exists(null)) return fd;
-        }
-        throw new Error('unable to find ' + path);
-      case '.' === path[0]:
-        return getModuleFile(dir + DIR_SEPARATOR + path);
-      default:
-        let tmp = GFile.new_for_path(dir);
-        do {
-          fd = grabModuleFD([
-            tmp.get_path(), 'node_modules', path
-          ].join(DIR_SEPARATOR));
-          if (fd) return fd;
-        } while((tmp = tmp.get_parent()));
-        throw new Error('unable to find ' + path);
-    }
   }
 
   function evaluateModule(nmsp, unique, id, fd) {
@@ -402,10 +324,10 @@
     switch (true) {
       case PascalCase.test(module):
         return getGtkModule(gi, module);
-      case module in core:
-        return core[module];
+      case core.has(module):
+        return core.get(module);
       default:
-        return modules[module] || getModulesModule(module, dir);
+        return modules.get(module) || modules.load(module, dir);
     }
   }
 
@@ -416,9 +338,9 @@
 
   // node normalization
   const
-    process = (global.process = core.process),
-    console = (global.console = core.console),
-    timers =  core.timers
+    process = (global.process = core.get('process')),
+    console = (global.console = core.get('console')),
+    timers =  core.get('timers')
   ;
   global.clearInterval = timers.clearInterval;
   global.clearTimeout = timers.clearTimeout;
