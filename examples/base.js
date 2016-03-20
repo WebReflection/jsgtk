@@ -1,3 +1,5 @@
+#!/usr/bin/env jsgtk
+
 // if you have installed jsgtk globally via npm
 // you can simply run: jsgtk base.js
 console.info('Hello jsGtk+');
