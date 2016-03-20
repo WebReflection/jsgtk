@@ -19,7 +19,7 @@ const
   EOL = process.platform === 'win32' ? '\r\n' : '\n',
   NOMAC = '00:00:00:00:00:00',
 
-  system = process.binding('jsgtk').system,
+  system = process.binding('util').system,
 
   trim = String.prototype.trim,
 

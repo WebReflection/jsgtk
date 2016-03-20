@@ -12,7 +12,7 @@ const
 
   GFormat = imports.format,
 
-  jsgtk = process.binding('jsgtk'),
+  util = process.binding('util'),
 
   create = Object.create,
   hOP = Object.prototype.hasOwnProperty,
@@ -32,12 +32,12 @@ module.exports = {
     };
   },
   format: function format() {
-    return GFormat.vprintf(arguments[0], jsgtk.slice.apply(1, arguments));
+    return GFormat.vprintf(arguments[0], util.slice.apply(1, arguments));
   },
-  inherits: jsgtk.inherits,
+  inherits: util.inherits,
   inspect: function inspect(what, how) {
     if (!how) how = {};
-    return jsgtk.inspect(what, {
+    return util.inspect(what, {
       colors: hOP.call(how, 'colors') ? how.colors : false,
       depth: hOP.call(how, 'depth') ?
         (how.depth === null ? Infinity : how.depth) : 2,

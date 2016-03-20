@@ -12,7 +12,7 @@ const
 
   GLib = imports.gi.GLib,
 
-  Class = process.binding('jsgtk').Class,
+  Class = process.binding('util').Class,
 
   CURRENT_DIR = GLib.get_current_dir(),
 

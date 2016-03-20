@@ -14,7 +14,7 @@ const
   GLib = gi.GLib,
   GFile = gi.Gio.File,
 
-  slice = process.binding('jsgtk').slice
+  slice = process.binding('util').slice
 
 ;
 

@@ -148,6 +148,7 @@
         if(D)BUG('[WARNING] UNHANDLED', property);
         return child;
     }
+    return null;
   }
 
   function getGtkModule(parent, module) {

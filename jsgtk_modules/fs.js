@@ -18,13 +18,13 @@ const
   GType = Gio.FileType,
   MainLoop = gi.GLib.MainLoop,
 
-  jsgtk = process.binding('jsgtk'),
-  system = jsgtk.system,
+  util = process.binding('util'),
+  system = util.system,
 
   defineProperties = Object.defineProperties,
   trim = String.prototype.trim,
 
-  Stats = jsgtk.Class({
+  Stats = util.Class({
     constructor: function Stats(fd, info) {
       if (info) {
         this.dev        = toInt(info, Gio.FILE_ATTRIBUTE_UNIX_DEVICE);

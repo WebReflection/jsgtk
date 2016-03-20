@@ -40,10 +40,8 @@
   function addListenerNative(type, handler) {
     /* jshint validthis: true */
     try {
-      // dunno how signals work so ...
       return this.connect(type, handler);
     } catch(meh) {
-      // if it fails gonna be less than Infinity
       return Infinity;
     }
   }

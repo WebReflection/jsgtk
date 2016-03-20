@@ -13,7 +13,7 @@ const
   GLib = imports.gi.GLib,
   ByteArray = imports.byteArray,
 
-  Class = process.binding('jsgtk').Class,
+  Class = process.binding('util').Class,
 
   EventEmitter = require('events').EventEmitter,
 

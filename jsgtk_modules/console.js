@@ -16,9 +16,9 @@ const
   BOLD = '\x1b[1m',
   GLib = imports.gi.GLib,
   GFormat = imports.format,
-  jsgtk = process.binding('jsgtk'),
+  util = process.binding('util'),
   inspect = arg => typeof arg === 'string' ?
-    arg : jsgtk.inspect(arg),
+    arg : util.inspect(arg),
   show = (fn, pre, args, post) => {
     fn(pre + (
       /%[sdxf]/.test(args[0]) ?
@@ -41,7 +41,7 @@ module.exports = {
     show(
       printerr,
       RED + BOLD + '[ERROR]' + RESET + ' ' + RED,
-      jsgtk.slice.apply(0, arguments),
+      util.slice.apply(0, arguments),
       RESET
     );
   },
@@ -49,7 +49,7 @@ module.exports = {
     show(
       print,
       GREEN + BOLD + '[INFO]' + RESET + ' ' + BOLD,
-      jsgtk.slice.apply(0, arguments),
+      util.slice.apply(0, arguments),
       RESET
     );
   },
@@ -57,7 +57,7 @@ module.exports = {
     show(
       print,
       '',
-      jsgtk.slice.apply(0, arguments),
+      util.slice.apply(0, arguments),
       ''
     );
   },
@@ -73,7 +73,7 @@ module.exports = {
     show(
       print,
       YELLOW + BOLD + '[WARNING]' + RESET + ' ' + YELLOW,
-      jsgtk.slice.apply(0, arguments),
+      util.slice.apply(0, arguments),
       RESET
     );
   }
