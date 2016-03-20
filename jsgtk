@@ -1,6 +1,6 @@
 #!/usr/bin/env gjs
 
-(function (Array, Function, BEGINNING) {'use strict';
+(function (Function) {'use strict';
 
   /*! MIT Style License
 
@@ -28,13 +28,12 @@
 
   const
 
+    // basic dependencies
     gi = imports.gi,
     GLib = gi.GLib,
     GFile = gi.Gio.File,
 
-    // apparently the only way to retrieve GJS global reference
-    global = Function('return this')(),
-
+    // folders bootstrap
     CURRENT_DIR = GLib.get_current_dir(),
     DIR_SEPARATOR = /\//.test(CURRENT_DIR) ? '/' : '\\',
     PROGRAM_NAME = imports.system.programInvocationName,
@@ -49,15 +48,21 @@
         dir = path.join(DIR_SEPARATOR);
       }
       return dir;
-    })(GFile.new_for_path(PROGRAM_NAME).get_path())
+    })(GFile.new_for_path(PROGRAM_NAME).get_path()),
+
+    // apparently the only way to retrieve GJS global reference
+    global = Function('return this')(),
+
+    replace = String.prototype.replace
   ;
 
+  // inject the jsgtk folder to import at runtime internal helpers
   imports.searchPath.push([PROGRAM_DIR, 'jsgtk_modules'].join(DIR_SEPARATOR));
 
+  // populate the constants file
   Object.defineProperties(
     imports.jsgtk.constants,
     {
-      global: {enumerable: true, value: global},
       CURRENT_DIR: {enumerable: true, value: CURRENT_DIR},
       DIR_SEPARATOR: {enumerable: true, value: DIR_SEPARATOR},
       PROGRAM_NAME: {enumerable: true, value: PROGRAM_NAME},
@@ -65,234 +70,35 @@
     }
   );
 
-
+  // bring in polyfills and all modules loaders + process and timers
   const
-
-    // to debug all steps, pas --debug
-    D = ARGV.some(value => value === '--debug'),
-    BUG = D && function () {
-      print(Array.prototype.join.call(arguments, ' '));
-    },
-
-    // GJS common shortcuts
-    Gio = gi.Gio,
-
-    // commonly used RegExp
-    CONSTANT_CASE = /^[A-Z_]+$/,
-    PascalCase = /^[A-Z]+[a-z]/,
-    UPPERCASE = /[A-Z]+/g,
-
-    // common utilities shortcuts
-    create = Object.create,
-    defineProperty = Object.defineProperty,
-    getOwnPropertyNames = Object.getOwnPropertyNames,
-    getPrototypeOf = Object.getPrototypeOf,
-    setPrototypeOf = Object.setPrototypeOf || (function (set) {
-      return (t, p) => { set.call(t, p); return t; };
-    }(Object.getOwnPropertyDescriptor(Object.prototype, '__proto__').set)),
-    toString = Object.prototype.toString,
-    trim = String.prototype.trim,
-
-    // list of arbitrary arguments Gtk+ classes initializers
-    init = [],
-
-    // MODULES => each of them has different loading logic
-
-    // all core modules, loaded from the distribution folder
+    polyfills = imports.jsgtk.polyfills,
+    gtk = imports.jsgtk.gtk_modules.withRuntime(evaluateModule),
     core = imports.jsgtk.core_modules.withRuntime(evaluateModule),
-
-    // all Gtk and GLib loaded in memory via require
-    gtk = create(null),
-
-    // all external modules loaded through few filesystem operations
-    modules = imports.jsgtk.node_modules.withRuntime(evaluateModule)
-
+    modules = imports.jsgtk.node_modules.withRuntime(evaluateModule),
+    process = core.get('process'),
+    timers =  core.get('timers')
   ;
 
-  let hybrid_emitter;
-
-  // the new(bind.apply(constructor,arguments)) does not work here
-  // so per each amount of arguments craete a function like:
-  //
-  //  let instance = (function () {
-  //    return new this(arguments[0]);
-  //  }.apply(Constructor, arguments));
-  //
-  function createInit(l) {
-    const a = [];
-    for (let i = 0; i < l; i++) a[i] = 'arguments[' + i + ']';
-    return (init[l] = Function('return new this(' + a.join(',') + ')'));
-  }
-
-  // used to create Gtk constructors instances
-  // createInstance.apply(Gtk.Window, [{title: 'Gtk+'}]);
-  function createInstance() {
-    const l = arguments.length;
-    return (init[l] || createInit(l)).apply(this, arguments);
-  }
-
-  // create setup objects with python_case properties
-  function getTheRightObject(object) {
-    return  typeof object === 'object' &&
-            object &&
-            toString.call(object) === '[object Object]' ?
-              toPythonCaseObject(object) : object;
-  }
-
-  // debug Gtk arguments
-  function giArguments(args) {
-    try {
-      return JSON.stringify(args);
-    } catch(meh) {
-      return args;
+  // env normalization
+  Object.defineProperties(
+    Object.defineProperty(
+      global,
+      'process',
+      {enumerable: true, value: process}
+    ),
+    {
+      global: {enumerable: true, value: global},
+      console: {enumerable: true, value: core.get('console')},
+      clearInterval: {enumerable: true, value: timers.clearInterval},
+      clearTimeout: {enumerable: true, value: timers.clearTimeout},
+      setInterval: {enumerable: true, value: timers.setInterval},
+      setTimeout: {enumerable: true, value: timers.setTimeout}
     }
-  }
+  );
 
-  // used to transform Case to _case
-  function pythonCase($0) {
-    return '_' + $0.toLowerCase();
-  }
-
-  // transform pcamelCase to python_case
-  function toPythonCase(name) {
-    return CONSTANT_CASE.test(name) ?
-      name : name.replace(UPPERCASE, pythonCase);
-  }
-
-  // create new object with python_keys keys
-  function toPythonCaseObject(source) {
-    const target = {};
-    for (let
-      c, key,
-      a = getOwnPropertyNames(source),
-      i = 0; i < a.length; i++
-    ) {
-      key = a[i];
-      target[toPythonCase(key)] = getTheRightObject(source[key]);
-    }
-    return target;
-  }
-
-  // handle results and wrap them once
-  const weakWraps = new WeakMap;
-  function wrapResult(result) {
-    if (typeof result === 'function') {
-      let wrap = weakWraps.get(result);
-      if (!wrap) weakWraps.set(result, wrap = function () {
-        const a = [];
-        for (let i = 0, l = arguments.length; i < l; i++) {
-          a[i] = getTheRightObject(arguments[i]);
-        }
-        D&&a.length&&BUG('GTK ARGUMENTS', giArguments(a));
-        return wrapResult(result.apply(this, a));
-      });
-      return wrap;
-    }
-    return result;
-  }
-
-  // invoked once per module
-  function createModule(parent, module) {
-
-    D&&BUG('CREATING', module);
-
-    const
-      child = parent[module],
-      ns = create(null),
-      hasChild = (target, property) => {
-        return toPythonCase(property) in child;
-      },
-      getChild = (target, property, receiver) => {
-        D&&BUG('STATIC GET', module + '.' + property);
-        switch (true) {
-          case PascalCase.test(property):
-            return getGtkModule(child, property);
-          default:
-            return wrapResult(child[toPythonCase(property)]);
-        }
-      },
-      setChild = (target, property, value, receiver) => {
-        D&&BUG('STATIC SET', module + '.' + property, value);
-        child[toPythonCase(property)] = getGtk(value);
-      }
-    ;
-
-    switch (true) {
-      case PascalCase.test(module):
-        switch (typeof child) {
-          case 'function':
-            // this is what happens when exported classes don't bring
-            // any information whatsoever and there's no way to grab
-            // all prototype methods or properties. Runtime it is then.
-            const
-              prototype = child.prototype,
-              proxy = new Proxy(getPrototypeOf(prototype), {
-                has: function has(parent, property) {
-                  D&&BUG('HAS', module + '#' + property);
-                  setPrototypeOf(prototype, parent);
-                  const result = toPythonCase(property) in prototype;
-                  setPrototypeOf(prototype, proxy);
-                  return result;
-                },
-                get: function get(parent, property, receiver) {
-                  D&&BUG('GET', module + '#' + property);
-                  setPrototypeOf(prototype, parent);
-                  const result = receiver[toPythonCase(property)];
-                  setPrototypeOf(prototype, proxy);
-                  return result;
-                },
-                set: function set(parent, property, value, receiver) {
-                  D&&BUG('SET', module + '#' + property, value);
-                  setPrototypeOf(prototype, parent);
-                  receiver[toPythonCase(property)] = value;
-                  setPrototypeOf(prototype, proxy);
-                }
-              })
-            ;
-            // before setting the proxy
-            // check if this is listener aware
-            // in such case, make it a "node.js-ish" one
-            if ('connect' in prototype) {
-              // hybrid_emitter is lazy loaded
-              (hybrid_emitter || (
-                hybrid_emitter = imports.jsgtk.hybrid_emitter
-              )).augment(prototype);
-            }
-            setPrototypeOf(prototype, proxy);
-            return new Proxy(child, {
-              has: hasChild,
-              get: getChild,
-              set: setChild,
-              construct: (child, args) => {
-                D&&BUG('NEW(', child.name, giArguments(args), ')');
-                return createInstance.apply(child, args);
-              }
-            });
-          case 'object':
-            return child && new Proxy(child, {
-              has: hasChild,
-              get: getChild,
-              set: setChild
-            });
-          default:
-            D&&BUG('[WARNING] UNHANDLED PascalCase', property);
-            return child;
-        }
-      default:
-        D&&BUG('[WARNING] UNHANDLED', property);
-        return child;
-    }
-  }
-
-  // Gtk modules loaded in memory
-  function getGtkModule(parent, module) {
-    return gtk[module] || (
-      gtk[module] = createModule(parent, module)
-    );
-  }
-
+  // module handler
   function evaluateModule(nmsp, unique, id, fd) {
-    D&&BUG('require(', id, ')');
     const
       dir = id.slice(0, -1 -fd.get_basename().length),
       exports = {},
@@ -305,7 +111,7 @@
       'module',
       '__dirname',
       '__filename',
-      ''.replace.call(fd.load_contents(null)[1], /^#![^\n\r]*/, '')
+      replace.call(fd.load_contents(null)[1], /^#![^\n\r]*/, '')
     ).call(
       exports,
       function require(module) {
@@ -322,8 +128,8 @@
   // the actual require
   function requireWithPath(module, dir) {
     switch (true) {
-      case PascalCase.test(module):
-        return getGtkModule(gi, module);
+      case gtk.has(module):
+        return gtk.get(module);
       case core.has(module):
         return core.get(module);
       default:
@@ -331,23 +137,7 @@
     }
   }
 
-  // global normalization
-  if (!Object.setPrototypeOf) Object.setPrototypeOf = setPrototypeOf;
-  if (!Object.getOwnPropertySymbols) Object.getOwnPropertySymbols =
-    function getOwnPropertySymbols(){ return []; };
-
-  // node normalization
-  const
-    process = (global.process = core.get('process')),
-    console = (global.console = core.get('console')),
-    timers =  core.get('timers')
-  ;
-  global.clearInterval = timers.clearInterval;
-  global.clearTimeout = timers.clearTimeout;
-  global.setInterval = timers.setInterval;
-  global.setTimeout = timers.setTimeout;
-  defineProperty(global, 'global', {enumerable: true, value: global});
-
+  // program bootstrap
   if (process.argv.length > 1) {
     requireWithPath(process.argv[1], CURRENT_DIR);
   } else {
@@ -370,7 +160,7 @@
       }
       return false;
     })) {
-      console.log([
+      print([
         'Usage: jsgtk [options] script.js [arguments]',
         '       jsgtk --debug script.js [arguments]',
         '       jsgtk (-e|--eval) "console.log(\'runtime\')"',
@@ -380,4 +170,4 @@
     }
   }
 
-}(Array, Function, Date.now()));
+}(Function));
