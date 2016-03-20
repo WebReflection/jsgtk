@@ -42,7 +42,6 @@
     Gio = gi.Gio,
     GFile = Gio.File,
     GLib = gi.GLib,
-    System = imports.system,
 
     CURRENT_DIR = GLib.get_current_dir(),
     DIR_SEPARATOR = /\//.test(CURRENT_DIR) ? '/' : '\\',
@@ -57,7 +56,7 @@
         dir = path.join(DIR_SEPARATOR);
       }
       return dir;
-    })(GFile.new_for_path(System.programInvocationName).get_path()),
+    })(GFile.new_for_path(imports.system.programInvocationName).get_path()),
 
     // commonly used RegExp
     CONSTANT_CASE = /^[A-Z_]+$/,
@@ -67,7 +66,6 @@
     // common utilities shortcuts
     create = Object.create,
     defineProperty = Object.defineProperty,
-    defineProperties = Object.defineProperties,
     getOwnPropertyNames = Object.getOwnPropertyNames,
     getPrototypeOf = Object.getPrototypeOf,
     setPrototypeOf = Object.setPrototypeOf || (function (set) {
@@ -113,13 +111,15 @@
     gtk = create(null),
 
     // all external modules loaded through few filesystem operations
-    modules = create(null),
-
-
-    // used to simplify Gtk objects events handling
-    weakEmitters = new WeakMap
+    modules = create(null)
 
   ;
+
+  // in order to be able to import common jsgtk utilities
+  // within node.js like modules
+  imports.searchPath.push([PROGRAM_DIR, 'jsgtk_modules'].join(DIR_SEPARATOR));
+
+  let hybrid_emitter;
 
   // the new(bind.apply(constructor,arguments)) does not work here
   // so per each amount of arguments craete a function like:
@@ -262,78 +262,12 @@
             // before setting the proxy
             // check if this is listener aware
             // in such case, make it a "node.js-ish" one
-            if ('connect' in prototype) (function ($emit) {
-              // TODO:  is there a better way to know if
-              //        this is a native listener or not?
-              function addListener(type, handler) {
-                let info = weakEmitters.get(this);
-                if (!info) weakEmitters.set(this, info = Object.create(null));
-                let
-                  tinfo = info[type] || (info[type] = {k: [], v: []}),
-                  i = tinfo.k.indexOf(handler)
-                ;
-                if (i < 0) {
-                  i = tinfo.k.push(handler) - 1;
-                  tinfo.v[i] = addListenerNative.call(this, type, handler);
-                }
-                global.LASTFN = handler;
-                return this;
-              }
-              function addListenerNative(type, handler) {
-                try {
-                  return this.connect(type, handler);
-                } catch(meh) {
-                  return -1;
-                }
-              }
-              function emit() {
-                return  emitNative.apply(this, arguments) ||
-                        emitUser.apply(this, arguments);
-              }
-              function emitNative() {
-                try {
-                  $emit.apply(this, arguments);
-                  return true;
-                } catch(meh) {
-                  return false;
-                }
-              }
-              function emitUser(type, ...args) {
-                let info = weakEmitters.get(this);
-                if (!info) return false;
-                let tinfo = info[type];
-                if (!tinfo) return false;
-                tinfo.k.forEach((handler) => handler.apply(this, args));
-                return true;
-              }
-              function removeListener(type, handler) {
-                let info = weakEmitters.get(this);
-                if (!info) return this;
-                let tinfo = info[type];
-                if (!tinfo) return this;
-                let i = tinfo.k.indexOf(handler);
-                if (i < 0) return this;
-                let signal = tinfo.v[i];
-                if (signal !== null) this.disconnect(signal);
-                tinfo.k.splice(i, 1);
-                tinfo.v.splice(i, 1);
-                if (tinfo.k.length < 1) delete info[type];
-                return this;
-              }
-              defineProperties(prototype, {
-                addListener: {value: addListener},
-                emit: {value: emit},
-                on: {value: addListener},
-                once: {value: function once(type, handler) {
-                  let tmp = function () {
-                    removeListener.call(this, type, tmp);
-                    handler.apply(this, arguments);
-                  }.bind(this);
-                  return addListener.call(this, type, tmp);
-                }},
-                removeListener: {value: removeListener}
-              });
-            }(prototype.emit));
+            if ('connect' in prototype) {
+              // hybrid_emitter is lazy loaded
+              (hybrid_emitter || (
+                hybrid_emitter = imports.jsgtk.hybrid_emitter
+              )).augment(prototype);
+            }
             setPrototypeOf(prototype, proxy);
             return new Proxy(child, {
               has: hasChild,
@@ -474,10 +408,6 @@
         return modules[module] || getModulesModule(module, dir);
     }
   }
-
-  // in order to be able to import common jsgtk utilities
-  // within node.js like modules
-  imports.searchPath.push([PROGRAM_DIR, 'jsgtk_modules'].join(DIR_SEPARATOR));
 
   // global normalization
   if (!Object.setPrototypeOf) Object.setPrototypeOf = setPrototypeOf;
