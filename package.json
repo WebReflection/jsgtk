@@ -4,7 +4,7 @@
   "version": "0.7.3",
   "description": "A simplified approach to GJS for Node.JS and JavaScript developers.",
   "scripts": {
-    "install": "sh postinstall.sh",
+    "postinstall": "sh postinstall.sh",
     "test": "./jsgtk tests/main.js"
   },
   "repository": {
