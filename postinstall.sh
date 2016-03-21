@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#if [ "$(which gjs 2> /dev/null)" = "" ]; then
+if [ "$(which gjs 2> /dev/null)" = "" ]; then
   echo ''
   echo -e "$(tput bold)Please install GJS via:$(tput sgr0)"
   if [ "$(uname)" = "Darwin" ]; then
@@ -45,4 +45,4 @@
   fi
   echo ''
   sleep 3
-#fi
+fi
