@@ -2,209 +2,169 @@
 
 /* jshint esversion: 6, strict: true, node: true */
 
-(function (exports, Function, evaluate) {'use strict';
+(function (exports) {'use strict';
 
   const
 
+    INITIALIZER = '_init',
+
     gi = imports.gi,
     hybrid_emitter = imports.jsgtk.hybrid_emitter,
+    GIRepository = gi.GIRepository,
+    repository = GIRepository.Repository.get_default(),
+    FunctionInfoFlags = gi.GIRepository.FunctionInfoFlags,
+    /*
+      FunctionInfoFlags.IS_CONSTRUCTOR
+      FunctionInfoFlags.IS_GETTER
+      FunctionInfoFlags.IS_SETTER
+      FunctionInfoFlags.IS_METHOD
+      FunctionInfoFlags.THROWS
+      FunctionInfoFlags.WRAPS_VFUNC
+    */
 
-    // to debug all steps, pas --debug
-    D = ARGV.some(value => value === '--debug'),
-    BUG = D&&function () {
-      print(Array.prototype.join.call(arguments, ' '));
-    },
+    InfoType = GIRepository.InfoType,
+    /*
+      InfoType.INVALID
+      InfoType.FUNCTION
+      InfoType.CALLBACK
+      InfoType.STRUCT
+      InfoType.BOXED
+      InfoType.ENUM
+      InfoType.FLAGS
+      InfoType.OBJECT
+      InfoType.INTERFACE
+      InfoType.CONSTANT
+      InfoType.INVALID_0
+      InfoType.UNION
+      InfoType.VALUE
+      InfoType.SIGNAL
+      InfoType.VFUNC
+      InfoType.PROPERTY
+      InfoType.FIELD
+      InfoType.ARG
+      InfoType.TYPE
+      InfoType.UNRESOLVED
+    */
 
-    CONSTANT_CASE = /^[A-Z_]+$/,
-    PascalCase = /^[A-Z]+[a-z]/,
-    UPPERCASE = /[A-Z]+/g,
-
-    create = Object.create,
+    // Object shortcuts
+    defineProperty = Object.defineProperty,
     getPrototypeOf = Object.getPrototypeOf,
-    setPrototypeOf = Object.setPrototypeOf,
+    gOPD = Object.getOwnPropertyDescriptor,
+    hOP = Object.prototype.hasOwnProperty,
+    OP = Object.prototype,
 
-    gtk = create(null),
-    init = [],
-    weakWraps = new WeakMap(),
+    // common RegExp
+    _az = /[_-]([a-z])/g,
+    aZ = /([a-z])([A-Z]+)/g,
+    python_case = /[a-z][_-][a-z]/,
+    PascalCase = /^[A-Z]+[a-z]/,
+
+    // utilities
+    isPlainObject = obj => obj && typeof obj === 'object' && (getPrototypeOf(obj) === OP),
+    camel = s => s[0] + s.slice(1).replace(_az, ($0, $1) => $1.toUpperCase()),
+    uncamel = s => s.replace(aZ, ($0, $1, $2) => ($1 + '_' + $2.toLowerCase())),
+
+    gtk = Object.create(null),
 
     exp = {
       has: (id) => PascalCase.test(id),
-      get: (id) => getGtkModule(gi, id),
-      load: function load(module) {
-        return getGtkModule(gi, module);
-      }
+      get: (id) => getGtkModule(id),
+      load: (id) => getGtkModule(id)
     }
-
   ;
 
-  // the new(bind.apply(constructor,arguments)) does not work here
-  // so per each amount of arguments craete a function like:
-  //
-  //  let instance = (function () {
-  //    return new this(arguments[0]);
-  //  }.apply(Constructor, arguments));
-  //
-  function createInit(l) {
-    const a = [];
-    for (let i = 0; i < l; i++) a[i] = 'arguments[' + i + ']';
-    /* jshint ignore: start */
-    return (init[l] = Function('return new this(' + a.join(',') + ')'));
-    /* jshint ignore: end */
+  function camelClass(Namespace, info) {
+    const Class = Namespace[info.get_name()];
+    camelMethods(Class, info);
+    // PROPERTIES ARE NOT LIKE JS PROPERTIES
+    // camelProperties(Class, info);
   }
 
-  // used to create Gtk constructors instances
-  // createInstance.apply(Gtk.Window, [{title: 'Gtk+'}]);
-  function createInstance() {
-    /* jshint validthis: true */
-    const l = arguments.length;
-    return (init[l] || createInit(l)).apply(this, arguments);
-  }
-
-  function createModule(parent, module) {
-
-    if(D)BUG('CREATING', module);
-
+  function camelMethods(Class, Info) {
     const
-      child = parent[module],
-      ns = create(null),
-      hasChild = (target, property) => {
-        return toPythonCase(property) in child;
-      },
-      getChild = (target, property, receiver) => {
-        if(D)BUG('STATIC GET', module + '.' + property);
-        switch (true) {
-          case PascalCase.test(property):
-            return getGtkModule(child, property);
-          default:
-            return wrapResult(child[toPythonCase(property)]);
-        }
-      },
-      setChild = (target, property, value, receiver) => {
-        if(D)BUG('STATIC SET', module + '.' + property, value);
-        child[toPythonCase(property)] = getTheRightObject(value);
-      }
+      length = GIRepository.object_info_get_n_methods(Info),
+      prototype = Class.prototype
     ;
-
-    switch (true) {
-      case PascalCase.test(module):
-        switch (typeof child) {
-          case 'function':
-            // this is what happens when exported classes don't bring
-            // any information whatsoever and there's no way to grab
-            // all prototype methods or properties. Runtime it is then.
-            const
-              prototype = child.prototype,
-              proxy = new Proxy(getPrototypeOf(prototype), {
-                has: function has(parent, property) {
-                  if(D)BUG('HAS', module + '#' + property);
-                  setPrototypeOf(prototype, parent);
-                  const result = toPythonCase(property) in prototype;
-                  setPrototypeOf(prototype, proxy);
-                  return result;
-                },
-                get: function get(parent, property, receiver) {
-                  if(D)BUG('GET', module + '#' + property);
-                  setPrototypeOf(prototype, parent);
-                  const result = receiver[toPythonCase(property)];
-                  setPrototypeOf(prototype, proxy);
-                  return result;
-                },
-                set: function set(parent, property, value, receiver) {
-                  if(D)BUG('SET', module + '#' + property, value);
-                  setPrototypeOf(prototype, parent);
-                  receiver[toPythonCase(property)] = value;
-                  setPrototypeOf(prototype, proxy);
-                }
-              })
-            ;
-            // before setting the proxy
-            // check if this is listener aware
-            // in such case, make it a "node.js-ish" one
-            if ('connect' in prototype) {
-              hybrid_emitter.augment(prototype);
-            }
-            setPrototypeOf(prototype, proxy);
-            return new Proxy(child, {
-              has: hasChild,
-              get: getChild,
-              set: setChild,
-              construct: (child, args) => {
-                if(D)BUG('NEW(', child.name, giArguments(args), ')');
-                return createInstance.apply(child, args);
-              }
-            });
-          case 'object':
-            return child && new Proxy(child, {
-              has: hasChild,
-              get: getChild,
-              set: setChild
-            });
-          default:
-            if(D)BUG('[WARNING] UNHANDLED PascalCase', property);
-            return child;
-        }
-        break;
-      default:
-        if(D)BUG('[WARNING] UNHANDLED', property);
-        return child;
+    for (let i = 0; i < length; i++) {
+      let info = GIRepository.object_info_get_method(Info, i);
+      let name = info.get_name();
+      if (python_case.test(name)) {
+        let flag = GIRepository.function_info_get_flags(info);
+        define((
+          (flag & FunctionInfoFlags.IS_METHOD) &&
+          !(flag & FunctionInfoFlags.IS_CONSTRUCTOR)
+        ) ? prototype : Class, name);
+      }
     }
-    return null;
+    if ('connect' in prototype) {
+      hybrid_emitter.augment(prototype);
+    }
+    if (hOP.call(prototype, INITIALIZER)) {
+      let descriptor = gOPD(prototype, INITIALIZER);
+      descriptor.value = wrapInitializer(descriptor.value);
+      defineProperty(prototype, INITIALIZER, descriptor);
+    }
   }
 
-  function getGtkModule(parent, module) {
-    return gtk[module] || (
-      gtk[module] = createModule(parent, module)
-    );
+  function camelNS(ns) {
+    const
+      Namespace = gi[ns],
+      infos = repository.get_n_infos(ns)
+    ;
+    for (let i = 0; i < infos; i++) {
+      let info = repository.get_info(ns, i);
+      switch (info.get_type()) {
+        case InfoType.OBJECT:
+          camelClass(Namespace, info);
+          break;
+        case InfoType.FUNCTION:
+        case InfoType.PROPERTY:
+          let name = info.get_name();
+          if (python_case.test(name)) {
+            define(Namespace, name);
+          }
+          break;
+      }
+    }
+    return Namespace;
   }
 
-  // create setup objects with python_case properties
-  function getTheRightObject(object) {
-    return  typeof object === 'object' &&
-            object &&
-            toString.call(object) === '[object Object]' ?
-              toPythonCaseObject(object) : object;
-  }
-
-  // debug Gtk arguments
-  function giArguments(args) {
+  function define(target, name) {
     try {
-      return JSON.stringify(args);
-    } catch(meh) {
-      return args;
+      defineProperty(target, camel(name), gOPD(target, name));
+    } catch(o_O) {
+      // printerr(name);
     }
   }
 
-  // used to transform Case to _case
-  function pythonCase($0) {
-    return '_' + $0.toLowerCase();
+  function getGtkModule(id) {
+    return gtk[id] || (gtk[id] = camelNS(id));
   }
 
-  // transform pcamelCase to python_case
-  function toPythonCase(name) {
-    return CONSTANT_CASE.test(name) ?
-      name : name.replace(UPPERCASE, pythonCase);
+  function withoutCamelCase(obj) {
+    const out = {};
+    for (let key in obj)
+      out[uncamel(key)] = obj[key];
+    return out;
   }
 
-  // handle results and wrap them once
-  function wrapResult(result) {
-    if (typeof result === 'function') {
-      let wrap = weakWraps.get(result);
-      if (!wrap) weakWraps.set(result, wrap = function () {
-        const a = [];
-        for (let i = 0, l = arguments.length; i < l; i++) {
-          a[i] = getTheRightObject(arguments[i]);
-        }
-        if(D&&a.length)BUG('GTK ARGUMENTS', giArguments(a));
-        return wrapResult(result.apply(this, a));
-      });
-      return wrap;
-    }
-    return result;
+  function wrapInitializer($init) {
+    return function _init() {
+      for (var
+        tmp,
+        length = arguments.length,
+        args = [],
+        i = 0; i < length; i++
+      ) {
+        tmp = arguments[i];
+        args[i] = isPlainObject(tmp) ? withoutCamelCase(tmp) : tmp;
+      }
+      $init.apply(this, args);
+    };
   }
 
   exports.withRuntime = function setup($evaluate) {
-    if (!evaluate) evaluate = $evaluate;
     return exp;
   };
 
-}(this, Function));
+}(this));
