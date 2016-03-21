@@ -44,4 +44,5 @@
     fi
   fi
   echo ''
+  sleep 3
 #fi
