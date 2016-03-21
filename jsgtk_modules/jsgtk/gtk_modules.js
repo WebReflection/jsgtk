@@ -57,19 +57,27 @@
     _az = /[_-]([a-z])/g,
     aZ = /([a-z])([A-Z]+)/g,
     python_case = /[a-z][_-][a-z]/,
-    PascalCase = /^[A-Z]+[a-z]/,
 
     // utilities
     isPlainObject = obj => obj && typeof obj === 'object' && (getPrototypeOf(obj) === OP),
     camel = s => s[0] + s.slice(1).replace(_az, ($0, $1) => $1.toUpperCase()),
     uncamel = s => s.replace(aZ, ($0, $1, $2) => ($1 + '_' + $2.toLowerCase())),
 
-    gtk = Object.create(null),
+    gtk = repository.get_loaded_namespaces().reduce(
+      (gtk, id) => Object.defineProperty(gtk, id, {
+        configurable: true,
+        get: () => {
+          delete gtk[id];
+          return load(id);
+        }
+      }),
+      Object.create(null)
+    ),
 
     exp = {
-      has: (id) => PascalCase.test(id),
-      get: (id) => getGtkModule(id),
-      load: (id) => getGtkModule(id)
+      has: (id) => id in gtk,
+      get: (id) => gtk[id],
+      load: load
     }
   ;
 
@@ -106,13 +114,21 @@
     }
   }
 
-  function camelNS(ns) {
+  function define(target, name) {
+    try {
+      defineProperty(target, camel(name), gOPD(target, name));
+    } catch(o_O) {
+      // printerr(name);
+    }
+  }
+
+  function load(id) {
     const
-      Namespace = gi[ns],
-      infos = repository.get_n_infos(ns)
+      Namespace = gi[id],
+      infos = repository.get_n_infos(id)
     ;
     for (let i = 0; i < infos; i++) {
-      let info = repository.get_info(ns, i);
+      let info = repository.get_info(id, i);
       switch (info.get_type()) {
         case InfoType.OBJECT:
           camelClass(Namespace, info);
@@ -126,19 +142,7 @@
           break;
       }
     }
-    return Namespace;
-  }
-
-  function define(target, name) {
-    try {
-      defineProperty(target, camel(name), gOPD(target, name));
-    } catch(o_O) {
-      // printerr(name);
-    }
-  }
-
-  function getGtkModule(id) {
-    return gtk[id] || (gtk[id] = camelNS(id));
+    return (gtk[id] = Namespace);
   }
 
   function withoutCamelCase(obj) {
