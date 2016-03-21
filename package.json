@@ -4,8 +4,8 @@
   "version": "0.7.1",
   "description": "A simplified approach to GJS for Node.JS and JavaScript developers.",
   "scripts": {
-    "install": "if [ \"$(uname)\" = \"Darwin\" ] && [ \"$(which brew)\" != \"\" ]; then brew install gtk+3 gjs; fi;",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "install": "sh postinstall.sh",
+    "test": "./jsgtk tests/main.js"
   },
   "repository": {
     "type": "git",

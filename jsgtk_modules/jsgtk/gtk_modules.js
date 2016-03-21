@@ -84,8 +84,6 @@
   function camelClass(Namespace, info) {
     const Class = Namespace[info.get_name()];
     camelMethods(Class, info);
-    // PROPERTIES ARE NOT LIKE JS PROPERTIES
-    // camelProperties(Class, info);
   }
 
   function camelMethods(Class, Info) {
