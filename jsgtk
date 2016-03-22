@@ -56,6 +56,7 @@
         case '.bin':
           path.pop();
           path.push('jsgtk');
+          dir = path.join(DIR_SEPARATOR);
           break;
       }
       return dir;
