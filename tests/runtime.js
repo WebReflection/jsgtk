@@ -1,8 +1,15 @@
-const Buffer = require('buffer').Buffer;
+imports.gi.GIRepository.Repository.get_default().get_loaded_namespaces().forEach((name) => {
+  var t = Date.now();
+  require(name);
+  t = Date.now() - t;
+  print(name + ': ' + (t / 1000).toFixed(3));
+});
 
-console.log([
-  new Buffer('HCBoAGUAbABsAG8AHSA=', 'base64').toString('ucs2'),
-  //new Buffer('HCBoAGUAbABsAG8AHSA=', 'base64').toString('utf8'),
-  // new Buffer('HCBoAGUAbABsAG8AHSA=', 'base64').toString('ascii'),
-  new Buffer("“hello”", 'ucs2').toString('ascii')
-].join('\n'));
+/*
+const
+  Gio = require('Gio'),
+  current = Gio.File.newForPath(__filename)
+;
+
+print(current.getPath());
+*/

@@ -73,21 +73,24 @@
   }
 
   exports.augment = function augment(proto) {
-    const $emit = proto.emit;
-    descriptors.emit.value = $emit ?
-      function emit() {
-        // TODO:  is there a better way to know if
-        //        this is a native listener or not?
-        try {
-          $emit.apply(this, arguments);
-          return true;
-        } catch(meh) {
-          return emitUser.apply(this, arguments);
-        }
-      } :
-      emitUser
-    ;
-    defineProperties(proto, descriptors);
+    let descriptor = Object.getOwnPropertyDescriptor(proto, 'emit');
+    if (!descriptor || descriptor.configurable) {
+      const $emit = proto.emit;
+      descriptors.emit.value = $emit ?
+        function emit() {
+          // TODO:  is there a better way to know if
+          //        this is a native listener or not?
+          try {
+            $emit.apply(this, arguments);
+            return true;
+          } catch(meh) {
+            return emitUser.apply(this, arguments);
+          }
+        } :
+        emitUser
+      ;
+      defineProperties(proto, descriptors);
+    }
   };
 
 }(this));
