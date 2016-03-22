@@ -19,5 +19,7 @@ jshintDir() {
 
 echo ''
 echo -e "$(tput bold)jshint$(tput sgr0)"
+echo "  └─  jsgtk"
+${DIR}/node_modules/.bin/jshint $DIR/jsgtk
 jshintDir $DIR/jsgtk_modules '  '
 echo ''
