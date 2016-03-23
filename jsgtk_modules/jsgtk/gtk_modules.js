@@ -48,6 +48,7 @@
 
     // Object shortcuts
     defineProperty = Object.defineProperty,
+    defineProperties = Object.defineProperties,
     getPrototypeOf = Object.getPrototypeOf,
     gOPD = Object.getOwnPropertyDescriptor,
     hOP = Object.prototype.hasOwnProperty,
@@ -56,6 +57,7 @@
     // common RegExp
     _az = /[_-]([a-z])/g,
     aZ = /([a-z])([A-Z]+)/g,
+    new_case = /^new(?:_[a-z]+)*$/,
     python_case = /^[a-z]+(?:[_-][a-z]+)+$/,
     PascalCase = /^[A-Z]+[a-zA-Z0-9_]+$/,
 
@@ -101,17 +103,22 @@
   function define(target, name) {
     let camelName = camel(name), descriptor;
     try {
-      defineProperty(target, camelName, gOPD(target, name));
+      descriptor = gOPD(target, name);
+      defineProperty(target, camelName, descriptor);
+      return descriptor;
     } catch(o_O) {
       try {
-        defineProperty(target, camelName, {
+        descriptor = {
           get: function get() { return this[name]; },
           set: function set(value) { this[name] = value; }
-        });
+        };
+        defineProperty(target, camelName, descriptor);
+        return descriptor;
       } catch(meh) {
         // print(name);
       }
     }
+    return null;
   }
 
   function getJS(ns) {
@@ -198,10 +205,32 @@
       // properties = getArrayInfo(Info, 'interface', 'property').filter(isPythonName),
       // signals = getArrayInfo(Info, 'interface', 'signal').filter(isPythonName),
       methods = getArrayInfo(Info, 'interface', 'method').filter(isPythonName),
-      prototype = augmentPrototype(Interface)
+      prototype = augmentPrototype(Interface),
+      descriptors = {},
+      wrap = descriptor => {
+        let value = descriptor.value;
+        descriptor.value = function () {
+          return defineProperties(
+            value.apply(this, arguments),
+            descriptors
+          );
+        };
+        return descriptor;
+      }
     ;
     methods.forEach((info) => {
-      define(isMethod(info) ? prototype : Interface, info.get_name());
+      let name = info.get_name();
+      if (isMethod(info)) {
+        let descriptor = define(prototype, name);
+        if (descriptor) {
+          descriptors[camel(name)] = descriptor;
+        }
+      } else {
+        let descriptor = define(Interface, name);
+        if (descriptor && new_case.test(name)) {
+          defineProperty(Interface, camel(name), wrap(descriptor));
+        }
+      }
     });
   }
 

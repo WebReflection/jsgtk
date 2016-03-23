@@ -78,6 +78,7 @@
     imports.jsgtk.constants,
     {
       CURRENT_DIR: {enumerable: true, value: CURRENT_DIR},
+      DEBUG: {enumerable: true, value: ARGV.some(arg => arg === '--debug')},
       DIR_SEPARATOR: {enumerable: true, value: DIR_SEPARATOR},
       PROGRAM_NAME: {enumerable: true, value: PROGRAM_NAME},
       PROGRAM_DIR: {enumerable: true, value: PROGRAM_DIR}
