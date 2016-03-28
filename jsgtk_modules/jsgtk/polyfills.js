@@ -36,11 +36,22 @@
       value: function getOwnPropertyDescriptors(target) {
         return ownKeys(target).reduce(
           function (descriptors, name) {
-            return defineProperty(
-              descriptors,
-              name,
-              gOPD(target, name)
-            );
+            var descriptor = gOPD(target, name);
+            if (name in descriptors) {
+              return defineProperty(
+                descriptors,
+                name,
+                {
+                  configurable: true,
+                  enumerable: true,
+                  writable: true,
+                  value: descriptor
+                }
+              );
+            } else {
+              descriptors[name] = descriptor;
+              return descriptors;
+            }
           },
           {}
         );

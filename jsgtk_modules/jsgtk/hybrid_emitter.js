@@ -32,7 +32,11 @@
     ;
     if (i < 0) {
       i = tinfo.k.push(handler) - 1;
-      tinfo.v[i] = addListenerNative.call(this, type, handler);
+      tinfo.v[i] = addListenerNative.call(
+        this,
+        type,
+        handler.bind(this)
+      );
     }
     return this;
   }
