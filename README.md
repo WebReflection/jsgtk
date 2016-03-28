@@ -8,7 +8,10 @@ Following the current list of project ideas and achievements:
   * a _Node.JS_ like environment with `process`, `console`, `require` and most common _Node.JS_ core modules
   * a `camelCase` namespace to make _GJS_ look more _JavaScripty_
   * a cross platform, lightweight, yet powerful namespace that brings **_Gtk_ native Widgets** to every compatible OS
-  * a _Node.JS_ and "_Web.JS_" friendly way to attach signals ( `obj.on(signal, listener)` )
+  * a _Node.JS_ and "_Web.JS_" friendly way to attach/detach signals ( `obj.on(signal, listener)` )
+
+### Examples
+The [following repository](https://github.com/WebReflection/jsgtk-examples) includes most common `GJS` examples readapted for `jsgtk`.
 
 ### Platforms
 Currently developed and tested on **Linux** ([ArchLinux](https://www.archlinux.org/), [Debian](http://www.debian.org/), [Fedora](https://getfedora.org/), [Ubuntu](http://www.ubuntu.com/)) and **Darwin** ([OSX](http://www.apple.com/uk/osx/)) platforms.
