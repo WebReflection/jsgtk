@@ -11,7 +11,7 @@ Following the current list of project ideas and achievements:
   * a _Node.JS_ and "_Web.JS_" friendly way to attach/detach signals ( `obj.on(signal, listener)` )
 
 ### Examples
-The [following repository](https://github.com/WebReflection/jsgtk-examples) includes most common `GJS` examples readapted for `jsgtk`.
+The [following repository](https://github.com/WebReflection/jsgtk-examples#jsgtk-examples) includes most common `GJS` examples readapted for `jsgtk`.
 
 ### Platforms
 Currently developed and tested on **Linux** ([ArchLinux](https://www.archlinux.org/), [Debian](http://www.debian.org/), [Fedora](https://getfedora.org/), [Ubuntu](http://www.ubuntu.com/)) and **Darwin** ([OSX](http://www.apple.com/uk/osx/)) platforms.
