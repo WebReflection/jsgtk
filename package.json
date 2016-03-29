@@ -1,7 +1,7 @@
 {
   "bin": "jsgtk",
   "name": "jsgtk",
-  "version": "0.7.9",
+  "version": "0.8.0",
   "description": "A simplified approach to GJS for Node.JS and JavaScript developers.",
   "scripts": {
     "postinstall": "sh postinstall.sh",
