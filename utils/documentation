@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# [WARNIG] THIS PROCEDURE CAN TAKE JUST ABOUT FOREVER
+
 document() {
   local f=$1
   echo $(tput intr) | g-ir-doc-tool $f -o $2 > /dev/null 2>&1

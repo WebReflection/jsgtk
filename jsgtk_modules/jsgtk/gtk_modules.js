@@ -54,6 +54,14 @@
     hOP = Object.prototype.hasOwnProperty,
     OP = Object.prototype,
 
+    // dictionary of exceptions for replacements
+    exceptions = {
+      //  find    replace-with
+      JavaScript: 'Javascript'
+    },
+    exceptionsFind = new RegExp(Object.keys(exceptions).join('|'), 'g'),
+    exceptionsReplace = ($0) => exceptions[$0],
+
     // common RegExp
     _az = /[_-]([a-z])/g,
     aZ = /([a-z])([A-Z]+)/g,
@@ -64,7 +72,8 @@
     // utilities
     isPlainObject = obj => obj && typeof obj === 'object' && (getPrototypeOf(obj) === OP),
     camel = s => s[0] + s.slice(1).replace(_az, ($0, $1) => $1.toUpperCase()),
-    uncamel = s => s.replace(aZ, ($0, $1, $2) => ($1 + '_' + $2.toLowerCase())),
+    uncamel = s => s.replace(exceptionsFind, exceptionsReplace)
+                    .replace(aZ, ($0, $1, $2) => ($1 + '_' + $2.toLowerCase())),
 
     gtk = repository.get_loaded_namespaces().reduce(
       (gtk, id) => Object.defineProperty(gtk, id, {
@@ -197,6 +206,10 @@
           if (target) define(target, info.get_name());
         }
         break;
+      case InfoType.UNION:
+        target = getTarget(info);
+        if (target) parseUnion(target, info);
+        break;
     }
   }
 
@@ -245,7 +258,7 @@
       prototype = augmentPrototype(Object)
     ;
     fields.forEach((info) => {
-      define(Object.prototype, info.get_name());
+      define(prototype, info.get_name());
     });
     methods.forEach((info) => {
       define(isMethod(info) ? prototype : Object, info.get_name());
@@ -265,7 +278,21 @@
       define(prototype, info.get_name());
     });
     methods.forEach((info) => {
-      define(isMethod(info) ? Struct.prototype : Struct, info.get_name());
+      define(isMethod(info) ? prototype : Struct, info.get_name());
+    });
+  }
+
+  function parseUnion(Union, Info) {
+    const
+      fields = getArrayInfo(Info, 'union', 'field').filter(isPythonName),
+      methods = getArrayInfo(Info, 'union', 'method').filter(isPythonName),
+      prototype = augmentPrototype(Union)
+    ;
+    fields.forEach((info) => {
+      define(prototype, info.get_name());
+    });
+    methods.forEach((info) => {
+      define(isMethod(info) ? prototype : Union, info.get_name());
     });
   }
 
