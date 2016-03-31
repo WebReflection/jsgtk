@@ -1,3 +1,17 @@
+var fs = require('fs');
+
+fs.stat('tests/runtime.js', console.log.bind(console));
+
+fs.watch('tests', {persistent: true, recursive: true})
+  .on('change', () => console.log('change'))
+  .on('rename', () => console.log('rename'))
+  // .close()
+;
+
+
+if (typeof imports !== 'undefined') imports.mainloop.run();
+
+
 /*
 imports.gi.GIRepository.Repository.get_default().get_loaded_namespaces().forEach((name) => {
   var t = Date.now();
@@ -7,7 +21,7 @@ imports.gi.GIRepository.Repository.get_default().get_loaded_namespaces().forEach
 });
 //*/
 
-//*
+/*
 const
   Gio = require('Gio'),
   current = Gio.File.newForPath(__filename)

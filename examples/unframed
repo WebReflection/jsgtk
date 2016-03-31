@@ -29,7 +29,7 @@
   window.setDefaultSize(1024, 720);
   window.setResizable(true);
   window.connect('show', () => {
-    window.fullscreen();
+    //window.fullscreen();
     Gtk.main()
   });
   window.connect('destroy', () => Gtk.mainQuit());

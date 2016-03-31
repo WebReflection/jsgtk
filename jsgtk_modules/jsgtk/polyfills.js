@@ -4,6 +4,31 @@
 
 // inline polyfills for Object
 [
+  function assign() {
+    function isEnumerable(key) {
+      return Object.getOwnPropertyDescriptor(this, key).enumerable;
+    }
+    return {
+      configurable: true,
+      writable: true,
+      value: function assign(target, ...sources) {
+        for (var
+          source,
+          add = function (key) {
+            target[key] = source[key];
+          },
+          i = 0; i < sources.length; i++
+        ) {
+          source = sources[i];
+          Object.keys(source).forEach(add);
+          Object.getOwnPropertySymbols(source)
+            .filter(isEnumerable, source)
+            .forEach(add);
+        }
+        return target;
+      }
+    };
+  },
   function setPrototypeOf() {
     var set = Object.getOwnPropertyDescriptor(
       Object.prototype,
