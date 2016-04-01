@@ -88,6 +88,7 @@
   // bring in polyfills and all modules loaders + process and timers
   const
     polyfills = imports.jsgtk.polyfills,
+    mainloop = imports.jsgtk.mainloop,
     gtk = imports.jsgtk.gtk_modules.withRuntime(evaluateModule),
     core = imports.jsgtk.core_modules.withRuntime(evaluateModule),
     modules = imports.jsgtk.node_modules.withRuntime(evaluateModule),
@@ -155,8 +156,9 @@
   // program bootstrap
   if (process.argv.length > 1) {
     requireWithPath(process.argv[1], CURRENT_DIR);
+    mainloop.run();
   } else {
-    if (!ARGV.some((info, i) => {
+    if (ARGV.some((info, i) => {
       if (i && /^-e|--eval$/.test(ARGV[i - 1])) {
         runtime(
           'require',
@@ -175,6 +177,8 @@
       }
       return false;
     })) {
+      mainloop.run();
+    } else {
       print([
         'Usage: jsgtk [options] script.js [arguments]',
         '       jsgtk --debug script.js [arguments]',

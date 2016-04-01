@@ -22,6 +22,7 @@ const
 
   EventEmitter = require('events').EventEmitter,
 
+  mainloop = process.binding('mainloop'),
   util = process.binding('util'),
   system = util.system,
 
@@ -118,6 +119,7 @@ const
                   break;
               }
             });
+            mainloop.wait();
           }
         }
       });
@@ -126,6 +128,7 @@ const
       this._watching = false;
       if (this._monitor) {
         this._monitor.cancel();
+        mainloop.go();
       }
     }
   }),
@@ -172,6 +175,7 @@ const
     stat: function stat(path, callback) {
       let fd = GFile.new_for_path(path);
       fd.query_info_async('*', Gio.FileQueryInfoFlags.NOFOLLOW_SYMLINKS, null, null, (source, result) => {
+        mainloop.go();
         try {
           let info = source.query_info_finish(result);
           callback(null, new Stats(fd, info));
@@ -179,6 +183,7 @@ const
           callback(e, null);
         }
       });
+      mainloop.wait();
     },
     statSync: function statSync(path) {
       let fd = GFile.new_for_path(path);

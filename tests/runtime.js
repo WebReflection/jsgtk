@@ -9,9 +9,6 @@ fs.watch('tests', {persistent: true, recursive: true})
 ;
 
 
-if (typeof imports !== 'undefined') imports.mainloop.run();
-
-
 /*
 imports.gi.GIRepository.Repository.get_default().get_loaded_namespaces().forEach((name) => {
   var t = Date.now();
