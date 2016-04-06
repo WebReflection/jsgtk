@@ -22,7 +22,7 @@ A basic `npm install -g jsgtk` is all you need but please be sure you have insta
 ### Dependencies
 This project trusts and uses 100% _GJS_, which is usually available through one of the following procedures:
 
-  * on **ArchLinux**: `pacman -S --needed gjs` and optionally `webkitgtk` for the `browser.js` example
+  * on **ArchLinux**: either via `yaourt -S --needed jsgtk` or `pacman -S --needed gjs`. Optionally `webkitgtk` for the `browser.js` example
   * on **Debian** and **Ubuntu**: `apt-get install gjs` and optionally `libwebkit2gtk-3.0` or higher for the `browser.js` example
   * on **Fedora**: pretty much everything is already installed
   * on **OSX Homebrew**: `brew install gtk+3 gjs` and optionally `webkitgtk` for the `browser.js` example (although right now there is some problem)
