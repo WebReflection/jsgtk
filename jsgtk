@@ -36,6 +36,10 @@
     GLib = gi.GLib,
     GFile = gi.Gio.File,
 
+    // scoped global + shortcuts
+    global = window,
+    replace = String.prototype.replace,
+
     // folders bootstrap
     CURRENT_DIR = GLib.get_current_dir(),
     DIR_SEPARATOR = /\//.test(CURRENT_DIR) ? '/' : '\\',
@@ -46,7 +50,7 @@
         path = dir.split(DIR_SEPARATOR)
       ;
       switch (path[path.length - 1]) {
-        // gobal case
+        // global case
         case 'bin':
           path.pop();
           path.push('lib', 'node_modules', 'jsgtk');
@@ -60,14 +64,7 @@
           break;
       }
       return dir;
-    })(GFile.new_for_path(PROGRAM_NAME).get_path()),
-
-    // apparently the only way to retrieve GJS global reference
-    // global = Function('return this')(),
-    // scratch that, we've got an impostor syndrome here
-    global = window,
-
-    replace = String.prototype.replace
+    })(GFile.new_for_path(PROGRAM_NAME).get_path())
   ;
 
   // inject the jsgtk folder to import at runtime internal helpers
