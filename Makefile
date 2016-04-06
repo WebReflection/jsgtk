@@ -16,6 +16,7 @@ build:
 	makepkg --printsrcinfo > .SRCINFO
 	makepkg -srf
 	sync
+	rm *.tar.xz
 	if [ -d ~/code/aur/jsgtk ]; then make aur; fi
 	rm -r {aur,pkg,src}
 
