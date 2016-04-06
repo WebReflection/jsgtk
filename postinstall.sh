@@ -6,14 +6,14 @@ if [ "$(which gjs 2> /dev/null)" = "" ]; then
   if [ "$(uname)" = "Darwin" ]; then
     if [ "$(which brew)" = "" ]; then
       if [ "$(which port)" = "" ]; then
-        echo '  please install either homebrew or macports'
+        echo '  please install either homebrew or macports (suggested)'
         echo '    http://brew.sh/'
         echo '      brew install gtk+3 gjs'
         echo ''
         echo '    https://www.macports.org/'
-        echo '      sudo port install gjs'
+        echo '      sudo port install gjs adwaita-icon-theme xorg-server xorg-xinit'
       else
-        echo '  sudo port install gjs'
+        echo '  sudo port install gjs adwaita-icon-theme xorg-server xorg-xinit'
       fi
     else
       echo '  brew install gtk+3 gjs'
