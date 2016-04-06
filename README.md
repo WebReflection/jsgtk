@@ -26,7 +26,7 @@ This project trusts and uses 100% _GJS_, which is usually available through one 
   * on **Debian** and **Ubuntu**: `apt-get install gjs` and optionally `libwebkit2gtk-3.0` or higher for the `browser.js` example
   * on **Fedora**: pretty much everything is already installed
   * on **OSX Homebrew**: `brew install gtk+3 gjs` and optionally `webkitgtk` for the `browser.js` example (although right now there is some problem)
-  * on **OSX MacPorts**: `port install gjs` and optionally `webkit2-gtk` for the `browser.js` example
+  * on **OSX MacPorts**: `port install gjs adwaita-icon-theme` and optionally `webkit2-gtk` for the `browser.js` example
 
 ### Why not [node-gir](https://github.com/creationix/node-gir) or [node-gtk](https://github.com/WebReflection/node-gtk)?
 Well, apparently both projects are stuck/abandoned and unfortunately there's no other option ^_^;;
