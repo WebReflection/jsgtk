@@ -9,6 +9,7 @@ build:
 	mkdir -p aur/jsgtk/jsgtk
 	cp jsgtk aur/jsgtk/jsgtk/jsgtk.sh
 	sed -i "s/'node_modules', //" aur/jsgtk/jsgtk/jsgtk.sh
+	sed -i "s/pkgver=[0-9.]*/pkgver=$(VERSION)/" PKGBUILD
 	cp -r jsgtk_modules aur/jsgtk/jsgtk/
 	sync
 	tar -zcvf jsgtk-$(VERSION).tar.gz -C aur/jsgtk jsgtk
