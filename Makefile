@@ -25,6 +25,6 @@ aur:
 	cp {LICENSE,PKGBUILD} ~/code/aur/jsgtk
 	mv {.SRCINFO,*.tar.*z} ~/code/aur/jsgtk
 	cd ~/code/aur/jsgtk
-	git add .
-	git commit -m "Update to v$(VERSION)"
-	git push
+	# git add .
+	# git commit -m "Update to v$(VERSION)"
+	# git push
