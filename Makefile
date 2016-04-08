@@ -20,11 +20,9 @@ build:
 	rm *.tar.xz
 	if [ -d ~/code/aur/jsgtk ]; then make aur; fi
 	rm -r {aur,pkg,src}
+	mkdir -p archive
+	mv *.tar.*z archive
 
 aur:
 	cp {LICENSE,PKGBUILD} ~/code/aur/jsgtk
-	mv {.SRCINFO,*.tar.*z} ~/code/aur/jsgtk
-	cd ~/code/aur/jsgtk
-	# git add .
-	# git commit -m "Update to v$(VERSION)"
-	# git push
+	mv .SRCINFO ~/code/aur/jsgtk
