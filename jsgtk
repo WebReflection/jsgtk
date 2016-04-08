@@ -111,7 +111,7 @@
   );
 
   // module handler
-  function evaluateModule(nmsp, unique, id, fd) {
+  function evaluateModule(nmsp, unique, id, fd, transform) {
     const
       dir = id.slice(0, -1 -fd.get_basename().length),
       exports = {},
@@ -124,7 +124,9 @@
       'module',
       '__dirname',
       '__filename',
-      replace.call(fd.load_contents(null)[1], /^#![^\n\r]*/, '')
+      (transform || String)(
+        replace.call(fd.load_contents(null)[1], /^#![^\n\r]*/, '')
+      )
     ).call(
       exports,
       function require(module) {
