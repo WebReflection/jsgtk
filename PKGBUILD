@@ -7,8 +7,8 @@ arch=('any')
 url="https://github.com/WebReflection/jsgtk"
 license=('MIT')
 depends=('gjs')
-source=($pkgname-$pkgver.tar.gz)
-md5sums=('ecbeaad765a3817589ba392442a8adf1')
+source=(https://github.com/WebReflection/jsgtk/archive/$pkgname-$pkgver.tar.gz)
+md5sums=('fc88c6bac9192f0ad28ecf433ad905bb')
 
 package() {
 
