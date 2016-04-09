@@ -39,19 +39,16 @@
 <p>Following the current list of project ideas and achievements:</p>
 
 <ul>
-<li>a <em>CommonJS</em>-like module loader, compatible with any <a href="https://www.npmjs.com/">npm</a> module that uses <em>GJS</em> compatible syntax and features already implemented in <em>JSGtk+</em>
+<li>a <em>CommonJS</em>-like module loader, compatible with any <a href="https://www.npmjs.com/">npm</a> module</li>
+<li>a <em>Node.JS</em> like environment with <code>process</code>, <code>console</code>, <code>require</code> and most common <em>Node.JS</em> <a href="./jsgtk_modules/">core modules</a>
 </li>
-<li>a <em>Node.JS</em> like environment with <code>process</code>, <code>console</code>, <code>require</code> and most common <em>Node.JS</em> core modules</li>
-<li>a <code>camelCase</code> namespace to make <em>GJS</em> look more <em>JavaScripty</em>
+<li>an automatically transformed ECMAScript 2015 syntax for <em>GJS SpiderMonkey</em> environment via <a href="https://github.com/WebReflection/babel-standalone">babel-standalone</a> and <a href="./examples/es6.js">loaded modules</a>
+</li>
+<li>a <code>camelCase</code> imported namespace to make <em>GJS</em> modules look more <em>JavaScripty</em>
 </li>
 <li>a cross platform, lightweight, yet powerful namespace that brings <strong><em>Gtk</em> native Widgets</strong> to every compatible OS</li>
 <li>a <em>Node.JS</em> and "<em>Web.JS</em>" friendly way to attach/detach signals ( <code>obj.on(signal, listener)</code> )</li>
 </ul>
-
-<h3>
-<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Examples</h3>
-
-<p>The <a href="https://github.com/WebReflection/jsgtk-examples#jsgtk-examples">following repository</a> includes most common <code>GJS</code> examples readapted for <code>jsgtk</code>.</p>
 
 <h3>
 <a id="platforms" class="anchor" href="#platforms" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Platforms</h3>
@@ -61,9 +58,14 @@
 <h3>
 <a id="how-to-install" class="anchor" href="#how-to-install" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How To Install</h3>
 
-<p>A basic <code>npm install -g jsgtk</code> is all you need but please be sure you have installed dependencies first.</p>
+<p>On <strong>OSX</strong> you can use the following terminal command and follow instructions:</p>
+
+<div class="highlight highlight-source-shell"><pre>sh -c <span class="pl-s"><span class="pl-pds">"</span><span class="pl-s"><span class="pl-pds">$(</span>curl -fsSL https://webreflection.github.io/jsgtk/mac<span class="pl-pds">)</span></span><span class="pl-pds">"</span></span></pre></div>
 
 <p>On <strong>ArchLinux</strong> you can use <code>yaourt -S --needed jsgtk</code> installing from <a href="https://aur.archlinux.org/">AUR</a>.</p>
+
+<p>It is also possible to install it via <code>npm install -g jsgtk</code> but in this case please be sure you have installed dependencies first.
+A hint about best way to install them might be printed on the terminal.</p>
 
 <h3>
 <a id="dependencies" class="anchor" href="#dependencies" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dependencies</h3>
@@ -77,6 +79,11 @@
 <li>on <strong>OSX Homebrew</strong>: <code>brew install gtk+3 gjs</code> and optionally <code>webkitgtk</code> for the <code>browser.js</code> example (although right now there is some problem)</li>
 <li>on <strong>OSX MacPorts</strong>: <code>port install gjs adwaita-icon-theme xorg-server xorg-xinit</code> and optionally <code>webkit2-gtk</code> for the <code>browser.js</code> example. Please note <code>xorg-server</code> requires to log out and back in again before it can work.</li>
 </ul>
+
+<h3>
+<a id="gtkui-examples" class="anchor" href="#gtkui-examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Gtk/UI Examples</h3>
+
+<p>The <a href="https://github.com/WebReflection/jsgtk-examples#jsgtk-examples">following repository</a> includes most common <code>GJS</code> examples readapted for <code>jsgtk</code>.</p>
 
 <h3>
 <a id="why-not-node-gir-or-node-gtk" class="anchor" href="#why-not-node-gir-or-node-gtk" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Why not <a href="https://github.com/creationix/node-gir">node-gir</a> or <a href="https://github.com/WebReflection/node-gtk">node-gtk</a>?</h3>
