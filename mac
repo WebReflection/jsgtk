@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+destdir='/usr/local'
 pkgname=jsgtk
 pkgver=$(curl -L https://webreflection.github.io/jsgtk/version)
 pkgdir="/tmp/$pkgname-$pkgver"
@@ -10,8 +11,9 @@ cd $pkgdir
 curl -L -O $source
 tar -xzvf "${pkgname}-${pkgver}.tar.gz"
 
-sudo mkdir -p "/usr/lib/${pkgname}"
-sudo cp -r "${pkgname}/jsgtk_modules" "/usr/lib/${pkgname}"
-sudo install -Dm755 ${pkgname}.sh "/usr/bin/${pkgname}"
+sudo mkdir -p "${destdir}/lib/${pkgname}"
+sudo cp -r "${pkgname}/jsgtk_modules" "${destdir}/lib/${pkgname}"
+sudo cp "${pkgname}.sh" "${destdir}/bin/${pkgname}"
+sudo chmod 0755 "${destdir}/bin/${pkgname}"
 
-rm -rf $pkgdir
+# rm -rf $pkgdir
