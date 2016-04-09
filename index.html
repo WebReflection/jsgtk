@@ -16,12 +16,22 @@
     <header>
       <div class="container">
         <h1>Jsgtk</h1>
-        <h2>A simplified approach to GJS for node and JS developers.</h2>
+        <h2>A simplified approach to GJS for Node.JS and JavaScript developers.</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/WebReflection/jsgtk/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/WebReflection/jsgtk/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/WebReflection/jsgtk" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
       </div>
     </header>
 
     <div class="container">
       <section id="main_content">
+        <h1>
+<a id="jsgtk" class="anchor" href="#jsgtk" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>JSGtk+</h1>
+
+<p>A simplified approach to <a href="https://wiki.gnome.org/action/show/Projects/Gjs?action=show&amp;redirect=Gjs">GJS</a> for <a href="https://nodejs.org/">Node.JS</a> and <em>JavaScript</em> developers.</p>
 
 <h3>
 <a id="project-ideas" class="anchor" href="#project-ideas" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Project Ideas</h3>
@@ -48,16 +58,17 @@
 <h3>
 <a id="how-to-install" class="anchor" href="#how-to-install" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How To Install</h3>
 
-<p>On <strong>OSX</strong> you can use the following terminal command and follow instructions:</p>
+<p>On <strong>ArchLinux</strong> you can simply use <code>yaourt -S --needed jsgtk</code> installing from <a href="https://aur.archlinux.org/packages/jsgtk/">AUR</a>.</p>
 
-<div class="highlight highlight-source-shell"><pre>sh -c <span class="pl-s"><span class="pl-pds">"</span><span class="pl-s"><span class="pl-pds">$(</span>curl -fsSL https://webreflection.github.io/jsgtk/mac<span class="pl-pds">)</span></span><span class="pl-pds">"</span></span></pre></div>
+<p>On other common <strong>Linux</strong> distros, and also on <strong>OSX</strong>, you can use the following terminal command and follow its instructions:</p>
 
-<p>Following the used <a href="https://github.com/WebReflection/jsgtk/blob/gh-pages/mac">mac file content</a>.</p>
+<div class="highlight highlight-source-shell"><pre>sh -c <span class="pl-s"><span class="pl-pds">"</span><span class="pl-s"><span class="pl-pds">$(</span>curl -fsSL https://webreflection.github.io/jsgtk/install<span class="pl-pds">)</span></span><span class="pl-pds">"</span></span></pre></div>
 
-<p>On <strong>ArchLinux</strong> you can use <code>yaourt -S --needed jsgtk</code> installing from <a href="https://aur.archlinux.org/">AUR</a>.</p>
+<p><sup>If you would like to know what that script does, feel free to read the used <a href="https://github.com/WebReflection/jsgtk/blob/gh-pages/install">install file content</a>.</sup></p>
 
-<p>It is also possible to install it via <code>npm install -g jsgtk</code> but in this case please be sure you have installed dependencies first.
-A hint about best way to install them might be printed on the terminal.</p>
+<p>There is also a <code>jsgtk</code> package on <strong>npm</strong> and it is possible to install it via <code>npm install -g jsgtk</code>.
+However, in this case, please be sure you have installed dependencies first.
+Some hint about best way to install them might be printed on the terminal once installed.</p>
 
 <h3>
 <a id="dependencies" class="anchor" href="#dependencies" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dependencies</h3>
@@ -72,20 +83,43 @@ A hint about best way to install them might be printed on the terminal.</p>
 <li>on <strong>OSX MacPorts</strong>: <code>port install gjs adwaita-icon-theme xorg-server xorg-xinit</code> and optionally <code>webkit2-gtk</code> for the <code>browser.js</code> example. Please note <code>xorg-server</code> requires to log out and back in again before it can work.</li>
 </ul>
 
+<p>Please remember using the installer should already bring in essential dependencies so most likely there's nothing else to do.</p>
+
 <h3>
 <a id="gtkui-examples" class="anchor" href="#gtkui-examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Gtk/UI Examples</h3>
 
-<p>The <a href="https://github.com/WebReflection/jsgtk-examples#jsgtk-examples">following repository</a> includes most common <code>GJS</code> examples readapted for <code>jsgtk</code>.</p>
+<p>To test if everything is fine, you can create a <code>welcome.js</code> file and run it via <code>jsgtk test.js</code> or, after <code>chmod +x test.js</code>, directly via <code>./test.js</code>:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-c">#!/usr/bin/env jsgtk</span>
+<span class="pl-k">const</span> <span class="pl-c1">Gtk</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>Gtk<span class="pl-pds">'</span></span>);
+<span class="pl-smi">Gtk</span>.<span class="pl-en">init</span>(<span class="pl-c1">null</span>);
+<span class="pl-k">const</span> <span class="pl-c1">win</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Gtk.Window</span>({
+  title<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>jsgtk<span class="pl-pds">'</span></span>,
+  type<span class="pl-k">:</span> <span class="pl-smi">Gtk</span>.<span class="pl-smi">WindowType</span>.<span class="pl-c1">TOPLEVEL</span>,
+  windowPosition<span class="pl-k">:</span> <span class="pl-smi">Gtk</span>.<span class="pl-smi">WindowPosition</span>.<span class="pl-c1">CENTER</span>
+})
+  .<span class="pl-en">once</span>(<span class="pl-s"><span class="pl-pds">'</span>show<span class="pl-pds">'</span></span>, () <span class="pl-k">=&gt;</span> {
+    <span class="pl-smi">win</span>.<span class="pl-en">setKeepAbove</span>(<span class="pl-c1">true</span>);
+    <span class="pl-smi">Gtk</span>.<span class="pl-en">main</span>();
+  })
+  .<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>destroy<span class="pl-pds">'</span></span>, <span class="pl-smi">Gtk</span>.<span class="pl-smi">mainQuit</span>)
+;
+<span class="pl-smi">win</span>.<span class="pl-c1">add</span>(<span class="pl-k">new</span> <span class="pl-en">Gtk.Label</span>({label<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Hello jsGtk+<span class="pl-pds">'</span></span>}));
+<span class="pl-smi">win</span>.<span class="pl-en">setDefaultSize</span>(<span class="pl-c1">200</span>, <span class="pl-c1">80</span>);
+<span class="pl-smi">win</span>.<span class="pl-en">showAll</span>();</pre></div>
+
+<p>There is also a <a href="https://github.com/WebReflection/jsgtk-examples#jsgtk-examples">jsgtk-examples</a> repository which includes most common <code>GJS</code> examples, readapted for <code>jsgtk</code>.</p>
+
+<h4>
+<a id="tests-and-other-examples" class="anchor" href="#tests-and-other-examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tests and other examples</h4>
+
+<p>If you clone this repository, <code>npm test</code> is the way to test few functionalities.
+Once cloned locally, you can also try <code>./jsgtk examples/base.js</code> or <a href="./examples">any other file</a>.</p>
 
 <h3>
 <a id="why-not-node-gir-or-node-gtk" class="anchor" href="#why-not-node-gir-or-node-gtk" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Why not <a href="https://github.com/creationix/node-gir">node-gir</a> or <a href="https://github.com/WebReflection/node-gtk">node-gtk</a>?</h3>
 
 <p>Well, apparently both projects are stuck/abandoned and unfortunately there's no other option ^_^;;</p>
-
-<h3>
-<a id="tests-examples-demos" class="anchor" href="#tests-examples-demos" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tests, Examples, Demos</h3>
-
-<p>If you clone this repository, <code>npm test</code> is the way to test, <code>./jsgtk examples/base.js</code> or other files the way to try out demos.</p>
       </section>
     </div>
 
