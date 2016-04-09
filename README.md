@@ -52,7 +52,7 @@ Please remember using the installer should already bring in essential dependenci
 
 
 ### Gtk/UI Examples
-To test if everything is fine, you can create a `welcome.js` file and run it via `jsgtk test.js` or, after `chmod +x test.js`, directly via `./test.js`:
+To test if everything is fine, you can create a `test.js` file and run it via `jsgtk test.js` or, after `chmod +x test.js`, directly via `./test.js`:
 ```js
 #!/usr/bin/env jsgtk
 const Gtk = require('Gtk');
