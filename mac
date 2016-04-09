@@ -97,5 +97,20 @@ if [ "${macported}" = "true" ]; then
   echo ""
 fi
 
-echo "  $(tput bold)thanks$(tput sgr0) for trying jsgtk "
+echo "  $(tput bold)Thank you$(tput sgr0) for trying jsgtk!"
+echo "  Following a usage example:"
+echo ""
+echo "jsgtk -e '
+const Gtk = require(\"Gtk\");
+Gtk.init(null);
+const win = new Gtk.Window({
+  title: \"jsgtk\",
+  type: Gtk.WindowType.TOPLEVEL
+})
+  .once(\"show\", Gtk.main)
+  .on(\"destroy\", Gtk.mainQuit);
+win.add(new Gtk.Label({label: \"Hello jsGtk+\"}));
+win.setDefaultSize(200, 80);
+win.showAll();
+'"
 echo ""
