@@ -10,8 +10,9 @@ pkgname=jsgtk
 pkgver=$(curl -L https://webreflection.github.io/jsgtk/version)
 pkgdir="/tmp/$pkgname-$pkgver"
 source="https://webreflection.github.io/jsgtk/archive/${pkgname}-${pkgver}.tar.gz"
+macported='false'
 
-echo -e "
+echo "
 
   $(tput bold)jsgtk ${pkgver}$(tput sgr0)
 
@@ -27,6 +28,27 @@ if [[ $? -ne 0 ]] || [[ "${authorized}" != "${pkgver}" ]]; then
   exit 1
 fi
 
+if [ "$(which gjs 2> /dev/null)" = "" ]; then
+  if [ "$(which brew)" = "" ]; then
+    if [ "$(which port)" = "" ]; then
+      echo "  $(tput bold)Dependencies issue:$(tput sgr0)"
+      echo '    please install either homebrew or macports to have GJS'
+      echo '      http://brew.sh/'
+      echo '      https://www.macports.org/ (suggested)'
+      exit 0
+    else
+      macported='true'
+      echo "  Installing $(tput bold)GJS$(tput sgr0) via $(tput bold)MacPorts$(tput sgr0)"
+      sleep 2
+      sudo port install gjs adwaita-icon-theme xorg-server xorg-xinit
+    fi
+  else
+    echo "  Installing $(tput bold)GJS$(tput sgr0) via $(tput bold)Homebrew$(tput sgr0)"
+    sleep 2
+    brew install gtk+3 gjs adwaita-icon-theme
+  fi
+fi
+
 cd $pkgdir
 curl -L -O $source
 tar -xzvf "${pkgname}-${pkgver}.tar.gz"
@@ -37,3 +59,8 @@ sudo cp "${pkgname}/${pkgname}.sh" "${destdirexe}"
 sudo chmod +x "${destdirexe}"
 
 rm -rf $pkgdir
+
+if [ "${macported}" = "true" ]; then
+  echo "  in order to use X11 please $(tput bold)log out$(tput sgr0)"
+  echo "  and then $(tput bold)log in$(tput sgr0) again"
+fi
