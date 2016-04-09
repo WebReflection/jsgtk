@@ -8,7 +8,7 @@ url="https://github.com/WebReflection/jsgtk"
 license=('MIT')
 depends=('gjs')
 source=(https://webreflection.github.io/jsgtk/archive/$pkgname-$pkgver.tar.gz)
-md5sums=('36c11cf5f363ffb346898ce6e8020450')
+md5sums=('c8853742970e4cad49f173c9df58d7fe')
 
 package() {
 
