@@ -7,7 +7,27 @@ if [ "$TMPDIR" = "" ]; then
   TMPDIR=/tmp/
 fi
 
-destdir='/usr/local'
+# if specified, use $JSGTK_INSTALL folder
+# e.g. export JSGTK_INSTALL_PATH=/opt/local
+if [ "$JSGTK_INSTALL_PATH" != "" ]; then
+  destdir="$JSGTK_INSTALL_PATH"
+else
+  if [ -d /usr/local/bin ]; then
+    destdir=/usr/local
+  else
+    if [ -d /opt/local/bin ]; then
+      destdir=/opt/local
+    else
+      echo ""
+      echo " $(tput bold)[WARNING]$(tput sgr0): unable to locate a folder where to install jsgtk."
+      echo "   Please run again this script after the following command:"
+      echo " export JSGTK_INSTALL_PATH=~/.bin"
+      echo ""
+      exit 1
+    fi
+  fi
+fi
+
 destdirexe="${destdir}/bin/${pkgname}"
 destdirlib="${destdir}/lib/${pkgname}"
 pkgname=jsgtk
