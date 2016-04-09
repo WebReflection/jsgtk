@@ -1,0 +1,182 @@
+# (C) Andrea Giammarchi @WebReflection
+# the esiest way to install jsgtk is opening a terminal
+# and writing the following command:
+# sh -c "$(curl -fsSL https://webreflection.github.io/jsgtk/mac)"
+
+pkgname=jsgtk
+
+show_thanks() {
+  echo "  $(tput bold)Thank you$(tput sgr0) for trying jsgtk!"
+}
+
+show_usage_example() {
+  echo ""
+  echo "  Following a usage example:"
+  echo ""
+  echo "jsgtk -e 'const Gtk = require(\"Gtk\");
+Gtk.init(null);
+const win = new Gtk.Window({
+  title: \"jsgtk\",
+  type: Gtk.WindowType.TOPLEVEL
+})
+  .once(\"show\", Gtk.main)
+  .on(\"destroy\", Gtk.mainQuit);
+win.add(new Gtk.Label({label: \"Hello jsGtk+\"}));
+win.setDefaultSize(200, 80);
+win.showAll();'
+  "
+}
+
+if [ "$TMPDIR" = "" ]; then
+  TMPDIR=/tmp
+fi
+
+# if specified, use $JSGTK_INSTALL folder
+# e.g. export JSGTK_INSTALL_PATH=/opt/local
+if [ "$JSGTK_INSTALL_PATH" != "" ]; then
+  destdir="$JSGTK_INSTALL_PATH"
+else
+  if [ -d /usr/local/bin ]; then
+    destdir=/usr/local
+  else
+    if [ -d /opt/local/bin ]; then
+      destdir=/opt/local
+    else
+      echo ""
+      echo " $(tput bold)[WARNING]$(tput sgr0): unable to locate a folder where to install jsgtk."
+      echo "   Please run again this script after the following command:"
+      echo " export JSGTK_INSTALL_PATH=~/.bin"
+      echo ""
+      exit 1
+    fi
+  fi
+fi
+
+# verify target file and folders will be reachable
+if [ ! -d "${destdir}/bin" ] || [ ! -d "${destdir}/lib" ]; then
+  echo ""
+  echo " $(tput bold)[WARNING]$(tput sgr0): unable to install jsgtk."
+  echo "   Please be sure ${destdir}/bin and ${destdir}/lib exists."
+  echo ""
+  exit 1
+fi
+
+destbin="${destdir}/bin/${pkgname}"
+destlib="${destdir}/lib/${pkgname}"
+
+# fetch latest version from gh-pages
+pkgver=$(curl -sL https://webreflection.github.io/jsgtk/version)
+pkgdir="${TMPDIR}/${pkgname}-${pkgver}"
+source="https://webreflection.github.io/jsgtk/archive/${pkgname}-${pkgver}.tar.gz"
+macported='false'
+
+# info message and ask for sudo
+echo "
+
+  $(tput bold)jsgtk ${pkgver}$(tput sgr0)
+
+    jsgtk runs via $(tput bold)${destbin}$(tput sgr0)
+    and uses its libraries in $(tput bold)${destlib}$(tput sgr0)
+
+  sudo privilege is needed to install dependencies:
+
+"
+
+# be sure the sudo password is known
+authorized=$(sudo sh -c "echo '${pkgver}'")
+if [[ $? -ne 0 ]] || [[ "${authorized}" != "${pkgver}" ]]; then
+  echo ''
+  echo "  $(tput bold)sudo password is necessary$(tput sgr0) to install lib and bin"
+  echo ''
+  exit 1
+fi
+
+# verify dependencies
+if [ "$(which gjs 2> /dev/null)" = "" ]; then
+  if [ "$(uname)" = "Darwin" ]; then
+    if [ "$(which brew)" = "" ]; then
+      if [ "$(which port)" = "" ]; then
+        echo "  $(tput bold)Dependencies issue:$(tput sgr0)"
+        echo '    please install either homebrew or macports to have GJS'
+        echo '      http://brew.sh/'
+        echo '      https://www.macports.org/ (suggested)'
+        exit 1
+      else
+        macported='true'
+        echo "  Installing $(tput bold)GJS$(tput sgr0) via $(tput bold)MacPorts$(tput sgr0)"
+        sleep 2
+        sudo port install gjs adwaita-icon-theme xorg-server xorg-xinit
+      fi
+    else
+      echo "  Installing $(tput bold)GJS$(tput sgr0) via $(tput bold)Homebrew$(tput sgr0)"
+      sleep 2
+      brew install gtk+3 gjs adwaita-icon-theme
+      if [ "$(which gjs 2> /dev/null)" = "" ]; then
+        brew link --overwrite gjs
+      fi
+    fi
+  else
+    if [ "$(uname)" = "Linux" ]; then
+      if [ "$(which pacman 2> /dev/null)" = "" ]; then
+        if [ "$(which apt-get 2> /dev/null)" = "" ]; then
+          if [ "$(which yum 2> /dev/null)" = "" ]; then
+            echo ""
+            echo " $(tput bold)[WARNING]$(tput sgr0): unknown way to install dependencies:"
+            echo '   gjs, gobject-introspection, libgirepository-1.0'
+            echo ""
+            exit 1
+          else
+            sudo yum -y install gjs
+          fi
+        else
+          sudo apt-get --assume-yes install gjs
+        fi
+      else
+        if [ "$(which yaourt 2> /dev/null)" = "" ]; then
+          sudo pacman -S --needed --noconfirm gjs
+        else
+          yaourt -S --needed --noconfirm jsgtk
+          echo ""
+          show_thanks ""
+          show_usage_example ""
+          echo ""
+          exit 0
+        fi
+      fi
+    else
+      echo ""
+      echo " $(tput bold)[WARNING]$(tput sgr0): this platform is not supported: $(uname)"
+      echo ""
+      exit 1
+    fi
+  fi
+fi
+
+# unpack and install the package
+mkdir -p $pkgdir
+cd $pkgdir
+echo "installing from $(pwd)"
+curl -sLO $source
+tar -xzvf "${pkgname}-${pkgver}.tar.gz"
+sudo mkdir -p "${destlib}"
+sudo cp -r "${pkgname}/jsgtk_modules" "${destlib}"
+sudo cp "${pkgname}/${pkgname}.sh" "${destbin}"
+sudo chmod +x "${destbin}"
+rm -rf $pkgdir
+
+echo ""
+
+# notify about MacPorts X11
+if [ "${macported}" = "true" ]; then
+  echo "  in order to use X11 please $(tput bold)log out$(tput sgr0)"
+  echo "  and then $(tput bold)log in$(tput sgr0) again"
+  echo ""
+fi
+
+show_thanks ""
+
+if [ "${macported}" != "true" ]; then
+  show_usage_example ""
+fi
+
+echo ""
