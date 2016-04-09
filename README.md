@@ -29,7 +29,7 @@ On other common **Linux** distros, and also on **OSX**, you can use the followin
 sh -c "$(curl -fsSL https://webreflection.github.io/jsgtk/install)"
 ```
 
-<sub>If you would like to know what that script does, feel free to read the used [install file content](https://github.com/WebReflection/jsgtk/blob/gh-pages/install).</sub>
+<sup>If you would like to know what that script does, feel free to read the used [install file content](https://github.com/WebReflection/jsgtk/blob/gh-pages/install).</sup>
 
 
 There is also a `jsgtk` package on **npm** and it is possible to install it via `npm install -g jsgtk`.
