@@ -62,10 +62,14 @@ sudo cp "${pkgname}/${pkgname}.sh" "${destdirexe}"
 sudo chmod +x "${destdirexe}"
 rm -rf $pkgdir
 
+echo ""
+
 # notify about MacPorts X11
 if [ "${macported}" = "true" ]; then
   echo "  in order to use X11 please $(tput bold)log out$(tput sgr0)"
   echo "  and then $(tput bold)log in$(tput sgr0) again"
+  echo ""
 fi
 
 echo " $(tput bold)thanks$(tput sgr0) for trying jsgtk "
+echo ""
