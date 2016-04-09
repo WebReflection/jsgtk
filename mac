@@ -23,7 +23,7 @@ echo "
   please give this installer privileges to do so:
 
 "
-authorized=$(sudo sh -c "echo ${pkgver}")
+authorized=$(sudo sh -c "echo '${pkgver}'")
 if [[ $? -ne 0 ]] || [[ "${authorized}" != "${pkgver}" ]]; then
   echo 'sudo password is necessary to install lib and exacutable'
   exit 1
