@@ -75,6 +75,9 @@ if [ "$(which gjs 2> /dev/null)" = "" ]; then
     echo "  Installing $(tput bold)GJS$(tput sgr0) via $(tput bold)Homebrew$(tput sgr0)"
     sleep 2
     brew install gtk+3 gjs adwaita-icon-theme
+    if [ "$(which gjs 2> /dev/null)" = "" ]; then
+      brew link --overwrite gjs
+    fi
   fi
 fi
 
