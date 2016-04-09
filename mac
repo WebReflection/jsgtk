@@ -3,6 +3,8 @@
 # and writing the following command:
 # sh -c "$(curl -fsSL https://webreflection.github.io/jsgtk/mac)"
 
+pkgname=jsgtk
+
 if [ "$TMPDIR" = "" ]; then
   TMPDIR=/tmp/
 fi
@@ -30,7 +32,6 @@ fi
 
 destdirexe="${destdir}/bin/${pkgname}"
 destdirlib="${destdir}/lib/${pkgname}"
-pkgname=jsgtk
 pkgver=$(curl -sL https://webreflection.github.io/jsgtk/version)
 pkgdir="${TMPDIR}${pkgname}-${pkgver}"
 source="https://webreflection.github.io/jsgtk/archive/${pkgname}-${pkgver}.tar.gz"
@@ -44,7 +45,7 @@ echo "
     jsgtk runs via $(tput bold)${destdirexe}$(tput sgr0)
     and uses its libraries in $(tput bold)${destdirlib}$(tput sgr0)
 
-  please give this installer privileges to do so:
+  sudo privilege is needed to install dependencies:
 
 "
 authorized=$(sudo sh -c "echo '${pkgver}'")
