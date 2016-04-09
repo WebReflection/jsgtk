@@ -71,5 +71,5 @@ if [ "${macported}" = "true" ]; then
   echo ""
 fi
 
-echo " $(tput bold)thanks$(tput sgr0) for trying jsgtk "
+echo "  $(tput bold)thanks$(tput sgr0) for trying jsgtk "
 echo ""
