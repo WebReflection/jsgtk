@@ -1,15 +1,20 @@
+# (C) Andrea Giammarchi @WebReflection
+# the esiest way to install jsgtk is opening a terminal
+# and writing the following command:
 # sh -c "$(curl -fsSL https://webreflection.github.io/jsgtk/mac)"
 
 destdir='/usr/local'
+destdirexe="${destdir}/lib/${pkgname}"
+destdirlib="${destdir}/bin/${pkgname}"
 pkgname=jsgtk
 pkgver=$(curl -L https://webreflection.github.io/jsgtk/version)
 pkgdir="/tmp/$pkgname-$pkgver"
 source="https://webreflection.github.io/jsgtk/archive/${pkgname}-${pkgver}.tar.gz"
 
 echo -e " Installing $(tput bold)jsgtk ${pkgver}$(tput sgr0)"
-echo "  jsgtk runs via ${destdir}/bin/${pkgname}"
-echo "  and uses libraries in ${destdir}/lib/${pkgname}"
-echo "  please give this installer privileges to do so:"
+echo -e "  jsgtk runs via $(tput bold)${destdirexe}$(tput sgr0)"
+echo -e "  and uses its libraries in $(tput bold)${destdirlib}$(tput sgr0)"
+echo -e "  please give this installer privileges to do so:"
 authorized=$(sudo sh -c "echo ${pkgver}")
 if [[ $? -ne 0 ]] || [[ "${authorized}" != "${pkgver}" ]]; then
   echo 'sudo password is necessary to install lib and exacutable'
@@ -20,9 +25,9 @@ cd $pkgdir
 curl -L -O $source
 tar -xzvf "${pkgname}-${pkgver}.tar.gz"
 
-sudo mkdir -p "${destdir}/lib/${pkgname}"
-sudo cp -r "${pkgname}/jsgtk_modules" "${destdir}/lib/${pkgname}"
-sudo cp "${pkgname}/${pkgname}.sh" "${destdir}/bin/${pkgname}"
-sudo chmod +x "${destdir}/bin/${pkgname}"
+sudo mkdir -p "${destdirlib}"
+sudo cp -r "${pkgname}/jsgtk_modules" "${destdirlib}"
+sudo cp "${pkgname}/${pkgname}.sh" "${destdirexe}"
+sudo chmod +x "${destdirexe}"
 
 rm -rf $pkgdir
