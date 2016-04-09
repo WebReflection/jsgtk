@@ -25,6 +25,9 @@ On **OSX** you can use the following terminal command and follow instructions:
 ```sh
 sh -c "$(curl -fsSL https://webreflection.github.io/jsgtk/mac)"
 ```
+Following the used [mac file content](https://github.com/WebReflection/jsgtk/blob/gh-pages/mac).
+
+
 On **ArchLinux** you can use `yaourt -S --needed jsgtk` installing from [AUR](https://aur.archlinux.org/).
 
 It is also possible to install it via `npm install -g jsgtk` but in this case please be sure you have installed dependencies first.
