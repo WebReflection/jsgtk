@@ -30,7 +30,8 @@ aur:
 	git commit -m "Updating to $(VERSION)"
 	git push
 	git checkout gh-pages
-	mv ~/code/aur/jsgtk/*.tar.*z archive
+	mkdir -p archive
+	mv ~/code/aur/jsgtk/*.tar.*z archive/
 	mv ~/code/aur/jsgtk/version ./
 	git add .
 	git commit -m "Update `cat version`"
