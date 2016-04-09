@@ -1,7 +1,5 @@
 # (C) Andrea Giammarchi @WebReflection
-# the esiest way to install jsgtk is opening a terminal
-# and writing the following command:
-# sh -c "$(curl -fsSL https://webreflection.github.io/jsgtk/mac)"
+# this is the esiest way to install `jsgtk` via terminal
 
 pkgname=jsgtk
 
@@ -134,38 +132,22 @@ if [ "$(which yaourt 2> /dev/null)" = "" ]; then
   sudo chmod +x "${destbin}"
   rm -rf $pkgdir
 
-  echo ""
-
   # notify about MacPorts X11
   if [ "${macported}" = "true" ]; then
+    echo ""
     echo "  in order to use X11 please $(tput bold)log out$(tput sgr0)"
     echo "  and then $(tput bold)log in$(tput sgr0) again"
-    echo ""
+    sleep 3
+    echo "  ... anyway ..."
   fi
 else
   # ArchLinux AUR users would surely prefer the AUR way
   yaourt -S --needed --noconfirm jsgtk
-  echo ""
 fi
 
-echo "  $(tput bold)Thank you$(tput sgr0) for trying jsgtk!"
-
-if [ "${macported}" != "true" ]; then
-  echo ""
-  echo "  Following a usage example:"
-  echo ""
-  echo "jsgtk -e 'const Gtk = require(\"Gtk\");
-Gtk.init(null);
-const win = new Gtk.Window({
-  title: \"jsgtk\",
-  type: Gtk.WindowType.TOPLEVEL
-})
-  .once(\"show\", Gtk.main)
-  .on(\"destroy\", Gtk.mainQuit);
-win.add(new Gtk.Label({label: \"Hello jsGtk+\"}));
-win.setDefaultSize(200, 80);
-win.showAll();'
-  "
-fi
-
+echo ""
+echo "  $(tput bold)Thank you$(tput sgr0) for trying $(tput bold)jsgtk$(tput sgr0)!"
+echo ""
+echo "    Visit the following page to try some example:"
+echo "    https://github.com/WebReflection/jsgtk/#gtkui-examples"
 echo ""
