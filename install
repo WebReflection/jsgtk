@@ -142,7 +142,7 @@ if [ "$(which yaourt 2> /dev/null)" = "" ]; then
   fi
 else
   # ArchLinux AUR users would surely prefer the AUR way
-  yaourt -S --needed --noconfirm jsgtk
+  yaourt -S --noconfirm jsgtk
 fi
 
 echo ""
