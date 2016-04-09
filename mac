@@ -52,6 +52,7 @@ if [ "$(which gjs 2> /dev/null)" = "" ]; then
 fi
 
 # unpack and install the package
+mkdir -p $pkgdir
 cd $pkgdir
 curl -L -O $source
 tar -xzvf "${pkgname}-${pkgver}.tar.gz"
