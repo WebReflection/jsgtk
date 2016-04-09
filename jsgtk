@@ -86,11 +86,22 @@
   const
     polyfills = imports.jsgtk.polyfills,
     mainloop = imports.jsgtk.mainloop,
-    gtk = imports.jsgtk.gtk_modules.withRuntime(evaluateModule),
+    gtk = imports.jsgtk.gtk_modules.withRuntime(),
     core = imports.jsgtk.core_modules.withRuntime(evaluateModule),
     modules = imports.jsgtk.node_modules.withRuntime(evaluateModule),
     process = core.get('process'),
-    timers =  core.get('timers')
+    timers =  core.get('timers'),
+    Babel = imports.jsgtk.babel.Babel,
+    BabelTransformer = {plugins: [
+      'transform-es2015-classes',
+      'transform-es2015-literals',
+      'transform-es2015-object-super',
+      'transform-es2015-parameters',
+      'transform-es2015-shorthand-properties',
+      'transform-es2015-unicode-regex',
+      'transform-exponentiation-operator',
+      'transform-es2015-template-literals',
+    ]}
   ;
 
   // env normalization
@@ -111,7 +122,7 @@
   );
 
   // module handler
-  function evaluateModule(nmsp, unique, id, fd, transform) {
+  function evaluateModule(sanitize, nmsp, unique, id, fd) {
     const
       dir = id.slice(0, -1 -fd.get_basename().length),
       exports = {},
@@ -124,7 +135,7 @@
       'module',
       '__dirname',
       '__filename',
-      (transform || String)(
+      (sanitize ? transform : String)(
         replace.call(fd.load_contents(null)[1], /^#![^\n\r]*/, '')
       )
     ).call(
@@ -152,6 +163,11 @@
     }
   }
 
+  // makes most ES6 compatible with GJS
+  function transform(code) {
+    return Babel.transform(code, BabelTransformer).code;
+  }
+
   // program bootstrap
   if (process.argv.length > 1) {
     requireWithPath(process.argv[1], CURRENT_DIR);
@@ -163,7 +179,7 @@
           'require',
           '__dirname',
           '__filename',
-          info
+          transform(info)
         ).call(
           global,
           function require(module) {

@@ -51,7 +51,7 @@
       'jsgtk_modules',
       id + '.js'
     ].join(constants.DIR_SEPARATOR));
-    return evaluate(core, id, fd.get_path(), fd);
+    return evaluate(false, core, id, fd.get_path(), fd);
   }
 
   exports.withRuntime = function setup($evaluate) {
