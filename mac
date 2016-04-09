@@ -3,12 +3,16 @@
 # and writing the following command:
 # sh -c "$(curl -fsSL https://webreflection.github.io/jsgtk/mac)"
 
+if [ "$TMPDIR" = "" ]; then
+  TMPDIR=/tmp/
+fi
+
 destdir='/usr/local'
 destdirexe="${destdir}/bin/${pkgname}"
 destdirlib="${destdir}/lib/${pkgname}"
 pkgname=jsgtk
 pkgver=$(curl -sL https://webreflection.github.io/jsgtk/version)
-pkgdir="/tmp/$pkgname-$pkgver"
+pkgdir="${TMPDIR}${pkgname}-${pkgver}"
 source="https://webreflection.github.io/jsgtk/archive/${pkgname}-${pkgver}.tar.gz"
 macported='false'
 
@@ -54,7 +58,7 @@ fi
 # unpack and install the package
 mkdir -p $pkgdir
 cd $pkgdir
-pwd
+echo "installing from $(pwd)"
 curl -sLO $source
 tar -xzvf "${pkgname}-${pkgver}.tar.gz"
 sudo mkdir -p "${destdirlib}"
