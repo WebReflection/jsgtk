@@ -11,8 +11,10 @@ jshintDir() {
     if [ -d $1/$file ]; then
       jshintDir $1/$file "$2$2"
     else
-      echo "$2  └─  $1/$file"
-      ${DIR}/node_modules/.bin/jshint $1/$file
+      if [ "$file" != "babel.js" ]; then
+        echo "$2  └─  $1/$file"
+        ${DIR}/node_modules/.bin/jshint $1/$file
+      fi
     fi
   done
 }

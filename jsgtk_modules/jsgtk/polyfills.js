@@ -6,6 +6,7 @@
 [
   function assign() {
     function isEnumerable(key) {
+      /* jshint validthis: true */
       return Object.getOwnPropertyDescriptor(this, key).enumerable;
     }
     return {
