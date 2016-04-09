@@ -1,6 +1,8 @@
 # JSGtk+
 A simplified approach to [GJS](https://wiki.gnome.org/action/show/Projects/Gjs?action=show&redirect=Gjs) for [Node.JS](https://nodejs.org/) and _JavaScript_ developers.
 
+
+
 ### Project Ideas
 Following the current list of project ideas and achievements:
 
@@ -13,13 +15,24 @@ Following the current list of project ideas and achievements:
 ### Examples
 The [following repository](https://github.com/WebReflection/jsgtk-examples#jsgtk-examples) includes most common `GJS` examples readapted for `jsgtk`.
 
+
+
 ### Platforms
 Currently developed and tested on **Linux** ([ArchLinux](https://www.archlinux.org/), [Debian](http://www.debian.org/), [Fedora](https://getfedora.org/), [Ubuntu](http://www.ubuntu.com/)) and **Darwin** ([OSX](http://www.apple.com/uk/osx/)) platforms.
 
-### How To Install
-A basic `npm install -g jsgtk` is all you need but please be sure you have installed dependencies first.
 
+
+### How To Install
+On **OSX** you can use the following terminal command and follow instructions:
+```sh
+sh -c "$(curl -fsSL https://webreflection.github.io/jsgtk/mac)"
+```
 On **ArchLinux** you can use `yaourt -S --needed jsgtk` installing from [AUR](https://aur.archlinux.org/).
+
+It is also possible to install it via `npm install -g jsgtk` but in this case please be sure you have installed dependencies first.
+A hint about best way to install them might be printed on the terminal.
+
+
 
 ### Dependencies
 This project trusts and uses 100% _GJS_, which is usually available through one of the following procedures:
@@ -30,8 +43,12 @@ This project trusts and uses 100% _GJS_, which is usually available through one 
   * on **OSX Homebrew**: `brew install gtk+3 gjs` and optionally `webkitgtk` for the `browser.js` example (although right now there is some problem)
   * on **OSX MacPorts**: `port install gjs adwaita-icon-theme xorg-server xorg-xinit` and optionally `webkit2-gtk` for the `browser.js` example. Please note `xorg-server` requires to log out and back in again before it can work.
 
+
+
 ### Why not [node-gir](https://github.com/creationix/node-gir) or [node-gtk](https://github.com/WebReflection/node-gtk)?
 Well, apparently both projects are stuck/abandoned and unfortunately there's no other option ^_^;;
+
+
 
 ### Tests, Examples, Demos
 If you clone this repository, `npm test` is the way to test, `./jsgtk examples/base.js` or other files the way to try out demos.
