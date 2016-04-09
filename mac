@@ -50,7 +50,9 @@ echo "
 "
 authorized=$(sudo sh -c "echo '${pkgver}'")
 if [[ $? -ne 0 ]] || [[ "${authorized}" != "${pkgver}" ]]; then
-  echo 'sudo password is necessary to install lib and exacutable'
+  echo ''
+  echo "  $(tput bold)sudo password is necessary$(tput sgr0) to install lib and bin"
+  echo ''
   exit 1
 fi
 
@@ -98,10 +100,11 @@ if [ "${macported}" = "true" ]; then
 fi
 
 echo "  $(tput bold)Thank you$(tput sgr0) for trying jsgtk!"
-echo "  Following a usage example:"
-echo ""
-echo "jsgtk -e '
-const Gtk = require(\"Gtk\");
+
+if [ "${macported}" != "true" ]; then
+  echo "  Following a usage example:"
+  echo ""
+  echo "jsgtk -e 'const Gtk = require(\"Gtk\");
 Gtk.init(null);
 const win = new Gtk.Window({
   title: \"jsgtk\",
@@ -111,6 +114,8 @@ const win = new Gtk.Window({
   .on(\"destroy\", Gtk.mainQuit);
 win.add(new Gtk.Label({label: \"Hello jsGtk+\"}));
 win.setDefaultSize(200, 80);
-win.showAll();
-'"
+win.showAll();'
+  "
+fi
+
 echo ""
