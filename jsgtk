@@ -1,4 +1,5 @@
-#!/usr/bin/env gjs
+#!/usr/bin/env bash
+name=// GJS_DISABLE_EXTRA_WARNINGS=1 exec gjs "$0" "$@"
 
 /* jshint esversion: 6, strict: true, node: true */
 /* global imports */
