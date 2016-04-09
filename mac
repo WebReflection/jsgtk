@@ -1,3 +1,5 @@
+# sh -c "$(curl -fsSL https://webreflection.github.io/jsgtk/mac)"
+
 destdir='/usr/local'
 pkgname=jsgtk
 pkgver=$(curl -L https://webreflection.github.io/jsgtk/version)
@@ -11,7 +13,7 @@ tar -xzvf "${pkgname}-${pkgver}.tar.gz"
 
 sudo mkdir -p "${destdir}/lib/${pkgname}"
 sudo cp -r "${pkgname}/jsgtk_modules" "${destdir}/lib/${pkgname}"
-sudo cp "${pkgname}.sh" "${destdir}/bin/${pkgname}"
+sudo cp "${pkgname}/${pkgname}.sh" "${destdir}/bin/${pkgname}"
 sudo chmod 0755 "${destdir}/bin/${pkgname}"
 
 rm -rf $pkgdir
