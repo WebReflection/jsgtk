@@ -83,7 +83,6 @@ echo "installing from $(pwd)"
 curl -sLO $source
 tar -xzvf "${pkgname}-${pkgver}.tar.gz"
 sudo mkdir -p "${destdirlib}"
-sudo mkdir -p "${destdirexe}"
 sudo cp -r "${pkgname}/jsgtk_modules" "${destdirlib}"
 sudo cp "${pkgname}/${pkgname}.sh" "${destdirexe}"
 sudo chmod +x "${destdirexe}"
