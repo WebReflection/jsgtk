@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <title>Jsgtk by WebReflection</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Jsgtk</h1>
+        <h2>A simplified approach to GJS for Node.JS and JavaScript developers.</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/WebReflection/jsgtk/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/WebReflection/jsgtk/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/WebReflection/jsgtk" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1>
+<a id="jsgtk" class="anchor" href="#jsgtk" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>JSGtk+</h1>
+
+<p>A simplified approach to <a href="https://wiki.gnome.org/action/show/Projects/Gjs?action=show&amp;redirect=Gjs">GJS</a> for <a href="https://nodejs.org/">Node.JS</a> and <em>JavaScript</em> developers.</p>
+
+<h3>
+<a id="project-ideas" class="anchor" href="#project-ideas" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Project Ideas</h3>
+
+<p>Following the current list of project ideas and achievements:</p>
+
+<ul>
+<li>a <em>CommonJS</em>-like module loader, compatible with any <a href="https://www.npmjs.com/">npm</a> module that uses <em>GJS</em> compatible syntax and features already implemented in <em>JSGtk+</em>
+</li>
+<li>a <em>Node.JS</em> like environment with <code>process</code>, <code>console</code>, <code>require</code> and most common <em>Node.JS</em> core modules</li>
+<li>a <code>camelCase</code> namespace to make <em>GJS</em> look more <em>JavaScripty</em>
+</li>
+<li>a cross platform, lightweight, yet powerful namespace that brings <strong><em>Gtk</em> native Widgets</strong> to every compatible OS</li>
+<li>a <em>Node.JS</em> and "<em>Web.JS</em>" friendly way to attach/detach signals ( <code>obj.on(signal, listener)</code> )</li>
+</ul>
+
+<h3>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Examples</h3>
+
+<p>The <a href="https://github.com/WebReflection/jsgtk-examples#jsgtk-examples">following repository</a> includes most common <code>GJS</code> examples readapted for <code>jsgtk</code>.</p>
+
+<h3>
+<a id="platforms" class="anchor" href="#platforms" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Platforms</h3>
+
+<p>Currently developed and tested on <strong>Linux</strong> (<a href="https://www.archlinux.org/">ArchLinux</a>, <a href="http://www.debian.org/">Debian</a>, <a href="https://getfedora.org/">Fedora</a>, <a href="http://www.ubuntu.com/">Ubuntu</a>) and <strong>Darwin</strong> (<a href="http://www.apple.com/uk/osx/">OSX</a>) platforms.</p>
+
+<h3>
+<a id="how-to-install" class="anchor" href="#how-to-install" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How To Install</h3>
+
+<p>A basic <code>npm install -g jsgtk</code> is all you need but please be sure you have installed dependencies first.</p>
+
+<p>On <strong>ArchLinux</strong> you can use <code>yaourt -S --needed jsgtk</code> installing from <a href="https://aur.archlinux.org/">AUR</a>.</p>
+
+<h3>
+<a id="dependencies" class="anchor" href="#dependencies" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dependencies</h3>
+
+<p>This project trusts and uses 100% <em>GJS</em>, which is usually available through one of the following procedures:</p>
+
+<ul>
+<li>on <strong>ArchLinux</strong>: <code>pacman -S --needed gjs</code> and optionally <code>webkitgtk</code> for the <code>browser.js</code> example</li>
+<li>on <strong>Debian</strong> and <strong>Ubuntu</strong>: <code>apt-get install gjs</code> and optionally <code>libwebkit2gtk-3.0</code> or higher for the <code>browser.js</code> example</li>
+<li>on <strong>Fedora</strong>: pretty much everything is already installed</li>
+<li>on <strong>OSX Homebrew</strong>: <code>brew install gtk+3 gjs</code> and optionally <code>webkitgtk</code> for the <code>browser.js</code> example (although right now there is some problem)</li>
+<li>on <strong>OSX MacPorts</strong>: <code>port install gjs adwaita-icon-theme xorg-server xorg-xinit</code> and optionally <code>webkit2-gtk</code> for the <code>browser.js</code> example. Please note <code>xorg-server</code> requires to log out and back in again before it can work.</li>
+</ul>
+
+<h3>
+<a id="why-not-node-gir-or-node-gtk" class="anchor" href="#why-not-node-gir-or-node-gtk" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Why not <a href="https://github.com/creationix/node-gir">node-gir</a> or <a href="https://github.com/WebReflection/node-gtk">node-gtk</a>?</h3>
+
+<p>Well, apparently both projects are stuck/abandoned and unfortunately there's no other option ^_^;;</p>
+
+<h3>
+<a id="tests-examples-demos" class="anchor" href="#tests-examples-demos" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tests, Examples, Demos</h3>
+
+<p>If you clone this repository, <code>npm test</code> is the way to test, <code>./jsgtk examples/base.js</code> or other files the way to try out demos.</p>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
