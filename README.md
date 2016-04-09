@@ -7,8 +7,8 @@ A simplified approach to [GJS](https://wiki.gnome.org/action/show/Projects/Gjs?a
 Following the current list of project ideas and achievements:
 
   * a _CommonJS_-like module loader, compatible with any [npm](https://www.npmjs.com/) module
-  * a _Node.JS_ like environment with `process`, `console`, `require` and most common _Node.JS_ [core modules](./jsgtk_modules/)
-  * an automatically transformed ECMAScript 2015 syntax for _GJS SpiderMonkey_ environment via [babel-standalone](https://github.com/WebReflection/babel-standalone) and [loaded modules](./examples/es6.js)
+  * a _Node.JS_ like environment with `process`, `console`, `require` and most common _Node.JS_ [core modules](https://github.com/WebReflection/jsgtk/tree/master/jsgtk_modules)
+  * an automatically transformed ECMAScript 2015 syntax for _GJS SpiderMonkey_ environment via [babel-standalone](https://github.com/WebReflection/babel-standalone) and [loaded modules](https://github.com/WebReflection/jsgtk/blob/master/examples/es6.js)
   * a `camelCase` imported namespace to make _GJS_ modules look more _JavaScripty_
   * a cross platform, lightweight, yet powerful namespace that brings **_Gtk_ native Widgets** to every compatible OS
   * a _Node.JS_ and "_Web.JS_" friendly way to attach/detach signals ( `obj.on(signal, listener)` )
@@ -79,7 +79,7 @@ There is also a [jsgtk-examples](https://github.com/WebReflection/jsgtk-examples
 
 #### Tests and other examples
 If you clone this repository, `npm test` is the way to test few functionalities.
-Once cloned locally, you can also try `./jsgtk examples/base.js` or [any other file](./examples).
+Once cloned locally, you can also try `./jsgtk examples/base.js` or [any other file](https://github.com/WebReflection/jsgtk/tree/master/examples).
 
 
 
