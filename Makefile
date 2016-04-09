@@ -25,12 +25,14 @@ aur:
 	cp {LICENSE,PKGBUILD} ~/code/aur/jsgtk
 	mv .SRCINFO ~/code/aur/jsgtk
 	mv *.tar.*z ~/code/aur/jsgtk
+	echo "$(VERSION)" > ~/code/aur/jsgtk/version
 	git add .
 	git commit -m "Updating to $(VERSION)"
 	git push
 	git checkout gh-pages
 	mv ~/code/aur/jsgtk/*.tar.*z archive
+	mv ~/code/aur/jsgtk/version ./
 	git add .
-	git commit -m "Updating to $(VERSION)"
+	git commit -m "Update `cat version`"
 	git push
 	git checkout master
