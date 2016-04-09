@@ -7,7 +7,7 @@ if [ "$TMPDIR" = "" ]; then
   TMPDIR=/tmp
 fi
 
-# if specified, use $JSGTK_INSTALL folder
+# if specified, use $JSGTK_INSTALL_PATH folder
 # e.g. export JSGTK_INSTALL_PATH=/opt/local
 if [ "$JSGTK_INSTALL_PATH" != "" ]; then
   destdir="$JSGTK_INSTALL_PATH"
