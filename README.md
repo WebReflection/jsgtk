@@ -15,11 +15,6 @@ Following the current list of project ideas and achievements:
 
 
 
-### Gtk/UI Examples
-The [following repository](https://github.com/WebReflection/jsgtk-examples#jsgtk-examples) includes most common `GJS` examples readapted for `jsgtk`.
-
-
-
 ### Platforms
 Currently developed and tested on **Linux** ([ArchLinux](https://www.archlinux.org/), [Debian](http://www.debian.org/), [Fedora](https://getfedora.org/), [Ubuntu](http://www.ubuntu.com/)) and **Darwin** ([OSX](http://www.apple.com/uk/osx/)) platforms.
 
@@ -45,6 +40,11 @@ This project trusts and uses 100% _GJS_, which is usually available through one 
   * on **Fedora**: pretty much everything is already installed
   * on **OSX Homebrew**: `brew install gtk+3 gjs` and optionally `webkitgtk` for the `browser.js` example (although right now there is some problem)
   * on **OSX MacPorts**: `port install gjs adwaita-icon-theme xorg-server xorg-xinit` and optionally `webkit2-gtk` for the `browser.js` example. Please note `xorg-server` requires to log out and back in again before it can work.
+
+
+
+### Gtk/UI Examples
+The [following repository](https://github.com/WebReflection/jsgtk-examples#jsgtk-examples) includes most common `GJS` examples readapted for `jsgtk`.
 
 
 
