@@ -197,7 +197,8 @@
         break;
       case InfoType.STRUCT:
         target = getTarget(info);
-        if (target) parseStruct(target, info);
+        if (target && /^(?:Container|Widget)Class$/.test(info.get_name()))
+          parseStruct(target, info);
         break;
       case InfoType.FUNCTION:
       case InfoType.PROPERTY:
