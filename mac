@@ -54,6 +54,7 @@ fi
 # unpack and install the package
 mkdir -p $pkgdir
 cd $pkgdir
+pwd
 curl -sLO $source
 tar -xzvf "${pkgname}-${pkgver}.tar.gz"
 sudo mkdir -p "${destdirlib}"
