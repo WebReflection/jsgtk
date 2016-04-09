@@ -1,0 +1,11 @@
+#!/usr/bin/env node
+var fs = require('fs');
+fs.writeFileSync(
+  'babel.min.js',
+  fs.readFileSync('babel.min.js').toString().replace(
+    /(if|while)(\(\w+=(?:\w+\(.*?\)|[^=()]+?)\))/g,
+    function ($0, $1, $2) {
+      return $1 + '(' + $2 + ')';
+    }
+  )
+);
