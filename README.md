@@ -6,13 +6,16 @@ A simplified approach to [GJS](https://wiki.gnome.org/action/show/Projects/Gjs?a
 ### Project Ideas
 Following the current list of project ideas and achievements:
 
-  * a _CommonJS_-like module loader, compatible with any [npm](https://www.npmjs.com/) module that uses _GJS_ compatible syntax and features already implemented in _JSGtk+_
-  * a _Node.JS_ like environment with `process`, `console`, `require` and most common _Node.JS_ core modules
-  * a `camelCase` namespace to make _GJS_ look more _JavaScripty_
+  * a _CommonJS_-like module loader, compatible with any [npm](https://www.npmjs.com/) module
+  * a _Node.JS_ like environment with `process`, `console`, `require` and most common _Node.JS_ [core modules](./jsgtk_modules/)
+  * an automatically transformed ECMAScript 2015 syntax for _GJS SpiderMonkey_ environment via [babel-standalone](https://github.com/WebReflection/babel-standalone) and [loaded modules](./examples/es6.js)
+  * a `camelCase` imported namespace to make _GJS_ modules look more _JavaScripty_
   * a cross platform, lightweight, yet powerful namespace that brings **_Gtk_ native Widgets** to every compatible OS
   * a _Node.JS_ and "_Web.JS_" friendly way to attach/detach signals ( `obj.on(signal, listener)` )
 
-### Examples
+
+
+### Gtk/UI Examples
 The [following repository](https://github.com/WebReflection/jsgtk-examples#jsgtk-examples) includes most common `GJS` examples readapted for `jsgtk`.
 
 
