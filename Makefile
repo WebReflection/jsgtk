@@ -18,11 +18,19 @@ build:
 	makepkg -srf
 	sync
 	rm *.tar.xz
-	if [ -d ~/code/aur/jsgtk ]; then make aur; fi
 	rm -r {aur,pkg,src}
-	mkdir -p archive
-	mv *.tar.*z archive
+	if [ -d ~/code/aur/jsgtk ]; then make aur; fi
 
 aur:
 	cp {LICENSE,PKGBUILD} ~/code/aur/jsgtk
 	mv .SRCINFO ~/code/aur/jsgtk
+	mv *.tar.*z ~/code/aur/jsgtk
+	git add .
+	git commit -m "Updating to $(VERSION)"
+	git push
+	git checkout gh-pages
+	mv ~/code/aur/jsgtk/*.tar.*z archive
+	git add .
+	git commit -m "Updating to $(VERSION)"
+	git push
+	git checkout master
