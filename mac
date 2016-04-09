@@ -4,8 +4,8 @@
 # sh -c "$(curl -fsSL https://webreflection.github.io/jsgtk/mac)"
 
 destdir='/usr/local'
-destdirexe="${destdir}/lib/${pkgname}"
-destdirlib="${destdir}/bin/${pkgname}"
+destdirexe="${destdir}/bin/${pkgname}"
+destdirlib="${destdir}/lib/${pkgname}"
 pkgname=jsgtk
 pkgver=$(curl -L https://webreflection.github.io/jsgtk/version)
 pkgdir="/tmp/$pkgname-$pkgver"
