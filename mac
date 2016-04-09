@@ -6,6 +6,12 @@ pkgver=$(curl -L https://webreflection.github.io/jsgtk/version)
 pkgdir="/tmp/$pkgname-$pkgver"
 source="https://webreflection.github.io/jsgtk/archive/${pkgname}-${pkgver}.tar.gz"
 
+sudo sh -c "export JSGTK='${pkgver}'"
+if [[ $? -ne 0 ]] || [[ "${JSGTK}" != "${pkgver}" ]]; then
+  echo 'sudo password is necessary to install lib and exacutable'
+  exit 1
+fi
+
 mkdir -p $pkgdir
 cd $pkgdir
 curl -L -O $source
