@@ -14,6 +14,6 @@ tar -xzvf "${pkgname}-${pkgver}.tar.gz"
 sudo mkdir -p "${destdir}/lib/${pkgname}"
 sudo cp -r "${pkgname}/jsgtk_modules" "${destdir}/lib/${pkgname}"
 sudo cp "${pkgname}/${pkgname}.sh" "${destdir}/bin/${pkgname}"
-sudo chmod 0755 "${destdir}/bin/${pkgname}"
+sudo chmod +x "${destdir}/bin/${pkgname}"
 
 rm -rf $pkgdir
