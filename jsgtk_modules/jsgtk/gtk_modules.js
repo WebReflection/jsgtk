@@ -23,28 +23,7 @@
     */
 
     InfoType = GIRepository.InfoType,
-    /*
-      InfoType.INVALID
-      InfoType.FUNCTION
-      InfoType.CALLBACK
-      InfoType.STRUCT
-      InfoType.BOXED
-      InfoType.ENUM
-      InfoType.FLAGS
-      InfoType.OBJECT
-      InfoType.INTERFACE
-      InfoType.CONSTANT
-      InfoType.INVALID_0
-      InfoType.UNION
-      InfoType.VALUE
-      InfoType.SIGNAL
-      InfoType.VFUNC
-      InfoType.PROPERTY
-      InfoType.FIELD
-      InfoType.ARG
-      InfoType.TYPE
-      InfoType.UNRESOLVED
-    */
+    /* devug: getInfoTypeName(info) to know the name */
 
     // Object shortcuts
     defineProperty = Object.defineProperty,
@@ -68,6 +47,9 @@
     new_case = /^new(?:_[a-z]+)*$/,
     python_case = /^[a-z]+(?:[_-][a-z]+)+$/,
     PascalCase = /^[A-Z]+[a-zA-Z0-9_]+$/,
+    // things that for some reason fail
+    ignoreNameSpace = /^(?:GObject\.ParamSpec.*)$/,
+    ignoreStructs = /^(?:(?:Container|Widget)Class)$/,
 
     // utilities
     isPlainObject = obj => obj && typeof obj === 'object' && (getPrototypeOf(obj) === OP),
@@ -130,7 +112,39 @@
     return null;
   }
 
+  function getInfoTypeName(info) {
+    let
+      types = [
+        'INVALID',
+        'FUNCTION',
+        'CALLBACK',
+        'STRUCT',
+        'BOXED',
+        'ENUM',
+        'FLAGS',
+        'OBJECT',
+        'INTERFACE',
+        'CONSTANT',
+        'INVALID_0',
+        'UNION',
+        'VALUE',
+        'SIGNAL',
+        'VFUNC',
+        'PROPERTY',
+        'FIELD',
+        'ARG',
+        'TYPE',
+        'UNRESOLVED'
+      ],
+      type = info.get_type(),
+      index = -1
+    ;
+    types.some((name, i) => InfoType[name] === type && ~(index = i));
+    return types[index];
+  }
+
   function getJS(ns) {
+    if (ignoreNameSpace.test(ns)) return null;
     try {
       return ns.split('.').reduce((ns, name) => ns[name], gi);
     } catch(meh) {
@@ -175,7 +189,7 @@
       infos = repository.get_n_infos(id)
     ;
     parSet.clear();
-    // add modules that are known to fail
+    // ignore / add modules that are known to fail
     parSet.add(gi.GObject.TypeModule);
     parSet.add(gi.Gio.IOModule);
     for (let i = 0; i < infos; i++)
@@ -197,7 +211,7 @@
         break;
       case InfoType.STRUCT:
         target = getTarget(info);
-        if (target && !/^(?:Container|Widget)Class$/.test(info.get_name()))
+        if (target && !ignoreStructs.test(info.get_name()))
           parseStruct(target, info);
         break;
       case InfoType.FUNCTION:
