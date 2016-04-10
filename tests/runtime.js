@@ -1,3 +1,9 @@
+
+// print(imports.gi.GObject.ParamSpec.uint);
+
+print(require("GObject").ParamSpec.uint);
+
+/*
 var fs = require('fs');
 
 fs.stat('tests/runtime.js', console.log.bind(console));
@@ -7,6 +13,7 @@ fs.watch('tests', {persistent: true, recursive: true})
   .on('rename', () => console.log('rename'))
   // .close()
 ;
+*/
 
 
 /*
