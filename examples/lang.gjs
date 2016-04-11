@@ -1,3 +1,5 @@
+// see lang.js to see how different is jsgtk
+
 const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;

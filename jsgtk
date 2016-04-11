@@ -129,6 +129,17 @@ name=// GJS_DISABLE_EXTRA_WARNINGS=1 exec gjs "$0" "$@" && exit
       exports = {},
       module = {exports: exports, id: id}
     ;
+    let
+      content = (sanitize ? transform : String)(
+        replace.call(fd.load_contents(null)[1], /^#![^\n\r]*/, '')
+      )
+    ;
+    // avoid errors with native classes
+    if (sanitize) content = content.replace(
+      /function\s+(_classCallCheck.*)\(instance,\s*Constructor\)\s*\{.+?\{([^}]+?)}[^}]+\}/,
+      'function $1(i,C){if(!((C.prototype&&C.prototype.__metaclass__)||i instanceof C)){$2}}'
+    );
+    // sanitize && print(content);
     nmsp[unique] = exports;
     runtime(
       'require',
@@ -136,9 +147,7 @@ name=// GJS_DISABLE_EXTRA_WARNINGS=1 exec gjs "$0" "$@" && exit
       'module',
       '__dirname',
       '__filename',
-      (sanitize ? transform : String)(
-        replace.call(fd.load_contents(null)[1], /^#![^\n\r]*/, '')
-      )
+      content
     ).call(
       exports,
       function require(module) {

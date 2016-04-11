@@ -5,7 +5,6 @@
   "description": "A simplified approach to GJS for Node.JS and JavaScript developers.",
   "scripts": {
     "postinstall": "sh postinstall.sh",
-    "babelify": "cp node_modules/babel-standalone/babel.min.js jsgtk_modules/jsgtk/babel.js",
     "test": "./jsgtk tests/main.js"
   },
   "repository": {

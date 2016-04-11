@@ -4,6 +4,7 @@ VERSION=`node -e "console.log(require('./package.json').version)"`
 
 build:
 	echo "Building $(VERSION)"
+	node babelifier.js
 	sleep 1
 	if [ -d "aur" ]; then rm -r aur; fi
 	mkdir -p aur/jsgtk/jsgtk
