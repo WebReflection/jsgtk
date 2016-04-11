@@ -1,7 +1,4 @@
-const
-  GLib = require('GLib'),
-  Gtk = require('Gtk')
-;
+const Gtk = require('Gtk');
 
 class TimerLabel extends Gtk.Label {
   constructor(props) {
