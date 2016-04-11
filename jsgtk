@@ -132,6 +132,7 @@ name=// GJS_DISABLE_EXTRA_WARNINGS=1 exec gjs "$0" "$@" && exit
         replace.call(fd.load_contents(null)[1], /^#![^\n\r]*/, '')
       )
     ;
+    // sanitize && print(transform(content));
     nmsp[unique] = exports;
     runtime(
       'require',

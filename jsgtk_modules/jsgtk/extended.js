@@ -23,9 +23,8 @@
   }
   function nope() {}
 
-  Object.getPrototypeOf = function getPrototypeOf(o) {
-    let p = gPO(o);
-    return  metaClass(p) ? nope : p;
+  exports.superProto = function (Class) {
+    return metaClass(Class) ? nope : gPO(Class);
   };
 
   exports.Class = function (Class) {
