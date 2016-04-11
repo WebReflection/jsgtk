@@ -7,6 +7,8 @@
 
   const
     Lang = imports.lang,
+    hOP = Object.prototype.hasOwnProperty,
+    dP = Object.defineProperty,
     dPs = Object.defineProperties,
     gPO = Object.getPrototypeOf,
     sPO = Object.setPrototypeOf,
@@ -42,18 +44,13 @@
       protoDescriptors.Extends = Parent;
       return dPs(
         new Lang.Class(
-          dPs(
+          dP(
             protoDescriptors,
-            {
-              _init: {
-                configurable: true,
-                writable: true,
-                value: function _init() {
-                  this.parent.apply(this, arguments);
-                  Class.apply(this, arguments);
-                }
-              }
-            }
+            '_init',
+            {value: hOP.call(protoDescriptors, '_init') ? _init : function _init() {
+              this.parent.apply(this, arguments);
+              Class.apply(this, arguments);
+            }}
           )
         ),
         staticDescriptors

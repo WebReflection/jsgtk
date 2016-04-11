@@ -128,11 +128,10 @@ name=// GJS_DISABLE_EXTRA_WARNINGS=1 exec gjs "$0" "$@" && exit
       dir = id.slice(0, -1 -fd.get_basename().length),
       exports = {},
       module = {exports: exports, id: id},
-      content = (sanitize ? transformForGtk : String)(
+      content = (sanitize ? transform : String)(
         replace.call(fd.load_contents(null)[1], /^#![^\n\r]*/, '')
       )
     ;
-    // sanitize && print(content);
     nmsp[unique] = exports;
     runtime(
       'require',
@@ -170,13 +169,6 @@ name=// GJS_DISABLE_EXTRA_WARNINGS=1 exec gjs "$0" "$@" && exit
   function transform(code) {
     return Babel.transform(code, BabelTransformer).code;
   }
-  function transformForGtk(code) {
-    // avoid errors with native classes
-    return transform(code).replace(
-      /function\s+(_classCallCheck.*)\(instance,\s*Constructor\)\s*\{.+?\{([^}]+?)}[^}]+\}/,
-      'function $1(i,C){if(!((C.prototype&&C.prototype.__metaclass__)||i instanceof C)){$2}}'
-    );
-  }
 
   // program bootstrap
   if (process.argv.length > 1) {
@@ -189,7 +181,7 @@ name=// GJS_DISABLE_EXTRA_WARNINGS=1 exec gjs "$0" "$@" && exit
           'require',
           '__dirname',
           '__filename',
-          transformForGtk(info)
+          transform(info)
         ).call(
           global,
           function require(module) {
