@@ -60,7 +60,7 @@ echo "
 
 # be sure the sudo password is known
 authorized=$(sudo sh -c "echo '${pkgver}'")
-if [[ $? -ne 0 ]] || [[ "${authorized}" != "${pkgver}" ]]; then
+if [ $? -ne 0 ] || [ "${authorized}" != "${pkgver}" ]; then
   echo ''
   echo "  $(tput bold)sudo password is necessary$(tput sgr0) to install lib and bin"
   echo ''
