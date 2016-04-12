@@ -1,17 +1,24 @@
 const Gtk = require('Gtk');
 
+@GObjectProperties({
+  interval: {
+    type: 'uint',
+    value: 1000,
+    flags: ['rw', 'co']
+  },
+  count: {
+    type: 'uint',
+    flags: ['r']
+  }
+})
 class TimerLabel extends Gtk.Label {
   constructor(props) {
     super(props);
-    this._count = 0;
     this.label = 'Hello World!';
     setInterval(() => {
       this._count++;
-      this.emit('count');
-    }, 1000);
-  }
-  get count() {
-    return this._count;
+      this.notify('count');
+    }, this.interval);
   }
 }
 
@@ -20,9 +27,9 @@ Gtk.init(null);
 let win = new Gtk.Window();
 win.add(
   new TimerLabel()
-    .on('count', function () {
-      if (this.count === 2)
-        Gtk.mainQuit();
+    .on('notify::count', (obj) => {
+      if (obj.count === 2 && obj.interval === 1000)
+        Gtk.mainQuit();   //  ^ just as example
     })
 );
 win

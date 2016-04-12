@@ -94,6 +94,9 @@ name=// GJS_DISABLE_EXTRA_WARNINGS=1 exec gjs "$0" "$@" && exit
     timers =  core.get('timers'),
     Babel = imports.jsgtk.babel.Babel,
     BabelTransformer = {plugins: [
+      'transform-decorators-legacy',
+      'transform-class-properties',
+      'transform-flow-strip-types',
       'transform-es2015-classes',
       'transform-es2015-literals',
       'transform-es2015-object-super',
@@ -118,7 +121,8 @@ name=// GJS_DISABLE_EXTRA_WARNINGS=1 exec gjs "$0" "$@" && exit
       clearInterval: {enumerable: true, value: timers.clearInterval},
       clearTimeout: {enumerable: true, value: timers.clearTimeout},
       setInterval: {enumerable: true, value: timers.setInterval},
-      setTimeout: {enumerable: true, value: timers.setTimeout}
+      setTimeout: {enumerable: true, value: timers.setTimeout},
+      GObjectProperties: {value: imports.jsgtk.extended.GObjectProperties}
     }
   );
 
