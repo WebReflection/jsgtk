@@ -25,7 +25,7 @@ else
         echo '    please install either homebrew or macports to have GJS'
         echo '      http://brew.sh/'
         echo '      https://www.macports.org/'
-      fi
+      else
         echo " $(tput bold)[WARNING]$(tput sgr0): unable to locate a folder where to install jsgtk."
         echo "   Please run again this script after the following command:"
         echo " export JSGTK_INSTALL_PATH=~/.bin"
