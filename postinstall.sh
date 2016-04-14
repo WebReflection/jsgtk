@@ -6,7 +6,7 @@ if [ "$(which gjs 2> /dev/null)" = "" ]; then
   if [ "$(uname)" = "Darwin" ]; then
     if [ "$(which brew)" = "" ]; then
       if [ "$(which port)" = "" ]; then
-        echo '  please install either homebrew or macports (suggested)'
+        echo '  please install either homebrew or macports'
         echo '    http://brew.sh/'
         echo '      brew install gtk+3 gjs'
         echo ''
