@@ -12,6 +12,7 @@ fi
 if [ "$JSGTK_INSTALL_PATH" != "" ]; then
   destdir="$JSGTK_INSTALL_PATH"
 else
+  # verify there is a usable /bin and /lib folder
   if [ -d /usr/local/bin ]; then
     destdir=/usr/local
   else
@@ -19,22 +20,32 @@ else
       destdir=/opt/local
     else
       echo ""
-      echo " $(tput bold)[WARNING]$(tput sgr0): unable to locate a folder where to install jsgtk."
-      echo "   Please run again this script after the following command:"
-      echo " export JSGTK_INSTALL_PATH=~/.bin"
+      if [ "$(which brew)" = "" ] && [ "$(which port)" = "" ]; then
+        echo "  $(tput bold)Dependencies issue:$(tput sgr0)"
+        echo '    please install either homebrew or macports to have GJS'
+        echo '      http://brew.sh/'
+        echo '      https://www.macports.org/'
+      fi
+        echo " $(tput bold)[WARNING]$(tput sgr0): unable to locate a folder where to install jsgtk."
+        echo "   Please run again this script after the following command:"
+        echo " export JSGTK_INSTALL_PATH=~/.bin"
+      fi
       echo ""
       exit 1
     fi
   fi
 fi
 
-# verify target file and folders will be reachable
-if [ ! -d "${destdir}/bin" ] || [ ! -d "${destdir}/lib" ]; then
-  echo ""
-  echo " $(tput bold)[WARNING]$(tput sgr0): unable to install jsgtk."
-  echo "   Please be sure ${destdir}/bin and ${destdir}/lib exists."
-  echo ""
-  exit 1
+# verify that target lib folder will be reachable
+if [ ! -d "${destdir}/lib" ]; then
+  mkdir -p "${destdir}/lib"
+  if [ $? -ne 0 ]; then
+    echo ""
+    echo " $(tput bold)[WARNING]$(tput sgr0): unable to install jsgtk."
+    echo "   Please be sure ${destdir}/bin and ${destdir}/lib exists."
+    echo ""
+    exit 1
+  fi
 fi
 
 destbin="${destdir}/bin/${pkgname}"
