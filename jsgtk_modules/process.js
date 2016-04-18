@@ -64,5 +64,9 @@ module.exports = {
         return platform.toLowerCase();
     }
   })(''.trim.call(GLib.spawn_command_line_sync('uname')[1])),
-  uptime: () => (Date.now() - BEGINNING) / 1000
+  uptime: () => (Date.now() - BEGINNING) / 1000,
+  nextTick: function nextTick() {
+    const ml = process.binding('mainloop');
+    ml.idle.apply(ml, arguments);
+  }
 };

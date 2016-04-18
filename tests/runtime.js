@@ -1,1 +1,0 @@
-setTimeout(print, 1000, 'hello');
