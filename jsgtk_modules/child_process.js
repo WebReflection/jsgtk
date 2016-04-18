@@ -13,6 +13,7 @@ const
   GLib = imports.gi.GLib,
 
   Class = process.binding('util').Class,
+  mainloop = process.binding('mainloop'),
 
   CURRENT_DIR = GLib.get_current_dir(),
 
@@ -23,7 +24,10 @@ const
   Stream = require('stream').Stream,
 
   disconnectChild = function () {
-    this.connected = false;
+    if (this.connected) {
+      this.connected = false;
+      mainloop.go();
+    }
     this.stdin.emit('disconnect');
     this.stdout.emit('disconnect');
     this.stderr.emit('disconnect');
@@ -48,6 +52,7 @@ const
           this.stdout,
           this.stderr
         ];
+        mainloop.wait();
       }
     },
     connected: false,

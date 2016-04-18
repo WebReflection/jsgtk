@@ -127,8 +127,8 @@ const
     close: function close() {
       this._watching = false;
       if (this._monitor) {
-        this._monitor.cancel();
         mainloop.go();
+        this._monitor.cancel();
       }
     }
   }),
@@ -138,6 +138,7 @@ const
       if (!callback) callback = options;
       GFile.new_for_path(file)
         .load_contents_async(null, (source, result) => {
+          mainloop.go();
           try {
             let [ok, data, etag] = source.load_contents_finish(result);
             if (!ok) throw 'Unable to read ' + file;
@@ -146,6 +147,7 @@ const
             callback(err);
           }
         });
+      mainloop.wait();
     },
     readFileSync: function readFileSync(file, options) {
       // TODO: supports options
@@ -154,6 +156,7 @@ const
     readdir: function readdir(path, callback) {
       let fd = GFile.new_for_path(path);
       fd.enumerate_children_async('*', Gio.FileQueryInfoFlags.NONE, null, null, (source, result) => {
+        mainloop.go();
         try {
           let
             iterator = source.enumerate_children_finish(result),
@@ -168,6 +171,7 @@ const
           callback(e, null);
         }
       });
+      mainloop.wait();
     },
     readdirSync: function readdirSync(path) {
       return system('ls -a', path).split('\n').filter(noDots).sort();
@@ -245,6 +249,7 @@ const
                 source.flush_async(0, null, (source, result) => {
                   source.flush_finish(result);
                   source.close_async(0, null, (source, result) => {
+                    mainloop.go();
                     callback(!source.close_finish(result));
                   });
                 });
@@ -272,6 +277,7 @@ const
           );
           break;
       }
+      mainloop.wait();
     }
   }
 ;

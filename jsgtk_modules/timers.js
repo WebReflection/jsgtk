@@ -11,21 +11,49 @@
 const
 
   Mainloop = imports.mainloop,
+  jsgtkLoop = process.binding('mainloop'),
+
+  ids = new Set(),
+  clearID = (id) => {
+    if (ids.has(id)) {
+      ids.delete(id);
+      jsgtkLoop.go();
+    }
+  },
 
   createClearTimer = () => (id) => Mainloop.source_remove(id),
 
   createSetTimer = (repeat) =>
-    (fn, ms, ...args) =>
-      Mainloop.timeout_add(
+    (fn, ms, ...args) => {
+      const id = Mainloop.timeout_add(
         (ms * 1) || 0,
-        () => (fn.apply(null, args), repeat)
-      )
+        () => {
+          if (!repeat) clearID(id);
+          fn.apply(null, args);
+          return repeat;
+        }
+      );
+      ids.add(id);
+      jsgtkLoop.wait();
+      return id;
+    },
+
+  timers = {
+    clearInterval:  createClearTimer(),
+    clearTimeout:   createClearTimer(),
+    setInterval:    createSetTimer(true),
+    setTimeout:     createSetTimer(false)
+  }
 ;
 
+Object.defineProperties(
+  global,
+  {
+    clearInterval: {enumerable: true, value: timers.clearInterval},
+    clearTimeout: {enumerable: true, value: timers.clearTimeout},
+    setInterval: {enumerable: true, value: timers.setInterval},
+    setTimeout: {enumerable: true, value: timers.setTimeout}
+  }
+);
 
-module.exports = {
-  clearInterval:  createClearTimer(),
-  clearTimeout:   createClearTimer(),
-  setInterval:    createSetTimer(true),
-  setTimeout:     createSetTimer(false)
-};
+module.exports = timers;

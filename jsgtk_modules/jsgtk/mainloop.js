@@ -4,14 +4,16 @@
 
 (function (exports) {'use strict';
 
-  let counter = 0, id = null;
+  let counter = 0, id = 0;
 
   const
     mainLoop = imports.gi.GLib.MainLoop.new(null, false),
     quit = function quit() {
-      id = null;
+      id = 0;
       if (counter < 1) mainLoop.quit();
-    }
+      return false;
+    },
+    gjsLoop = imports.mainloop
   ;
 
   exports.run = () => {
@@ -24,8 +26,8 @@
 
   exports.go = () => {
     if (--counter < 1) {
-      if (id) clearTimeout(id);
-      id = setTimeout(quit, 33);
+      if (id) gjsLoop.source_remove(id);
+      id = gjsLoop.timeout_add(33, quit);
     }
   };
 

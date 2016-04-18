@@ -91,7 +91,6 @@ Function=Function// GJS_DISABLE_EXTRA_WARNINGS=1 exec gjs "$0" "$@" && exit
     core = imports.jsgtk.core_modules.withRuntime(evaluateModule),
     modules = imports.jsgtk.node_modules.withRuntime(evaluateModule),
     process = core.get('process'),
-    timers =  core.get('timers'),
     Babel = imports.jsgtk.babel.Babel,
     BabelTransformer = {plugins: [
       'transform-decorators-legacy',
@@ -118,10 +117,6 @@ Function=Function// GJS_DISABLE_EXTRA_WARNINGS=1 exec gjs "$0" "$@" && exit
     {
       global: {enumerable: true, value: global},
       console: {enumerable: true, value: core.get('console')},
-      clearInterval: {enumerable: true, value: timers.clearInterval},
-      clearTimeout: {enumerable: true, value: timers.clearTimeout},
-      setInterval: {enumerable: true, value: timers.setInterval},
-      setTimeout: {enumerable: true, value: timers.setTimeout},
       GObjectProperties: {value: imports.jsgtk.extended.GObjectProperties}
     }
   );
@@ -174,6 +169,9 @@ Function=Function// GJS_DISABLE_EXTRA_WARNINGS=1 exec gjs "$0" "$@" && exit
   function transform(code) {
     return Babel.transform(code, BabelTransformer).code;
   }
+
+  // initialize timers
+  const timers =  core.get('timers');
 
   // program bootstrap
   if (process.argv.length > 1) {
