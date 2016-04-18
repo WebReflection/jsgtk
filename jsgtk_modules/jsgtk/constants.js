@@ -1,11 +1,1 @@
-/*! © Andrea Giammarchi @WebReflection */
-
-/* jshint esversion: 6, strict: true, node: true */
-
-// partially populated at runtime on bootstrap
-
-(function (exports) {'use strict';
-
-  exports.JSGTK = true;
-
-}(this));
+/* jshint esversion: 6, strict: true, node: true */(function (e) {"use strict";exports.JSGTK=true;exports.VERSION="v0.9.11";}(this));

@@ -205,13 +205,19 @@ Function=Function// GJS_DISABLE_EXTRA_WARNINGS=1 exec gjs "$0" "$@" && exit
     })) {
       mainloop.run();
     } else {
-      print([
-        'Usage: jsgtk [options] script.js [arguments]',
-        '       jsgtk --debug script.js [arguments]',
-        '       jsgtk (-e|--eval) "console.log(\'runtime\')"',
-        '',
-        'Documentation can be found at https://github.com/WebReflection/jsgtk'
-      ].join('\n'));
+      switch (true) {
+        case ARGV.some(info => /^-(?:-version|v)$/.test(info)):
+          print(imports.jsgtk.constants.VERSION);
+          break;
+        default:
+          print([
+            'Usage: jsgtk [options] script.js [arguments]',
+            '       jsgtk --debug script.js [arguments]',
+            '       jsgtk (-e|--eval) "console.log(\'runtime\')"',
+            '',
+            'Documentation can be found at https://github.com/WebReflection/jsgtk'
+          ].join('\n'));
+      }
     }
   }
 
