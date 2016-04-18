@@ -1,7 +1,1 @@
-process.nextTick(
-  function () {
-    console.log.apply(console, arguments);
-  },
-  'hello',
-  '!'
-);
+require('assert')(false, 'dafuq');

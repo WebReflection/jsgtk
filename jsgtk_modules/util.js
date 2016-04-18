@@ -57,5 +57,20 @@ module.exports = {
       '-',
       message
     ].join(' '));
+  },
+  isDate: function isDate(date) {
+    return date instanceof Date;
+  },
+  isRegExp: function isRegExp(re) {
+    return re instanceof RegExp;
+  },
+  isPrimitive: function isPrimitive(value) {
+    switch (typeof value) {
+      case 'function':
+      case 'object':
+        return false;
+      default:
+        return true;
+    }
   }
 };

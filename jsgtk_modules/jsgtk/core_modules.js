@@ -11,6 +11,7 @@
     constants = imports.jsgtk.constants,
 
     core = [
+      'assert',
       'buffer',
       'child_process',
       'console',
