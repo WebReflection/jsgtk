@@ -8,6 +8,8 @@
 /* jshint esversion: 6, strict: implied, node: true */
 /* global imports, ARGV */
 
+let mainloop;
+
 const
 
   gi = imports.gi,
@@ -17,56 +19,86 @@ const
 
   BEGINNING = Date.now(),
   CURRENT_DIR = GLib.get_current_dir(),
-  DIR_SEPARATOR = /\//.test(CURRENT_DIR) ? '/' : '\\'
+  DIR_SEPARATOR = /\//.test(CURRENT_DIR) ? '/' : '\\',
 
-;
+  EventEmitter = ARGV.core.get('events').EventEmitter,
 
-module.exports = {
-  argv: (() => {
-    for (var
-      evalArg = /^-e|--eval$/,
-      argv = [GFile.new_for_path(System.programInvocationName).get_path()],
-      i = 0; i < ARGV.length; i++
-    ) {
-      if (ARGV[i][0] !== '-') {
-        if (!evalArg.test(ARGV[i - 1])) {
-          argv = argv.concat(
-            GFile.new_for_path(
-              GLib.path_is_absolute(ARGV[i]) ?
-                ARGV[i] : ('.' + DIR_SEPARATOR + ARGV[i])
-            ).get_path(),
-            ARGV.slice(i + 1)
-          );
+  process = Object.assign(
+    new EventEmitter(),
+    {
+      argv: (() => {
+        for (var
+          evalArg = /^-e|--eval$/,
+          argv = [GFile.new_for_path(System.programInvocationName).get_path()],
+          i = 0; i < ARGV.length; i++
+        ) {
+          if (ARGV[i][0] !== '-') {
+            if (!evalArg.test(ARGV[i - 1])) {
+              argv = argv.concat(
+                GFile.new_for_path(
+                  GLib.path_is_absolute(ARGV[i]) ?
+                    ARGV[i] : ('.' + DIR_SEPARATOR + ARGV[i])
+                ).get_path(),
+                ARGV.slice(i + 1)
+              );
+            }
+            break;
+          }
         }
-        break;
+        return argv;
+      })(),
+      binding: (which) => imports.jsgtk[which],
+      cwd: () => CURRENT_DIR,
+      env: ((arr) => {
+        const env = {};
+        for (let i = 0, p, info; i < arr.length; i++) {
+          info = arr[i];
+          p = info.indexOf('=');
+          env[info.slice(0, p)] = info.slice(p + 1);
+        }
+        return env;
+      })(GLib.get_environ()),
+      abort: status => {
+        process.emit('abort');
+        System.exit(1);
+      },
+      exit: status => {
+        process.emit('exit', status);
+        System.exit(status || 0);
+      },
+      platform: ((platform) => {
+        switch (true) {
+          // TODO /Win|Mingw|WOW/i ???
+          case /\b(?:Win|WOW)\b/i.test(platform):
+            return 'win32';
+          default:
+            return platform.toLowerCase();
+        }
+      })(''.trim.call(GLib.spawn_command_line_sync('uname')[1])),
+      uptime: () => (Date.now() - BEGINNING) / 1000,
+      nextTick: function nextTick() {
+        (mainloop || (
+          mainloop = process.binding('mainloop')
+        )).idle.apply(mainloop, arguments);
       }
     }
-    return argv;
-  })(),
-  binding: (which) => imports.jsgtk[which],
-  cwd: () => CURRENT_DIR,
-  env: ((arr) => {
-    const env = {};
-    for (let i = 0, p, info; i < arr.length; i++) {
-      info = arr[i];
-      p = info.indexOf('=');
-      env[info.slice(0, p)] = info.slice(p + 1);
+  )
+;
+
+Object.defineProperties(
+  process,
+  {
+    arch: {
+      enumerable: true,
+      get: () => require('os').arch()
     }
-    return env;
-  })(GLib.get_environ()),
-  exit: status => System.exit(status || 0),
-  platform: ((platform) => {
-    switch (true) {
-      // TODO /Win|Mingw|WOW/i ???
-      case /\b(?:Win|WOW)\b/i.test(platform):
-        return 'win32';
-      default:
-        return platform.toLowerCase();
-    }
-  })(''.trim.call(GLib.spawn_command_line_sync('uname')[1])),
-  uptime: () => (Date.now() - BEGINNING) / 1000,
-  nextTick: function nextTick() {
-    const ml = process.binding('mainloop');
-    ml.idle.apply(ml, arguments);
   }
-};
+);
+
+Object.defineProperty(
+  global,
+  'process',
+  {enumerable: true, value: process}
+);
+
+module.exports = process;

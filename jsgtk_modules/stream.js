@@ -77,6 +77,9 @@ const
             break;
           case status == GLib.IOStatus.EOF:
             this.emit('end');
+            // TODO: this is wrong.
+            //       the close event should be emitted
+            //       only when the pid is closed
             this._timeout = setTimeout(() => {
               this._source = null;
               this.emit('close', 0, null);

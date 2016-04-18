@@ -26,55 +26,62 @@ const
         args.map(inspect).join(' ')
     ) + post);
   },
-  timers = Object.create(null)
-;
-
-module.exports = {
-  assert: function assert(what, why) {
-    if (!what) {
-      imports.jsUnit.error(
-        RED + BOLD + '[WRONG]' + RESET + ' ' + RED + BOLD + (why || '') + RESET
+  timers = Object.create(null),
+  console = {
+    assert: function assert(what, why) {
+      if (!what) {
+        imports.jsUnit.error(
+          RED + BOLD + '[WRONG]' + RESET + ' ' + RED + BOLD + (why || '') + RESET
+        );
+      }
+    },
+    error: function error(what, why) {
+      show(
+        printerr,
+        RED + BOLD + '[ERROR]' + RESET + ' ' + RED,
+        util.slice.apply(0, arguments),
+        RESET
+      );
+    },
+    info: function info(what, why) {
+      show(
+        print,
+        GREEN + BOLD + '[INFO]' + RESET + ' ' + BOLD,
+        util.slice.apply(0, arguments),
+        RESET
+      );
+    },
+    log: function log(what, why) {
+      show(
+        print,
+        '',
+        util.slice.apply(0, arguments),
+        ''
+      );
+    },
+    time: function time(name) {
+      timers[name] = GLib.get_real_time();
+    },
+    timeEnd: function timeEnd(name) {
+      let result = (GLib.get_real_time() - timers[name]) / 1000;
+      delete timers[name];
+      console.log(name + ': ' + result + 'ms');
+    },
+    warn: function warn(what, why) {
+      show(
+        print,
+        YELLOW + BOLD + '[WARNING]' + RESET + ' ' + YELLOW,
+        util.slice.apply(0, arguments),
+        RESET
       );
     }
-  },
-  error: function error(what, why) {
-    show(
-      printerr,
-      RED + BOLD + '[ERROR]' + RESET + ' ' + RED,
-      util.slice.apply(0, arguments),
-      RESET
-    );
-  },
-  info: function info(what, why) {
-    show(
-      print,
-      GREEN + BOLD + '[INFO]' + RESET + ' ' + BOLD,
-      util.slice.apply(0, arguments),
-      RESET
-    );
-  },
-  log: function log(what, why) {
-    show(
-      print,
-      '',
-      util.slice.apply(0, arguments),
-      ''
-    );
-  },
-  time: function time(name) {
-    timers[name] = GLib.get_real_time();
-  },
-  timeEnd: function timeEnd(name) {
-    let result = (GLib.get_real_time() - timers[name]) / 1000;
-    delete timers[name];
-    console.log(name + ': ' + result + 'ms');
-  },
-  warn: function warn(what, why) {
-    show(
-      print,
-      YELLOW + BOLD + '[WARNING]' + RESET + ' ' + YELLOW,
-      util.slice.apply(0, arguments),
-      RESET
-    );
   }
-};
+;
+
+Object.defineProperty(
+  global,
+  'console',
+  {enumerable: true, value: console}
+);
+
+module.exports = console;

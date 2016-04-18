@@ -55,6 +55,7 @@ const
         mainloop.wait();
       }
     },
+    // TODO: unref
     connected: false,
     disconnect: function disconnect() {
       disconnectChild.call(this);
