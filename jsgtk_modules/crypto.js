@@ -27,17 +27,17 @@ const
   },
   Hash = Class({
     constructor: function Hash(type) {
-      this.type = type;
+      this.data = null;
+      this.checksum = new GLib.Checksum(type);
     },
     digest: function digest(type) {
-      return GLib.compute_checksum_for_data(
-        this.type,
-        this.data.toString('utf8'),
-        GLib.checksum_type_get_length(this.type)
-      );
+      return type === 'hex' ?
+        this.checksum.get_string() :
+        this.data;
     },
     update: function update(data, encoding) {
-      this.data = new Buffer(data, encoding || 'utf8');
+      this.data = new Buffer(data, encoding || 'binary');
+      this.checksum.update(data);
     }
   })
 ;
