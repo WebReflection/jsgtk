@@ -4,7 +4,7 @@ VERSION=`node -e "console.log(require('./package.json').version)"`
 
 build:
 	echo "Building $(VERSION)"
-	echo '/* jshint esversion: 6, strict: true, node: true */(function (e) {"use strict";exports.JSGTK=true;exports.VERSION="v0.9.11";}(this));'>jsgtk_modules/jsgtk/constants.js
+	echo '/*jshint esversion:6,strict:true,node:true*/(function (e) {"use strict";e.JSGTK=true;e.VERSION="v0.9.11";}(this));'>jsgtk_modules/jsgtk/constants.js
 	sleep 1
 	cp node_modules/babel-standalone/babel.min.js jsgtk_modules/jsgtk/babel.js
 	if [ -d "aur" ]; then rm -r aur; fi
