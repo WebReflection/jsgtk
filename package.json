@@ -28,7 +28,8 @@
   },
   "homepage": "https://github.com/WebReflection/jsgtk#readme",
   "devDependencies": {
-    "jshint": "^2.9.1",
-    "babel-standalone": "git@github.com:WebReflection/babel-standalone.git"
+    "babel-standalone": "git@github.com:WebReflection/babel-standalone.git",
+    "dblite": "^0.7.7",
+    "jshint": "^2.9.1"
   }
 }
