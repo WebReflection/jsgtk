@@ -173,6 +173,12 @@ Function=Function// GJS_DISABLE_EXTRA_WARNINGS=1 exec gjs "$0" "$@" && exit
   ;
   delete ARGV.core;
 
+  // TODO: implement a better logic for this
+  Error.captureStackTrace = function captureStackTrace(target, constructor) {
+    if (!target.stack) target.stack = '';
+    target.stack += (constructor ? (constructor.name + ': ') : '') + String(target) + '\n';
+  };
+
   // program bootstrap
   if (process.argv.length > 1) {
     requireWithPath(process.argv[1], CURRENT_DIR);

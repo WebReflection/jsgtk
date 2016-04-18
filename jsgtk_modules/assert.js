@@ -22,7 +22,7 @@
 // ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-'use strict';
+/* jshint esversion: 6, strict: implied, node: true, eqnull: true */
 
 // UTILITY
 const compare = process.binding('buffer').compare;
@@ -54,10 +54,8 @@ assert.AssertionError = function AssertionError(options) {
     this.message = getMessage(this);
     this.generatedMessage = true;
   }
-  /*
   var stackStartFunction = options.stackStartFunction || fail;
   Error.captureStackTrace(this, stackStartFunction);
-  */
 };
 
 // assert.AssertionError instanceof Error

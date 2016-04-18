@@ -6,7 +6,7 @@
  */
 
 /* jshint esversion: 6, strict: implied, node: true */
-/* global imports */
+/* global imports, print */
 
 const
 
@@ -63,7 +63,7 @@ const
       (source, condition, data) => {
         if (stream._channel) stream.emit('disconnect');
       }
-    );
+    ),
 
   InernalStream = Class(EventEmitter, {
     constructor: function InernalStream() {
