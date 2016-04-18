@@ -13,26 +13,83 @@ const
   GLib = imports.gi.GLib,
   ByteArray = imports.byteArray,
 
+  DEBUG = process.binding('constants').DEBUG,
+
   Class = process.binding('util').Class,
 
   EventEmitter = require('events').EventEmitter,
+
+  createReadableWatcher = (stream) =>
+    GLib.io_add_watch(
+      stream._channel,
+      GLib.PRIORITY_DEFAULT,
+      GLib.IOCondition.IN,
+      (source, condition, data) => {
+        stream._source = source;
+        if (stream._bootstrap) {
+          stream._bootstrap = false;
+          if (stream.listenerCount('readable')) {
+            stream.emit('readable');
+          } else {
+            while (stream.read());
+          }
+        } else {
+          while (stream.read());
+        }
+      }
+    ),
+
+  createWritableWatcher = (stream) =>
+    GLib.io_add_watch(
+      stream._channel,
+      GLib.PRIORITY_DEFAULT,
+      GLib.IOCondition.OUT,
+      (source, condition, data) => {
+        stream._source = source;
+        if (!stream._writable) {
+          let buf = stream._writeBuffer;
+          stream._writeBuffer = '';
+          stream._writable = true;
+          stream.write(buf);
+        }
+      }
+    ),
+
+  createHangUpWatcher = (stream) =>
+    GLib.io_add_watch(
+      stream._channel,
+      GLib.PRIORITY_DEFAULT,
+      GLib.IOCondition.HUP,
+      (source, condition, data) => {
+        if (stream._channel) stream.emit('disconnect');
+      }
+    );
 
   InernalStream = Class(EventEmitter, {
     constructor: function InernalStream() {
       EventEmitter.call(this);
       this.on('disconnect', () => {
-        if (this._source) {
-          this._source.unref();
-          if (this instanceof Writable) {
-            this._source.shutdown(true);
-          }
-        } else {
-          this._channel.unref();
-          if (this instanceof Writable) {
-            this._channel.shutdown(true);
+        let
+          channel = this._channel,
+          source = this._source
+        ;
+        if (channel) {
+          this._channel = null;
+          if (source) {
+            source.unref();
+            if (this instanceof Writable) {
+              source.shutdown(true);
+              this.emit('finish');
+            } else {
+              this.emit('close', 0, null);
+            }
+          } else {
+            channel.unref();
+            if (this instanceof Writable) {
+              channel.shutdown(true);
+            }
           }
         }
-        this._channel = false;
       });
     }
   }),
@@ -42,24 +99,8 @@ const
       InernalStream.call(this);
       this._bootstrap = true;
       this._channel = channel;
-      this._watcher = GLib.io_add_watch(
-        this._channel,
-        GLib.PRIORITY_DEFAULT,
-        GLib.IOCondition.IN,
-        (source, condition, data) => {
-          this._source = source;
-          if (this._bootstrap) {
-            this._bootstrap = false;
-            if (this.listenerCount('readable')) {
-              this.emit('readable');
-            } else {
-              while (this.read());
-            }
-          } else {
-            while (this.read());
-          }
-        }
-      );
+      this._watcher = createReadableWatcher(this);
+      this._huWatcher = createHangUpWatcher(this);
     },
     read: function read(size) {
       if (size) {
@@ -69,30 +110,25 @@ const
         return buf;
       } else {
         let [status, result] = this._source.read_line();
+        // 
         // apparently it's not possible to compare ===
         // against a GTK status
         switch (true) {
           case status == GLib.IOStatus.NORMAL:
+            if (DEBUG) print('Readable: NORMAL ' + result);
             this.emit('data', result);
             break;
           case status == GLib.IOStatus.EOF:
+            if (DEBUG) print('Readable: EOF ' + result);
             this.emit('end');
-            // TODO: this is wrong.
-            //       the close event should be emitted
-            //       only when the pid is closed
-            this._timeout = setTimeout(() => {
-              this._source = null;
-              this.emit('close', 0, null);
-            }, 0);
-            result = null;
             break;
           case status == GLib.IOStatus.ERROR:
+            if (DEBUG) print('Readable: ERROR ' + result);
             this.emit('error');
             break;
           case status == GLib.IOStatus.AGAIN:
-            // Resource temporarily unavailable.
-            // get out ? track it ? count ?
-            result = '';
+            if (DEBUG) print('Readable: AGAIN ' + result);
+            this._watcher = createReadableWatcher(this);
             break;
         }
         return result;
@@ -106,20 +142,8 @@ const
       this._writable = false;
       this._writeBuffer = '';
       this._channel = channel;
-      this._watcher = GLib.io_add_watch(
-        this._channel,
-        GLib.PRIORITY_DEFAULT,
-        GLib.IOCondition.OUT,
-        (source, condition, data) => {
-          this._source = source;
-          if (!this._writable) {
-            let buf = this._writeBuffer;
-            this._writeBuffer = '';
-            this._writable = true;
-            this.write(buf);
-          }
-        }
-      );
+      this._watcher = createWritableWatcher(this);
+      this._huWatcher = createHangUpWatcher(this);
     },
     end: function end(chunk, encoding, callback) {
       // TODO: support all arguments?
@@ -131,6 +155,7 @@ const
       if (this._writable) {
         let [status, written] = this._source.write_chars(chunk, -1);
         if (status == GLib.IOStatus.NORMAL && status == this._source.flush()) {
+          if (DEBUG) print('Writable: FLUSHED ' + chunk);
           return true;
         } else {
           this.emit('error', status);

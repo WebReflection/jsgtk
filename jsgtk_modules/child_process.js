@@ -23,11 +23,15 @@ const
   EventEmitter = require('events').EventEmitter,
   Stream = require('stream').Stream,
 
-  disconnectChild = function () {
+  loopGoIfConnected = function () {
     if (this.connected) {
       this.connected = false;
       mainloop.go();
     }
+  },
+
+  disconnectChild = function () {
+    loopGoIfConnected.call(this);
     this.stdin.emit('disconnect');
     this.stdout.emit('disconnect');
     this.stderr.emit('disconnect');
@@ -43,7 +47,10 @@ const
         this.stdin = new Stream(stdin)
           .on('error', (reason) => this.emit('error', reason));
         this.stdout = new Stream(stdout)
-          .on('close', (code, reason) => this.emit('close', code, reason))
+          .on('close', (code, reason) => {
+            loopGoIfConnected.call(this);
+            this.emit('close', code, reason);
+          })
           .on('error', (reason) => this.emit('error', reason));
         this.stderr = new Stream(stderr)
           .on('error', (reason) => this.emit('error', reason));
@@ -55,7 +62,9 @@ const
         mainloop.wait();
       }
     },
-    // TODO: unref
+    unref: function () {
+      // TODO: try to make unref possible
+    },
     connected: false,
     disconnect: function disconnect() {
       disconnectChild.call(this);
@@ -81,6 +90,14 @@ module.exports = {
         }, []) : null,
       GLib.SpawnFlags.SEARCH_PATH,
       null
+      /*
+      ,null
+      ,null
+      ,GLib.SPAWN_CHILD_INHERITS_STDIN
+      ,GLib.SPAWN_STDOUT_TO_DEV_NULL
+      ,GLib.SPAWN_STDERR_TO_DEV_NULL
+      ,null
+      //*/
     );
     if (ok) {
       cp = new ChildProcess(ok, pid, stdin, stdout, stderr);
