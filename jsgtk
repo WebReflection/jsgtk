@@ -211,9 +211,12 @@ Function=Function// GJS_DISABLE_EXTRA_WARNINGS=1 exec gjs "$0" "$@" && exit
           break;
         default:
           print([
-            'Usage: jsgtk [options] script.js [arguments]',
+            '\x1B[1mjsgtk ' + imports.jsgtk.constants.VERSION + '\x1B[0m',
+            'usage: jsgtk [options] script.js [arguments]',
+            '       jsgtk script.js [arguments]',
             '       jsgtk --debug script.js [arguments]',
             '       jsgtk (-e|--eval) "console.log(\'runtime\')"',
+            '       jsgtk (-v|--version)',
             '',
             'Documentation can be found at https://github.com/WebReflection/jsgtk'
           ].join('\n'));
