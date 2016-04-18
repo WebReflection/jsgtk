@@ -129,6 +129,11 @@ Buffer.isEncoding = function isEncoding(encoding) {
   return ENCODINGS.hasOwnProperty(encoding);
 };
 
+// TODO: this ain't gonna work
+Buffer.from = function from(obj) {
+  return new Buffer(String(obj));
+};
+
 Object.defineProperties(
   Object.setPrototypeOf(
     Buffer.prototype,
