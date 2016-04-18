@@ -4,7 +4,7 @@ Function=Function// GJS_DISABLE_EXTRA_WARNINGS=1 exec gjs "$0" "$@" && exit
 /* jshint esversion: 6, strict: true, node: true */
 /* global imports */
 
-(function (runtime) {'use strict';
+;(function (runtime) {'use strict';
 
   /*! MIT Style License
 

@@ -4,8 +4,8 @@ VERSION=`node -e "console.log(require('./package.json').version)"`
 
 build:
 	echo "Building $(VERSION)"
-	node babelifier.js
 	sleep 1
+	cp node_modules/babel-standalone/babel.min.js jsgtk_modules/jsgtk/babel.js
 	if [ -d "aur" ]; then rm -r aur; fi
 	mkdir -p aur/jsgtk/jsgtk
 	cp jsgtk aur/jsgtk/jsgtk/jsgtk.sh
