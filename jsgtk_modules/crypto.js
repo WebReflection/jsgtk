@@ -25,19 +25,41 @@ const
     }
     throw new TypeError('Unknown type ' + type);
   },
-  Hash = Class({
-    constructor: function Hash(type) {
-      this.data = null;
-      this.checksum = new GLib.Checksum(type);
-    },
+  HBase = Class({
     digest: function digest(type) {
+      var result = this.data.get_string();
       return type === 'hex' ?
-        this.checksum.get_string() :
-        this.data;
+        result :
+        new Buffer(result, 'hex').toString(type);
     },
     update: function update(data, encoding) {
-      this.data = new Buffer(data, encoding || 'binary');
-      this.checksum.update(data);
+      this.data.update(
+        (encoding ?
+          new Buffer(data, encoding) :
+          new Buffer(data)
+        ).toString()
+      );
+    }
+  }),
+  Hash = Class(HBase, {
+    constructor: function Hash(type) {
+      this.data = new GLib.Checksum(type);
+    }
+  }),
+  Hmac = Class(HBase, {
+    constructor: function Hmac(type, key) {
+      this.type = type;
+      this.key = key;
+      this.data = new GLib.Checksum(type);
+    },
+    digest: function digest(type) {
+      return GLib.compute_hmac_for_data(
+        this.type,
+        this.key,
+        null,
+        this.data,
+        GLib.checksum_type_get_length(this.type)
+      );
     }
   })
 ;
@@ -46,12 +68,13 @@ module.exports = {
   createHash: function createHash(type) {
     return new Hash(getHashType(type));
   },
-  getHashes: function getCiphers() {
-    return hashTypes.map(
-        type => (type === 'MD5' ? 'DSA' : ('DSA-' + type))
-      ).concat(
-        hashTypes.map(type => 'RSA-' + type)
-      );
+  /* actually not working
+  createHmac: function createHmac(type, key) {
+    return new Hmac(getHashType(type), key);
+  },
+  */
+  getHashes: function getHashes() {
+    return hashTypes.map(type => type.toLowerCase());
   },
   randomBytes: function randomBytes(size) {
     let chars = new Buffer(size);

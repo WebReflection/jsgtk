@@ -59,6 +59,13 @@
     return out.join('');
   }
 
+  function inspectBuffer(obj, tab, wm, how, d) {
+    let out = ['<Buffer'];
+    for (let i = 0; i < obj.length; i++)
+      out.push(obj[i].toString(16));
+    return out.join(' ') + '>';
+  }
+
   function inspectObject(obj, tab, wm, how, d) {
     let
       out = ['{'],
@@ -104,7 +111,8 @@
             colored('[Circular]', CYAN, how) :
             (wm.push(obj),
               (d <= how.depth ?
-                (Array.isArray(obj) ? inspectArray : inspectObject)
+                (Array.isArray(obj) ? inspectArray :
+                  (obj instanceof Uint8Array ? inspectBuffer : inspectObject))
                 (obj, tab + 1, wm, how, d + 1) :
                 (Array.isArray(obj) ?
                   colored('[Array]', CYAN, how) :
