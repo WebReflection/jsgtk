@@ -87,6 +87,9 @@ const
             channel.unref();
             if (this instanceof Writable) {
               channel.shutdown(true);
+              this.emit('finish');
+            } else {
+              this.emit('close', 0, null);
             }
           }
         }

@@ -111,6 +111,8 @@ Function=Function// GJS_DISABLE_EXTRA_WARNINGS=1 exec gjs "$0" "$@" && exit
     global,
     {
       global: {enumerable: true, value: global},
+      // used as ES6 classes properties decorator:
+      // https://github.com/WebReflection/jsgtk/blob/master/examples/lang.js
       GObjectProperties: {value: imports.jsgtk.extended.GObjectProperties}
     }
   );
@@ -213,10 +215,10 @@ Function=Function// GJS_DISABLE_EXTRA_WARNINGS=1 exec gjs "$0" "$@" && exit
           print([
             '',
             '  \x1B[1mjsgtk ' + imports.jsgtk.constants.VERSION + '\x1B[0m',
-            '  usage: jsgtk [options] script.js [arguments]',
-            '         jsgtk script.js [arguments]',
+            '  usage: jsgtk script.js [arguments]',
+            '         jsgtk [options] script.js [arguments]',
             '         jsgtk --debug script.js [arguments]',
-            '         jsgtk (-e|--eval) "console.log(\'runtime\')"',
+            '         jsgtk (-e|--eval) \'console.log("runtime")\'',
             '         jsgtk (-v|--version)',
             '',
             '  Documentation can be found at https://github.com/WebReflection/jsgtk',

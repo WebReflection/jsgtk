@@ -42,6 +42,7 @@ const
     constructor: function ChildProcess(ok, pid, stdin, stdout, stderr) {
       EventEmitter.call(this);
       if (ok) {
+        mainloop.wait();
         this.pid = pid;
         this.connected = ok;
         this.stdin = new Stream(stdin)
@@ -59,7 +60,6 @@ const
           this.stdout,
           this.stderr
         ];
-        mainloop.wait();
       }
     },
     unref: function () {
