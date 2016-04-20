@@ -50,15 +50,16 @@ const
     constructor: function Hmac(type, key) {
       this.type = type;
       this.key = key;
-      this.data = new GLib.Checksum(type);
+      this.data = [];
+      this.data.update = this.data.push;
     },
     digest: function digest(type) {
-      return GLib.compute_hmac_for_data(
+      var str = this.data.join('');
+      return GLib.compute_hmac_for_string(
         this.type,
         this.key,
-        null,
-        this.data,
-        GLib.checksum_type_get_length(this.type)
+        str,
+        str.length
       );
     }
   })
@@ -68,11 +69,9 @@ module.exports = {
   createHash: function createHash(type) {
     return new Hash(getHashType(type));
   },
-  /* actually not working
   createHmac: function createHmac(type, key) {
     return new Hmac(getHashType(type), key);
   },
-  */
   getHashes: function getHashes() {
     return hashTypes.map(type => type.toLowerCase());
   },
