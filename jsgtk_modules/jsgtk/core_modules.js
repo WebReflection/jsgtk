@@ -18,7 +18,7 @@
       'crypto',
       'events',
       'fs',
-      // 'http',
+      'http',
       'os',
       'path',
       'process',
