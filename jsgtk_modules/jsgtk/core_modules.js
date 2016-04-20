@@ -18,6 +18,7 @@
       'crypto',
       'events',
       'fs',
+      'http',
       'os',
       'path',
       'process',

@@ -1,8 +1,8 @@
+var http = require('http');
 
-const crypto = require('crypto');
-const hash = crypto.createHmac('sha256', 'a secret');
-
-hash.update('hello');
-hash.update('there');
-console.log(hash.digest('hex'));
-
+http
+  .request(
+    'http://devpro.it/',
+    function () {}
+  )
+;
