@@ -59,7 +59,7 @@ const
         this.type,
         this.key,
         str,
-        str.length
+        -1
       );
     }
   })
