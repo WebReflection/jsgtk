@@ -221,7 +221,7 @@ Function=Function// GJS_DISABLE_EXTRA_WARNINGS=1 exec gjs "$0" "$@" && exit
             '         jsgtk (-e|--eval) \'console.log("runtime")\'',
             '         jsgtk (-v|--version)',
             '',
-            '  Documentation can be found at https://github.com/WebReflection/jsgtk',
+            '  Find more at https://github.com/WebReflection/jsgtk',
             ''
           ].join('\n'));
       }

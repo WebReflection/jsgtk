@@ -9,6 +9,7 @@
     INITIALIZER = '_init',
 
     gi = imports.gi,
+    DEBUG = imports.jsgtk.constants.DEBUG,
     hybrid_emitter = imports.jsgtk.hybrid_emitter,
     GIRepository = gi.GIRepository,
     repository = GIRepository.Repository.get_default(),
@@ -246,6 +247,12 @@
         return descriptor;
       }
     ;
+    if (DEBUG) print([
+      'Interface: ' + Info.get_name(),
+      [].concat(
+        getArrayInfo(Info, 'interface', 'method').map(info => info.get_name())
+      ).join(', ')
+    ].join(' '));
     methods.forEach((info) => {
       let name = info.get_name();
       if (isMethod(info)) {
@@ -278,6 +285,13 @@
     methods.forEach((info) => {
       define(isMethod(info) ? prototype : Object, info.get_name());
     });
+    if (DEBUG) print([
+      'Object: ' + Info.get_name(),
+      [].concat(
+        getArrayInfo(Info, 'object', 'field').map(info => info.get_name()),
+        getArrayInfo(Info, 'object', 'method').map(info => info.get_name())
+      ).join(', ')
+    ].join(' '));
     if (Parent) parse(Parent);
     for (let i = 0; i < Interfaces; i++)
       parse(GIRepository.object_info_get_interface(Info, i));
@@ -295,6 +309,13 @@
     methods.forEach((info) => {
       define(isMethod(info) ? prototype : Struct, info.get_name());
     });
+    if (DEBUG) print([
+      'Struct: ' + Info.get_name(),
+      [].concat(
+        getArrayInfo(Info, 'struct', 'field').map(info => info.get_name()),
+        getArrayInfo(Info, 'struct', 'method').map(info => info.get_name())
+      ).join(', ')
+    ].join(' '));
   }
 
   function parseUnion(Union, Info) {
@@ -309,6 +330,13 @@
     methods.forEach((info) => {
       define(isMethod(info) ? prototype : Union, info.get_name());
     });
+    if (DEBUG) print([
+      'Union: ' + Info.get_name(),
+      [].concat(
+        getArrayInfo(Info, 'union', 'field').map(info => info.get_name()),
+        getArrayInfo(Info, 'union', 'method').map(info => info.get_name())
+      ).join(', ')
+    ].join(' '));
   }
 
   function withoutCamelCase(obj) {
