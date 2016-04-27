@@ -149,7 +149,7 @@ const
         this.method = method;
         this.url = url;
         this.statusCode = 0;
-        this.statusMessage = 0;
+        this.statusMessage = '';
         this.headers = {};
         this.rawHeaders = [];
         this.readable = false;
@@ -181,7 +181,7 @@ const
             options
           );
           if (!hOP.call(options, 'protocol'))
-            this.options.protocol = options.protocol;
+            this.options.protocol = options.protocol || 'http:';
           if (!hOP.call(options, 'host') && !hOP.call(options, 'hostname'))
             this.options.hostname = 'localhost';
           if (hOP.call(options, 'path')) {
@@ -190,6 +190,15 @@ const
             let search = path.slice(1).join('?');
             if (search.length) this.options.search = search;
           }
+        }
+        if (
+          hOP.call(this.options, 'auth') &&
+          !hOP.call(this.options.headers, 'Authorization')
+        ) {
+          this.options.headers.Authorization = 'Basic '.concat(
+            new Buffer(options.auth).toString('base64')
+          );
+          delete this.options.auth;
         }
         if (callback) this.on('response', callback);
       },
