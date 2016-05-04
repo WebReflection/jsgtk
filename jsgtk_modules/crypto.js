@@ -78,6 +78,6 @@ module.exports = {
   randomBytes: function randomBytes(size) {
     let chars = new Buffer(size);
     while (size--) chars[size] = GLib.random_int_range(0, 255);
-    return chars;
+    return String.fromCharCode.apply(null, chars);
   }
 };

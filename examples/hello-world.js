@@ -35,7 +35,7 @@ win
     Gtk.main();
   })
   .on('destroy', Gtk.mainQuit)
-  .add(new Gtk.Label({label: 'Hello jsGtk+'}))
+  .add(Gtk.Label.new('Hello jsGtk+'))
 ;
 
 win.setDefaultSize(200, 80);
