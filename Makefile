@@ -8,6 +8,7 @@ build:
 	sleep 1
 	make hint
 	cp node_modules/babel-standalone/babel.min.js jsgtk_modules/jsgtk/babel.js
+	cp node_modules/es6-promise/dist/es6-promise.min.js jsgtk_modules/jsgtk/promise.js
 	if [ -d "aur" ]; then rm -r aur; fi
 	mkdir -p aur/jsgtk/jsgtk
 	cp jsgtk aur/jsgtk/jsgtk/jsgtk.sh

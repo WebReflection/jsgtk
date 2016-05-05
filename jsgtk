@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-Function=Function// GJS_DISABLE_EXTRA_WARNINGS=1 exec gjs "$0" "$@" && exit
+Function=Function// GTK_DEBUG=$(for a in "$@"; do if [ "$a" = "-d" ] || [ "$a" = "--debug" ]; then echo 'interactive'; fi; done;) GJS_DISABLE_EXTRA_WARNINGS=1 exec gjs "$0" "$@" && exit
 
 /* jshint esversion: 6, strict: true, node: true */
 /* global imports */
@@ -113,7 +113,9 @@ Function=Function// GJS_DISABLE_EXTRA_WARNINGS=1 exec gjs "$0" "$@" && exit
       global: {enumerable: true, value: global},
       // used as ES6 classes properties decorator:
       // https://github.com/WebReflection/jsgtk/blob/master/examples/lang.js
-      GObjectProperties: {value: imports.jsgtk.extended.GObjectProperties}
+      GObjectProperties: {value: imports.jsgtk.extended.GObjectProperties},
+      // es6-promise to the rescue \o/
+      Promise: {value: imports.jsgtk.promise.ES6Promise.Promise}
     }
   );
 

@@ -81,6 +81,9 @@ There is also a [jsgtk-examples](https://github.com/WebReflection/jsgtk-examples
 If you clone this repository, `npm test` is the way to test few functionalities.
 Once cloned locally, you can also try `./jsgtk examples/base.js` or [any other file](https://github.com/WebReflection/jsgtk/tree/master/examples).
 
+If you'd like to debug an application, pass a `-d` or a `--debug` argument to the app.
+
+Optionally, you can set `GDK_DEBUG=all` to have all possible info about the app.
 
 
 ### Why not [node-gir](https://github.com/creationix/node-gir) or [node-gtk](https://github.com/WebReflection/node-gtk)?
