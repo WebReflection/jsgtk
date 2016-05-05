@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-Function=Function// GTK_DEBUG=$(for a in "$@"; do if [ "$a" = "-d" ] || [ "$a" = "--debug" ]; then echo 'interactive'; fi; done;) GJS_DISABLE_EXTRA_WARNINGS=1 exec gjs "$0" "$@" && exit
+Function=Function//; for a in "$@"; do if [ "$a" = "-d" ] || [ "$a" = "--debug" ]; then export GTK_DEBUG=interactive; fi; done; if [ "$GTK_DEBUG" != "interactive" ]; then export GJS_DISABLE_EXTRA_WARNINGS=1; fi; exec gjs "$0" "$@" && exit
 
 /* jshint esversion: 6, strict: true, node: true */
 /* global imports */

@@ -1,1 +1,7 @@
-print(require('crypto').randomBytes(32));
+function asd(v) {
+  if (v == 2) return 3;
+}
+
+asd();
+
+setTimeout(require, 1000, 'GLib');
