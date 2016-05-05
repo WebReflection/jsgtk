@@ -211,7 +211,7 @@ const
       mainloop.wait();
     },
     unlinkSync: function unlinkSync(path) {
-      GLib.unlink(path);
+      GFile.new_for_path(path).delete();
     },
     watch: function watch(fileName, options, listener) {
       return new FSWatcher(Object.assign(
