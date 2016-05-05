@@ -197,6 +197,22 @@ const
         return null;
       }
     },
+    unlink: function unlink(path, callback) {
+      let fd = GFile.new_for_path(path);
+      fd.delete_async(null, null, (source, result) => {
+        mainloop.go();
+        try {
+          let info = source.delete_async_finish(result);
+          callback();
+        } catch(e) {
+          callback(e);
+        }
+      });
+      mainloop.wait();
+    },
+    unlinkSync: function unlinkSync(path) {
+      GLib.unlink(path);
+    },
     watch: function watch(fileName, options, listener) {
       return new FSWatcher(Object.assign(
         {

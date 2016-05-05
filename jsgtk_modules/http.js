@@ -192,7 +192,7 @@ const
           }
         }
         if (
-          hOP.call(this.options, 'auth') &&
+          hOP.call(this.options, 'auth') && this.options.auth &&
           !hOP.call(this.options.headers, 'Authorization')
         ) {
           this.options.headers.Authorization = 'Basic '.concat(
