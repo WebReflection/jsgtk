@@ -137,10 +137,10 @@ if [ "$(which gjs 2> /dev/null)" = "" ]; then
       if [ "$(which pacman 2> /dev/null)" = "" ]; then
         if [ "$(which apt-get 2> /dev/null)" = "" ]; then
           if [ "$(which yum 2> /dev/null)" = "" ]; then
-            echo ""
+            echo ''
             echo " $(tput bold)[WARNING]$(tput sgr0): dunno how to install dependencies:"
             echo '   gjs, gobject-introspection, libgirepository-1.0, libwebkit2gtk-3.0'
-            echo ""
+            echo ''
             exit 1
           else
             if [ "$WEBKIT" != "" ]; then
@@ -164,9 +164,9 @@ if [ "$(which gjs 2> /dev/null)" = "" ]; then
         fi
       fi
     else
-      echo ""
+      echo ''
       echo " $(tput bold)[WARNING]$(tput sgr0): this platform is not supported: $(uname)"
-      echo ""
+      echo ''
       exit 1
     fi
   fi
@@ -187,7 +187,7 @@ if [ "$(which yaourt 2> /dev/null)" = "" ]; then
 
   # notify about MacPorts X11
   if [ "${macported}" = "true" ] && [ "$X11" != "" ]; then
-    echo ""
+    echo ''
     echo "  in order to use X11 please $(tput bold)log out$(tput sgr0)"
     echo "  and then $(tput bold)log in$(tput sgr0) again"
     sleep 3
@@ -198,12 +198,12 @@ else
   yaourt -S --noconfirm jsgtk
 fi
 
-echo ""
+echo ''
 echo "  $(tput bold)Thank you$(tput sgr0) for trying $(tput bold)jsgtk$(tput sgr0)!"
-echo ""
+echo ''
 echo "    Visit the following page to try some example:"
 echo "    https://github.com/WebReflection/jsgtk/#gtkui-examples"
-echo ""
+echo ''
 
 # it might have taken long time on OSX, let's inform users via a dialog
 if [ "$(uname)" = "Darwin" ]; then
