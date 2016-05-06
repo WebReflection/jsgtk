@@ -81,56 +81,56 @@ fi
 # verify dependencies
 if [ "$(which gjs 2> /dev/null)" = "" ]; then
   if [ "$(uname)" = "Darwin" ]; then
-    if [ "$(which brew)" = "" ]; then
-      if [ "$(which port)" = "" ]; then
+    if [ "$(which port)" = "" ]; then
+      if [ "$(which brew)" = "" ]; then
         echo "  $(tput bold)Dependencies issue:$(tput sgr0)"
         echo '    please install either homebrew or macports to have GJS'
         echo '      http://brew.sh/'
         echo '      https://www.macports.org/'
         exit 1
       else
-        macported='true'
-        echo "  Installing $(tput bold)GJS$(tput sgr0) via $(tput bold)MacPorts$(tput sgr0)"
+        echo "  Installing $(tput bold)GJS$(tput sgr0) via $(tput bold)Homebrew$(tput sgr0)"
         sleep 2
-        # if X11 is specified, use this variant
-        if [ "$X11" != "" ]; then
-          TODO='
-            port install gtk3 +x11
-            port install xorg-server xorg-xinit
-            port install gjs adwaita-icon-theme
-          '
-          if [ "$WEBKIT" != "" ]; then
-            TODO="${TODO}
-            port install webkit2-gtk +x11 -gtk2
-            "
-          fi
-        else
-          TODO='
-            port install gtk3 +quartz
-            port install gjs adwaita-icon-theme
-          '
-          if [ "$WEBKIT" != "" ]; then
-            TODO="${TODO}
-            port install webkit2-gtk +quartz
-            "
-          fi
+        brew install gjs adwaita-icon-theme
+        if [ "$(which gjs 2> /dev/null)" = "" ]; then
+          brew link --overwrite gjs
         fi
         if [ "$WEBKIT" != "" ]; then
-          echo " installing with $(tput bold)WebKit2GTK$(tput sgr0)"
-          echo " if built, this might take long time ..."
+          brew install webkitgtk
         fi
-        sudo sh -c "$TODO"
       fi
     else
-      echo "  Installing $(tput bold)GJS$(tput sgr0) via $(tput bold)Homebrew$(tput sgr0)"
+      macported='true'
+      echo "  Installing $(tput bold)GJS$(tput sgr0) via $(tput bold)MacPorts$(tput sgr0)"
       sleep 2
-      brew install gjs adwaita-icon-theme
-      if [ "$(which gjs 2> /dev/null)" = "" ]; then
-        brew link --overwrite gjs
+      # if X11 is specified, use this variant
+      if [ "$X11" != "" ]; then
+        TODO='
+          port install gtk3 +x11
+          port install xorg-server xorg-xinit
+          port install gjs adwaita-icon-theme
+        '
+        if [ "$WEBKIT" != "" ]; then
+          TODO="${TODO}
+          port install webkit2-gtk +x11 -gtk2
+          "
+        fi
+      else
+        TODO='
+          port install gtk3 +quartz
+          port install gjs adwaita-icon-theme
+        '
+        if [ "$WEBKIT" != "" ]; then
+          TODO="${TODO}
+          port install webkit2-gtk +quartz
+          "
+        fi
       fi
       if [ "$WEBKIT" != "" ]; then
-        brew install webkitgtk
+        echo " installing with $(tput bold)WebKit2GTK$(tput sgr0)"
+        echo " if built, this might take long time ..."
       fi
+      sudo sh -c "$TODO"
     fi
   else
     if [ "$(uname)" = "Linux" ]; then
