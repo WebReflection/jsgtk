@@ -128,7 +128,7 @@ if [ "$(which gjs 2> /dev/null)" = "" ]; then
       fi
       if [ "$WEBKIT" != "" ]; then
         echo " installing with $(tput bold)WebKit2GTK$(tput sgr0)"
-        echo " if built, this might take long time ..."
+        echo " if built, $(tput bold)this might take long time$(tput sgr0) ..."
       fi
       sudo sh -c "$TODO"
     fi
@@ -204,8 +204,3 @@ echo ''
 echo "    Visit the following page to try some example:"
 echo "    https://github.com/WebReflection/jsgtk/#gtkui-examples"
 echo ''
-
-# it might have taken long time on OSX, let's inform users via a dialog
-if [ "$(uname)" = "Darwin" ]; then
-  osascript -e 'tell Application "Finder" to display dialog "jsgtk installed \o/" '
-fi
