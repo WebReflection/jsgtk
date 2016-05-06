@@ -92,7 +92,34 @@ if [ "$(which gjs 2> /dev/null)" = "" ]; then
         macported='true'
         echo "  Installing $(tput bold)GJS$(tput sgr0) via $(tput bold)MacPorts$(tput sgr0)"
         sleep 2
-        sudo port install gjs adwaita-icon-theme xorg-server xorg-xinit
+        # if X11 is specified, use this variant
+        if [ "$X11" != "" ]; then
+          TODO='
+            port install gtk3 +x11
+            port install xorg-server xorg-xinit
+            port install gjs adwaita-icon-theme
+          '
+          if [ "$WEBKIT" != "" ]; then
+            TODO="${TODO}
+            port install webkit2-gtk +x11 -gtk2
+            "
+          fi
+        else
+          TODO='
+            port install gtk3 +quartz
+            port install gjs adwaita-icon-theme
+          '
+          if [ "$WEBKIT" != "" ]; then
+            TODO="${TODO}
+            port install webkit2-gtk +quartz
+            "
+          fi
+        fi
+        if [ "$WEBKIT" != "" ]; then
+          echo " installing with $(tput bold)WebKit2GTK$(tput sgr0)"
+          echo " if built, this might take long time ..."
+        fi
+        sudo sh -c "$TODO"
       fi
     else
       echo "  Installing $(tput bold)GJS$(tput sgr0) via $(tput bold)Homebrew$(tput sgr0)"
@@ -100,6 +127,9 @@ if [ "$(which gjs 2> /dev/null)" = "" ]; then
       brew install gjs adwaita-icon-theme
       if [ "$(which gjs 2> /dev/null)" = "" ]; then
         brew link --overwrite gjs
+      fi
+      if [ "$WEBKIT" != "" ]; then
+        brew install webkitgtk
       fi
     fi
   else
@@ -109,17 +139,29 @@ if [ "$(which gjs 2> /dev/null)" = "" ]; then
           if [ "$(which yum 2> /dev/null)" = "" ]; then
             echo ""
             echo " $(tput bold)[WARNING]$(tput sgr0): dunno how to install dependencies:"
-            echo '   gjs, gobject-introspection, libgirepository-1.0'
+            echo '   gjs, gobject-introspection, libgirepository-1.0, libwebkit2gtk-3.0'
             echo ""
             exit 1
           else
-            sudo yum -y install gjs
+            if [ "$WEBKIT" != "" ]; then
+              sudo yum -y install gjs webkitgtk4
+            else
+              sudo yum -y install gjs
+            fi
           fi
         else
-          sudo apt-get --assume-yes install gjs
+          if [ "$WEBKIT" != "" ]; then
+            sudo apt-get --assume-yes install gjs libwebkit2gtk-4.0
+          else
+            sudo apt-get --assume-yes install gjs
+          fi
         fi
       else
-        sudo pacman -S --needed --noconfirm gjs
+        if [ "$WEBKIT" != "" ]; then
+          sudo pacman -S --needed --noconfirm gjs webkit2-gtk
+        else
+          sudo pacman -S --needed --noconfirm gjs
+        fi
       fi
     else
       echo ""
@@ -144,7 +186,7 @@ if [ "$(which yaourt 2> /dev/null)" = "" ]; then
   rm -rf $pkgdir
 
   # notify about MacPorts X11
-  if [ "${macported}" = "true" ]; then
+  if [ "${macported}" = "true" ] && [ "$X11" != "" ]; then
     echo ""
     echo "  in order to use X11 please $(tput bold)log out$(tput sgr0)"
     echo "  and then $(tput bold)log in$(tput sgr0) again"
@@ -162,3 +204,8 @@ echo ""
 echo "    Visit the following page to try some example:"
 echo "    https://github.com/WebReflection/jsgtk/#gtkui-examples"
 echo ""
+
+# it might have taken long time on OSX, let's inform users via a dialog
+if [ "$(uname)" = "Darwin" ]; then
+  osascript -e 'tell Application "Finder" to display dialog "jsgtk installed \o/"'
+fi
