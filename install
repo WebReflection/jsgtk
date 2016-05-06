@@ -3,11 +3,16 @@
 
 pkgname=jsgtk
 
-# tehre is a bug in MacPorts taglib
-# the following is necessary
+# OSX / MacPorts users
+# there is a bug in MacPorts taglib
 # https://trac.macports.org/ticket/51318
 # https://trac.macports.org/ticket/51319
-PORTS_FORCING_VARIANTS=true
+
+# Homebrew Users
+# WebKitGKT will most likely fail :-(
+
+# if you want to have pure quartz install:
+# PURE_QUARTZ=true
 
 if [ "$TMPDIR" = "" ]; then
   TMPDIR=/tmp
@@ -110,7 +115,7 @@ if [ "$(which gjs 2> /dev/null)" = "" ]; then
       echo "  Installing $(tput bold)GJS$(tput sgr0) via $(tput bold)MacPorts$(tput sgr0)"
       sleep 2
       # if X11 is specified, use this variant
-      if [ "$X11" != "" ]; then
+      if [ "$X11" = "true" ]; then
         TODO='
           port install gtk3 +x11
           port install xorg-server xorg-xinit
@@ -122,7 +127,7 @@ if [ "$(which gjs 2> /dev/null)" = "" ]; then
           "
         fi
       else
-        if [ "$PORTS_FORCING_VARIANTS" = "true" ]; then
+        if [ "$PURE_QUARTZ" = "true" ]; then
           # remove gst-plugins-bad from dependencies
           # forces quartz only variants
           TODO='
