@@ -206,16 +206,16 @@ fi
 TODO="${TODO}
 if [ '$(which yaourt 2> /dev/null)' = '' ]; then
   # unpack and install the package
-  mkdir -p '$pkgdir'
-  cd '$pkgdir'
+  sudo -u $USER mkdir -p $pkgdir
+  cd $pkgdir
   echo 'installing from $(pwd)'
-  curl -sLO '$source'
-  tar -xzvf '${pkgname}-${pkgver}.tar.gz'
+  sudo -u $USER curl -sLO $source
+  sudo -u $USER tar -xzvf '${pkgname}-${pkgver}.tar.gz'
   mkdir -p '${destlib}'
   cp -r '${pkgname}/jsgtk_modules' '${destlib}'
   cp '${pkgname}/${pkgname}.sh' '${destbin}'
   chmod +x '${destbin}'
-  rm -rf '$pkgdir'
+  sudo -u $USER rm -rf $pkgdir
 
   # notify about MacPorts X11
   if [ '${macported}' = 'true' ] && [ '$X11' != '' ]; then
@@ -227,7 +227,7 @@ if [ '$(which yaourt 2> /dev/null)' = '' ]; then
   fi
 else
   # ArchLinux AUR users would surely prefer the AUR way
-  yaourt -S --noconfirm jsgtk
+  sudo -u $USER yaourt -S --noconfirm jsgtk
 fi
 "
 
