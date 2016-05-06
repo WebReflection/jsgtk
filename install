@@ -207,5 +207,5 @@ echo ""
 
 # it might have taken long time on OSX, let's inform users via a dialog
 if [ "$(uname)" = "Darwin" ]; then
-  osascript -e 'tell Application "Finder" to display dialog "jsgtk installed \o/"'
+  osascript -e 'tell Application "Finder" to display dialog "jsgtk installed \o/" '
 fi
