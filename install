@@ -128,7 +128,7 @@ if [ "$(which gjs 2> /dev/null)" = "" ]; then
       fi
       if [ "$WEBKIT" != "" ]; then
         echo " installing with $(tput bold)WebKit2GTK$(tput sgr0)"
-        echo " if built, $(tput bold)this might take long time$(tput sgr0) ..."
+        echo " $(tput bold)this might take long time$(tput sgr0) ..."
       fi
       sudo sh -c "$TODO"
     fi
