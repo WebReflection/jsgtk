@@ -153,9 +153,9 @@ if [ "$(which gjs 2> /dev/null)" = "" ]; then
         fi
       fi
       if [ "$WEBKIT" != "" ]; then
-        echo " installing with $(tput bold)WebKit2GTK$(tput sgr0)"
+        echo "  installing with $(tput bold)WebKit2GTK$(tput sgr0)"
       fi
-      echo " $(tput bold)this might take long time$(tput sgr0) ..."
+      echo "  $(tput bold)this might take long time$(tput sgr0) ..."
     fi
   else
     if [ "$(uname)" = "Linux" ]; then
