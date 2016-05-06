@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# simplified brew.sh install CLT procedure
+
+should_install() {
+  local dev
+  if [ "10.9" < "$(sw_vers -productVersion | sed -n -E 's/^([0-9]+)\.([0-9]+)[0-9.-]*/\1.\2/p')" ]; then
+    dev=$(xcode-select -print-path)
+    if [ "$(ls $dev)" = "" ] || [ ! -f "${dev}/usr/bin/git" ]; then
+      echo 1
+    fi
+  fi
+}
+
+if [ "$(should_install)" ]; then
+  touch /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
+  softwareupdate -i $(softwareupdate -l | grep -B 1 -E "Command Line (Developer|Tools)" | awk -F"*" '/^ +\\*/ {print $2}' | sed 's/^ *//' | head -n1)
+  rm -f "/tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
+fi
+
+if [ "$(should_install)" ]; then
+  xcode-select --install
+fi
