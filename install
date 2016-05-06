@@ -3,6 +3,10 @@
 
 pkgname=jsgtk
 
+# tehre is a bug in MacPorts taglib
+# the following is necessary
+PORTS_FORCING_VARIANTS=true
+
 if [ "$TMPDIR" = "" ]; then
   TMPDIR=/tmp
 fi
@@ -116,28 +120,40 @@ if [ "$(which gjs 2> /dev/null)" = "" ]; then
           "
         fi
       else
-        # remove gst-plugins-bad from dependencies
-        # forces quartz only variants
-        TODO='
-          sed -i.bak -e '"'"':a'"'"' -e '"'"'N'"'"' -e '"'"'$!ba'"'"' -e '"'"'s/[ ]*port:gstreamer1-gst-plugins-bad[ ]*\\\n//'"'"' $(port file webkit2-gtk)
-          cp /opt/local/etc/macports/variants.conf /opt/local/etc/macports/variants.conf.bak
-          echo "-x11 +no_x11 +quartz +gtk3 -gtk2 +no_gtk2" > /opt/local/etc/macports/variants.conf
-          port install gtk3 +quartz
-          port install gjs adwaita-icon-theme
-        '
-        if [ "$WEBKIT" != "" ]; then
+        if [ "$PORTS_FORCING_VARIANTS" = "true" ]; then
+          # remove gst-plugins-bad from dependencies
+          # forces quartz only variants
+          TODO='
+            sed -i.bak -e '"'"':a'"'"' -e '"'"'N'"'"' -e '"'"'$!ba'"'"' -e '"'"'s/[ ]*port:gstreamer1-gst-plugins-bad[ ]*\\\n//'"'"' $(port file webkit2-gtk)
+            cp /opt/local/etc/macports/variants.conf /opt/local/etc/macports/variants.conf.bak
+            echo "-x11 +no_x11 +quartz +gtk3 -gtk2 +no_gtk2" > /opt/local/etc/macports/variants.conf
+            port install gtk3 +quartz
+            port install gjs adwaita-icon-theme
+          '
+          if [ "$WEBKIT" != "" ]; then
+            TODO="${TODO}
+            port install webkit2-gtk +quartz
+            "
+          fi
           TODO="${TODO}
-          port install webkit2-gtk +quartz
+            mv /opt/local/etc/macports/variants.conf.bak /opt/local/etc/macports/variants.conf
           "
+        else
+          TODO='
+            port install gtk3 +quartz
+            port install gjs adwaita-icon-theme
+          '
+          if [ "$WEBKIT" != "" ]; then
+            TODO="${TODO}
+            port install webkit2-gtk +quartz
+            "
+          fi
         fi
-        TODO="${TODO}
-          mv /opt/local/etc/macports/variants.conf.bak /opt/local/etc/macports/variants.conf
-        "
       fi
       if [ "$WEBKIT" != "" ]; then
         echo " installing with $(tput bold)WebKit2GTK$(tput sgr0)"
-        echo " $(tput bold)this might take long time$(tput sgr0) ..."
       fi
+      echo " $(tput bold)this might take long time$(tput sgr0) ..."
       sudo sh -c "$TODO"
     fi
   else
