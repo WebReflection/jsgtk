@@ -5,6 +5,8 @@ pkgname=jsgtk
 
 # tehre is a bug in MacPorts taglib
 # the following is necessary
+# https://trac.macports.org/ticket/51318
+# https://trac.macports.org/ticket/51319
 PORTS_FORCING_VARIANTS=true
 
 if [ "$TMPDIR" = "" ]; then
