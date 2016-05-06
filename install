@@ -156,7 +156,6 @@ if [ "$(which gjs 2> /dev/null)" = "" ]; then
         echo " installing with $(tput bold)WebKit2GTK$(tput sgr0)"
       fi
       echo " $(tput bold)this might take long time$(tput sgr0) ..."
-      sudo sh -c "$TODO"
     fi
   else
     if [ "$(uname)" = "Linux" ]; then
@@ -169,24 +168,21 @@ if [ "$(which gjs 2> /dev/null)" = "" ]; then
             echo ''
             exit 1
           else
+            TODO='yum -y install gjs'
             if [ "$WEBKIT" != "" ]; then
-              sudo yum -y install gjs webkitgtk4
-            else
-              sudo yum -y install gjs
+              TODO="${TODO} webkitgtk4"
             fi
           fi
         else
+          TODO='apt-get --assume-yes install gjs'
           if [ "$WEBKIT" != "" ]; then
-            sudo apt-get --assume-yes install gjs libwebkit2gtk-4.0
-          else
-            sudo apt-get --assume-yes install gjs
+            TODO="${TODO} libwebkit2gtk-4.0"
           fi
         fi
       else
+        TODO='pacman -S --needed --noconfirm gjs'
         if [ "$WEBKIT" != "" ]; then
-          sudo pacman -S --needed --noconfirm gjs webkit2-gtk
-        else
-          sudo pacman -S --needed --noconfirm gjs
+          TODO="${TODO} webkit2-gtk"
         fi
       fi
     else
@@ -207,31 +203,35 @@ else
   fi
 fi
 
-if [ "$(which yaourt 2> /dev/null)" = "" ]; then
+TODO="${TODO}
+if [ '$(which yaourt 2> /dev/null)' = '' ]; then
   # unpack and install the package
-  mkdir -p $pkgdir
-  cd $pkgdir
-  echo "installing from $(pwd)"
-  curl -sLO $source
-  tar -xzvf "${pkgname}-${pkgver}.tar.gz"
-  sudo mkdir -p "${destlib}"
-  sudo cp -r "${pkgname}/jsgtk_modules" "${destlib}"
-  sudo cp "${pkgname}/${pkgname}.sh" "${destbin}"
-  sudo chmod +x "${destbin}"
-  rm -rf $pkgdir
+  mkdir -p '$pkgdir'
+  cd '$pkgdir'
+  echo 'installing from $(pwd)'
+  curl -sLO '$source'
+  tar -xzvf '${pkgname}-${pkgver}.tar.gz'
+  mkdir -p '${destlib}'
+  cp -r '${pkgname}/jsgtk_modules' '${destlib}'
+  cp '${pkgname}/${pkgname}.sh' '${destbin}'
+  chmod +x '${destbin}'
+  rm -rf '$pkgdir'
 
   # notify about MacPorts X11
-  if [ "${macported}" = "true" ] && [ "$X11" != "" ]; then
+  if [ '${macported}' = 'true' ] && [ '$X11' != '' ]; then
     echo ''
-    echo "  in order to use X11 please $(tput bold)log out$(tput sgr0)"
-    echo "  and then $(tput bold)log in$(tput sgr0) again"
+    echo '  in order to use X11 please $(tput bold)log out$(tput sgr0)'
+    echo '  and then $(tput bold)log in$(tput sgr0) again'
     sleep 3
-    echo "  ... anyway ..."
+    echo '  ... anyway ...'
   fi
 else
   # ArchLinux AUR users would surely prefer the AUR way
   yaourt -S --noconfirm jsgtk
 fi
+"
+
+sudo sh -c "$TODO"
 
 echo ''
 echo "  $(tput bold)Thank you$(tput sgr0) for trying $(tput bold)jsgtk$(tput sgr0)!"
