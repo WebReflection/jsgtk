@@ -14,23 +14,19 @@ should_install() {
   fi
 }
 
-install_new_way() {
-  local label
-  local tmp="/tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress"
-  touch $tmp
+if [ "$(should_install)" = "true" ]; then
+  touch /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
   label=$(softwareupdate -l | grep -B 1 -E "Command Line (Developer|Tools)" | awk -F"*" '/^ +\\*/ {print $2}' | sed 's/^ *//' | head -n1)
   echo "installing ${label}"
   softwareupdate -i $label
-  rm -f $tmp
-}
-
-if [ "$(should_install)" = "true" ]; then
-  install_new_way
+  rm -f /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
   # fallback to the old way in case
   # it still needs to be installed
   if [ "$(should_install)" = "true" ]; then
-    echo "installing via fallback (expect a GUI popup)"
+    echo "Installing the Command Line Tools (expect a GUI popup)"
     xcode-select --install
+    echo "Please remember to accept the license"
+    echo "  sudo xcodebuild -license"
   fi
 else
   echo 'nothing to do'
