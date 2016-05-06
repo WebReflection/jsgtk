@@ -14,12 +14,18 @@ should_install() {
   fi
 }
 
-if [ "$(should_install)" = "true" ]; then
-  touch /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
+install_new_way() {
+  local tmp=/tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
+  touch $tmp
   softwareupdate -i $(softwareupdate -l | grep -B 1 -E "Command Line (Developer|Tools)" | awk -F"*" '/^ +\\*/ {print $2}' | sed 's/^ *//' | head -n1)
-  rm -f /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
-fi
+  rm -f $tmp
+}
 
 if [ "$(should_install)" = "true" ]; then
-  xcode-select --install
+  install_new_way
+  # fallback to the old way in case
+  # it still needs to be installed
+  if [ "$(should_install)" = "true" ]; then
+    xcode-select --install
+  fi
 fi
