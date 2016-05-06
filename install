@@ -116,7 +116,12 @@ if [ "$(which gjs 2> /dev/null)" = "" ]; then
           "
         fi
       else
+        # remove gst-plugins-bad from dependencies
+        # forces quartz only variants
         TODO='
+          sed -i.bak -e '"'"':a'"'"' -e '"'"'N'"'"' -e '"'"'$!ba'"'"' -e '"'"'s/[ ]*port:gstreamer1-gst-plugins-bad[ ]*\\\n//'"'"' $(port file webkit2-gtk)
+          cp /opt/local/etc/macports/variants.conf /opt/local/etc/macports/variants.conf.bak
+          echo "-x11 +no_x11 +quartz +gtk3 -gtk2 +no_gtk2" > /opt/local/etc/macports/variants.conf
           port install gtk3 +quartz
           port install gjs adwaita-icon-theme
         '
@@ -125,6 +130,9 @@ if [ "$(which gjs 2> /dev/null)" = "" ]; then
           port install webkit2-gtk +quartz
           "
         fi
+        TODO="${TODO}
+          mv /opt/local/etc/macports/variants.conf.bak /opt/local/etc/macports/variants.conf
+        "
       fi
       if [ "$WEBKIT" != "" ]; then
         echo " installing with $(tput bold)WebKit2GTK$(tput sgr0)"
