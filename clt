@@ -16,7 +16,7 @@ should_install() {
 
 install_new_way() {
   local label
-  local tmp=/tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
+  local tmp="/tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress"
   touch $tmp
   label=$(softwareupdate -l | grep -B 1 -E "Command Line (Developer|Tools)" | awk -F"*" '/^ +\\*/ {print $2}' | sed 's/^ *//' | head -n1)
   echo "installing ${label}"
@@ -29,7 +29,7 @@ if [ "$(should_install)" = "true" ]; then
   # fallback to the old way in case
   # it still needs to be installed
   if [ "$(should_install)" = "true" ]; then
-    echo "installing via fallback"
+    echo "installing via fallback (expect a GUI popup)"
     xcode-select --install
   fi
 else
