@@ -219,7 +219,7 @@ Function=Function//; for a in "$@"; do if [ "$a" = "-d" ] || [ "$a" = "--debug" 
             '  \x1B[1mjsgtk ' + imports.jsgtk.constants.VERSION + '\x1B[0m',
             '  usage: jsgtk script.js [arguments]',
             '         jsgtk [options] script.js [arguments]',
-            '         jsgtk --debug script.js [arguments]',
+            '         jsgtk (-d|--debug) script.js [arguments]',
             '         jsgtk (-e|--eval) \'console.log("runtime")\'',
             '         jsgtk (-v|--version)',
             '',

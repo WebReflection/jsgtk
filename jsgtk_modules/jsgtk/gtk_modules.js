@@ -79,6 +79,13 @@
 
   ;
 
+  if (DEBUG) print([
+    '',
+    '\x1b[1mLoaded Namespaces\x1b[0m',
+    repository.get_loaded_namespaces().join(', '),
+    ''
+  ].join('\n'));
+
   function augmentPrototype(Class) {
     let prototype = Class.prototype;
     if ('connect' in prototype) {
