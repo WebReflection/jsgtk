@@ -102,7 +102,7 @@ if [ "$(which gjs 2> /dev/null)" = "" ]; then
       else
         echo "  Installing $(tput bold)GJS$(tput sgr0) via $(tput bold)Homebrew$(tput sgr0)"
         sleep 2
-        brew install gjs adwaita-icon-theme
+        brew install gjs adwaita-icon-theme libnotify
         if [ "$(which gjs 2> /dev/null)" = "" ]; then
           brew link --overwrite gjs
         fi
@@ -119,7 +119,7 @@ if [ "$(which gjs 2> /dev/null)" = "" ]; then
         TODO='
           port install gtk3 +x11
           port install xorg-server xorg-xinit
-          port install gjs adwaita-icon-theme
+          port install gjs adwaita-icon-theme libnotify
         '
         if [ "$WEBKIT" != "" ]; then
           TODO="${TODO}
@@ -135,7 +135,7 @@ if [ "$(which gjs 2> /dev/null)" = "" ]; then
             cp /opt/local/etc/macports/variants.conf /opt/local/etc/macports/variants.conf.bak
             echo "-x11 +no_x11 +quartz +gtk3 -gtk2 +no_gtk2" > /opt/local/etc/macports/variants.conf
             port install gtk3 +quartz
-            port install gjs adwaita-icon-theme
+            port install gjs adwaita-icon-theme libnotify
           '
           if [ "$WEBKIT" != "" ]; then
             TODO="${TODO}
