@@ -9,6 +9,10 @@ build:
 	make hint
 	cp node_modules/babel-standalone/babel.min.js jsgtk_modules/jsgtk/babel.js
 	cp node_modules/es6-promise/dist/es6-promise.min.js jsgtk_modules/jsgtk/promise.js
+	sync
+	sed -i 's/function y(t,e,n,r){try{t.call(e,n,r)}/function y(t,e,n,r){try{return void t.call(e,n,r)}/' jsgtk_modules/jsgtk/promise.js
+	sync
+	sed -i 's/n._state!==tt/return void n._state!==tt/' jsgtk_modules/jsgtk/promise.js
 	if [ -d "aur" ]; then rm -r aur; fi
 	mkdir -p aur/jsgtk/jsgtk
 	cp jsgtk aur/jsgtk/jsgtk/jsgtk.sh
