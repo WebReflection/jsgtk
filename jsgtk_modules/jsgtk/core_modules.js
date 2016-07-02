@@ -19,6 +19,7 @@
       'events',
       'fs',
       'http',
+      'module',
       'os',
       'path',
       'process',

@@ -115,7 +115,11 @@ Function=Function//; for a in "$@"; do if [ "$a" = "-d" ] || [ "$a" = "--debug" 
       // https://github.com/WebReflection/jsgtk/blob/master/examples/lang.js
       GObjectProperties: {value: imports.jsgtk.extended.GObjectProperties},
       // es6-promise to the rescue \o/
-      Promise: {value: imports.jsgtk.promise.ES6Promise.Promise}
+      Promise: {value: imports.jsgtk.promise.ES6Promise.Promise},
+      // access to modules even internally
+      require: {value: function require(module) {
+        return requireWithPath(module, CURRENT_DIR);
+      }}
     }
   );
 
@@ -197,9 +201,7 @@ Function=Function//; for a in "$@"; do if [ "$a" = "-d" ] || [ "$a" = "--debug" 
           transform(info)
         ).call(
           global,
-          function require(module) {
-            return requireWithPath(module, CURRENT_DIR);
-          },
+          global.require,
           CURRENT_DIR,
           '[eval]'
         );
