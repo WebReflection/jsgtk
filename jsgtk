@@ -225,6 +225,7 @@ Function=Function//; for a in "$@"; do if [ "$a" = "-d" ] || [ "$a" = "--debug" 
             '         jsgtk (-d|--debug) script.js [arguments]',
             '         jsgtk (-e|--eval) \'console.log("runtime")\'',
             '         jsgtk (-v|--version)',
+            '         jsgtk --no-transform # avoid babel transform',
             '',
             '  Find more at https://github.com/WebReflection/jsgtk',
             ''
