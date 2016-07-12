@@ -80,7 +80,7 @@ Function=Function//; for a in "$@"; do if [ "$a" = "-d" ] || [ "$a" = "--debug" 
       DIR_SEPARATOR: {enumerable: true, value: DIR_SEPARATOR},
       PROGRAM_NAME: {enumerable: true, value: PROGRAM_NAME},
       PROGRAM_DIR: {enumerable: true, value: PROGRAM_DIR},
-      TRANSFORM: {enumerable: true, value: ARGV.some(arg => arg === '--no-transform')}
+      TRANSFORM: {enumerable: true, value: !ARGV.some(arg => arg === '--no-transform')}
     }
   );
 
