@@ -169,6 +169,7 @@ Function=Function//; for a in "$@"; do if [ "$a" = "-d" ] || [ "$a" = "--debug" 
 
   // makes most ES6 compatible with GJS
   function transform(code) {
+    if (ARGV.some(arg => arg === '--no-babel')) return code;
     return Babel.transform(code, BabelTransformer).code;
   }
 
@@ -222,6 +223,7 @@ Function=Function//; for a in "$@"; do if [ "$a" = "-d" ] || [ "$a" = "--debug" 
             '  usage: jsgtk script.js [arguments]',
             '         jsgtk [options] script.js [arguments]',
             '         jsgtk (-d|--debug) script.js [arguments]',
+            '         jsgtk (--no-babel) script.js [arguments]',
             '         jsgtk (-e|--eval) \'console.log("runtime")\'',
             '         jsgtk (-v|--version)',
             '',
