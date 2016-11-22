@@ -1,4 +1,4 @@
-#!/usr/bin/env jsgtk
+#!/usr/bin/env gjs
 
 ;(function (Gtk, WebKit2) {'use strict';
   Gtk.init(null);
@@ -31,10 +31,10 @@
   webView.load_uri(url(argv.filter(url => '-' !== url[0])[0] || 'google.com'));
   scrollWindow.add(webView);
   vbox.pack_start(scrollWindow, true, true, 0);
-  window.set_default_size(1024, 720);
+  window.set_default_size(1920, 1080);
   window.set_resizable(true);
   window.connect('show', () => {
-    //window.fullscreen();
+    window.fullscreen();
     Gtk.main()
   });
   window.connect('destroy', () => Gtk.main_quit());
