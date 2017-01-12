@@ -174,7 +174,7 @@ const
       mainloop.wait();
     },
     readdirSync: function readdirSync(path) {
-      return system('ls -a', path).split('\n').filter(noDots).sort();
+      return system('ls -a "' + path + '"').split('\n').filter(noDots).sort();
     },
     stat: function stat(path, callback) {
       let fd = GFile.new_for_path(path);
