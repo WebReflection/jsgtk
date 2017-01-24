@@ -101,7 +101,7 @@ function dirname(path) {
 }
 
 function extname(path) {
-  return /\S(\.[A-Za-z]+)$/.test(path) ? RegExp.$1 : '';
+  return /\S(\.[A-Za-z0-9]+)$/.test(path) ? RegExp.$1 : '';
 }
 
 function isAbsolute(path) {
