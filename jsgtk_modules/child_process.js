@@ -24,6 +24,10 @@ const
   Stream = require('stream').Stream,
 
   loopGoIfConnected = function () {
+    if (this.pid) {
+      GLib.spawn_close_pid(this.pid);
+      this.pid = null;
+    }
     if (this.connected) {
       this.connected = false;
       mainloop.go();
@@ -35,7 +39,6 @@ const
     this.stdin.emit('disconnect');
     this.stdout.emit('disconnect');
     this.stderr.emit('disconnect');
-    GLib.spawn_close_pid(this.pid);
   },
 
   ChildProcess = Class(EventEmitter, {
