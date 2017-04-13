@@ -134,14 +134,21 @@ const
   }),
   fs = {
     readFile: function readFile(file, options, callback) {
-      // TODO: supports options
-      if (!callback) callback = options;
+      // TODO: support the 'flag' option
+      let encoding = options && options.encoding || options;
+
+      if (!callback) {
+        callback = options;
+        encoding = undefined;
+      }
+
       GFile.new_for_path(file)
         .load_contents_async(null, (source, result) => {
           mainloop.go();
           try {
             let [ok, data, etag] = source.load_contents_finish(result);
             if (!ok) throw 'Unable to read ' + file;
+            if (encoding) data = data .toString(encoding);
             callback(null, data);
           } catch(err) {
             callback(err);
@@ -150,8 +157,12 @@ const
       mainloop.wait();
     },
     readFileSync: function readFileSync(file, options) {
-      // TODO: supports options
-      return GFile.new_for_path(file).load_contents(null)[1];
+      // TODO: support the 'flag' option
+      let encoding = options && options.encoding || options;
+
+      let data = GFile.new_for_path(file).load_contents(null)[1];
+
+      return encoding ? data.toString(encoding) : data;
     },
     readdir: function readdir(path, callback) {
       let fd = GFile.new_for_path(path);
