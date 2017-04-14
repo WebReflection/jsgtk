@@ -137,7 +137,8 @@ const
       // TODO: supports other options too
       let encoding = '';
       if (!callback) callback = options;
-      else encoding = options.encoding || '';
+      else encoding = typeof options === 'string' ?
+        options : (options && options.encoding || '');
       GFile.new_for_path(file)
         .load_contents_async(null, (source, result) => {
           mainloop.go();
@@ -154,7 +155,8 @@ const
     readFileSync: function readFileSync(file, options) {
       // TODO: supports other options too
       let data = GFile.new_for_path(file).load_contents(null)[1];
-      let encoding = (options && options.encoding) || '';
+      let encoding = typeof options === 'string' ?
+        options : (options && options.encoding || '');
       return encoding ? data.toString(encoding) : data;
     },
     readdir: function readdir(path, callback) {
