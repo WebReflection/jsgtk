@@ -72,5 +72,6 @@ module.exports = {
       default:
         return true;
     }
-  }
+  },
+  _extend: Object.assign
 };

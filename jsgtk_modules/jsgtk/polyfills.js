@@ -3,6 +3,7 @@
 /* jshint esversion: 6, strict: implied */
 
 // inline polyfills for Object
+const Mainloop = imports.mainloop;
 [
   function assign() {
     function isEnumerable(key) {
@@ -102,3 +103,16 @@
   },
   Object
 );
+
+window.setTimeout = function(cb, duration) {
+  return Mainloop.timeout_add(duration, ()=>{
+    cb.call(this, arguments)
+  });
+}
+
+window.clearTimeout = function(source) {
+  if (!source) {
+    return false;
+  }
+  Mainloop.source_remove(source);
+}

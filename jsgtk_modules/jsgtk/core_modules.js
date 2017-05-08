@@ -19,6 +19,7 @@
       'events',
       'fs',
       'http',
+      'https',
       'module',
       'os',
       'path',
@@ -27,6 +28,7 @@
       'querystring',
       'stream',
       'timers',
+      'tty',
       'url',
       'util'
     ].reduce(
