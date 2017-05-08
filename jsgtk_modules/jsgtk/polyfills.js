@@ -103,16 +103,3 @@ const Mainloop = imports.mainloop;
   },
   Object
 );
-
-window.setTimeout = function(cb, duration) {
-  return Mainloop.timeout_add(duration, ()=>{
-    cb.call(this, arguments)
-  });
-}
-
-window.clearTimeout = function(source) {
-  if (!source) {
-    return false;
-  }
-  Mainloop.source_remove(source);
-}
