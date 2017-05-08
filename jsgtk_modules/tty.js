@@ -1,3 +1,5 @@
 module.exports = {
-  isatty: ()=>true
-}
+  isatty: function () {
+    return true;
+  }
+};
