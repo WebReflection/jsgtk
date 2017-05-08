@@ -113,7 +113,7 @@ const
         return buf;
       } else {
         let [status, result] = this._source.read_line();
-        // 
+        //
         // apparently it's not possible to compare ===
         // against a GTK status
         switch (true) {
@@ -145,7 +145,12 @@ const
       this._writable = false;
       this._writeBuffer = '';
       this._channel = channel;
-      this._watcher = createWritableWatcher(this);
+      try {
+        this._watcher = createWritableWatcher(this);
+      } catch (e) {
+        this._channel =  GLib.IOChannel.unix_new(1);
+        this._watcher = createWritableWatcher(this);
+      }
       this._huWatcher = createHangUpWatcher(this);
     },
     end: function end(chunk, encoding, callback) {

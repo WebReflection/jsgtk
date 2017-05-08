@@ -10,6 +10,7 @@
 
 const
   Soup = imports.gi.Soup,
+  Gio = imports.gi.Gio,
   DEBUG = process.binding('constants').DEBUG,
   Class = process.binding('util').Class,
   mainloop = process.binding('mainloop'),
@@ -166,7 +167,7 @@ const
       constructor: function ClientRequest(options, callback) {
         const dfltopt = {
           headers: {},
-          agent: http.globalAgent
+          agent: options.agent || http.globalAgent
         };
         EventEmitter.call(this);
         this.chunks = [];
@@ -227,6 +228,12 @@ const
           }
         ;
 
+        // TBD
+        // This doesn't work. SSL connections seem to work when using the http module directly,
+        // but fail when its used through external modules, such as axios.
+        message.tls_errors = Gio.TlsCertificateFlags.VALIDATE_ALL;
+        message.set_flags(Soup.MessageFlags.CERTIFICATE_TRUSTED);
+
         let
           hasConnection = false,
           hasHost = false,
@@ -280,7 +287,7 @@ const
           );
           if (!hasConnection) message.request_headers.append(
             'Connection',
-            this.options.agent.keepAlive ? 'keep-alive' : 'close'
+            !this.options.agent || this.options.agent.keepAlive ? 'keep-alive' : 'close'
           );
         } catch(e) {
           return emitError(e), this;
