@@ -137,12 +137,12 @@ Buffer.from = function from(obj) {
 // work around for axios
 Buffer.concat = function (list, length) {
   return list;
-}
+};
 
 
 Buffer.allocUnsafe = function (size) {
   return new Buffer(size);
-}
+};
 
 Object.defineProperties(
   Object.setPrototypeOf(
