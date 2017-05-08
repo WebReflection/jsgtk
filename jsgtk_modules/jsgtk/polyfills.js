@@ -3,7 +3,6 @@
 /* jshint esversion: 6, strict: implied */
 
 // inline polyfills for Object
-const Mainloop = imports.mainloop;
 [
   function assign() {
     function isEnumerable(key) {
