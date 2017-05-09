@@ -30,7 +30,8 @@
       'timers',
       'tty',
       'url',
-      'util'
+      'util',
+      'zlib'
     ].reduce(
       (core, id) => Object.defineProperty(core, id, {
         configurable: true,
