@@ -126,7 +126,9 @@ Function=Function//; for a in "$@"; do if [ "$a" = "-d" ] || [ "$a" = "--debug" 
       // access to modules even internally
       require: {value: function require(module) {
         return requireWithPath(module, CURRENT_DIR);
-      }}
+      }},
+      loadedModules: {value: []},
+      redundantModules: {writable: true, value: 0}
     }
   );
 
