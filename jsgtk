@@ -128,6 +128,7 @@ Function=Function//; for a in "$@"; do if [ "$a" = "-d" ] || [ "$a" = "--debug" 
         return requireWithPath(module, CURRENT_DIR);
       }},
       loadedModules: {value: []},
+      redundantModules: {writable: true, value: 0}
     }
   );
 
