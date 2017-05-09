@@ -1,3 +1,5 @@
 module.exports = {
-  createUnzip: ()=>true
+  createUnzip: function () {
+    return true;
+  }
 }
