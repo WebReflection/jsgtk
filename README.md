@@ -1,4 +1,4 @@
-# JSGtk+
+# JSGtk+ [![donate](https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&style=flat)](https://github.com/WebReflection/donate)
 A simplified approach to [GJS](https://wiki.gnome.org/action/show/Projects/Gjs?action=show&redirect=Gjs) for [Node.JS](https://nodejs.org/) and _JavaScript_ developers.
 
 
