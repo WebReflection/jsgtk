@@ -1,6 +1,16 @@
-# JSGtk+ [![donate](https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&style=flat)](https://github.com/WebReflection/donate)
-A simplified approach to [GJS](https://wiki.gnome.org/action/show/Projects/Gjs?action=show&redirect=Gjs) for [Node.JS](https://nodejs.org/) and _JavaScript_ developers.
+# JSGtk+ [ DEPRECATED ]
 
+This project is death. **Long live [cgjs](https://github.com/WebReflection/cgjs)**.
+
+- - -
+
+This project has not received enough support to be sustainable Open Source Software and it was too big to be maintained by a single developer.
+
+The new alternative, based on modern js52+ SpiderMonkey engine, dropped 90% of the useless crap I've implemented in here.
+
+Lesson learned, move on and switch to [CGJS](https://github.com/WebReflection/cgjs) today.
+
+- - -
 
 
 ### Project Ideas

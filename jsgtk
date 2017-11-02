@@ -164,6 +164,7 @@ Function=Function//; for a in "$@"; do if [ "$a" = "-d" ] || [ "$a" = "--debug" 
 
   // the actual require
   function requireWithPath(module, dir) {
+    print(dir + ' => ' + module);
     switch (true) {
       case core.has(module):
         return core.get(module);
