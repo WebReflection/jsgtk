@@ -1,6 +1,6 @@
 # JSGtk+ [ DEPRECATED ]
 
-This project is death. **Long live [cgjs](https://github.com/WebReflection/cgjs)**.
+This project is death. **Long live [cgjs](https://github.com/cgjs/cgjs)**.
 
 - - -
 
